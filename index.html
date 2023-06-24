@@ -31,7 +31,6 @@
     </style>
 </head>
 <body>
-    <a class="btn-download" onclick="downloadNotebook()">Download Notebook</a>
     <div id='app'></div>
     <py-repl id="my-repl" auto-generate="true">
         # sample 코드입니다. shift + enter를 눌러 실행해보세요.
@@ -41,6 +40,7 @@
         turn_left()
         repeat(2, move)
     </py-repl>
+    <button class='downloadNotebookBtn'>Download Notebook</button>
     <py-script>
         import time
 
@@ -186,6 +186,10 @@
         app.appendChild(draw_map)
     </py-script>
     <script>
+    const downloadBtn = document.querySelector('.downloadNotebookBtn')
+    downloadBtn.addEventListener('click', () => {
+        downloadNotebook()
+    })
     function downloadNotebook() {
         const notebook = {
             "cells": [],

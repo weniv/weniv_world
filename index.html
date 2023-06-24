@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>weniv world</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <style>
+        #app {
+            width: 100vw;
+        }
+        .character {
+            width: 60px;
+            transition: all 0.5s;
+        }
+        .map-flex {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+            height: 100%;
+        }
+        .map-item {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <a class="btn-download" onclick="downloadNotebook()">Download Notebook</a>
+    <div id='app'></div>
+    <py-repl id="my-repl" auto-generate="true">
+        # sample 코드입니다. shift + enter를 눌러 실행해보세요.
+        move()
+        turn_left()
+        turn_left()
+        turn_left()
+        repeat(2, move)
+    </py-repl>
+    <py-script>
+        import time
+
+        # 실행속도
+        exec_time = 2
+        # move 안에 time.sleep(exec_time)를 넣어도 실행되지 않습니다. 한꺼번에 렌더링 되기 때문에, text를 받아 line by line으로 실행하는 방식으로 바꿔야 할 것 같습니다.
+
+        # 캐릭터 좌표는 전역에서 관리
+        # 0번째는 default 캐릭터
+        character_data = [
+            {
+                'character': 'licat',
+                'x': 0,
+                'y': 0,
+                'direction': 0 # 0(동, 오른쪽), 1(북), 2(서, 오른쪽), 3(남)
+            }
+        ]
+
+        # 맵 크기는 전역에서 관리
+        height = 5
+        width = 5
+
+        # html문서 내 N X M 격자무늬 map을 그려주는 함수
+        def drawMap(N, M):
+            container = js.document.createElement('div')
+            container.setAttribute('class', 'map-container')
+            for i in range(0, N):
+                flex = js.document.createElement('div')
+                flex.setAttribute('class', 'map-flex')
+                for j in range(0, M):
+                    item = js.document.createElement('div')
+                    item.setAttribute('class', 'map-item')
+                    flex.appendChild(item)
+                container.appendChild(flex)
+            return container
+
+        # x좌표, y좌표에 character를 생성하는 함수
+        def createCharacter(x, y, character_name):
+            character = js.document.createElement('img')
+            character.setAttribute('class', 'character')
+            character.setAttribute('src', f'./{character_name}.png')
+            character.style.position = 'absolute'
+            character.style.top = f'{y * 100 + 25}px'
+            character.style.left = f'{x * 100 + 25}px'
+            finder = False
+            for c in character_data:
+                if c['character'] == character_name:
+                    c['x'] = x
+                    c['y'] = y
+                    finder = True
+            if not finder:
+                character_data.append({
+                    'character': character_name,
+                    'x': x,
+                    'y': y
+                })
+            return character
+
+        def move():
+            if character_data[0]['direction'] == 0:
+                if character_data[0]['x'] >= width-1:
+                    js.alert('맵을 벗어납니다.')
+                    return
+                draw_map.querySelector('img').style.left = f'{character_data[0]["x"] * 100 + 125}px'
+                character_data[0]["x"] += 1
+            elif character_data[0]['direction'] == 1:
+                if character_data[0]['y'] <= 0:
+                    js.alert('맵을 벗어납니다.')
+                    return
+                draw_map.querySelector('img').style.top = f'{character_data[0]["y"] * 100 - 125}px'
+                character_data[0]["y"] -= 1
+            elif character_data[0]['direction'] == 2:
+                if character_data[0]['x'] <= 0:
+                    js.alert('맵을 벗어납니다.')
+                    return
+                draw_map.querySelector('img').style.left = f'{character_data[0]["x"] * 100 - 125}px'
+                character_data[0]["x"] -= 1
+            elif character_data[0]['direction'] == 3:
+                if character_data[0]['y'] >= height-1:
+                    js.alert('맵을 벗어납니다.')
+                    return
+                draw_map.querySelector('img').style.top = f'{character_data[0]["y"] * 100 + 125}px'
+                character_data[0]["y"] += 1
+
+        def turn_left():
+            if character_data[0]['direction'] == 0:
+                draw_map.querySelector('img').style.transform = 'rotate(-90deg)'
+                character_data[0]['direction'] += 1
+            elif character_data[0]['direction'] == 1:
+                draw_map.querySelector('img').style.transform = 'rotate(-180deg)'
+                character_data[0]['direction'] += 1
+            elif character_data[0]['direction'] == 2:
+                draw_map.querySelector('img').style.transform = 'rotate(-270deg)'
+                character_data[0]['direction'] += 1
+            elif character_data[0]['direction'] == 3:
+                draw_map.querySelector('img').style.transform = 'rotate(0deg)'
+                character_data[0]['direction'] = 0
+
+        def repeat(count, f):
+            for i in range(0, count):
+                f()
+
+        # character 생성
+        draw_character = createCharacter(0, 0, 'licat')
+        
+        # map 생성
+        draw_map = drawMap(height, width)
+        draw_map.appendChild(draw_character)
+
+
+        # 생성된 요소 app추가
+        app = Element("app").element
+        app.appendChild(draw_map)
+    </py-script>
+    <script>
+    function downloadNotebook() {
+        const notebook = {
+            "cells": [],
+            "metadata": {
+                "kernelspec": {
+                    "display_name": "Python 3",
+                    "language": "python",
+                    "name": "python3"
+                },
+                "language_info": {
+                    "codemirror_mode": {
+                        "name": "ipython",
+                        "version": 3
+                    },
+                    "file_extension": ".py",
+                    "mimetype": "text/x-python",
+                    "name": "python",
+                    "nbconvert_exporter": "python",
+                    "pygments_lexer": "ipython3",
+                    "version": "3.7.9"
+                }
+            },
+            "nbformat": 4,
+            "nbformat_minor": 4
+        };
+
+        const cells = document.querySelectorAll('.py-repl-editor')
+                                // .querySelector(".cm-content");
+
+        console.log(cells)
+
+        for (let i = 0; i < cells.length; i++) {
+            cells
+            notebook.cells.push({
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": cells[i].childNodes[0].shadowRoot.querySelector('.cm-content').innerText
+            });
+        }
+
+        const notebookJson = JSON.stringify(notebook, null, 2);
+        const blob = new Blob([notebookJson], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.download = 'notebook.ipynb';
+        a.href = url;
+        a.click();
+    }
+    </script>
+</body>
+</html>

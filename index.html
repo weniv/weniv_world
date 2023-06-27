@@ -32,6 +32,7 @@
 </head>
 <body>
     <div id='app'></div>
+    <div id='output'></div>
     <py-repl id="my-repl" auto-generate="true">
         # sample 코드입니다. shift + enter를 눌러 실행해보세요.
         move()
@@ -43,6 +44,13 @@
     <button class='downloadNotebookBtn'>Download Notebook</button>
     <py-script>
         import time
+
+        def print(*args):
+            '''
+            html 문서 내 출력
+            '''
+            for arg in args:
+                js.document.getElementById('output').innerHTML += str(arg) + '<br>'
 
         # 실행속도
         exec_time = 2
@@ -63,8 +71,10 @@
         height = 5
         width = 5
 
-        # html문서 내 N X M 격자무늬 map을 그려주는 함수
         def drawMap(N, M):
+            '''
+            html문서 내 N X M 격자무늬 map을 그려주는 함수
+            '''
             container = js.document.createElement('div')
             container.setAttribute('class', 'map-container')
             for i in range(0, N):
@@ -77,8 +87,10 @@
                 container.appendChild(flex)
             return container
 
-        # x좌표, y좌표에 character를 생성하는 함수
         def createCharacter(x, y, character_name):
+            '''
+            x좌표, y좌표에 character를 생성하는 함수
+            '''
             character = js.document.createElement('img')
             character.setAttribute('class', 'character')
             character.setAttribute('src', f'./{character_name}.png')

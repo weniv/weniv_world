@@ -7,28 +7,13 @@
     <title>weniv world</title>
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <style>
-        #app {
-            width: 100vw;
-        }
-        .character {
-            width: 60px;
-            transition: all 0.5s;
-        }
-        .map-flex {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            width: 100%;
-            height: 100%;
-        }
-        .map-item {
-            width: 100px;
-            height: 100px;
-            background-color: white;
-            border: 1px solid black;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <py-config>
+        terminal = false
+        [[fetch]]
+        from = "./assets/py/"
+        files = ["character.py", "coordinate.py"]
+    </py-config>
 </head>
 <body>
     <div id='app'></div>
@@ -44,6 +29,8 @@
     <button class='downloadNotebookBtn'>Download Notebook</button>
     <py-script>
         import time
+        from character import Character
+        from coordinate import character_data
 
         def print(*args):
             '''
@@ -51,21 +38,6 @@
             '''
             for arg in args:
                 js.document.getElementById('output').innerHTML += str(arg) + '<br>'
-
-        # 실행속도
-        exec_time = 2
-        # move 안에 time.sleep(exec_time)를 넣어도 실행되지 않습니다. 한꺼번에 렌더링 되기 때문에, text를 받아 line by line으로 실행하는 방식으로 바꿔야 할 것 같습니다.
-
-        # 캐릭터 좌표는 전역에서 관리
-        # 0번째는 default 캐릭터
-        character_data = [
-            {
-                'character': 'licat',
-                'x': 0,
-                'y': 0,
-                'direction': 0 # 0(동, 오른쪽), 1(북), 2(서, 오른쪽), 3(남)
-            }
-        ]
 
         # 맵 크기는 전역에서 관리
         height = 5
@@ -86,30 +58,6 @@
                     flex.appendChild(item)
                 container.appendChild(flex)
             return container
-
-        def createCharacter(x, y, character_name):
-            '''
-            x좌표, y좌표에 character를 생성하는 함수
-            '''
-            character = js.document.createElement('img')
-            character.setAttribute('class', 'character')
-            character.setAttribute('src', f'./{character_name}.png')
-            character.style.position = 'absolute'
-            character.style.top = f'{y * 100 + 25}px'
-            character.style.left = f'{x * 100 + 25}px'
-            finder = False
-            for c in character_data:
-                if c['character'] == character_name:
-                    c['x'] = x
-                    c['y'] = y
-                    finder = True
-            if not finder:
-                character_data.append({
-                    'character': character_name,
-                    'x': x,
-                    'y': y
-                })
-            return character
 
         def move():
             if character_data[0]['direction'] == 0:
@@ -155,43 +103,13 @@
             for i in range(0, count):
                 f()
 
-        def pick():
-            pass
-
-        def put(item_name='beeper'):
-            pass
-
-        def check_bottom():
-            pass
-
-        def show_item():
-            pass
-        
-        def front_is_clear():
-            pass
-
-        def left_is_clear():
-            pass
-
-        def right_is_clear():
-            pass
-
-        def back_is_clear():
-            pass
-
-        def direction():
-            pass
-
-
-        
-
         # character 생성
-        draw_character = createCharacter(0, 0, 'licat')
+        licat = Character(0, 0, 'licat', width=60)
+        draw_character = licat.draw()
         
         # map 생성
         draw_map = drawMap(height, width)
         draw_map.appendChild(draw_character)
-
 
         # 생성된 요소 app추가
         app = Element("app").element

@@ -1,0 +1,23 @@
+#app {
+    width: 100vw;
+}
+
+.character {
+    width: 60px;
+    transition: all 0.5s;
+}
+
+.map-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+}
+
+.map-item {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    border: 1px solid black;
+}

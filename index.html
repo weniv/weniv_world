@@ -18,6 +18,11 @@
 <body>
     <div id='app'></div>
     <div id='output'></div>
+    <button class='downloadNotebookBtn'>Download Notebook</button>
+    <div class="slidecontainer">
+        <input type="range" min="1" max="100" value="10" class="slider" id="myRange">
+        <p>Value: <span id="value"></span></p>
+    </div>
     <py-repl id="my-repl" auto-generate="true">
         # sample 코드입니다. shift + enter를 눌러 실행해보세요.
         move()
@@ -26,11 +31,10 @@
         turn_left()
         repeat(2, move)
     </py-repl>
-    <button class='downloadNotebookBtn'>Download Notebook</button>
     <py-script>
         import time
         from character import Character
-        from coordinate import character_data
+        from coordinate import character_data, map_data, running_speed
 
         def print(*args):
             '''
@@ -38,10 +42,6 @@
             '''
             for arg in args:
                 js.document.getElementById('output').innerHTML += str(arg) + '<br>'
-
-        # 맵 크기는 전역에서 관리
-        height = 5
-        width = 5
 
         def drawMap(N, M):
             '''
@@ -59,56 +59,44 @@
                 container.appendChild(flex)
             return container
 
-        def move():
-            if character_data[0]['direction'] == 0:
-                if character_data[0]['x'] >= width-1:
-                    js.alert('맵을 벗어납니다.')
-                    return
-                draw_map.querySelector('img').style.left = f'{character_data[0]["x"] * 100 + 125}px'
-                character_data[0]["x"] += 1
-            elif character_data[0]['direction'] == 1:
-                if character_data[0]['y'] <= 0:
-                    js.alert('맵을 벗어납니다.')
-                    return
-                draw_map.querySelector('img').style.top = f'{character_data[0]["y"] * 100 - 125}px'
-                character_data[0]["y"] -= 1
-            elif character_data[0]['direction'] == 2:
-                if character_data[0]['x'] <= 0:
-                    js.alert('맵을 벗어납니다.')
-                    return
-                draw_map.querySelector('img').style.left = f'{character_data[0]["x"] * 100 - 125}px'
-                character_data[0]["x"] -= 1
-            elif character_data[0]['direction'] == 3:
-                if character_data[0]['y'] >= height-1:
-                    js.alert('맵을 벗어납니다.')
-                    return
-                draw_map.querySelector('img').style.top = f'{character_data[0]["y"] * 100 + 125}px'
-                character_data[0]["y"] += 1
+        def move(character=None):
+            if character != None:
+                character.move()
+            else:
+                licat.move()
 
-        def turn_left():
-            if character_data[0]['direction'] == 0:
-                draw_map.querySelector('img').style.transform = 'rotate(-90deg)'
-                character_data[0]['direction'] += 1
-            elif character_data[0]['direction'] == 1:
-                draw_map.querySelector('img').style.transform = 'rotate(-180deg)'
-                character_data[0]['direction'] += 1
-            elif character_data[0]['direction'] == 2:
-                draw_map.querySelector('img').style.transform = 'rotate(-270deg)'
-                character_data[0]['direction'] += 1
-            elif character_data[0]['direction'] == 3:
-                draw_map.querySelector('img').style.transform = 'rotate(0deg)'
-                character_data[0]['direction'] = 0
+        def turn_left(character=None):
+            if character != None:
+                character.turn_left()
+            else:
+                licat.turn_left()
 
         def repeat(count, f):
             for i in range(0, count):
                 f()
+
+        # speed slide bar
+        slider = js.document.getElementById("myRange")
+        slider_output = js.document.getElementById("value")
+        slider_output.innerHTML = slider.value
+        running_speed = int(slider.value)/10
+
+        def change_speed(e):
+            slider_output.innerHTML = slider.value
+            running_speed = int(slider.value)/10
+            if licat:
+                licat.set_speed(running_speed)
+            else:
+                # 추후 다른 캐릭터 추가 시 구현
+                pass
+        slider.oninput = change_speed
 
         # character 생성
         licat = Character(0, 0, 'licat', width=60)
         draw_character = licat.draw()
         
         # map 생성
-        draw_map = drawMap(height, width)
+        draw_map = drawMap(map_data['height'], map_data['width'])
         draw_map.appendChild(draw_character)
 
         # 생성된 요소 app추가

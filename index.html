@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="assets/css/main.css">
     <py-config>
         terminal = false
+        # packages = ["numpy", "nest_asyncio"]
+
         [[fetch]]
         from = "./assets/py/"
         files = ["character.py", "coordinate.py"]
@@ -32,7 +34,6 @@
         repeat(2, move)
     </py-repl>
     <py-script>
-        import time
         from character import Character
         from coordinate import character_data, map_data, running_speed
 

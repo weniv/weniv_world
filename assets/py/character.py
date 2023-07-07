@@ -45,6 +45,7 @@ class Character:
         c = js.document.querySelector(f'.{self.name}')
         c.style.transition = f'all {speed}s'
 
+    # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
         c = js.document.querySelector(f'.{self.name}')
         if character_data[0]['direction'] == 0:
@@ -52,24 +53,28 @@ class Character:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.left = f'{character_data[0]["x"] * 100 + 125}px'
+            # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["x"] += 1
         elif character_data[0]['direction'] == 1:
             if character_data[0]['y'] <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.top = f'{character_data[0]["y"] * 100 - 125}px'
+            # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
         elif character_data[0]['direction'] == 2:
             if character_data[0]['x'] <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.left = f'{character_data[0]["x"] * 100 - 125}px'
+            # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
         elif character_data[0]['direction'] == 3:
             if character_data[0]['y'] >= map_data['height']-1:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.top = f'{character_data[0]["y"] * 100 + 125}px'
+            # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["y"] += 1
 
     def turn_left(self):

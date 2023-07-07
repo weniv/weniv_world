@@ -14,12 +14,12 @@
 
         [[fetch]]
         from = "./assets/py/"
-        files = ["character.py", "coordinate.py"]
+        files = ["character.py", "map.py", "item.py", "coordinate.py"]
     </py-config>
 </head>
 <body>
     <div id='app'></div>
-    <div id='output'></div>
+    <textarea id='output'></textarea>
     <button class='downloadNotebookBtn'>Download Notebook</button>
     <div class="slidecontainer">
         <input type="range" min="1" max="100" value="10" class="slider" id="myRange">
@@ -34,6 +34,7 @@
         repeat(2, move)
     </py-repl>
     <py-script>
+        from map import Map
         from character import Character
         from coordinate import character_data, map_data, running_speed
 
@@ -41,24 +42,12 @@
             '''
             html 문서 내 출력
             '''
+            output = js.document.getElementById('output')
+            result = ''
             for arg in args:
-                js.document.getElementById('output').innerHTML += str(arg) + '<br>'
-
-        def drawMap(N, M):
-            '''
-            html문서 내 N X M 격자무늬 map을 그려주는 함수
-            '''
-            container = js.document.createElement('div')
-            container.setAttribute('class', 'map-container')
-            for i in range(0, N):
-                flex = js.document.createElement('div')
-                flex.setAttribute('class', 'map-flex')
-                for j in range(0, M):
-                    item = js.document.createElement('div')
-                    item.setAttribute('class', 'map-item')
-                    flex.appendChild(item)
-                container.appendChild(flex)
-            return container
+                result += str(arg) + '\n'
+            result = output.value + result
+            output.value = result
 
         def move(character=None):
             if character != None:
@@ -97,7 +86,8 @@
         draw_character = licat.draw()
         
         # map 생성
-        draw_map = drawMap(map_data['height'], map_data['width'])
+        map = Map(map_data['height'], map_data['width'])
+        draw_map = map.drawMap()
         draw_map.appendChild(draw_character)
 
         # 생성된 요소 app추가

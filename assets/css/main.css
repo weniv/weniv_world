@@ -1,9 +1,19 @@
+@keyframes player {
+    from {
+        background-position: -1px, -1px;
+    }
+
+    to {
+        background-position: -224px, -1px;
+    }
+}
+
 #app {
     width: 100vw;
 }
 
 .character {
-    width: 60px;
+    animation: player 1s steps(7) infinite;
 }
 
 .map-flex {

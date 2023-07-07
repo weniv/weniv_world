@@ -2,7 +2,7 @@ import js
 from coordinate import character_data, map_data, running_speed
 
 class Character:
-    def __init__(self, x, y, name, width=100, height=100, initHp=100, dropRate=0.1, power=10):
+    def __init__(self, x, y, name, width=100, height=33, initHp=100, dropRate=0.1, power=10):
         self.x = x
         self.y = y
         self.name = name
@@ -18,15 +18,19 @@ class Character:
         '''
         x좌표, y좌표에 character를 생성하는 함수
         '''
-        character = js.document.createElement('img')
+        character = js.document.createElement('div')
         character.setAttribute('class', 'character')
         character.classList.add(f'{self.name}')
         character.style.width = f'{self.width}px'
+        character.style.height = f'{self.height}px'
+        character.style.backgroundImage = f'url("{self.img}")'
+        character.style.backgroundRepeat = 'no-repeat'
+        # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
+        character.style.backgroundPosition = '-1px -3px'
         character.style.transition = f'all {running_speed}s'
-        character.setAttribute('src', self.img)
         character.style.position = 'absolute'
-        character.style.top = f'{self.y * 100 + 25}px'
-        character.style.left = f'{self.x * 100 + 25}px'
+        character.style.top = f'{self.y * 100 + 40}px'
+        character.style.left = f'{self.x * 100 + 40}px'
         finder = False
         for c in character_data:
             if c['character'] == self.name:
@@ -52,28 +56,28 @@ class Character:
             if character_data[0]['x'] >= map_data['width']-1:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.left = f'{character_data[0]["x"] * 100 + 125}px'
+            c.style.left = f'{character_data[0]["x"] * 100 + 140}px'
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["x"] += 1
         elif character_data[0]['direction'] == 1:
             if character_data[0]['y'] <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.top = f'{character_data[0]["y"] * 100 - 125}px'
+            c.style.top = f'{character_data[0]["y"] * 100 - 140}px'
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
         elif character_data[0]['direction'] == 2:
             if character_data[0]['x'] <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.left = f'{character_data[0]["x"] * 100 - 125}px'
+            c.style.left = f'{character_data[0]["x"] * 100 - 140}px'
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
         elif character_data[0]['direction'] == 3:
             if character_data[0]['y'] >= map_data['height']-1:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.top = f'{character_data[0]["y"] * 100 + 125}px'
+            c.style.top = f'{character_data[0]["y"] * 100 + 140}px'
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["y"] += 1
 

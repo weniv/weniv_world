@@ -36,6 +36,7 @@
     <py-script>
         from map import Map
         from character import Character
+        from item import Item
         from coordinate import character_data, map_data, running_speed
 
         def print(*args):
@@ -82,13 +83,18 @@
         slider.oninput = change_speed
 
         # character 생성
-        licat = Character(0, 0, 'licat', width=60)
+        licat = Character(x=0, y=0, name='player', width=32, height=40)
         draw_character = licat.draw()
+
+        # item 생성
+        item = Item(x=2, y=2, name='expUp')
+        draw_item = item.draw()
         
         # map 생성
         map = Map(map_data['height'], map_data['width'])
         draw_map = map.drawMap()
         draw_map.appendChild(draw_character)
+        draw_map.appendChild(draw_item)
 
         # 생성된 요소 app추가
         app = Element("app").element

@@ -9,6 +9,8 @@ character_data = [
             }
 ]
 
+item_data = []
+
 # 맵 크기는 전역에서 관리
 map_data = {
     'height': 5,

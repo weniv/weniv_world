@@ -50,6 +50,7 @@ class Character:
         c.style.transition = f'all {speed}s'
 
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
+    # TODO: 첫 Move는 2칸 움직임, 0에서 1로 바뀔 때 분기 필요. 아니면 1부터 시작해야 함.
     def move(self):
         c = js.document.querySelector(f'.{self.name}')
         direction = character_data[0]['direction']

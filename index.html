@@ -62,6 +62,18 @@
             else:
                 licat.turn_left()
 
+        def pick(character=None):
+            if character != None:
+                character.pick()
+            else:
+                licat.pick()
+
+        def put(character=None):
+            if character != None:
+                character.put()
+            else:
+                licat.put()
+
         def repeat(count, f):
             for i in range(0, count):
                 f()

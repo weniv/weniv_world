@@ -104,44 +104,71 @@ class Character:
             character_data[0]['direction'] = 0    
 
     def pick(self):
+        '''
+        발 아래 아이템을 주워서 아이템을 가지고 있는지 확인하고, 
+        가지고 있으면 주인공이 소유한 아이템 개수를 1 증가시키고, 맵에 있는 아이템은 1 감소시킨다.
+        '''
         x = character_data[0]['x']
         y = character_data[0]['y']
         
         item = item_data.get((x, y))
         
         if item:
-          # Pick up the item
-          item_count = item.get('count', 0)
-          item_count += 1
-          item['count'] = item_count
-          item_data[(x, y)] = item
-          return item_count
-        return 0  
+            item_count = item.get('count', 0)
+            item_count -= 1
+            item['count'] = item_count
+            item_data[(x, y)] = item
+            return item_count
 
     def put(self, item_name='beeper'):
+        '''
+        주인공 발 아래 아이템을 내려놓는 함수
+        '''
         x = character_data[0]['x']
         y = character_data[0]['y']
         
         item = item_data.get((x, y))
         
-        if item and item['item'] == item_name:
-            # Put down the item
-            item_count = item.get('count', 0)
-            if item_count > 0:
-                item_count -= 1
-                item['count'] = item_count
-                item_data[(x, y)] = item
-                return item_count
-        return 0
+        # 주인공에게 해당 아이템이 있다면
+        if character_data['item'].get(item_name, 0) > 0:
+            if item['item'] == item_name:
+                item_count = item.get('count', 0)
+                if item_count > 0:
+                    item_count += 1
+                    item['count'] = item_count
+                    item_data[(x, y)] = item
+                    return item_count
+            else:
+                return '다른 아이템이 있습니다!'
+        else:
+            return '아이템이 없습니다!'
 
     def check_bottom(self):
-        pass
+        '''
+        주인공 발 아래 아이템이 있는지 확인하는 함수
+        '''
+        x = character_data[0]['x']
+        y = character_data[0]['y']
+        
+        item = item_data.get((x, y))
 
-    def show_item(self):
+        if item:
+            return item['item']
+
+    def show_item_global(self):
+        '''
+        현재 맵에 있는 모든 아이템을 보여주는 함수
+        '''
         carried_items = []
         for item in item_data.values():
             carried_items.append(item['item'])
         return carried_items
+    
+    def show_item(self):
+        '''
+        주인공이 가지고 있는 아이템을 보여주는 함수
+        '''
+        return None
     
     def front_is_clear(self):
         pass

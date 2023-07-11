@@ -1,5 +1,5 @@
 import js
-from coordinate import character_data, map_data, running_speed
+from coordinate import character_data, map_data, running_speed, item_data
 
 class Character:
     def __init__(self, x, y, name, width=100, height=33, initHp=100, dropRate=0.1, power=10):
@@ -52,61 +52,96 @@ class Character:
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
         c = js.document.querySelector(f'.{self.name}')
-        if character_data[0]['direction'] == 0:
-            if character_data[0]['x'] >= map_data['width']-1:
+        direction = character_data[0]['direction']
+        
+        x = character_data[0]['x']
+        y = character_data[0]['y']
+        
+        if direction == 0:
+            if x >= map_data['width']-1:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.left = f'{character_data[0]["x"] * 100 + 140}px'
+            c.style.left = f'{(x + 1) * 100 + 140}px'
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["x"] += 1
-        elif character_data[0]['direction'] == 1:
-            if character_data[0]['y'] <= 0:
+        elif direction == 1:
+            if y <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.top = f'{character_data[0]["y"] * 100 - 140}px'
+            c.style.top = f'{(y - 1) * 100 - 140}px'
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
-        elif character_data[0]['direction'] == 2:
-            if character_data[0]['x'] <= 0:
+        elif direction == 2:
+            if x <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.left = f'{character_data[0]["x"] * 100 - 140}px'
+            c.style.left = f'{(x - 1) * 100 - 140}px'
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
-        elif character_data[0]['direction'] == 3:
-            if character_data[0]['y'] >= map_data['height']-1:
+        elif direction == 3:
+            if y >= map_data['height'] - 1:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.top = f'{character_data[0]["y"] * 100 + 140}px'
+            c.style.top = f'{(y + 1) * 100 + 140}px'
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["y"] += 1
 
     def turn_left(self):
         c = js.document.querySelector(f'.{self.name}')
-        if character_data[0]['direction'] == 0:
+        direction = character_data[0]['direction']
+        
+        if direction == 0:
             c.style.transform = 'rotate(-90deg)'
             character_data[0]['direction'] += 1
-        elif character_data[0]['direction'] == 1:
+        elif direction == 1:
             c.style.transform = 'rotate(-180deg)'
             character_data[0]['direction'] += 1
-        elif character_data[0]['direction'] == 2:
+        elif direction == 2:
             c.style.transform = 'rotate(-270deg)'
             character_data[0]['direction'] += 1
-        elif character_data[0]['direction'] == 3:
+        elif direction == 3:
             c.style.transform = 'rotate(0deg)'
             character_data[0]['direction'] = 0    
 
     def pick(self):
-        pass
+        x = character_data[0]['x']
+        y = character_data[0]['y']
+        
+        item = item_data.get((x, y))
+        
+        if item:
+          # Pick up the item
+          item_count = item.get('count', 0)
+          item_count += 1
+          item['count'] = item_count
+          item_data[(x, y)] = item
+          return item_count
+        return 0  
 
-    def put(item_name='beeper'):
-        pass
+    def put(self, item_name='beeper'):
+        x = character_data[0]['x']
+        y = character_data[0]['y']
+        
+        item = item_data.get((x, y))
+        
+        if item and item['item'] == item_name:
+            # Put down the item
+            item_count = item.get('count', 0)
+            if item_count > 0:
+                item_count -= 1
+                item['count'] = item_count
+                item_data[(x, y)] = item
+                return item_count
+        return 0
 
     def check_bottom(self):
         pass
 
     def show_item(self):
-        pass
+        carried_items = []
+        for item in item_data.values():
+            carried_items.append(item['item'])
+        return carried_items
     
     def front_is_clear(self):
         pass

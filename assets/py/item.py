@@ -22,11 +22,10 @@ class Item:
         item.style.position = 'absolute'
         item.style.top = f'{self.y * 100 + 25}px'
         item.style.left = f'{self.x * 100 + 25}px'
-        item_data.append({
+        item_data[(self.x, self.y)] = { # Using dict for faster item lookup
             'item': self.name,
-            'x': self.x,
-            'y': self.y
-        })
+            'count': self.count
+        }
         return item
 
     def get_count(self):

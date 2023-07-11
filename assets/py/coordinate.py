@@ -9,7 +9,7 @@ character_data = [
             }
 ]
 
-item_data = []
+item_data = {} # Using dict for faster item lookup
 
 # 맵 크기는 전역에서 관리
 map_data = {

@@ -67,28 +67,28 @@ class Character:
             if x >= map_data['width']-1:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.left = f'{(x + 1) * 100 + 140}px'
+            c.style.left = f'{(x + 1) * 100 + 40}px'
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["x"] += 1
         elif directions == 1:
             if y <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.top = f'{(y - 1) * 100 - 140}px'
+            c.style.top = f'{(y - 1) * 100 - 40}px'
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
         elif directions == 2:
             if x <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.left = f'{(x - 1) * 100 - 140}px'
+            c.style.left = f'{(x - 1) * 100 - 40}px'
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
         elif directions == 3:
             if y >= map_data['height'] - 1:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.top = f'{(y + 1) * 100 + 140}px'
+            c.style.top = f'{(y + 1) * 100 + 40}px'
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["y"] += 1
 
@@ -113,6 +113,8 @@ class Character:
         '''
         발 아래 아이템을 주워서 아이템을 가지고 있는지 확인하고, 
         가지고 있으면 주인공이 소유한 아이템 개수를 1 증가시키고, 맵에 있는 아이템은 1 감소시킨다.
+
+        모든 아이템이 다 감소되면 document에서 해당 아이템을 삭제한다.
         '''
         x = character_data[0]['x']
         y = character_data[0]['y']
@@ -122,6 +124,8 @@ class Character:
         if item:
             item_count = item.get('count', 0)
             item_count -= 1
+            if item_count == 0:
+                js.document.querySelector(f'.{item["item"]}').remove()
             item['count'] = item_count
             item_data[(x, y)] = item
             return item_count

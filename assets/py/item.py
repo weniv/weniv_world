@@ -2,10 +2,10 @@ import js
 from coordinate import item_data
 
 class Item:
-    def __init__(self, x, y, name, description={}, count=0):
+    def __init__(self, x, y, name, count=1, description={}):
         self.name = name
-        self.description = description
         self.count = count
+        self.description = description
         self.x = x
         self.y = y
         self.img = f'assets/img/item/{name}.png'
@@ -20,9 +20,9 @@ class Item:
         # character.style.width = f'{self.width}px'
         item.setAttribute('src', self.img)
         item.style.position = 'absolute'
-        item.style.top = f'{self.y * 100 + 25}px'
-        item.style.left = f'{self.x * 100 + 25}px'
-        item_data[(self.x, self.y)] = { # Using dict for faster item lookup
+        item.style.top = f'{self.y * 100 + 50}px'
+        item.style.left = f'{self.x * 100 + 50}px'
+        item_data[(self.x, self.y)] = {
             'item': self.name,
             'count': self.count
         }

@@ -27,6 +27,7 @@
     </div>
     <py-repl id="my-repl" auto-generate="true">
         # sample 코드입니다. shift + enter를 눌러 실행해보세요.
+        set_item(2, 2, 'fish')
         move()
         turn_left()
         turn_left()
@@ -37,7 +38,7 @@
         from map import Map
         from character import Character
         from item import Item
-        from coordinate import character_data, map_data, running_speed
+        from coordinate import character_data, map_data, running_speed, item_data
 
         def print(*args):
             '''
@@ -78,6 +79,11 @@
             for i in range(0, count):
                 f()
 
+        def set_item(x, y, name, count=1, description={}):
+            item = Item(x, y, name, count, description)
+            draw_item = item.draw()
+            draw_map.appendChild(draw_item)
+
         # speed slide bar
         slider = js.document.getElementById("myRange")
         slider_output = js.document.getElementById("value")
@@ -95,18 +101,13 @@
         slider.oninput = change_speed
 
         # character 생성
-        licat = Character(x=0, y=0, name='player', width=32, height=40)
+        licat = Character(x=0, y=0, name='licat', width=32, height=40)
         draw_character = licat.draw()
-
-        # item 생성
-        item = Item(x=2, y=2, name='expUp')
-        draw_item = item.draw()
         
         # map 생성
         map = Map(map_data['height'], map_data['width'])
         draw_map = map.drawMap()
         draw_map.appendChild(draw_character)
-        draw_map.appendChild(draw_item)
 
         # 생성된 요소 app추가
         app = Element("app").element

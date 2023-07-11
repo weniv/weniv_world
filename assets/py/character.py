@@ -2,10 +2,11 @@ import js
 from coordinate import character_data, map_data, running_speed, item_data
 
 class Character:
-    def __init__(self, x, y, name, width=100, height=33, initHp=100, dropRate=0.1, power=10):
+    def __init__(self, x, y, name, directions=0, width=100, height=33, initHp=100, dropRate=0.1, power=10):
         self.x = x
         self.y = y
         self.name = name
+        self.directions = directions
         self.width = width
         self.height = height
         self.initHp = initHp
@@ -36,12 +37,16 @@ class Character:
             if c['character'] == self.name:
                 c['x'] = self.x
                 c['y'] = self.y
+                c['directions'] = self.directions
+                c['items'] = {}
                 finder = True
         if not finder:
             character_data.append({
                 'character': self.name,
                 'x': self.x,
-                'y': self.y
+                'y': self.y,
+                'directions': self.directions,
+                'items': {}
             })
         return character
     
@@ -53,33 +58,33 @@ class Character:
     # TODO: 첫 Move는 2칸 움직임, 0에서 1로 바뀔 때 분기 필요. 아니면 1부터 시작해야 함.
     def move(self):
         c = js.document.querySelector(f'.{self.name}')
-        direction = character_data[0]['direction']
+        directions = character_data[0]['directions']
         
         x = character_data[0]['x']
         y = character_data[0]['y']
         
-        if direction == 0:
+        if directions == 0:
             if x >= map_data['width']-1:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.left = f'{(x + 1) * 100 + 140}px'
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["x"] += 1
-        elif direction == 1:
+        elif directions == 1:
             if y <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.top = f'{(y - 1) * 100 - 140}px'
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
-        elif direction == 2:
+        elif directions == 2:
             if x <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.left = f'{(x - 1) * 100 - 140}px'
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
-        elif direction == 3:
+        elif directions == 3:
             if y >= map_data['height'] - 1:
                 js.alert('맵을 벗어납니다.')
                 return
@@ -89,20 +94,20 @@ class Character:
 
     def turn_left(self):
         c = js.document.querySelector(f'.{self.name}')
-        direction = character_data[0]['direction']
+        directions = character_data[0]['directions']
         
-        if direction == 0:
+        if directions == 0:
             c.style.transform = 'rotate(-90deg)'
-            character_data[0]['direction'] += 1
-        elif direction == 1:
+            character_data[0]['directions'] += 1
+        elif directions == 1:
             c.style.transform = 'rotate(-180deg)'
-            character_data[0]['direction'] += 1
-        elif direction == 2:
+            character_data[0]['directions'] += 1
+        elif directions == 2:
             c.style.transform = 'rotate(-270deg)'
-            character_data[0]['direction'] += 1
-        elif direction == 3:
+            character_data[0]['directions'] += 1
+        elif directions == 3:
             c.style.transform = 'rotate(0deg)'
-            character_data[0]['direction'] = 0    
+            character_data[0]['directions'] = 0    
 
     def pick(self):
         '''
@@ -154,7 +159,9 @@ class Character:
         item = item_data.get((x, y))
 
         if item:
-            return item['item']
+            return True
+        else:
+            return False
 
     def show_item_global(self):
         '''
@@ -183,6 +190,6 @@ class Character:
     def back_is_clear(self):
         pass
 
-    def direction(self):
+    def directions(self):
         pass
         

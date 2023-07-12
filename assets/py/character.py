@@ -1,4 +1,5 @@
 import js
+from item import Item
 from coordinate import character_data, map_data, running_speed, item_data
 
 class Character:
@@ -55,7 +56,6 @@ class Character:
         c.style.transition = f'all {speed}s'
 
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
-    # TODO: 첫 Move는 2칸 움직임, 0에서 1로 바뀔 때 분기 필요. 아니면 1부터 시작해야 함.
     def move(self):
         c = js.document.querySelector(f'.{self.name}')
         directions = character_data[0]['directions']
@@ -124,13 +124,21 @@ class Character:
         if item:
             item_count = item.get('count', 0)
             item_count -= 1
-            if item_count == 0:
-                js.document.querySelector(f'.{item["item"]}').remove()
             item['count'] = item_count
             item_data[(x, y)] = item
+            # TODO: 0번째에서 꺼내는 것이 아니라 자신의 아이템에서 꺼내야 함.
+            if item['item'] in character_data[0]['items'].keys():
+                character_data[0]['items'][item['item']] += 1
+            else:
+                character_data[0]['items'][item['item']] = 1
+            if item_count == 0:
+                js.document.querySelector(f'.{item["item"]}').remove()
+                item_data.pop((x, y))
             return item_count
+        else:
+            return '발 아래 아이템이 없습니다!'
 
-    def put(self, item_name='beeper'):
+    def put(self, item_name='fish'):
         '''
         주인공 발 아래 아이템을 내려놓는 함수
         '''
@@ -138,20 +146,33 @@ class Character:
         y = character_data[0]['y']
         
         item = item_data.get((x, y))
-        
-        # 주인공에게 해당 아이템이 있다면
-        if character_data['item'].get(item_name, 0) > 0:
-            if item['item'] == item_name:
-                item_count = item.get('count', 0)
-                if item_count > 0:
-                    item_count += 1
-                    item['count'] = item_count
-                    item_data[(x, y)] = item
-                    return item_count
+
+        # 주인공에게 발 아래 아이템이 있다면
+        if item:
+            # 주인공 발 아래 아이템과 동일한 아이템이 있다면
+            # TODO: 0번째에서 가져오는 것이 아니라 자신의 아이템을 찾아 가져와야 함.
+            if character_data[0]['items'].get(item_name, 0) > 0:
+                if item['items'] == item_name:
+                    item_count = item.get('count', 0)
+                    if item_count > 0:
+                        item_count += 1
+                        item['count'] = item_count
+                        item_data[(x, y)] = item
+                        return item_count
+                else:
+                    return '다른 아이템이 있습니다!'
             else:
-                return '다른 아이템이 있습니다!'
+                return '동일한 종류의 아이템이 없습니다!'
+        # 주인공에게 발 아래 아이템이 없다면
         else:
-            return '아이템이 없습니다!'
+            # TODO: 0번째에서 가져오는 것이 아니라 자신의 아이템을 찾아 가져와야 함.
+            if character_data[0]['items'].get(item_name, 0) > 0:
+                item = Item(x, y, item_name, 1)
+                draw_item = item.draw()
+                js.document.querySelector('.map-container').appendChild(draw_item)
+            else:
+                return '가진 아이템이 없습니다.'
+
 
     def check_bottom(self):
         '''

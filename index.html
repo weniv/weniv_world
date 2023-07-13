@@ -60,11 +60,24 @@
 
         def move(character=None):
             global test_time
+            test_time += 1000 * running_speed
+            # js.console.log(test_time)
             if character != None:
-                character.move()
+                setTimeout(
+                    create_once_callable(
+                        lambda: (
+                            character.move()
+                        )
+                    ),
+                    test_time
+                )
+                setTimeout(
+                    create_once_callable(
+                        lambda: init_time()
+                    ),
+                    test_time
+                )
             else:
-                test_time += 1000 * running_speed
-                js.console.log(test_time)
                 setTimeout(
                     create_once_callable(
                         lambda: (
@@ -73,16 +86,40 @@
                     ),
                     test_time
                 )
+                setTimeout(
+                    create_once_callable(
+                        lambda: init_time()
+                    ),
+                    test_time
+                )
 
         def turn_left(character=None):
             global test_time
+            test_time += 1000 * running_speed
+            # js.console.log(test_time)
             if character != None:
-                character.turn_left()
+                setTimeout(
+                    create_once_callable(
+                        lambda: character.turn_left()
+                    ),
+                    test_time
+                )
+                setTimeout(
+                    create_once_callable(
+                        lambda: init_time()
+                    ),
+                    test_time
+                )
             else:
-                test_time += 1000 * running_speed
                 setTimeout(
                     create_once_callable(
                         lambda: licat.turn_left()
+                    ),
+                    test_time
+                )
+                setTimeout(
+                    create_once_callable(
+                        lambda: init_time()
                     ),
                     test_time
                 )
@@ -107,6 +144,13 @@
             item = Item(x, y, name, count, description)
             draw_item = item.draw()
             draw_map.appendChild(draw_item)
+
+        def init_time():
+            '''
+            test_time 초기화(task queue를 선언하여 처리하였으나 그렇게 하지 않아도 초기화 되어 보다 간소화)
+            '''
+            global test_time
+            test_time = 0
 
         # speed slide bar
         slider = js.document.getElementById("myRange")

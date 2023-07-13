@@ -3,6 +3,7 @@
 character_data = [
             {
                 'character': 'licat',
+                'character_obj': None,
                 'x': 0,
                 'y': 0,
                 'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 오른쪽), 3(남)

@@ -1,6 +1,8 @@
 import js
 from item import Item
 from coordinate import character_data, map_data, running_speed, item_data
+from js import alert, setTimeout, clearTimeout
+from pyodide.ffi import create_once_callable
 
 class Character:
     def __init__(self, x, y, name, directions=0, width=100, height=33, initHp=100, dropRate=0.1, power=10):
@@ -15,6 +17,7 @@ class Character:
         self.power = power
         self.hp = initHp
         self.img = f'assets/img/characters/{name}.png'
+        self.running_time = 0
 
     def draw(self):
         '''
@@ -57,6 +60,23 @@ class Character:
 
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
+        self.running_time += 1000 * running_speed
+        setTimeout(
+            create_once_callable(
+                lambda: (
+                    self._move()
+                )
+            ),
+            self.running_time
+        )
+        setTimeout(
+            create_once_callable(
+                lambda: self.init_time()
+            ),
+            self.running_time
+        )
+
+    def _move(self):
         c = js.document.querySelector(f'.{self.name}')
         directions = character_data[0]['directions']
         
@@ -93,6 +113,23 @@ class Character:
             character_data[0]["y"] += 1
 
     def turn_left(self):
+        self.running_time += 1000 * running_speed
+        setTimeout(
+            create_once_callable(
+                lambda: (
+                    self._turn_left()
+                )
+            ),
+            self.running_time
+        )
+        setTimeout(
+            create_once_callable(
+                lambda: self.init_time()
+            ),
+            self.running_time
+        )
+
+    def _turn_left(self):
         c = js.document.querySelector(f'.{self.name}')
         directions = character_data[0]['directions']
         
@@ -218,3 +255,5 @@ class Character:
     def directions(self):
         pass
         
+    def init_time(self):
+        self.running_time = 0

@@ -14,7 +14,7 @@
 
         [[fetch]]
         from = "./assets/py/"
-        files = ["character.py", "map.py", "item.py", "coordinate.py"]
+        files = ["built_in_functions.py", "character.py", "map.py", "item.py", "coordinate.py", "modules.py"]
     </py-config>
 </head>
 <body>
@@ -28,6 +28,7 @@
     <py-repl id="my-repl" auto-generate="true">
         # sample 코드입니다. shift + enter를 눌러 실행해보세요.
         # character_data, map_data, item_data는 기본 제공 데이터입니다.
+        # from modules import turn_right와 같이 모듈을 불러와 사용할 수 있습니다.
         set_item(2, 2, 'fish')
         move()
         move()
@@ -40,117 +41,8 @@
     <py-script>
         from map import Map
         from character import Character
-        from item import Item
-        from coordinate import character_data, map_data, running_speed, item_data
-        from js import alert, setTimeout, clearTimeout
-        from pyodide.ffi import create_once_callable
-
-        test_time = 0
-
-        def print(*args):
-            '''
-            html 문서 내 출력
-            '''
-            output = js.document.getElementById('output')
-            result = ''
-            for arg in args:
-                result += str(arg) + '\n'
-            result = output.value + result
-            output.value = result
-
-        def move(character=None):
-            global test_time
-            test_time += 1000 * running_speed
-            js.console.log(test_time)
-            if character != None:
-                setTimeout(
-                    create_once_callable(
-                        lambda: (
-                            character.move()
-                        )
-                    ),
-                    test_time
-                )
-                setTimeout(
-                    create_once_callable(
-                        lambda: init_time()
-                    ),
-                    test_time
-                )
-            else:
-                setTimeout(
-                    create_once_callable(
-                        lambda: (
-                            licat.move()
-                        )
-                    ),
-                    test_time
-                )
-                setTimeout(
-                    create_once_callable(
-                        lambda: init_time()
-                    ),
-                    test_time
-                )
-
-        def turn_left(character=None):
-            global test_time
-            test_time += 1000 * running_speed
-            js.console.log(test_time)
-            if character != None:
-                setTimeout(
-                    create_once_callable(
-                        lambda: character.turn_left()
-                    ),
-                    test_time
-                )
-                setTimeout(
-                    create_once_callable(
-                        lambda: init_time()
-                    ),
-                    test_time
-                )
-            else:
-                setTimeout(
-                    create_once_callable(
-                        lambda: licat.turn_left()
-                    ),
-                    test_time
-                )
-                setTimeout(
-                    create_once_callable(
-                        lambda: init_time()
-                    ),
-                    test_time
-                )
-
-        def pick(character=None):
-            if character != None:
-                character.pick()
-            else:
-                licat.pick()
-
-        def put(character=None):
-            if character != None:
-                character.put()
-            else:
-                licat.put()
-
-        def repeat(count, f):
-            for i in range(0, count):
-                f()
-
-        def set_item(x, y, name, count=1, description={}):
-            item = Item(x, y, name, count, description)
-            draw_item = item.draw()
-            draw_map.appendChild(draw_item)
-
-        def init_time():
-            '''
-            test_time 초기화(task queue를 선언하여 처리하였으나 그렇게 하지 않아도 초기화 되어 보다 간소화)
-            '''
-            global test_time
-            test_time = 0
+        from coordinate import character_data, map_data, running_speed
+        from built_in_functions import print, set_item, move, turn_left, pick, put, repeat
 
         # speed slide bar
         slider = js.document.getElementById("myRange")
@@ -171,6 +63,7 @@
 
         # character 생성
         licat = Character(x=0, y=0, name='licat', width=32, height=40)
+        character_data[0]['character_obj'] = licat
         draw_character = licat.draw()
         
         # map 생성

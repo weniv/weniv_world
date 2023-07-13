@@ -6,7 +6,7 @@ character_data = [
                 'character_obj': None,
                 'x': 0,
                 'y': 0,
-                'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 오른쪽), 3(남)
+                'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
                 'items': {}
             }
 ]
@@ -22,3 +22,9 @@ map_data = {
 }
 
 running_speed = 1
+
+# 맵에 있는 벽 데이터
+# wall_data = [{(6, 1): 'wall'}, {(6, 2): 'door'}]
+wall_data = [
+    {(6, 1): 'wall'},
+]

@@ -74,7 +74,7 @@ class Character:
         speech_bubble.style.fontSize = '12px'
         speech_bubble.style.fontWeight = 'bold'
         speech_bubble.style.zIndex = '100'
-        speech_bubble.style.whiteSpace = 'wrap'
+        speech_bubble.style.wordBreak = 'break-all'
         speech_bubble.innerHTML = f'{text}'
         c.appendChild(speech_bubble)
         setTimeout(
@@ -209,15 +209,17 @@ class Character:
 
     def put(self, item_name='fish'):
         '''
-        주인공 발 아래 아이템을 내려놓는 함수
+        주인공 발 아래 동일한 아이템을 내려놓는 함수
         '''
         x = character_data[0]['x']
         y = character_data[0]['y']
         
         item = item_data.get((x, y))
+        # (x, y): {item: 'beeper', count: 1}
 
         # 주인공에게 발 아래 아이템이 있다면
         if item:
+            bottom_item_name = item.get('item')
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
             # TODO: 0번째에서 가져오는 것이 아니라 자신의 아이템을 찾아 가져와야 함.
             if character_data[0]['items'].get(item_name, 0) > 0:
@@ -239,6 +241,11 @@ class Character:
                 item = Item(x, y, item_name, 1)
                 draw_item = item.draw()
                 js.document.querySelector('.map-container').appendChild(draw_item)
+                # 자신의 아이템에서는 삭제
+                # 'items': {}
+                character_data[0]['items'][item_name] -= 1
+                if character_data[0]['items'][item_name] == 0:
+                    character_data[0]['items'].pop(item_name)
             else:
                 return '가진 아이템이 없습니다.'
 

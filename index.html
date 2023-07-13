@@ -45,7 +45,7 @@
         from js import alert, setTimeout, clearTimeout
         from pyodide.ffi import create_once_callable
 
-        test_time = 1000
+        test_time = 0
 
         def print(*args):
             '''
@@ -63,7 +63,8 @@
             if character != None:
                 character.move()
             else:
-                test_time += 1000
+                test_time += 1000 * running_speed
+                js.console.log(test_time)
                 setTimeout(
                     create_once_callable(
                         lambda: (
@@ -78,7 +79,7 @@
             if character != None:
                 character.turn_left()
             else:
-                test_time += 1000
+                test_time += 1000 * running_speed
                 setTimeout(
                     create_once_callable(
                         lambda: licat.turn_left()
@@ -114,6 +115,7 @@
         running_speed = int(slider.value)/10
 
         def change_speed(e):
+            global running_speed
             slider_output.innerHTML = slider.value
             running_speed = int(slider.value)/10
             if licat:

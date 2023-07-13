@@ -42,6 +42,10 @@
         from character import Character
         from item import Item
         from coordinate import character_data, map_data, running_speed, item_data
+        from js import alert, setTimeout, clearTimeout
+        from pyodide.ffi import create_once_callable
+
+        test_time = 1000
 
         def print(*args):
             '''
@@ -55,16 +59,32 @@
             output.value = result
 
         def move(character=None):
+            global test_time
             if character != None:
                 character.move()
             else:
-                licat.move()
+                test_time += 1000
+                setTimeout(
+                    create_once_callable(
+                        lambda: (
+                            licat.move()
+                        )
+                    ),
+                    test_time
+                )
 
         def turn_left(character=None):
+            global test_time
             if character != None:
                 character.turn_left()
             else:
-                licat.turn_left()
+                test_time += 1000
+                setTimeout(
+                    create_once_callable(
+                        lambda: licat.turn_left()
+                    ),
+                    test_time
+                )
 
         def pick(character=None):
             if character != None:

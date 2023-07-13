@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+    .character {
+        width: 100px;
+        height: 100px;
+        background-color: red;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: all 1s;
+    }
+    .one-step {
+        left: 10px;
+    }
+    .two-step {
+        top: 20px;
+    }
+    </style>
+</head>
+<body>
+    <div class="character"></div>
+    <!-- 기본 아이디어 : pyscript에서 setTimeout사용하여 class를 나중에 붙이는 것으로 -->
+    <!-- https://realpython.com/pyscript-python-in-browser/ -->
+    <script>
+        const character = document.querySelector('.character');
+        character.addEventListener('click', function() {
+            setTimeout(function() {
+                character.classList.toggle('one-step');
+            }, 1000);
+            setTimeout(function() {
+                character.classList.toggle('two-step');
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

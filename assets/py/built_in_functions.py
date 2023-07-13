@@ -13,6 +13,18 @@ def print(*args):
     result = output.value + result
     output.value = result
 
+def say(text='', character=None, speech_time=5000):
+    '''
+    charecter의 말풍선에 출력
+    '''
+    if character != None:
+        character.say(text)
+    else:
+        if character_data[0]['character_obj'] != None:
+            character_data[0]['character_obj'].say(text, speech_time)
+        else:
+            print('캐릭터가 없습니다.')
+
 def set_item(x, y, name, count=1, description={}):
     item = Item(x, y, name, count, description)
     draw_item = item.draw()

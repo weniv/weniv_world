@@ -59,8 +59,7 @@ def show_item(character=None):
 
 def set_item(x, y, name, count=1, description={}):
     item = Item(x, y, name, count, description)
-    draw_item = item.draw()
-    js.document.querySelector('.map-container').appendChild(draw_item)
+    item.draw()
 
 def move(character=None):
     if character != None:

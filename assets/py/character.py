@@ -1,6 +1,7 @@
 import js
 from item import Item
 from coordinate import character_data, map_data, running_speed, item_data
+from error import front_is_not_clear, character_is_not_exist, character_is_not_selected, character_is_not_movable, character_is_not_attackable, bottom_is_clear
 from js import alert, setTimeout, clearTimeout
 from pyodide.ffi import create_once_callable
 

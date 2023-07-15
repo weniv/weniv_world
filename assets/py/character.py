@@ -115,6 +115,7 @@ class Character:
         x = character_data[0]['x']
         y = character_data[0]['y']
         
+        # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
             if x >= map_data['width']-1:
                 js.alert('맵을 벗어납니다.')
@@ -127,7 +128,7 @@ class Character:
             if y <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.top = f'{(y - 1) * 100 - 40}px'
+            c.style.top = f'{(y - 1) * 100 + 40}px'
             self.draw_move_line(x, y, x, y-1)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
@@ -135,7 +136,7 @@ class Character:
             if x <= 0:
                 js.alert('맵을 벗어납니다.')
                 return
-            c.style.left = f'{(x - 1) * 100 - 40}px'
+            c.style.left = f'{(x - 1) * 100 + 40}px'
             self.draw_move_line(x, y, x-1, y)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
@@ -168,6 +169,7 @@ class Character:
     def _turn_left(self):
         c = js.document.querySelector(f'.{self.name}')
         directions = character_data[0]['directions']
+        c.style.transformOrigin = 'center center'
         
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:

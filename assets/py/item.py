@@ -19,6 +19,7 @@ class Item:
         item = js.document.createElement('img')
         item.setAttribute('class', 'item')
         item.classList.add(f'{self.name}')
+        item.classList.add(f'item{self.x}{self.y}')
         # character.style.width = f'{self.width}px'
         item.setAttribute('src', self.img)
         item.style.position = 'absolute'
@@ -39,6 +40,7 @@ class Item:
         count = js.document.createElement('div')
         count.setAttribute('class', 'count')
         count.classList.add(f'{self.name}')
+        count.classList.add(f'count{self.x}{self.y}')
         count.style.position = 'absolute'
         count.style.top = f'{self.y * 100 + 25}px'
         count.style.left = f'{self.x * 100 + 75}px'

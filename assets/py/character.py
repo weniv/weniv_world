@@ -120,6 +120,7 @@ class Character:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.left = f'{(x + 1) * 100 + 40}px'
+            self.draw_move_line(x, y, x+1, y)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["x"] += 1
         elif directions == 1:
@@ -127,6 +128,7 @@ class Character:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.top = f'{(y - 1) * 100 - 40}px'
+            self.draw_move_line(x, y, x, y-1)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
         elif directions == 2:
@@ -134,6 +136,7 @@ class Character:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.left = f'{(x - 1) * 100 - 40}px'
+            self.draw_move_line(x, y, x-1, y)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
         elif directions == 3:
@@ -141,6 +144,7 @@ class Character:
                 js.alert('맵을 벗어납니다.')
                 return
             c.style.top = f'{(y + 1) * 100 + 40}px'
+            self.draw_move_line(x, y, x, y+1)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["y"] += 1
 
@@ -165,6 +169,7 @@ class Character:
         c = js.document.querySelector(f'.{self.name}')
         directions = character_data[0]['directions']
         
+        # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
             c.style.transform = 'rotate(-90deg)'
             character_data[0]['directions'] += 1
@@ -201,7 +206,8 @@ class Character:
             else:
                 character_data[0]['items'][item['item']] = 1
             if item_count == 0:
-                js.document.querySelector(f'.{item["item"]}').remove()
+                js.document.querySelector(f'.count{x}{y}').remove()
+                js.document.querySelector(f'.item{x}{y}').remove()
                 item_data.pop((x, y))
             return item_count
         else:
@@ -239,8 +245,7 @@ class Character:
             # TODO: 0번째에서 가져오는 것이 아니라 자신의 아이템을 찾아 가져와야 함.
             if character_data[0]['items'].get(item_name, 0) > 0:
                 item = Item(x, y, item_name, 1)
-                draw_item = item.draw()
-                js.document.querySelector('.map-container').appendChild(draw_item)
+                item.draw()
                 # 자신의 아이템에서는 삭제
                 # 'items': {}
                 character_data[0]['items'][item_name] -= 1
@@ -278,6 +283,38 @@ class Character:
         주인공이 가지고 있는 아이템을 보여주는 함수
         '''
         return None
+    
+    def draw_move_line(self, x, y, next_x, next_y):
+        '''
+        주인공이 이동할 경로를 그려주는 함수
+        '''
+        line = js.document.createElement('div')
+        directions = character_data[0]['directions']
+
+        line.className = 'line'
+        line.style.position = 'absolute'
+        line.style.left = f'{next_x * 100 - 40}px'
+        line.style.top = f'{next_y * 100 - 40}px'
+        line.style.animation = f'line-opacity {running_speed*1.5}s ease-in-out'
+
+        line.style.width = '100px'
+        line.style.height = '100px'
+
+        # line.style.transition = 'all 0.5s linear'
+
+        if directions == 0:
+            line.style.borderBottom = '2px solid #ccc'
+        elif directions == 1:
+            line.style.borderRight = '2px solid #ccc'
+        elif directions == 2:
+            line.style.borderBottom = '2px solid #ccc'
+        elif directions == 3:
+            line.style.borderRight = '2px solid #ccc'
+
+        line.style.boxSizing = 'border-box'
+        line.style.zIndex = '1'
+
+        js.document.querySelector('.map-container').appendChild(line)
     
     def front_is_clear(self):
         pass

@@ -8,6 +8,16 @@
     }
 }
 
+@keyframes line-opacity {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
 #app {
     width: 100vw;
 }

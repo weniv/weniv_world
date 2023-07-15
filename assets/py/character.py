@@ -293,23 +293,25 @@ class Character:
 
         line.className = 'line'
         line.style.position = 'absolute'
-        line.style.left = f'{next_x * 100 - 40}px'
-        line.style.top = f'{next_y * 100 - 40}px'
         line.style.animation = f'line-opacity {running_speed*1.5}s ease-in-out'
-
+        line.style.left = f'{x * 100 + 60}px'
+        line.style.top = f'{y * 100 + 60}px'
         line.style.width = '100px'
-        line.style.height = '100px'
+        line.style.height = '2px'
+        # line.style.border = '1px solid #ccc'
+        line.style.backgroundColor = '#ccc'
+        line.style.transformOrigin = 'top left'
 
-        # line.style.transition = 'all 0.5s linear'
 
+        # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
-            line.style.borderBottom = '2px solid #ccc'
+            line.style.rotate = '0deg'
         elif directions == 1:
-            line.style.borderRight = '2px solid #ccc'
+            line.style.rotate = '-90deg'
         elif directions == 2:
-            line.style.borderBottom = '2px solid #ccc'
+            line.style.rotate = '-180deg'
         elif directions == 3:
-            line.style.borderRight = '2px solid #ccc'
+            line.style.rotate = '90deg'
 
         line.style.boxSizing = 'border-box'
         line.style.zIndex = '1'

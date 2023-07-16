@@ -14,7 +14,7 @@
 
         [[fetch]]
         from = "./assets/py/"
-        files = ["built_in_functions.py", "character.py", "map.py", "item.py", "coordinate.py", "modules.py"]
+        files = ["built_in_functions.py", "character.py", "map.py", "item.py", "coordinate.py", "modules.py", "error.py"]
     </py-config>
 </head>
 <body>
@@ -22,8 +22,14 @@
     <textarea id='output'></textarea>
     <button class='downloadNotebookBtn'>Download Notebook</button>
     <div class="slidecontainer">
-        <input type="range" min="1" max="100" value="10" class="slider" id="myRange">
-        <p>Value: <span id="value"></span></p>
+        <input type="range" min="1" max="100" value="10" class="slider" id="speed-range">
+        <p>Speed: <span id="speed-text"></span></p>
+        <hr>
+        <input type="range" min="3" max="10" value="5" class="slider" id="map-range-x">
+        <p>Map_x: <span id="map-text-x"></span></p>
+        <hr>
+        <input type="range" min="3" max="10" value="5" class="slider" id="map-range-y">
+        <p>Map_y: <span id="map-text-y"></span></p>
     </div>
     <py-repl id="my-repl" auto-generate="true">
         # sample 코드입니다. shift + enter를 눌러 실행해보세요.
@@ -45,10 +51,11 @@
         from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat
 
         # speed slide bar
-        slider = js.document.getElementById("myRange")
-        slider_output = js.document.getElementById("value")
+        slider = js.document.getElementById("speed-range")
+        slider_output = js.document.getElementById("speed-text")
         slider_output.innerHTML = slider.value
         running_speed = int(slider.value)/10
+
 
         def change_speed(e):
             global running_speed
@@ -59,7 +66,38 @@
             else:
                 # 추후 다른 캐릭터 추가 시 구현
                 pass
+
         slider.oninput = change_speed
+
+        # map slide bar
+        map_slider_x = js.document.getElementById("map-range-x")
+        map_slider_y = js.document.getElementById("map-range-y")
+        map_slider_output_x = js.document.getElementById("map-text-x")
+        map_slider_output_y = js.document.getElementById("map-text-y")
+        map_slider_output_x.innerHTML = map_slider_x.value
+        map_slider_output_y.innerHTML = map_slider_y.value
+        map_data['height'] = int(map_slider_x.value)
+        map_data['width'] = int(map_slider_y.value)
+
+        
+        def change_map(e):
+            map_data['height'] = int(map_slider_x.value)
+            map_data['width'] = int(map_slider_y.value)
+            map_slider_output_x.innerHTML = map_slider_x.value
+            map_slider_output_y.innerHTML = map_slider_y.value
+            map_exist = js.document.querySelector('.map-container')
+            # TODO: map object는 map_data에서 관리해야할 것으로 보임
+            if map_exist:
+                js.console.log('map exist')
+                js.document.querySelector('.map-container').remove()
+                map = Map(map_data['height'], map_data['width'])
+                draw_map = map.drawMap()
+                draw_map.appendChild(draw_character)
+                app = Element("app").element
+                app.appendChild(draw_map)
+        
+        map_slider_x.oninput = change_map
+        map_slider_y.oninput = change_map
 
         # character 생성
         licat = Character(x=0, y=0, name='licat', width=32, height=40)

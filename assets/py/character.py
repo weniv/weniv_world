@@ -1,7 +1,7 @@
 import js
 from item import Item
 from coordinate import character_data, map_data, running_speed, item_data
-from error import front_is_not_clear, character_is_not_exist, character_is_not_selected, character_is_not_movable, character_is_not_attackable, bottom_is_clear
+from error import OutOfWorld
 from js import alert, setTimeout, clearTimeout
 from pyodide.ffi import create_once_callable
 
@@ -120,7 +120,7 @@ class Character:
         if directions == 0:
             if x >= map_data['width']-1:
                 js.alert('맵을 벗어납니다.')
-                return
+                raise OutOfWorld
             c.style.left = f'{(x + 1) * 100 + 40}px'
             self.draw_move_line(x, y, x+1, y)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
@@ -128,7 +128,7 @@ class Character:
         elif directions == 1:
             if y <= 0:
                 js.alert('맵을 벗어납니다.')
-                return
+                raise OutOfWorld
             c.style.top = f'{(y - 1) * 100 + 40}px'
             self.draw_move_line(x, y, x, y-1)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
@@ -136,7 +136,7 @@ class Character:
         elif directions == 2:
             if x <= 0:
                 js.alert('맵을 벗어납니다.')
-                return
+                raise OutOfWorld
             c.style.left = f'{(x - 1) * 100 + 40}px'
             self.draw_move_line(x, y, x-1, y)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
@@ -144,7 +144,7 @@ class Character:
         elif directions == 3:
             if y >= map_data['height'] - 1:
                 js.alert('맵을 벗어납니다.')
-                return
+                raise OutOfWorld
             c.style.top = f'{(y + 1) * 100 + 40}px'
             self.draw_move_line(x, y, x, y+1)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'

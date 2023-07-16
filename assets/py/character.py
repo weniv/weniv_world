@@ -296,7 +296,7 @@ class Character:
 
         line.className = 'line'
         line.style.position = 'absolute'
-        line.style.animation = f'line-opacity {running_speed*1.5}s ease-in-out'
+        line.style.animation = f'line-opacity {running_speed*2}s ease-in-out'
         line.style.left = f'{x * 100 + 60}px'
         line.style.top = f'{y * 100 + 60}px'
         line.style.width = '100px'

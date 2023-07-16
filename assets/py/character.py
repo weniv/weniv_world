@@ -184,7 +184,74 @@ class Character:
             character_data[0]['directions'] += 1
         elif directions == 3:
             c.style.transform = 'rotate(0deg)'
-            character_data[0]['directions'] = 0    
+            character_data[0]['directions'] = 0
+
+    def attack(self):
+        self.running_time += 1000 * running_speed
+        setTimeout(
+            create_once_callable(
+                lambda: (
+                    self._attack()
+                )
+            ),
+            self.running_time
+        )
+        setTimeout(
+            create_once_callable(
+                lambda: self.init_time()
+            ),
+            self.running_time
+        )
+
+    def _attack(self):
+        directions = character_data[0]['directions']
+        
+        x = character_data[0]['x']
+        y = character_data[0]['y']
+        
+        # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+        if directions == 0:
+            if x >= map_data['width']-1:
+                js.alert('공격이 맵을 벗어납니다.')
+                raise OutOfWorld
+            self.draw_attack(x, y, x+1, y)
+        elif directions == 1:
+            if y <= 0:
+                js.alert('공격이 맵을 벗어납니다.')
+                raise OutOfWorld
+            self.draw_attack(x, y, x, y-1)
+        elif directions == 2:
+            if x <= 0:
+                js.alert('공격이 맵을 벗어납니다.')
+                raise OutOfWorld
+            self.draw_attack(x, y, x-1, y)
+            character_data[0]["x"] -= 1
+        elif directions == 3:
+            if y >= map_data['height'] - 1:
+                js.alert('공격이 맵을 벗어납니다.')
+                raise OutOfWorld
+            self.draw_attack(x, y, x, y+1)
+
+    def draw_attack(self, x, y, x2, y2, name='claw-yellow'):
+        attack = js.document.createElement('div')
+        attack.className = 'attack'
+        attack.style.position = 'absolute'
+        attack.style.width = '32px'
+        attack.style.height = '36px'
+        attack.style.left = f'{x2 * 100 + 40}px'
+        attack.style.top = f'{y2 * 100 + 40}px'
+        attack.style.backgroundImage = f'url("assets/img/weapon/{name}.png")'
+        attack.style.backgroundRepeat = 'no-repeat'
+        map = js.document.querySelector('.map-container')
+        map.appendChild(attack)
+        setTimeout(
+            create_once_callable(
+                lambda: (
+                    map.removeChild(attack)
+                )
+            ),
+            1000
+        )
 
     def pick(self):
         '''

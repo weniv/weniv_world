@@ -8,6 +8,16 @@
     }
 }
 
+@keyframes attack-claw-white {
+    from {
+        background-position: -0px, -0px;
+    }
+
+    to {
+        background-position: -128px, -0px;
+    }
+}
+
 @keyframes line-opacity {
     from {
         opacity: 0;
@@ -24,6 +34,11 @@
 
 .character {
     animation: player 1s steps(7) infinite;
+    z-index: 999;
+}
+
+.attack {
+    animation: attack-claw-white 0.5s steps(4) 2;
     z-index: 999;
 }
 

@@ -106,3 +106,12 @@ def front_is_clear():
 
 def left_is_clear():
     pass
+
+def attack(character=None):
+    if character != None:
+        character.attack()
+    else:
+        if character_data[0]['character_obj'] != None:
+            character_data[0]['character_obj'].attack()
+        else:
+            print('캐릭터가 없습니다.')

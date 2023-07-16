@@ -41,3 +41,18 @@
     background-color: white;
     border: 1px solid black;
 }
+
+.hidden {
+    display: none;
+}
+
+.bubble-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.bubble-body-item-title {
+    font-size: 1.15rem;
+    font-weight: bold;
+}

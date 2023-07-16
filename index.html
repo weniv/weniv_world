@@ -21,7 +21,7 @@
     <div id='app'></div>
     <textarea id='output'></textarea>
     <button class='downloadNotebookBtn'>Download Notebook</button>
-    <div class="slidecontainer">
+    <div class="button-container">
         <input type="range" min="1" max="100" value="10" class="slider" id="speed-range">
         <p>Speed: <span id="speed-text"></span></p>
         <hr>
@@ -32,7 +32,40 @@
         <p>Map_y: <span id="map-text-y"></span></p>
         <button id="init">초기화(월드, 캐릭터)</button>
         <button id="init_character">캐릭터 초기화</button>
+        <button id="btn-list-function">함수 리스트</button>
+        <button id="btn-list-variable">변수 리스트</button>
+        <button id="btn-download-worlddata">다운로드 월드 데이터</button>
+        <button id="btn-upload-worlddata">업로드 월드 데이터</button>
     </div>
+    <section class="function-list hidden">
+        <h3>함수 리스트</h3>
+        <ul>
+            <li>print()</li>
+            <li>say()</li>
+            <li>directions()</li>
+            <li>show_item()</li>
+            <li>set_item()</li>
+            <li>move()</li>
+            <li>turn_left()</li>
+            <li>pick()</li>
+            <li>put()</li>
+            <li>repeat()</li>
+            <li>(from modules import turn_right) turn_right()</li>
+            <li>(from modules import turn_around) turn_around()</li>
+            <li>(from modules import move_to_wall) move_to_wall()</li>
+            <li>(from modules import turn_left_until_clear) turn_left_until_clear()</li>
+            <li>(from modules import jump) jump()</li>
+        </ul>
+    </section>
+    <section class="variable-list hidden">
+        <h3>변수 리스트</h3>
+        <ul>
+            <li>character_data</li>
+            <li>map_data</li>
+            <li>item_data</li>
+            <li>running_speed</li>
+        </ul>
+    </section>
     <py-repl id="my-repl" auto-generate="true">
         # sample 코드입니다. shift + enter를 눌러 실행해보세요.
         # character_data, map_data, item_data는 기본 제공 데이터입니다.
@@ -49,9 +82,11 @@
     <py-script>
         from map import Map
         from character import Character
-        from coordinate import character_data, map_data, item_data, running_speed
+        from coordinate import character_data, map_data, wall_data, item_data, running_speed
         from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat
         from pyscript import when
+        from js import alert, setTimeout
+        from pyodide.ffi import create_once_callable
 
         # speed slide bar
         slider = js.document.getElementById("speed-range")
@@ -151,6 +186,109 @@
             character_data[0]['character_obj'] = licat
             draw_character = licat.draw()
             js.document.querySelector('.map-container').appendChild(draw_character)
+
+        @when("click", selector="#btn-list-function")
+        def list_function(evt=None):
+            '''
+            메인화면에서 함수 목록 보는 함수
+            '''
+            js.console.log('함수 목록')
+            js.document.querySelector('.function-list').classList.toggle('hidden')
+
+        @when("click", selector="#btn-list-variable")
+        def list_variable(evt=None):
+            '''
+            메인화면에서 변수 목록 보는 함수
+            '''
+            js.console.log('변수 목록')
+            js.document.querySelector('.variable-list').classList.toggle('hidden')
+
+        @when("click", selector=".character")
+        def show_character_info(evt=None):
+            '''
+            캐릭터를 클릭하면 캐릭터 정보(character_data)를 볼 수 있는 함수 
+            '''
+            # evt를 통해 x좌표, y좌표를 얻어냄
+            # js.console.log(evt)
+            x = evt.x
+            y = evt.y
+            # x좌표, y좌표에 말풍선 생성
+            bubble = js.document.createElement('div')
+            bubble.setAttribute('class', 'character-info-bubble')
+            bubble.style.position = 'absolute'
+            bubble.style.left = f'{x+10}px'
+            bubble.style.top = f'{y+10}px'
+            bubble.style.border = '1px solid black'
+            bubble.style.borderRadius = '10px'
+            bubble.style.borderTopLeftRadius = '0px'
+            bubble.style.padding = '10px'
+            bubble.style.backgroundColor = 'white'
+            bubble.style.zIndex = '100'
+            
+            # 말풍선에 캐릭터 정보 추가
+            bubble.innerHTML = f'''
+                <div class="bubble-content">
+                    <div class="bubble-title">캐릭터 정보</div>
+                    <div class="bubble-body">
+                        <div class="bubble-body-item">
+                            <div class="bubble-body-item-title">이름</div>
+                            <div class="bubble-body-item-content">{character_data[0]['character']}</div>
+                        </div>
+                        <div class="bubble-body-item">
+                            <div class="bubble-body-item-title">x좌표</div>
+                            <div class="bubble-body-item-content">{character_data[0]['x']}</div>
+                        </div>
+                        <div class="bubble-body-item">
+                            <div class="bubble-body-item-title">y좌표</div>
+                            <div class="bubble-body-item-content">{character_data[0]['y']}</div>
+                        </div>
+                        <div class="bubble-body-item">
+                            <div class="bubble-body-item-title">방향</div>
+                            <div class="bubble-body-item-content">{character_data[0]['directions']}</div>
+                        </div>
+                        <div class="bubble-body-item">
+                            <div class="bubble-body-item-title">아이템</div>
+                            <div class="bubble-body-item-content">{character_data[0]['items']}</div>
+                        </div>
+                    </div>
+                </div>
+            '''
+            # 말풍선을 app에 추가
+            app = js.document.querySelector('#app')
+            app.appendChild(bubble)
+            # 5초후 제거
+            setTimeout(
+                create_once_callable(
+                    lambda: (
+                        app.removeChild(bubble)
+                    )
+                ),
+                5000
+            )
+
+        @when("click", selector="#btn-download-worlddata")
+        def download_worlddata(evt=None):
+            '''
+            메인화면에서 월드데이터 다운로드
+            '''
+            js.console.log('월드데이터 다운로드')
+            # 월드데이터 다운로드
+            worlddata = {
+                'character_data': character_data,
+                'item_data': item_data,
+                'map_data': map_data,
+                'wall_data': wall_data
+            }
+            # TODO: worlddata를 json으로 변환하여 다운로드 하는 기능 구현
+            # pyscript에서 json변환, download 구현 알아봐야 함. io 라이브러리 사용
+
+        @when("click", selector="#btn-upload-worlddata")
+        def upload_worlddata(evt=None):
+            '''
+            메인화면에서 월드데이터 업로드
+            '''
+            js.console.log('월드데이터 업로드')
+            
     </py-script>
     <script>
     const downloadBtn = document.querySelector('.downloadNotebookBtn')

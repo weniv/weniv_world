@@ -24,7 +24,7 @@ map_data = {
 running_speed = 1
 
 # 맵에 있는 벽 데이터
-# wall_data = [{(6, 1): 'wall'}, {(6, 2): 'door'}]
+# wall_data = [{'wall': [(6, 1)], 'door': [(6, 2)]}]
 wall_data = [
-    {(6, 1): 'wall'},
+    {'wall': [(6, 1)], 'door': [(6, 2)]}
 ]

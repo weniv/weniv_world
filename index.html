@@ -21,6 +21,8 @@
     <div id='app'></div>
     <textarea id='output'></textarea>
     <button class='downloadNotebookBtn'>Download Notebook</button>
+    <!-- TODO: 업로드 기능 구현 -->
+    <button class='uploadNotebookBtn'>Upload Notebook</button>
     <div class="button-container">
         <input type="range" min="1" max="100" value="10" class="slider" id="speed-range">
         <p>Speed: <span id="speed-text"></span></p>
@@ -87,6 +89,7 @@
         from pyscript import when
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable
+        import json
 
         # speed slide bar
         slider = js.document.getElementById("speed-range")
@@ -272,15 +275,25 @@
             메인화면에서 월드데이터 다운로드
             '''
             js.console.log('월드데이터 다운로드')
+
             # 월드데이터 다운로드
+            character_info = character_data.copy()
+            character_info[0]['character_obj'] = None
             worlddata = {
-                'character_data': character_data,
-                'item_data': item_data,
-                'map_data': map_data,
-                'wall_data': wall_data
+                "character_data": character_info,
+                "item_data": item_data,
+                "map_data": map_data,
+                "wall_data": wall_data
             }
-            # TODO: worlddata를 json으로 변환하여 다운로드 하는 기능 구현
-            # pyscript에서 json변환, download 구현 알아봐야 함. io 라이브러리 사용
+
+            
+            json_data = json.dumps(worlddata)
+            file = js.File.new([json_data], "unused_file_name.txt", {type: "text/plain"})
+            url = js.URL.createObjectURL(file)
+            hidden_link = js.document.createElement("a")
+            hidden_link.setAttribute("download", "my_other_file_name.txt")
+            hidden_link.setAttribute("href", url)
+            hidden_link.click()
 
         @when("click", selector="#btn-upload-worlddata")
         def upload_worlddata(evt=None):

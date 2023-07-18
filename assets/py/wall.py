@@ -12,7 +12,9 @@ class Wall:
         
         for type in self.wall_data.keys():
           for (x,y) in self.wall_data[type]:
-            js.console.log(x, y)
+            # js.console.log(x, y)
+            if (x<0 or x>2*map_data["width"] or y<0 or y>2*map_data["height"]):
+              continue
             cx, cy = self._wall_to_pos(x,y)
             wall = js.document.createElement('div')
             wall.setAttribute('class','wall')

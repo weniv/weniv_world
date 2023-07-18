@@ -150,23 +150,23 @@ class Character:
         
         # 이동 경로에 벽이 있는지 확인
         # js.console.log((6,1) in wall_data["wall"])
-        cv_x , cv_y =self._convert_pos(x,y)
-        cv_nx , cv_ny =self._convert_pos(nx,ny)
+        cv_x , cv_y =self._pos_to_wall(x,y)
+        cv_nx , cv_ny =self._pos_to_wall(nx,ny)
         
         wall_x = (cv_x+cv_nx)/2
         wall_y = (cv_y+cv_ny)/2
         
         if((wall_x, wall_y) in wall_data["wall"]):
-            js.alert('벽이 있어 이동할 수 없습니다!')
+            js.alert('벽에 부딪혔습니다!')
             raise WallIsExist
             
         # x가 변할 때, (x,y)->(nx,y)
         # y가 변할 때, (x,y)->(x,ny)     
         
-    def _convert_pos(self, x,y):
+    def _pos_to_wall(self, x,y):
         # position 좌표계를 벽을 놓을 수 있는 좌표계로 변환
         return 2*x+1, 2*map_data['height']-1-2*y
-            
+
     def turn_left(self):
         self.running_time += 1000 * running_speed
         setTimeout(

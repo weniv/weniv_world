@@ -44,7 +44,7 @@ class BottomIsClear(Exception):
 
 class WallIsExist(Exception):
     '''
-    벽이 존재하여 이동 불가할때 출력하는 에러
+    이동 경로에 벽이 있어 이동이 불가능한 경우에 발생하는 오류
     '''
     def __init__(self):
         print('error.WallIsExist: wall is exist')

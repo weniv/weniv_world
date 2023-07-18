@@ -71,3 +71,33 @@
     font-size: 1.15rem;
     font-weight: bold;
 }
+
+/* wall */
+.wall-container {
+    position:absolute;
+    top:8px;
+    left:8px;
+}
+
+.wall{
+    position:absolute;
+    border:1px solid black;
+    box-sizing: border-box;
+    background-color: cyan;
+}
+.wall.movable{
+    background-color: yellow;
+}
+
+.wall.portrait {
+    top:1px;
+    width:5px;
+    height:102px;
+}
+.wall.landscape {
+    left:1px;
+    width:102px;
+    height:5px;
+}
+/* .wall */
+

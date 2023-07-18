@@ -1,6 +1,6 @@
 import js
 from item import Item
-from coordinate import character_data, map_data, running_speed, item_data
+from coordinate import character_data, map_data, running_speed, item_data, wall_data
 from error import OutOfWorld
 from js import alert, setTimeout, clearTimeout
 from pyodide.ffi import create_once_callable
@@ -118,38 +118,37 @@ class Character:
         
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
-            if x >= map_data['width']-1:
-                js.alert('맵을 벗어납니다.')
-                raise OutOfWorld
+            self._movable(x,y,x+1,y)
             c.style.left = f'{(x + 1) * 100 + 40}px'
             self.draw_move_line(x, y, x+1, y)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["x"] += 1
         elif directions == 1:
-            if y <= 0:
-                js.alert('맵을 벗어납니다.')
-                raise OutOfWorld
+            self._movable(x,y,x,y-1)
             c.style.top = f'{(y - 1) * 100 + 40}px'
             self.draw_move_line(x, y, x, y-1)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
         elif directions == 2:
-            if x <= 0:
-                js.alert('맵을 벗어납니다.')
-                raise OutOfWorld
+            self._movable(x,y,x-1,y)
             c.style.left = f'{(x - 1) * 100 + 40}px'
             self.draw_move_line(x, y, x-1, y)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
         elif directions == 3:
-            if y >= map_data['height'] - 1:
-                js.alert('맵을 벗어납니다.')
-                raise OutOfWorld
+            self._movable(x,y,x,y+1)
             c.style.top = f'{(y + 1) * 100 + 40}px'
             self.draw_move_line(x, y, x, y+1)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["y"] += 1
 
+    def _movable(self,x,y,nx,ny):
+        # 맵을 벗어나는지 확인
+        if(nx<0 or nx>map_data['width']-1 or ny <0 or ny>map_data['height']-1):
+            js.alert('맵을 벗어납니다.')
+            raise OutOfWorld
+                        
+            
     def turn_left(self):
         self.running_time += 1000 * running_speed
         setTimeout(

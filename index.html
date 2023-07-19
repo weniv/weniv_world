@@ -179,14 +179,11 @@
                 app = Element("app").element
                 app.appendChild(draw_map)
 
-            wall_data = {'wall': [], 'door': [(3,8),(4,7)]}
-            wall_exist = js.document.querySelector('.wall-container')
-            if wall_exist:
-                js.document.querySelector('.wall-container').remove()
-                wall.container.textContent=''
-                js.console.log('텅')
-                # wall.drawWall();
-                # draw_map.appendChild(wall.container)
+            # 새로운 벽 데이터를 이용하여 벽 초기화
+            new_wall_data = {'wall': [], 'door': [(3,8),(4,7)]}
+            wall.initWall(new_wall_data);
+            wall_data=new_wall_data
+            draw_map.appendChild(wall.container)
 
             init_character()
 
@@ -304,7 +301,6 @@
                 "map_data": map_data,
                 "wall_data": wall_data
             }
-
             
             json_data = json.dumps(worlddata)
             file = js.File.new([json_data], "unused_file_name.txt", {type: "text/plain"})
@@ -346,12 +342,12 @@
 
             if(wall_x and wall_y):
                 # 두 값이 있을 때만 벽 추가
-                if (wall_x, wall_y) not in wall_data['wall']:
+                if (wall_x, wall_y) not in wall.wall_data['wall']:
                     js.console.log('벽 추가',wall_x, wall_y)
-                    wall_data['wall'].append((wall_x,wall_y))
+                    js.console.log(wall.container)
 
+                    wall_data['wall'].append((wall_x,wall_y))
                     wall.addWall('wall',(wall_x,wall_y))
-                    draw_map.appendChild(wall.container)
                 
         def _get_axis(num):
             integer = int(num + 0.5) if num >= 0 else int(num - 0.5)

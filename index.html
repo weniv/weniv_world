@@ -169,7 +169,6 @@
             map_data['width'] = 5
             map_slider_output_x.innerHTML = 5
             map_slider_output_y.innerHTML = 5
-            wall_data={'wall':[]}
             map_exist = js.document.querySelector('.map-container')
             # TODO: map object는 map_data에서 관리해야할 것으로 보임
             if map_exist:
@@ -179,11 +178,16 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
+
+            wall_data = {'wall': [], 'door': [(3,8),(4,7)]}
             wall_exist = js.document.querySelector('.wall-container')
             if wall_exist:
                 js.document.querySelector('.wall-container').remove()
-                wall.drawWall();
-                draw_map.appendChild(wall.container)
+                wall.container.textContent=''
+                js.console.log('텅')
+                # wall.drawWall();
+                # draw_map.appendChild(wall.container)
+
             init_character()
 
         @when("click", selector="#init_character")
@@ -345,8 +349,8 @@
                 if (wall_x, wall_y) not in wall_data['wall']:
                     js.console.log('벽 추가',wall_x, wall_y)
                     wall_data['wall'].append((wall_x,wall_y))
-                    
-                    wall.drawWall()
+
+                    wall.addWall('wall',(wall_x,wall_y))
                     draw_map.appendChild(wall.container)
                 
         def _get_axis(num):

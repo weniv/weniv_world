@@ -37,8 +37,30 @@ class Wall:
               wall.classList.add('movable')
 
             container.appendChild(wall)
+            
+    def addWall(self,type, pos):
+      x, y = pos
+      js.console.log(x,y)
+      wall = js.document.createElement('div')
+      wall.setAttribute('class','wall')
+      if(x%2):
+        # 가로
+        wall.classList.add('landscape')
+        wall.style.left=f'{(x-1)*51}px'
+        wall.style.top=f'{(2*map_data["height"]-y)*51}px'
+        
+      else:
+        wall.classList.add('portrait')
+        wall.style.left=f'{x*51}px'
+        wall.style.top=f'{(2*map_data["height"]-y-1)*51}px'
+        
+      if (type in self.movableType):
+        wall.classList.add('movable')
+
+      self.container.appendChild(wall)
 
     def _wall_to_pos(self, x,y):
         # 벽을 놓을 수 있는 좌표계를 position 좌표계로 변환
         return (x-1)/2, map_data['height']-(y-1)/2
+    
     

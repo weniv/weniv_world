@@ -19,6 +19,7 @@
 </head>
 <body>
     <div id='app'></div>
+    <p id="pointer"></p>
     <textarea id='output'></textarea>
     <button class='downloadNotebookBtn'>Download Notebook</button>
     <!-- TODO: 업로드 기능 구현 -->
@@ -91,6 +92,7 @@
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable
         import json
+        import math
 
         # speed slide bar
         slider = js.document.getElementById("speed-range")
@@ -152,12 +154,13 @@
 
         #벽 생성
         wall = Wall(wall_data)
-        draw_wall = wall.drawWall()
+        wall.drawWall();
+        draw_map.appendChild(wall.container)
+
 
         # 생성된 요소 app추가
         app = Element("app").element
         app.appendChild(draw_map)
-        app.appendChild(draw_wall)
 
         @when("click", selector="#init")
         def init(evt):
@@ -166,7 +169,7 @@
             map_data['width'] = 5
             map_slider_output_x.innerHTML = 5
             map_slider_output_y.innerHTML = 5
-            wall_data={}
+            wall_data={'wall':[]}
             map_exist = js.document.querySelector('.map-container')
             # TODO: map object는 map_data에서 관리해야할 것으로 보임
             if map_exist:
@@ -179,10 +182,8 @@
             wall_exist = js.document.querySelector('.wall-container')
             if wall_exist:
                 js.document.querySelector('.wall-container').remove()
-                wall = Wall(wall_data)
-                draw_wall = wall.drawWall()
-                app = Element("app").element
-                app.appendChild(draw_wall)
+                wall.drawWall();
+                draw_map.appendChild(wall.container)
             init_character()
 
         @when("click", selector="#init_character")
@@ -315,7 +316,55 @@
             메인화면에서 월드데이터 업로드
             '''
             js.console.log('월드데이터 업로드')
-            
+        
+
+        @when("click", selector=".wall-container")
+        def add_wall(evt):
+            '''
+            맵에 벽 추가
+            '''
+            pointer_x=(evt.clientX-9)/50
+            pointer_y=2*map_data['height']-(evt.clientY-9)/50
+
+            axis_x=_get_axis(pointer_x)
+            axis_y=_get_axis(pointer_y)
+
+            type='wall'
+            wall_x, wall_y=axis_x,axis_y
+            if(axis_x and not axis_x%2):
+                # x 좌표가 짝수 (세로 벽)
+                wall_y=_get_face(pointer_y)
+            elif(axis_y and not axis_y%2):
+                # y 좌표가 짝수 (가로 벽)
+                wall_x=_get_face(pointer_x)
+            else:
+                return
+
+            if(wall_x and wall_y):
+                # 두 값이 있을 때만 벽 추가
+                if (wall_x, wall_y) not in wall_data['wall']:
+                    js.console.log('벽 추가',wall_x, wall_y)
+                    wall_data['wall'].append((wall_x,wall_y))
+                    
+                    wall.drawWall()
+                    draw_map.appendChild(wall.container)
+                
+        def _get_axis(num):
+            integer = int(num + 0.5) if num >= 0 else int(num - 0.5)
+            if integer-0.2 <= num <= integer + 0.2:
+                return integer
+
+        def _get_face(num):
+            integer = int(num)
+
+            if integer%2: #홀수
+                if (integer+1-num)>0.2:
+                    return integer
+            else: 
+                if (num-integer>0.2):
+                    return integer +1
+            return None
+
     </py-script>
     <script>
     const downloadBtn = document.querySelector('.downloadNotebookBtn')
@@ -370,6 +419,8 @@
         a.href = url;
         a.click();
     }
+
+    
     </script>
 </body>
 </html>

@@ -6,13 +6,17 @@ class Wall:
         self.wall_data=wall_data
         self.movableType=['door']
         
-    def drawWall(self):
         container = js.document.createElement('div')
         container.setAttribute('class', 'wall-container')
+        self.container = container
+        
+        
+    def drawWall(self):
+        container = self.container
         
         for type in self.wall_data.keys():
           for (x,y) in self.wall_data[type]:
-            # js.console.log(x, y)
+            
             if (x<0 or x>2*map_data["width"] or y<0 or y>2*map_data["height"]):
               continue
             cx, cy = self._wall_to_pos(x,y)
@@ -34,8 +38,6 @@ class Wall:
 
             container.appendChild(wall)
 
-        return container
-         
     def _wall_to_pos(self, x,y):
         # 벽을 놓을 수 있는 좌표계를 position 좌표계로 변환
         return (x-1)/2, map_data['height']-(y-1)/2

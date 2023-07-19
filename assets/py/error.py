@@ -40,3 +40,12 @@ class BottomIsClear(Exception):
     def __init__(self):
         print('error.BottomIsClear: bottom is clear')
         super().__init__('bottom is clear')
+        
+
+class WallIsExist(Exception):
+    '''
+    이동 경로에 벽이 있어 이동이 불가능한 경우에 발생하는 오류
+    '''
+    def __init__(self):
+        print('error.WallIsExist: wall is exist')
+        super().__init__('wall is exist')

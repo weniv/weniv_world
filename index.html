@@ -14,11 +14,12 @@
 
         [[fetch]]
         from = "./assets/py/"
-        files = ["built_in_functions.py", "character.py", "map.py", "item.py", "coordinate.py", "modules.py", "error.py"]
+        files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py"]
     </py-config>
 </head>
 <body>
     <div id='app'></div>
+    <p id="pointer"></p>
     <textarea id='output'></textarea>
     <button class='downloadNotebookBtn'>Download Notebook</button>
     <!-- TODO: 업로드 기능 구현 -->
@@ -83,6 +84,7 @@
     </py-repl>
     <py-script>
         from map import Map
+        from wall import Wall
         from character import Character
         from coordinate import character_data, map_data, wall_data, item_data, running_speed
         from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat, attack
@@ -90,6 +92,7 @@
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable
         import json
+        import math
 
         # speed slide bar
         slider = js.document.getElementById("speed-range")
@@ -149,6 +152,12 @@
         draw_map = map.drawMap()
         draw_map.appendChild(draw_character)
 
+        #벽 생성
+        wall = Wall(wall_data)
+        wall.drawWall();
+        draw_map.appendChild(wall.container)
+
+
         # 생성된 요소 app추가
         app = Element("app").element
         app.appendChild(draw_map)
@@ -169,6 +178,13 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
+
+            # 새로운 벽 데이터를 이용하여 벽 초기화
+            new_wall_data = {'wall': [], 'door': [(3,8),(4,7)]}
+            wall.initWall(new_wall_data);
+            wall_data=new_wall_data
+            draw_map.appendChild(wall.container)
+
             init_character()
 
         @when("click", selector="#init_character")
@@ -285,7 +301,6 @@
                 "map_data": map_data,
                 "wall_data": wall_data
             }
-
             
             json_data = json.dumps(worlddata)
             file = js.File.new([json_data], "unused_file_name.txt", {type: "text/plain"})
@@ -301,7 +316,55 @@
             메인화면에서 월드데이터 업로드
             '''
             js.console.log('월드데이터 업로드')
-            
+        
+
+        @when("click", selector=".wall-container")
+        def add_wall(evt):
+            '''
+            맵에 벽 추가
+            '''
+            pointer_x=(evt.clientX-9)/50
+            pointer_y=2*map_data['height']-(evt.clientY-9)/50
+
+            axis_x=_get_axis(pointer_x)
+            axis_y=_get_axis(pointer_y)
+
+            type='wall'
+            wall_x, wall_y=axis_x,axis_y
+            if(axis_x and not axis_x%2):
+                # x 좌표가 짝수 (세로 벽)
+                wall_y=_get_face(pointer_y)
+            elif(axis_y and not axis_y%2):
+                # y 좌표가 짝수 (가로 벽)
+                wall_x=_get_face(pointer_x)
+            else:
+                return
+
+            if(wall_x and wall_y):
+                # 두 값이 있을 때만 벽 추가
+                if (wall_x, wall_y) not in wall.wall_data['wall']:
+                    js.console.log('벽 추가',wall_x, wall_y)
+                    js.console.log(wall.container)
+
+                    wall_data['wall'].append((wall_x,wall_y))
+                    wall.addWall('wall',(wall_x,wall_y))
+                
+        def _get_axis(num):
+            integer = int(num + 0.5) if num >= 0 else int(num - 0.5)
+            if integer-0.2 <= num <= integer + 0.2:
+                return integer
+
+        def _get_face(num):
+            integer = int(num)
+
+            if integer%2: #홀수
+                if (integer+1-num)>0.2:
+                    return integer
+            else: 
+                if (num-integer>0.2):
+                    return integer +1
+            return None
+
     </py-script>
     <script>
     const downloadBtn = document.querySelector('.downloadNotebookBtn')
@@ -356,6 +419,8 @@
         a.href = url;
         a.click();
     }
+
+    
     </script>
 </body>
 </html>

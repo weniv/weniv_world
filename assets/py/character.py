@@ -1,7 +1,7 @@
 import js
 from item import Item
-from coordinate import character_data, map_data, running_speed, item_data
-from error import OutOfWorld
+from coordinate import character_data, map_data, running_speed, item_data, wall_data
+from error import OutOfWorld, WallIsExist
 from js import alert, setTimeout, clearTimeout
 from pyodide.ffi import create_once_callable
 
@@ -118,37 +118,54 @@ class Character:
         
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
-            if x >= map_data['width']-1:
-                js.alert('맵을 벗어납니다.')
-                raise OutOfWorld
+            self._movable(x,y,x+1,y)
             c.style.left = f'{(x + 1) * 100 + 40}px'
             self.draw_move_line(x, y, x+1, y)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["x"] += 1
         elif directions == 1:
-            if y <= 0:
-                js.alert('맵을 벗어납니다.')
-                raise OutOfWorld
+            self._movable(x,y,x,y-1)
             c.style.top = f'{(y - 1) * 100 + 40}px'
             self.draw_move_line(x, y, x, y-1)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
         elif directions == 2:
-            if x <= 0:
-                js.alert('맵을 벗어납니다.')
-                raise OutOfWorld
+            self._movable(x,y,x-1,y)
             c.style.left = f'{(x - 1) * 100 + 40}px'
             self.draw_move_line(x, y, x-1, y)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
         elif directions == 3:
-            if y >= map_data['height'] - 1:
-                js.alert('맵을 벗어납니다.')
-                raise OutOfWorld
+            self._movable(x,y,x,y+1)
             c.style.top = f'{(y + 1) * 100 + 40}px'
             self.draw_move_line(x, y, x, y+1)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["y"] += 1
+
+    def _movable(self,x,y,nx,ny):
+        # 맵을 벗어나는지 확인
+        if(nx<0 or nx>map_data['width']-1 or ny <0 or ny>map_data['height']-1):
+            js.alert('맵을 벗어납니다.')
+            raise OutOfWorld
+        
+        # 이동 경로에 벽이 있는지 확인
+        # js.console.log((6,1) in wall_data["wall"])
+        cv_x , cv_y =self._pos_to_wall(x,y)
+        cv_nx , cv_ny =self._pos_to_wall(nx,ny)
+        
+        wall_x = (cv_x+cv_nx)/2
+        wall_y = (cv_y+cv_ny)/2
+        
+        if((wall_x, wall_y) in wall_data["wall"]):
+            js.alert('벽에 부딪혔습니다!')
+            raise WallIsExist
+            
+        # x가 변할 때, (x,y)->(nx,y)
+        # y가 변할 때, (x,y)->(x,ny)     
+        
+    def _pos_to_wall(self, x,y):
+        # position 좌표계를 벽을 놓을 수 있는 좌표계로 변환
+        return 2*x+1, 2*map_data['height']-1-2*y
 
     def turn_left(self):
         self.running_time += 1000 * running_speed

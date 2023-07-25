@@ -5,9 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>weniv world</title>
+
+    <!-- 환경파일 -->
+    <script src="./assets/js/env.js" defer></script>
+
+    <!-- JavaScript -->
+    <script src="./assets/js/editor.js" defer></script>
+    <script src="./assets/js/parser.js" defer></script>
+    <script src="./assets/js/event.js" defer></script>
+
+    <!-- PyScript -->
+    <!-- TODO: 로컬로 바꿔야 합니다. -->
     <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <link rel="stylesheet" href="assets/css/main.css">
     <py-config>
         terminal = false
         # packages = ["numpy", "nest_asyncio"]
@@ -16,6 +26,9 @@
         from = "./assets/py/"
         files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py"]
     </py-config>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
     <div id='app'></div>
@@ -69,6 +82,17 @@
             <li>running_speed</li>
         </ul>
     </section>
+    <section class="contents">
+            <nav class="question-nav">
+                <ol>
+                    <li><a href="#" id="t1" class="btn-que">T1. 자격 증명</a></li>
+                    <li><a href="#" id="t2" class="btn-que">T2. 암호문</a></li>
+                </ol>
+            </nav>
+    </section>
+    
+    <!-- TODO: 배포 직전에는 style="display:none;"를 풀어야 합니다. -->
+    <section class="description" style="display:none;"></section>
     <py-repl id="my-repl" auto-generate="true">
         # sample 코드입니다. shift + enter를 눌러 실행해보세요.
         # character_data, map_data, item_data는 기본 제공 데이터입니다.

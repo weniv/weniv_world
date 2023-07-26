@@ -1,9 +1,11 @@
 import js
-from item import Item
+from js import setTimeout
+from pyodide.ffi import create_once_callable
+
 from coordinate import character_data, map_data, running_speed, item_data, wall_data
 from error import OutOfWorld, WallIsExist
-from js import alert, setTimeout, clearTimeout
-from pyodide.ffi import create_once_callable
+from item import Item
+
 
 class Character:
     def __init__(self, x, y, name, directions=0, width=100, height=33, initHp=100, dropRate=0.1, power=10):
@@ -54,7 +56,7 @@ class Character:
                 'items': {}
             })
         return character
-    
+
     def say(self, text='', speech_time=5000):
         '''
         캐릭터 위에 말풍선과 함께 출력하는 함수
@@ -86,7 +88,7 @@ class Character:
             ),
             speech_time
         )
-    
+
     def set_speed(self, speed):
         c = js.document.querySelector(f'.{self.name}')
         c.style.transition = f'all {speed}s'
@@ -112,60 +114,61 @@ class Character:
     def _move(self):
         c = js.document.querySelector(f'.{self.name}')
         directions = character_data[0]['directions']
-        
+
         x = character_data[0]['x']
         y = character_data[0]['y']
-        
+        # js.alert(f"현재 x위치= {x} 현재 y위치 = {y} 방향 = {directions}")
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
-            self._movable(x,y,x+1,y)
-            c.style.left = f'{(x + 1) * 100 + 40}px'
-            self.draw_move_line(x, y, x+1, y)
+            self._movable(x, y, x, y + 1)
+            c.style.left = f'{(y + 1) * 100 + 40}px'
+            self.draw_move_line(x, y, x, y + 1)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
-            character_data[0]["x"] += 1
-        elif directions == 1:
-            self._movable(x,y,x,y-1)
-            c.style.top = f'{(y - 1) * 100 + 40}px'
-            self.draw_move_line(x, y, x, y-1)
-            # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
-            character_data[0]["y"] -= 1
-        elif directions == 2:
-            self._movable(x,y,x-1,y)
-            c.style.left = f'{(x - 1) * 100 + 40}px'
-            self.draw_move_line(x, y, x-1, y)
-            # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
-            character_data[0]["x"] -= 1
-        elif directions == 3:
-            self._movable(x,y,x,y+1)
-            c.style.top = f'{(y + 1) * 100 + 40}px'
-            self.draw_move_line(x, y, x, y+1)
-            # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["y"] += 1
+        elif directions == 1:
+            self._movable(x - 1, y, x, y)
+            c.style.top = f'{(x - 1) * 100 + 40}px'
+            self.draw_move_line(x - 1, y, x, y)
+            # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
+            character_data[0]["x"] -= 1
+        elif directions == 2:
+            self._movable(x, y, x, y - 1)
+            c.style.left = f'{(y - 1) * 100 + 40}px'
+            self.draw_move_line(x, y, x, y - 1)
+            # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
+            character_data[0]["y"] -= 1
+        elif directions == 3:
+            self._movable(x + 1, y, x, y)
+            c.style.top = f'{(x + 1) * 100 + 40}px'
+            self.draw_move_line(x + 1, y, x, y)
+            # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
+            character_data[0]["x"] += 1
 
-    def _movable(self,x,y,nx,ny):
+    def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
-        if(nx<0 or nx>map_data['width']-1 or ny <0 or ny>map_data['height']-1):
+        if (nx < 0 or nx > map_data['width'] - 1 or ny < 0 or ny > map_data['height'] - 1):
+            # js.alert(f"{nx} {ny} {map_data['width']} {map_data['height']}")
             js.alert('맵을 벗어납니다.')
             raise OutOfWorld
-        
+
         # 이동 경로에 벽이 있는지 확인
         # js.console.log((6,1) in wall_data["wall"])
-        cv_x , cv_y =self._pos_to_wall(x,y)
-        cv_nx , cv_ny =self._pos_to_wall(nx,ny)
-        
-        wall_x = (cv_x+cv_nx)/2
-        wall_y = (cv_y+cv_ny)/2
-        
-        if((wall_x, wall_y) in wall_data["wall"]):
+        cv_x, cv_y = self._pos_to_wall(x, y)
+        cv_nx, cv_ny = self._pos_to_wall(nx, ny)
+
+        wall_x = (cv_x + cv_nx) / 2
+        wall_y = (cv_y + cv_ny) / 2
+
+        if ((wall_x, wall_y) in wall_data["wall"]):
             js.alert('벽에 부딪혔습니다!')
             raise WallIsExist
-            
+
         # x가 변할 때, (x,y)->(nx,y)
-        # y가 변할 때, (x,y)->(x,ny)     
-        
-    def _pos_to_wall(self, x,y):
+        # y가 변할 때, (x,y)->(x,ny)
+
+    def _pos_to_wall(self, x, y):
         # position 좌표계를 벽을 놓을 수 있는 좌표계로 변환
-        return 2*x+1, 2*map_data['height']-1-2*y
+        return 2 * x + 1, 2 * map_data['height'] - 1 - 2 * y
 
     def turn_left(self):
         self.running_time += 1000 * running_speed
@@ -188,7 +191,7 @@ class Character:
         c = js.document.querySelector(f'.{self.name}')
         directions = character_data[0]['directions']
         c.style.transformOrigin = 'center center'
-        
+
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
             c.style.transform = 'rotate(-90deg)'
@@ -222,32 +225,32 @@ class Character:
 
     def _attack(self):
         directions = character_data[0]['directions']
-        
+
         x = character_data[0]['x']
         y = character_data[0]['y']
-        
+
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
-            if x >= map_data['width']-1:
+            if x >= map_data['width'] - 1:
                 js.alert('공격이 맵을 벗어납니다.')
                 raise OutOfWorld
-            self.draw_attack(x, y, x+1, y)
+            self.draw_attack(x, y, x + 1, y)
         elif directions == 1:
             if y <= 0:
                 js.alert('공격이 맵을 벗어납니다.')
                 raise OutOfWorld
-            self.draw_attack(x, y, x, y-1)
+            self.draw_attack(x, y, x, y - 1)
         elif directions == 2:
             if x <= 0:
                 js.alert('공격이 맵을 벗어납니다.')
                 raise OutOfWorld
-            self.draw_attack(x, y, x-1, y)
+            self.draw_attack(x, y, x - 1, y)
             character_data[0]["x"] -= 1
         elif directions == 3:
             if y >= map_data['height'] - 1:
                 js.alert('공격이 맵을 벗어납니다.')
                 raise OutOfWorld
-            self.draw_attack(x, y, x, y+1)
+            self.draw_attack(x, y, x, y + 1)
 
     def draw_attack(self, x, y, x2, y2, name='claw-yellow'):
         attack = js.document.createElement('div')
@@ -272,16 +275,16 @@ class Character:
 
     def pick(self):
         '''
-        발 아래 아이템을 주워서 아이템을 가지고 있는지 확인하고, 
+        발 아래 아이템을 주워서 아이템을 가지고 있는지 확인하고,
         가지고 있으면 주인공이 소유한 아이템 개수를 1 증가시키고, 맵에 있는 아이템은 1 감소시킨다.
 
         모든 아이템이 다 감소되면 document에서 해당 아이템을 삭제한다.
         '''
         x = character_data[0]['x']
         y = character_data[0]['y']
-        
+
         item = item_data.get((x, y))
-        
+
         if item:
             item_count = item.get('count', 0)
             item_count -= 1
@@ -306,7 +309,7 @@ class Character:
         '''
         x = character_data[0]['x']
         y = character_data[0]['y']
-        
+
         item = item_data.get((x, y))
         # (x, y): {item: 'beeper', count: 1}
 
@@ -341,14 +344,13 @@ class Character:
             else:
                 return '가진 아이템이 없습니다.'
 
-
     def check_bottom(self):
         '''
         주인공 발 아래 아이템이 있는지 확인하는 함수
         '''
         x = character_data[0]['x']
         y = character_data[0]['y']
-        
+
         item = item_data.get((x, y))
 
         if item:
@@ -364,13 +366,13 @@ class Character:
         for item in item_data.values():
             carried_items.append(item['item'])
         return carried_items
-    
+
     def show_item(self):
         '''
         주인공이 가지고 있는 아이템을 보여주는 함수
         '''
         return None
-    
+
     def draw_move_line(self, x, y, next_x, next_y):
         '''
         주인공이 이동할 경로를 그려주는 함수
@@ -380,7 +382,7 @@ class Character:
 
         line.className = 'line'
         line.style.position = 'absolute'
-        line.style.animation = f'line-opacity {running_speed*2}s ease-in-out'
+        line.style.animation = f'line-opacity {running_speed * 2}s ease-in-out'
         line.style.left = f'{x * 100 + 60}px'
         line.style.top = f'{y * 100 + 60}px'
         line.style.width = '100px'
@@ -388,7 +390,6 @@ class Character:
         # line.style.border = '1px solid #ccc'
         line.style.backgroundColor = '#ccc'
         line.style.transformOrigin = 'top left'
-
 
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
@@ -404,7 +405,7 @@ class Character:
         line.style.zIndex = '1'
 
         js.document.querySelector('.map-container').appendChild(line)
-    
+
     def front_is_clear(self):
         pass
 
@@ -419,6 +420,6 @@ class Character:
 
     def directions(self):
         pass
-        
+
     def init_time(self):
         self.running_time = 0

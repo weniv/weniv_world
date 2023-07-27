@@ -162,6 +162,12 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
+            
+            # 새로운 벽 데이터를 이용하여 벽 초기화
+            wall.resetWall();
+            wall_data={'wall': [], 'door': []}
+            draw_map.appendChild(wall.container)
+            
         
         map_slider_x.oninput = change_map
         map_slider_y.oninput = change_map

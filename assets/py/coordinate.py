@@ -21,6 +21,9 @@ map_data = {
     'width': 5
 }
 
+# 한 변 길이
+map_size = 500 / map_data['width']
+
 running_speed = 1
 
 # 맵에 있는 벽 데이터

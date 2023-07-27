@@ -1,5 +1,5 @@
 import js
-from coordinate import map_data
+from coordinate import map_data, map_size
 
 class Wall:
     def __init__(self, wall_data):
@@ -14,18 +14,21 @@ class Wall:
     def drawWall(self):
         # 초기 wall_data를 출력하는 함수
         container = self.container
-        
+        js.console.log(container)
         for type in self.wall_data.keys():
           for (x,y) in self.wall_data[type]:
             
             if (x<0 or x>2*map_data["width"] or y<0 or y>2*map_data["height"]):
               continue
             self.addWall(type,(x,y))
+            
     def addWall(self,type, pos):
       x, y = pos
-      js.console.log(x,y)
+      js.console.log('addWall: ',x,y)
+      
       wall = js.document.createElement('div')
       wall.setAttribute('class','wall')
+      
       if(x%2):
         # 가로
         wall.classList.add('landscape')
@@ -42,9 +45,10 @@ class Wall:
 
       self.container.appendChild(wall)
       
-    def initWall(self,wall_data):
+    def resetWall(self):
         self.container.replaceChildren()
-        self.wall_data=wall_data
+        self.wall_data={'wall': [], 'door': []}
         self.drawWall()
-        # self.container.style.outline='3px solid yellow'
-        
+          
+          
+            

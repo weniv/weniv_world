@@ -204,9 +204,8 @@
                 app.appendChild(draw_map)
 
             # 새로운 벽 데이터를 이용하여 벽 초기화
-            new_wall_data = {'wall': [], 'door': [(3,8),(4,7)]}
-            wall.initWall(new_wall_data);
-            wall_data=new_wall_data
+            wall.resetWall();
+            wall_data={'wall': [], 'door': []}
             draw_map.appendChild(wall.container)
 
             init_character()

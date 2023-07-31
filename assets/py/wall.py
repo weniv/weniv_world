@@ -14,7 +14,6 @@ class Wall:
     def drawWall(self):
         # 초기 wall_data를 출력하는 함수
         container = self.container
-        js.console.log(container)
         for type in self.wall_data.keys():
           for (x,y) in self.wall_data[type]:
             
@@ -24,12 +23,12 @@ class Wall:
             
     def addWall(self,type, pos):
       x, y = pos
+      
       # 상자 기준 크기
       box_size = map_size+border_size*2
       
       wall = js.document.createElement('div')
       wall.setAttribute('class','wall')
-      js.console.log(x,y)
       
       if (isinstance(x, int)): # 세로
         wall.classList.add('portrait')
@@ -43,7 +42,6 @@ class Wall:
       wall.classList.add(type)
       self.container.appendChild(wall)
 
-      js.console.log('wall> ',self.wall_data)   
          
     def resetWall(self):
         self.container.replaceChildren()

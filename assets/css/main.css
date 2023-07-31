@@ -101,6 +101,9 @@
 .wall {
   background-color:red;
 }
+.wall.landscape {
+  transform:rotate(90deg);
+}
 /* 여러 종류의 벽 */
 .wall.door {
   background-color: blue;
@@ -110,8 +113,5 @@
   background-color: magenta;
 }
 
-.wall.landscape {
-  transform:rotate(90deg);
-  background-color: yellow;
-}
+
 /* .wall */

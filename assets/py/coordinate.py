@@ -23,7 +23,7 @@ map_data = {
 
 # 한 변 길이
 map_size = 100
-border_size = 1
+border_size=1
 
 running_speed = 1
 

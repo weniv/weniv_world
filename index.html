@@ -52,6 +52,11 @@
         <button id="btn-list-variable">변수 리스트</button>
         <button id="btn-download-worlddata">다운로드 월드 데이터</button>
         <button id="btn-upload-worlddata">업로드 월드 데이터</button>
+
+        <!-- 벽의 종류를 정할 수 있는 라디오 -->
+        <label ><input type="radio" name="wall-type" id="wall" value="wall" checked> wall</label>
+        <label ><input type="radio" name="wall-type" id="door" value="door" > door</label>
+        <label><input type="radio" name="wall-type" id="fence" value="fence" => fence</label>
     </div>
     <section class="function-list hidden">
         <h3>함수 리스트</h3>
@@ -110,7 +115,7 @@
         from map import Map
         from wall import Wall
         from character import Character
-        from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size
+        from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type
         from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat, attack
         from pyscript import when
         from js import alert, setTimeout
@@ -359,8 +364,8 @@
             
                 # x는 정수이고, y는 실수인 경우
                 if(isinstance(x, int) and isinstance(y, float)) or (isinstance(x, float) and isinstance(y, int)):
-                    wall_data['wall'].append((x, y))
-                    wall.addWall('wall',(x, y))
+                    wall_data[wall_type].append((x, y))
+                    wall.addWall(wall_type,(x, y))
             
         @when("mousemove", selector=".wall-container")
         def mouse_on(evt):
@@ -391,6 +396,13 @@
         def _get_integer(num):
             integer = int(num + 0.5) if num >= 0 else int(num - 0.5)
             return integer
+
+        # radio 속성을 선택했을 때, wall_type을 변경하는 이벤트 등록
+        @when("change", selector="input[name='wall-type']")
+        def change_wall_type(evt):
+            global wall_type
+            wall_type = evt.target.value
+            js.console.log(wall_type)
         
     </py-script>
     <script>

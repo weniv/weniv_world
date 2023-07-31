@@ -1,109 +1,117 @@
 @keyframes player {
-    from {
-        background-position: -1px, -1px;
-    }
+  from {
+    background-position: -1px, -1px;
+  }
 
-    to {
-        background-position: -224px, -1px;
-    }
+  to {
+    background-position: -224px, -1px;
+  }
 }
 
 @keyframes attack-claw-white {
-    from {
-        background-position: -0px, -0px;
-    }
+  from {
+    background-position: -0px, -0px;
+  }
 
-    to {
-        background-position: -128px, -0px;
-    }
+  to {
+    background-position: -128px, -0px;
+  }
 }
 
 @keyframes line-opacity {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 #app {
-    width: 100vw;
+  width: 100vw;
 }
 
 .character {
-    animation: player 1s steps(7) infinite;
-    z-index: 999;
+  animation: player 1s steps(7) infinite;
+  z-index: 999;
 }
 
 .attack {
-    animation: attack-claw-white 0.5s steps(4) 2;
-    z-index: 999;
+  animation: attack-claw-white 0.5s steps(4) 2;
+  z-index: 999;
 }
 
 .map-flex {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 100%;
 }
 
 .map-item {
-    width: 100px;
-    height: 100px;
-    background-color: white;
-    border: 1px solid black;
+  width: 100px;
+  height: 100px;
+  background-color: white;
+  border: 1px solid black;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .bubble-title {
-    font-size: 1.3rem;
-    font-weight: bold;
-    text-align: center;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-align: center;
 }
 
 .bubble-body-item-title {
-    font-size: 1.15rem;
-    font-weight: bold;
+  font-size: 1.15rem;
+  font-weight: bold;
 }
 
 /* map */
 .map-container {
-    width:fit-content;
-    position:relative;
+  width: fit-content;
+  position: relative;
 }
 /* wall */
 .wall-container {
-    position:absolute;
-    top:0px;
-    left:0px;
-    width:100%;
-    height:100%;
-    background-color: rgba(0,0,0,0.1);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
-.wall{
-    position:absolute;
-    border:1px solid black;
-    box-sizing: border-box;
-    background-color: cyan;
-}
-.wall.movable{
-    background-color: yellow;
+.wall {
+  position: absolute;
+  border: 1px solid black;
+  box-sizing: border-box;
+  background-color: cyan;
+  transform:translate(-50%, -50%);
+  width: 5px;
+  height: 102px;
 }
 
-.wall.portrait {
-    width:5px;
-    height:102px;
+/* 기본 벽 */
+.wall {
+  background-color:orange;
 }
 .wall.landscape {
-    width:102px;
-    height:5px;
+  transform:rotate(90deg);
 }
-/* .wall */
+/* 여러 종류의 벽 */
+.wall.door {
+  background-color: sienna;
 
+}
+.wall.fence {
+  background-color: seagreen;
+}
+
+
+/* .wall */

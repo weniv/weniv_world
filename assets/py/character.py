@@ -2,7 +2,7 @@ import js
 from js import setTimeout
 from pyodide.ffi import create_once_callable
 
-from coordinate import character_data, map_data, running_speed, item_data, wall_data
+from coordinate import character_data, map_data, running_speed, item_data, wall_data, blockingWallType
 from error import OutOfWorld, WallIsExist
 from item import Item
 
@@ -147,24 +147,19 @@ class Character:
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
         if (nx < 0 or nx > map_data['width'] - 1 or ny < 0 or ny > map_data['height'] - 1):
-            # js.alert(f"{nx} {ny} {map_data['width']} {map_data['height']}")
             js.alert('맵을 벗어납니다.')
             raise OutOfWorld
 
         # 이동 경로에 벽이 있는지 확인
-        # js.console.log((6,1) in wall_data["wall"])
-        cv_x, cv_y = self._pos_to_wall(x, y)
-        cv_nx, cv_ny = self._pos_to_wall(nx, ny)
+        wall_x = (x+nx)/2
+        wall_y = (y+ny)/2
+        
+        for type in blockingWallType:
+            if ((wall_x, wall_y) in wall_data[type]):
+                js.alert('벽에 부딪혔습니다!')
+                raise WallIsExist
+        
 
-        wall_x = (cv_x + cv_nx) / 2
-        wall_y = (cv_y + cv_ny) / 2
-
-        if ((wall_x, wall_y) in wall_data["wall"]):
-            js.alert('벽에 부딪혔습니다!')
-            raise WallIsExist
-
-        # x가 변할 때, (x,y)->(nx,y)
-        # y가 변할 때, (x,y)->(x,ny)
 
     def _pos_to_wall(self, x, y):
         # position 좌표계를 벽을 놓을 수 있는 좌표계로 변환

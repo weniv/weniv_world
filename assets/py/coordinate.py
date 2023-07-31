@@ -29,4 +29,6 @@ running_speed = 1
 
 # 맵에 있는 벽 데이터
 # wall_data = [{'wall': [(6, 1)], 'door': [(6, 2)]}]
-wall_data = {'wall': [], 'door': [], 'fence':[(1.5,1), (0,2.5)]}
+wall_data = {'wall': [], 'door': [(0.5, 2)], 'fence':[(2,3.5), (1.5,2)]}
+blockingWallType=['wall', 'fence']
+

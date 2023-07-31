@@ -4,7 +4,6 @@ from coordinate import map_data, map_size, border_size
 class Wall:
     def __init__(self, wall_data):
         self.wall_data=wall_data
-        self.movableType=['door']
         
         # 벽의 정보를 담는 컨테이너
         container = js.document.createElement('div')

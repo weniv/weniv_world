@@ -99,18 +99,18 @@
 
 /* 기본 벽 */
 .wall {
-  background-color:red;
+  background-color:orange;
 }
 .wall.landscape {
   transform:rotate(90deg);
 }
 /* 여러 종류의 벽 */
 .wall.door {
-  background-color: blue;
+  background-color: sienna;
 
 }
 .wall.fence {
-  background-color: magenta;
+  background-color: seagreen;
 }
 
 

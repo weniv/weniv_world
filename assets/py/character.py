@@ -2,7 +2,7 @@ import js
 from js import setTimeout
 from pyodide.ffi import create_once_callable
 
-from coordinate import character_data, map_data, running_speed, item_data, wall_data
+from coordinate import character_data, map_data, running_speed, item_data, wall_data, blockingWallType
 from error import OutOfWorld, WallIsExist
 from item import Item
 
@@ -153,10 +153,12 @@ class Character:
         # 이동 경로에 벽이 있는지 확인
         wall_x = (x+nx)/2
         wall_y = (y+ny)/2
-
-        if ((wall_x, wall_y) in wall_data["wall"]):
-            js.alert('벽에 부딪혔습니다!')
-            raise WallIsExist
+        
+        for type in blockingWallType:
+            if ((wall_x, wall_y) in wall_data[type]):
+                js.alert('벽에 부딪혔습니다!')
+                raise WallIsExist
+        
 
 
     def _pos_to_wall(self, x, y):

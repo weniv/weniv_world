@@ -110,7 +110,7 @@
         from map import Map
         from wall import Wall
         from character import Character
-        from coordinate import character_data, map_data, wall_data, item_data, running_speed
+        from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size
         from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat, attack
         from pyscript import when
         from js import alert, setTimeout
@@ -379,13 +379,13 @@
                     wall_container.style.cursor="auto";
         
         # offset 값을 입력했을 때, 좌표계 값으로 변환
-        # 102는 한 변의 크기 + border*2 
         def conver_position(x):
-            n = int(x/102)
-            if n*102+1 < x < (n+1)*102-1:
+            box_size =  map_size + border_size*2 
+            n = int(x/box_size)
+            if n*box_size+1 < x < (n+1)*box_size-1:
                 return n
             else: 
-                return _get_integer(x/102)-0.5
+                return _get_integer(x/box_size)-0.5
         
         # 가장 가까운 정수 반환
         def _get_integer(num):

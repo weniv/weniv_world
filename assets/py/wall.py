@@ -1,5 +1,5 @@
 import js
-from coordinate import map_data, map_size
+from coordinate import map_data, map_size, border_size
 
 class Wall:
     def __init__(self, wall_data):
@@ -24,30 +24,30 @@ class Wall:
             
     def addWall(self,type, pos):
       x, y = pos
-      js.console.log('addWall: ',x,y)
+      # 상자 기준 크기
+      box_size = map_size+border_size*2
       
       wall = js.document.createElement('div')
       wall.setAttribute('class','wall')
+      js.console.log(x,y)
       
-      if(x%2):
-        # 가로
-        wall.classList.add('landscape')
-        wall.style.left=f'{(x-1)*51}px'
-        wall.style.top=f'{(2*map_data["height"]-y)*51}px'
-        
-      else:
+      if (isinstance(x, int)): # 세로
         wall.classList.add('portrait')
-        wall.style.left=f'{x*51}px'
-        wall.style.top=f'{(2*map_data["height"]-y-1)*51}px'
-        
-      if (type in self.movableType):
-        wall.classList.add('movable')
-
-      self.container.appendChild(wall)
+        wall.style.top=f'{x*box_size+box_size/2}px'
+        wall.style.left=f'{y*box_size+box_size/2}px'
+      else: # 가로
+        wall.classList.add('landscape')
+        wall.style.top=f'{(x)*box_size}px'
+        wall.style.left=f'{y*box_size+map_size/2}px'
       
+      wall.classList.add(type)
+      self.container.appendChild(wall)
+
+      js.console.log('wall> ',self.wall_data)   
+         
     def resetWall(self):
         self.container.replaceChildren()
-        self.wall_data={'wall': [], 'door': []}
+        self.wall_data={'wall': [], 'door': [], 'fence':[]}
         self.drawWall()
           
           

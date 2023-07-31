@@ -22,10 +22,11 @@ map_data = {
 }
 
 # 한 변 길이
-map_size = 500 / map_data['width']
+map_size = 100
+border_size = 1
 
 running_speed = 1
 
 # 맵에 있는 벽 데이터
 # wall_data = [{'wall': [(6, 1)], 'door': [(6, 2)]}]
-wall_data = {'wall': [], 'door': [(1, 6),(9,10)]}
+wall_data = {'wall': [], 'door': [], 'fence':[(1.5,1), (0,2.5)]}

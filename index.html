@@ -352,48 +352,49 @@
             '''
             맵에 벽 추가
             '''
-            pointer_x=(evt.clientX-9)/50
-            pointer_y=2*map_data['height']-(evt.clientY-9)/50
+            x = conver_position(evt.offsetY)
+            y = conver_position(evt.offsetX)
+            
+            # x는 정수이고, y는 실수인 경우
+            if(isinstance(x, int) and isinstance(y, float)) or (isinstance(x, float) and isinstance(y, int)):
+                js.console.log('벽 추가 : ',x, y)
+                wall_data['wall'].append((x, y))
+                wall.addWall('wall',(x, y))
+            
 
-            axis_x=_get_axis(pointer_x)
-            axis_y=_get_axis(pointer_y)
-
-            type='wall'
-            wall_x, wall_y=axis_x,axis_y
-            if(axis_x and not axis_x%2):
-                # x 좌표가 짝수 (세로 벽)
-                wall_y=_get_face(pointer_y)
-            elif(axis_y and not axis_y%2):
-                # y 좌표가 짝수 (가로 벽)
-                wall_x=_get_face(pointer_x)
+            pointer = js.document.getElementById('pointer')
+            pointer.innerText = f'ofx:{evt.offsetY} -> x: {x}\nofy:{evt.offsetX} -> y: {y}'
+            
+        @when("mousemove", selector=".wall-container")
+        def mouse_on(evt):
+            '''
+            맵이 벽을 추가할 수 있는 상태인지 확인하여 마우스 상태 변경
+            '''
+            wall_container = js.document.querySelector('.wall-container')
+            
+            x = conver_position(evt.offsetY)
+            y = conver_position(evt.offsetX)
+            
+            # x는 정수이고, y는 실수인 경우
+            if(isinstance(x, int) and isinstance(y, float)) or (isinstance(x, float) and isinstance(y, int)):
+                wall_container.style.cursor="pointer";
             else:
-                return
-
-            if(wall_x and wall_y):
-                # 두 값이 있을 때만 벽 추가
-                if (wall_x, wall_y) not in wall.wall_data['wall']:
-                    js.console.log('벽 추가',wall_x, wall_y)
-                    js.console.log(wall.container)
-
-                    wall_data['wall'].append((wall_x,wall_y))
-                    wall.addWall('wall',(wall_x,wall_y))
-                
-        def _get_axis(num):
-            integer = int(num + 0.5) if num >= 0 else int(num - 0.5)
-            if integer-0.2 <= num <= integer + 0.2:
-                return integer
-
-        def _get_face(num):
-            integer = int(num)
-
-            if integer%2: #홀수
-                if (integer+1-num)>0.2:
-                    return integer
+                wall_container.style.cursor="auto";
+        
+        # offset 값을 입력했을 때, 좌표계 값으로 변환
+        # 102는 한 변의 크기 + border*2 
+        def conver_position(x):
+            n = int(x/102)
+            if n*102+1 < x < (n+1)*102-1:
+                return n
             else: 
-                if (num-integer>0.2):
-                    return integer +1
-            return None
-
+                return _get_integer(x/102)-0.5
+        
+        # 가장 가까운 정수 반환
+        def _get_integer(num):
+            integer = int(num + 0.5) if num >= 0 else int(num - 0.5)
+            return integer
+        
     </py-script>
     <script>
     const downloadBtn = document.querySelector('.downloadNotebookBtn')

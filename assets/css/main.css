@@ -101,15 +101,16 @@
 .wall {
   background-color:orange;
 }
-.wall.landscape {
+.wall[data-direction="landscape"] {
   transform:rotate(90deg);
 }
-/* 여러 종류의 벽 */
-.wall.door {
+
+/* type */
+.wall[data-type="door"] {
   background-color: sienna;
 
 }
-.wall.fence {
+.wall[data-type="fence"] {
   background-color: seagreen;
 }
 

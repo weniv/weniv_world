@@ -128,7 +128,7 @@ class Character:
         elif directions == 1:
             self._movable(x - 1, y, x, y)
             c.style.top = f'{(x - 1) * 100 + 40}px'
-            self.draw_move_line(x - 1, y, x, y)
+            self.draw_move_line(x, y, x-1, y)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
         elif directions == 2:
@@ -140,7 +140,7 @@ class Character:
         elif directions == 3:
             self._movable(x + 1, y, x, y)
             c.style.top = f'{(x + 1) * 100 + 40}px'
-            self.draw_move_line(x + 1, y, x, y)
+            self.draw_move_line(x, y, x+1, y)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["x"] += 1
 
@@ -199,7 +199,7 @@ class Character:
             character_data[0]['directions'] += 1
         elif directions == 3:
             c.style.transform = 'rotate(0deg)'
-            character_data[0]['directions'] = 0
+            character_data[0]['directions'] =0
 
     def attack(self):
         self.running_time += 1000 * running_speed
@@ -378,8 +378,8 @@ class Character:
         line.className = 'line'
         line.style.position = 'absolute'
         line.style.animation = f'line-opacity {running_speed * 2}s ease-in-out'
-        line.style.left = f'{x * 100 + 60}px'
-        line.style.top = f'{y * 100 + 60}px'
+        line.style.left = f'{y * 100 + 60}px'
+        line.style.top = f'{x * 100 + 60}px'
         line.style.width = '100px'
         line.style.height = '2px'
         # line.style.border = '1px solid #ccc'

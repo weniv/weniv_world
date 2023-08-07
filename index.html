@@ -169,9 +169,6 @@
                 app = Element("app").element
                 app.appendChild(draw_map)
             
-            # 새로운 벽 데이터를 이용하여 벽 초기화
-            wall.resetWall();
-            wall_data={'wall': [], 'door': []}
             draw_map.appendChild(wall.container)
             
         
@@ -217,7 +214,8 @@
 
             # 새로운 벽 데이터를 이용하여 벽 초기화
             wall.resetWall();
-            wall_data={'wall': [], 'door': []}
+            for key in wall_data:
+                wall_data[key] = []
             draw_map.appendChild(wall.container)
 
             init_character()
@@ -366,25 +364,21 @@
             
                 # x는 정수이고, y는 실수인 경우
                 if(isinstance(x, int) and isinstance(y, float)) or (isinstance(x, float) and isinstance(y, int)):
-                
                     wall_data[wall_type].append((x, y))
                     wall.addWall(wall_type,(x, y))
         
             else: # 삭제
                 if(wall_type=='delete'):
                     delete_wall(evt.target)
+            
+            
 
         def delete_wall(wall):
             '''
             wall 요소 삭제
             '''
             wall.parentNode.removeChild(wall)
-            pointer = js.document.getElementById('pointer')
-
-            # pyscript를 이용하여 css data속성에 접근
-            js.console.log('wall: ',wall.dataset.direction)
-
-
+            
             if(wall.dataset.direction=='portrait'):
                 x, y = _get_position(wall.style.top, wall.style.left, 'portrait')
                 type = wall.dataset.type
@@ -393,7 +387,6 @@
                 x, y = _get_position(wall.style.top, wall.style.left, 'landscape')
                 type = wall.dataset.type
                 wall_data[type].remove((x, y))
-            pointer.innerText=f"{wall_data}"
 
 
         @when("mousemove", selector=".wall-container")
@@ -401,7 +394,7 @@
             '''
             맵이 벽을 추가할 수 있는 상태인지 확인하여 마우스 상태 변경
             '''
-            if(evt.target == evt.currentTarget):
+            if(evt.target == evt.currentTarget and wall_type!='delete'):
                 wall_container = js.document.querySelector('.wall-container')
                 
                 x = conver_position(evt.offsetY)
@@ -413,15 +406,16 @@
                     wall_container.style.cursor="auto";
 
         # wall_type이 delete일 때, 마우스 오버 시 액티브
-        @when("mouseenter", selector=".wall")
-        def select_delete(evt):
-            if(wall_type=='delete'):
-                evt.target.style.outline='2px solid red'
+        @when("mouseover", selector=".wall-container")
+        def over_wall(evt):
+            if(evt.target.classList.value=='wall' and wall_type=='delete'):
+                evt.target.style.outline='2px solid red'   
                 evt.target.style.cursor='pointer'
-
-        @when("mouseleave", selector=".wall")
-        def select_delete(evt):
-            evt.target.style.outline=''
+               
+        @when("mouseout", selector=".wall-container")
+        def out_wall(evt):
+            if(evt.target.classList.value=='wall' and wall_type=='delete'):
+                evt.target.style.outline=''   
         
         # offset 값을 입력했을 때, 좌표계 값으로 변환
         def conver_position(x):

@@ -43,7 +43,7 @@ class Wall:
 
          
     def resetWall(self):
-        self.container.replaceChildren()
+        self.container.innerHTML=""
         self.wall_data={'wall': [], 'door': [], 'fence':[]}
         self.drawWall()
           

@@ -169,9 +169,6 @@
                 app = Element("app").element
                 app.appendChild(draw_map)
             
-            # 새로운 벽 데이터를 이용하여 벽 초기화
-            wall.resetWall();
-            wall_data={'wall': [], 'door': []}
             draw_map.appendChild(wall.container)
             
         
@@ -217,7 +214,8 @@
 
             # 새로운 벽 데이터를 이용하여 벽 초기화
             wall.resetWall();
-            wall_data={'wall': [], 'door': []}
+            for key in wall_data:
+                wall_data[key] = []
             draw_map.appendChild(wall.container)
 
             init_character()
@@ -373,8 +371,6 @@
                 if(wall_type=='delete'):
                     delete_wall(evt.target)
             
-            pointer = js.document.getElementById('pointer')
-            pointer.innerText=f"{wall_data}"
             
 
         def delete_wall(wall):

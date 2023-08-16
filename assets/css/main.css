@@ -1,3 +1,49 @@
+@charset "UTF-8";
+@import "./reset.css";
+@import "./variable.css";
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  font-family: "Pretendard";
+  color: var(--ColorSurface);
+  background: var(--ColorBackground);
+  letter-spacing: -0.01em;
+}
+
+.sr-only {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+}
+
+.sl-ellipsis {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.multi-ellipsis {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
 @keyframes player {
   from {
     background-position: -1px, -1px;
@@ -27,6 +73,9 @@
     opacity: 1;
   }
 }
+
+
+
 
 #app {
   width: 100vw;
@@ -85,7 +134,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.1);
-  overflow:hidden;
+  overflow: hidden;
 }
 
 .wall {
@@ -93,27 +142,25 @@
   border: 1px solid black;
   box-sizing: border-box;
   background-color: cyan;
-  transform:translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   width: 5px;
   height: 102px;
 }
 
 /* 기본 벽 */
 .wall {
-  background-color:orange;
+  background-color: orange;
 }
 .wall[data-direction="landscape"] {
-  transform:rotate(90deg);
+  transform: rotate(90deg);
 }
 
 /* type */
 .wall[data-type="door"] {
   background-color: sienna;
-
 }
 .wall[data-type="fence"] {
   background-color: seagreen;
 }
-
 
 /* .wall */

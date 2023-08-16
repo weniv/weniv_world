@@ -1,0 +1,29 @@
+:root {
+  --ColorbtnSurface: #fff;
+}
+
+:root[color-theme="light"] {
+  --ColorPrimary: #2f6ff2;
+  --ColorBackground: #fff;
+  --ColorSurface: #121314;
+  --ColorGrayLv1: #f3f5fa;
+  --ColorGrayLv2: #d9dbe0;
+  --ColorGrayLv3: #8d9299;
+  --ColorGrayLv4: #47494d;
+  --ColorError: #ff3440;
+  --ColorLowError: #ffc533;
+  --ColorActivation: #dee8ff;
+}
+
+:root[color-theme="dark"] {
+  --ColorPrimary: #3075ff;
+  --ColorBackground: #1f2123;
+  --ColorSurface: #ffffff;
+  --ColorGrayLv1: #121314;
+  --ColorGrayLv2: #595f66;
+  --ColorGrayLv3: #d9dbe0;
+  --ColorGrayLv4: #f3f5fa;
+  --ColorError: #fc7377;
+  --ColorLowError: #ffe187;
+  --ColorActivation: #2b3444;
+}

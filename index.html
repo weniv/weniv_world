@@ -13,6 +13,7 @@
     <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/parser.js" defer></script>
     <script src="./assets/js/event.js" defer></script>
+    <script src="./assets/js/slider.js" defer></script>
 
     <!-- PyScript -->
     <!-- TODO: 로컬로 바꿔야 합니다. -->
@@ -28,9 +29,42 @@
     </py-config>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+    <header class="header">
+        <h1>
+            <a href="/index.html">
+                <span class="sr-only">위니브 월드</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42" fill="none">
+                    <rect width="42" height="42" rx="10" fill="#2E6FF2"/>
+                    <path d="M32.9063 21C32.3019 21 31.8126 21.4808 31.8126 22.0748C31.8126 24.7075 29.6321 26.8504 26.9532 26.8504C24.2742 26.8504 22.0937 24.7075 22.0937 22.0748C22.0937 21.4808 21.6044 21 21 21C20.3956 21 19.9063 21.4808 19.9063 22.0748C19.9063 24.7075 17.7258 26.8504 15.0468 26.8504C12.3679 26.8504 10.1874 24.7075 10.1874 22.0748C10.1874 21.4808 9.6981 21 9.09369 21C8.48928 21 8 21.4808 8 22.0748C8 25.8932 11.1614 29 15.0468 29C17.5497 29 19.7497 27.7102 21 25.7733C22.2503 27.7102 24.4515 29 26.9532 29C30.8386 29 34 25.8932 34 22.0748C34 21.4808 33.5107 21 32.9063 21Z" fill="white"/>
+                    <path d="M15 18C16.1046 18 17 17.1046 17 16C17 14.8954 16.1046 14 15 14C13.8954 14 13 14.8954 13 16C13 17.1046 13.8954 18 15 18Z" fill="white"/>
+                    <path d="M27 18C28.1046 18 29 17.1046 29 16C29 14.8954 28.1046 14 27 14C25.8954 14 25 14.8954 25 16C25 17.1046 25.8954 18 27 18Z" fill="white"/>
+                  </svg>
+            </a>
+        </h1>
+        <nav class="menu">
+            <ul class="menu-list">
+                <li>
+                    <button type="button" class="btn-story">
+                        <span class="sr-only">
+                            스토리 보기
+                        </span>
+                    </button>
+                </li>
+                <li>
+                    <a href="" class="basic-btn">코드 에디터로 이동</a>
+                </li>
+                <li>
+                    <button type="button" class="btn-dark-mode">
+                        <span class="sr-only">다크모드 켜기</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
     <div id='app'></div>
     <p id="pointer"></p>
     <textarea id='output'></textarea>
@@ -38,14 +72,14 @@
     <!-- TODO: 업로드 기능 구현 -->
     <button class='uploadNotebookBtn'>Upload Notebook</button>
     <div class="button-container">
-        <input type="range" min="1" max="100" value="10" class="slider" id="speed-range">
-        <p>Speed: <span id="speed-text"></span></p>
+        <input type="range" min="1" max="100" value="30" class="slider" id="speed-range">
+        <label for="speed-range">Speed: <span id="speed-text"></span></label>
         <hr>
         <input type="range" min="3" max="10" value="5" class="slider" id="map-range-x">
-        <p>Map_x: <span id="map-text-x"></span></p>
+        <label for="map-range-x">Map_x: <span id="map-text-x"></span></label>
         <hr>
         <input type="range" min="3" max="10" value="5" class="slider" id="map-range-y">
-        <p>Map_y: <span id="map-text-y"></span></p>
+        <label for="map-range-y">Map_y: <span id="map-text-y"></span></label>
         <button id="init">초기화(월드, 캐릭터)</button>
         <button id="init_character">캐릭터 초기화</button>
         <button id="btn-list-function">함수 리스트</button>

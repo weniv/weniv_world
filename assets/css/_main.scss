@@ -1,0 +1,418 @@
+html {
+    font-size: 10px;
+}
+
+body {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    font-family: $font-basic;
+    color: var(--ColorSurface);
+    background: var(--ColorBackground);
+    letter-spacing: -0.01em;
+}
+
+.sr-only {
+    overflow: hidden;
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+}
+
+.sl-ellipsis {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.multi-ellipsis {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+}
+
+/* basic 버튼 */
+.basic-btn {
+    padding: 1.1rem 2rem;
+    border-radius: 1rem;
+    background: var(--ColorPrimary);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem;
+    color: var(--ColorBtnSurface);
+}
+
+/* 재생 버튼 */
+.btn-play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--ColorPrimary);
+
+    &::before {
+        content: '';
+        display: block;
+        width: 1.4rem;
+        height: 1.4rem;
+        @include mask-image(#fff, '../img/icon/icon-play.svg');
+    }
+
+    &.next::before {
+        -webkit-mask-image: url(../img/icon/icon-play-next.svg);
+        mask-image: url(../img/icon/icon-play-next.svg);
+    }
+
+    &.pause::before {
+        -webkit-mask-image: url(../img/icon/icon-pause.svg);
+        mask-image: url(../img/icon/icon-pause.svg);
+    }
+
+    &.stop::before {
+        -webkit-mask-image: url(../img/icon/icon-stop.svg);
+        mask-image: url(../img/icon/icon-stop.svg);
+    }
+}
+
+/* 스토리 보기 버튼 */
+.btn-story {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 1rem;
+    background: var(--ColorActivation);
+
+    &::before {
+        content: '';
+        display: block;
+        width: 2.8rem;
+        height: 2.8rem;
+        @include mask-image(var(--ColorGrayLv3), '../img/icon/icon-book.svg');
+    }
+
+    &:active::before {
+        background: var(--ColorPrimary);
+    }
+}
+
+/* 다크 모드 버튼 */
+.btn-dark-mode {
+    position: relative;
+    width: 5.6rem;
+    height: 3.2rem;
+    background: var(--ColorPrimary);
+    border-radius: 3.2rem;
+    box-sizing: border-box;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        width: 2.2rem;
+        height: 2.2rem;
+        background: var(--ColorGrayLv1) url(../img/icon/icon-light-mode.svg)
+            no-repeat center / 1.2rem 1.2rem;
+        border-radius: 50%;
+        transition: all 0.4s;
+    }
+
+    &.active::after {
+        left: 2.9rem;
+        background: var(--ColorGrayLv1) url(../img/icon/icon-dark-mode.svg)
+            no-repeat center / 1.2rem 1.2rem;
+    }
+}
+
+// 툴팁
+.tooltip {
+    position: absolute;
+    display: flex;
+    padding: 0.8rem 1.2rem;
+    background: var(--ColorSurface);
+    color: var(--ColorBackground);
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.6rem;
+    border-radius: 0.8rem;
+    z-index: 1;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -0.4rem;
+        left: 50%;
+        width: 0.85rem;
+        height: 0.85rem;
+        background: inherit;
+        border: inherit;
+        clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+        transform: translateX(-50%) rotate(135deg);
+        border-radius: 0px 0px 0px 0.2rem;
+    }
+}
+
+// slider
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 0.6rem;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0.8rem;
+    color: var(--ColorPrimary);
+    background: var(--ColorGrayLv2);
+    cursor: pointer;
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        background: var(--ColorPrimary);
+        width: 1.6rem;
+        height: 1.6rem;
+        border-radius: 1.6rem;
+        cursor: pointer;
+    }
+}
+
+// controller-modal (map, speed, 함수, 변수 리스트)
+.controller-modal {
+    position: absolute;
+    display: flex;
+    padding: 1.9rem 2.2rem 1.9rem 2rem;
+    background: var(--ColorBackground);
+    color: var(--ColorSurface);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem;
+    border: 1px solid var(--ColorGrayLv1);
+    border-radius: 1rem;
+    z-index: 99;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 1rem;
+        left: 0rem;
+        width: 0.85rem;
+        height: 0.85rem;
+        background: inherit;
+        border: inherit;
+        clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+        transform: translateX(-50%) rotate(45deg);
+        border-radius: 0px 0px 0px 0.2rem;
+    }
+}
+
+// info-modal
+.info-modal {
+    position: absolute;
+    display: flex;
+    padding: 1.6rem;
+    background: var(--ColorGrayLv4);
+    color: var(--ColorBackground);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem;
+    border-radius: 1rem;
+    z-index: 99;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 1rem;
+        left: 0rem;
+        width: 0.85rem;
+        height: 0.85rem;
+        background: inherit;
+        border: inherit;
+        clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+        transform: translateX(-50%) rotate(45deg);
+        border-radius: 0px 0px 0px 0.2rem;
+    }
+}
+
+// speech bubble
+.speech-bubble {
+    display: inline-block;
+    padding: 1rem 1.4rem;
+    border-radius: 1.2rem 1.2rem 1.2rem 0px;
+    border: 0.2rem solid var(--ColorPrimary);
+    background: var(--ColorGrayLv1);
+    color: var(--ColorPrimary);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem;
+    box-sizing: border-box;
+}
+
+// code (함수, 변수)
+.code-item {
+    display: inline-block;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--ColorGrayLv2);
+    background: var(--ColorGrayLv1);
+    color: var(--ColorSurface);
+    font-family: 'Source Code Pro';
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.8rem;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 2rem;
+    border-bottom: 1px solid var(--ColorGrayLv1);
+
+    h1 {
+        width: 4.2rem;
+        height: 4.2rem;
+    }
+
+    svg > rect {
+        fill: var(--ColorPrimary);
+    }
+}
+
+.menu-list {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+
+    li:last-child {
+        margin-left: 0.4rem;
+    }
+}
+
+// 이전 작성 코드
+// @keyframes player {
+//     from {
+//         background-position: -1px, -1px;
+//     }
+
+//     to {
+//         background-position: -224px, -1px;
+//     }
+// }
+
+// @keyframes attack-claw-white {
+//     from {
+//         background-position: -0px, -0px;
+//     }
+
+//     to {
+//         background-position: -128px, -0px;
+//     }
+// }
+
+// @keyframes line-opacity {
+//     from {
+//         opacity: 0;
+//     }
+
+//     to {
+//         opacity: 1;
+//     }
+// }
+
+/* #app {
+  width: 100vw;
+} */
+
+.character {
+    animation: player 1s steps(7) infinite;
+    z-index: 10;
+}
+
+.attack {
+    animation: attack-claw-white 0.5s steps(4) 2;
+    z-index: 999;
+}
+
+.map-flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    height: 100%;
+}
+
+.map-item {
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.hidden {
+    display: none;
+}
+
+.bubble-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.bubble-body-item-title {
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+/* map */
+.map-container {
+    width: fit-content;
+    position: relative;
+}
+/* wall */
+.wall-container {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.wall {
+    position: absolute;
+    border: 1px solid black;
+    box-sizing: border-box;
+    background-color: cyan;
+    transform: translate(-50%, -50%);
+    width: 5px;
+    height: 102px;
+}
+
+/* 기본 벽 */
+.wall {
+    background-color: orange;
+}
+.wall[data-direction='landscape'] {
+    transform: rotate(90deg);
+}
+
+/* type */
+.wall[data-type='door'] {
+    background-color: sienna;
+}
+.wall[data-type='fence'] {
+    background-color: seagreen;
+}
+
+/* .wall */

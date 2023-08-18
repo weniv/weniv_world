@@ -1,0 +1,26 @@
+@function get-color($key, $theme: 'light') {
+    @each $name, $color in map-get($colors, $theme) {
+        @if ($key == $name) {
+            @return $color;
+        }
+    }
+}
+
+@mixin mask-image(
+    $color,
+    $url,
+    $size: 100%,
+    $repeat: no-repeat,
+    $positionX: center,
+    $positionY: center
+) {
+    background: $color;
+    -webkit-mask-image: url($url);
+    -webkit-mask-size: $size;
+    -webkit-mask-repeat: $repeat;
+    -webkit-mask-position: $positionX $positionY;
+    mask-image: url($url);
+    mask-size: $size;
+    mask-repeat: $repeat;
+    mask-position: $positionX $positionY;
+}

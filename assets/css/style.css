@@ -184,6 +184,42 @@ body {
   mask-image: url(../img/icon/icon-stop.svg);
 }
 
+.btn-file-export {
+  width: 2.4rem;
+  height: 2.4rem;
+  background: var(--ColorGrayLv3);
+  -webkit-mask-image: url("../img/icon/icon-file-export.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-file-export.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.btn-file-export:hover {
+  background: var(--ColorSurface);
+}
+
+.btn-file-import {
+  width: 2.4rem;
+  height: 2.4rem;
+  background: var(--ColorGrayLv3);
+  -webkit-mask-image: url("../img/icon/icon-file-import.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-file-import.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.btn-file-import:hover {
+  background: var(--ColorSurface);
+}
+
 /* 스토리 보기 버튼 */
 .btn-story {
   display: -webkit-box;
@@ -432,6 +468,12 @@ body {
   margin-left: 0.4rem;
 }
 
+.main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 /* #app {
   width: 100vw;
 } */
@@ -534,4 +576,193 @@ body {
 }
 
 /* .wall */
+.notebook {
+  width: 50rem;
+  border-right: 1px solid var(--ColorGrayLv1);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.notebook-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1.3rem 2rem;
+  border-bottom: 1px solid var(--ColorGrayLv1);
+}
+
+.notebook-header h2 {
+  color: var(--ColorSurface);
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 2rem;
+  margin-right: 1.2rem;
+}
+
+.notebook-header .btn-add-code {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 0.4rem;
+  color: var(--ColorPrimary);
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 2rem;
+}
+
+.notebook-header .btn-add-code::before {
+  content: '';
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background: var(--ColorPrimary);
+  -webkit-mask-image: url("../img/icon/icon-plus.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-plus.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.notebook-header .notebook-btn-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.notebook-header .notebook-btn-list button {
+  display: block;
+}
+
+.notebook-section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1.2rem;
+  padding: 2rem;
+}
+
+.py-repl-editor {
+  border-radius: 0.8rem;
+  border: 1px solid var(--ColorGrayLv2);
+  background: var(--ColorGrayLv1);
+}
+
+.ͼ1 {
+  overflow: hidden;
+}
+
+.ͼ1 .cm-scroller {
+  font-family: 'Source Code Pro';
+  font-size: 1.6rem;
+  font-weight: 500;
+  overflow-x: scroll;
+}
+
+.ͼ1.cm-focused {
+  border-radius: 0.8rem;
+  outline: 2px solid var(--ColorPrimary);
+}
+
+.ͼ1 .cm-foldGutter {
+  width: 1rem;
+}
+
+.ͼ2 .cm-gutters {
+  border: none;
+  background: var(--ColorGrayLv1);
+}
+
+.ͼ1 .cm-lineNumbers .cm-gutterElement {
+  position: relative;
+  width: 5.5rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 1rem 1rem 1rem 0;
+}
+
+.ͼ1 .cm-lineNumbers .cm-gutterElement:first-child {
+  padding: 0;
+}
+
+.ͼ1 .cm-lineNumbers .cm-gutterElement.cm-activeLineGutter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.3rem;
+  height: 100%;
+  background: var(--ColorPrimary);
+}
+
+.cm-gutterElement {
+  color: var(--ColorGrayLv3);
+  font-size: 1.6rem;
+  line-height: 2rem;
+  font-weight: 500;
+}
+
+.cm-gutterElement.cm-activeLineGutter {
+  background: var(--ColorActivation);
+  color: var(--ColorSurface);
+}
+
+.ͼ1 .cm-content {
+  padding: 1.2rem 0;
+}
+
+.ͼ1 .cm-line {
+  padding: 1rem 0 1rem 1rem;
+  color: var(--ColorSurface);
+  border: none;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.ͼ1 .cm-line .ͼm {
+  color: var(--ColorSurface);
+}
+
+.ͼ2 .cm-activeLine {
+  background: var(--ColorActivation);
+}
+
+.cm-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-ordinal-group: 0;
+      -ms-flex-order: -1;
+          order: -1;
+  height: 5rem;
+  padding: 1rem 1.4rem 1rem 1.2rem;
+  border-radius: 0.8rem 0.8rem 0 0;
+  border-bottom: 1px solid var(--ColorGrayLv2);
+  background: var(--ColorBackground);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.py-repl-run-button {
+  position: static;
+  opacity: 1;
+  cursor: pointer;
+}
 /*# sourceMappingURL=style.css.map */

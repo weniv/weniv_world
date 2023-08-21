@@ -1,3 +1,6 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
+
 html {
     font-size: 10px;
 }
@@ -79,6 +82,34 @@ body {
     &.stop::before {
         -webkit-mask-image: url(../img/icon/icon-stop.svg);
         mask-image: url(../img/icon/icon-stop.svg);
+    }
+}
+
+// file-export 버튼
+.btn-file-export {
+    width: 2.4rem;
+    height: 2.4rem;
+    @include mask-image(
+        var(--ColorGrayLv3),
+        '../img/icon/icon-file-export.svg'
+    );
+
+    &:hover {
+        background: var(--ColorSurface);
+    }
+}
+
+// file-import 버튼
+.btn-file-import {
+    width: 2.4rem;
+    height: 2.4rem;
+    @include mask-image(
+        var(--ColorGrayLv3),
+        '../img/icon/icon-file-import.svg'
+    );
+
+    &:hover {
+        background: var(--ColorSurface);
     }
 }
 
@@ -296,6 +327,11 @@ body {
     li:last-child {
         margin-left: 0.4rem;
     }
+}
+
+// 메인
+.main {
+    display: flex;
 }
 
 // 이전 작성 코드

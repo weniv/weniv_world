@@ -1,0 +1,161 @@
+.notebook {
+    width: 50rem;
+    border-right: 1px solid var(--ColorGrayLv1);
+    box-sizing: border-box;
+}
+
+.notebook-header {
+    display: flex;
+    align-items: center;
+    padding: 1.3rem 2rem;
+    border-bottom: 1px solid var(--ColorGrayLv1);
+
+    h2 {
+        color: var(--ColorSurface);
+        font-size: 1.4rem;
+        font-weight: 600;
+        line-height: 2rem;
+        margin-right: 1.2rem;
+    }
+
+    .btn-add-code {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--ColorPrimary);
+        font-size: 1.4rem;
+        font-weight: 600;
+        line-height: 2rem;
+
+        &::before {
+            content: '';
+            display: inline-block;
+            width: 2rem;
+            height: 2rem;
+            @include mask-image(
+                var(--ColorPrimary),
+                '../img/icon/icon-plus.svg'
+            );
+        }
+    }
+
+    .notebook-btn-list {
+        display: flex;
+        gap: 1rem;
+        margin-left: auto;
+
+        button {
+            display: block;
+        }
+    }
+}
+
+.notebook-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 2rem;
+}
+
+.py-repl-editor {
+    border-radius: 0.8rem;
+    border: 1px solid var(--ColorGrayLv2);
+    background: var(--ColorGrayLv1);
+}
+
+.ͼ1 {
+    overflow: hidden;
+}
+
+.ͼ1 .cm-scroller {
+    font-family: 'Source Code Pro';
+    font-size: 1.6rem;
+    font-weight: 500;
+    overflow-x: scroll;
+}
+
+.ͼ1.cm-focused {
+    border-radius: 0.8rem;
+    outline: 2px solid var(--ColorPrimary);
+}
+
+.ͼ1 .cm-foldGutter {
+    width: 1rem;
+}
+
+.ͼ2 .cm-gutters {
+    border: none;
+    background: var(--ColorGrayLv1);
+}
+
+.ͼ1 .cm-lineNumbers {
+    .cm-gutterElement {
+        position: relative;
+        width: 5.5rem;
+        box-sizing: border-box;
+        padding: 1rem 1rem 1rem 0;
+
+        &:first-child {
+            padding: 0;
+        }
+
+        &.cm-activeLineGutter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0.3rem;
+            height: 100%;
+            background: var(--ColorPrimary);
+        }
+    }
+}
+
+.cm-gutterElement {
+    color: var(--ColorGrayLv3);
+    font-size: 1.6rem;
+    line-height: 2rem;
+    font-weight: 500;
+
+    &.cm-activeLineGutter {
+        background: var(--ColorActivation);
+        color: var(--ColorSurface);
+    }
+}
+
+.ͼ1 .cm-content {
+    padding: 1.2rem 0;
+}
+
+.ͼ1 .cm-line {
+    padding: 1rem 0 1rem 1rem;
+    color: var(--ColorSurface);
+    border: none;
+    box-sizing: border-box;
+
+    .ͼm {
+        color: var(--ColorSurface);
+    }
+}
+
+.ͼ2 .cm-activeLine {
+    background: var(--ColorActivation);
+}
+
+.cm-header {
+    display: flex;
+    align-items: center;
+    order: -1;
+    height: 5rem;
+    padding: 1rem 1.4rem 1rem 1.2rem;
+    border-radius: 0.8rem 0.8rem 0 0;
+    border-bottom: 1px solid var(--ColorGrayLv2);
+    background: var(--ColorBackground);
+    box-sizing: border-box;
+}
+
+.py-repl-run-button {
+    position: static;
+    opacity: 1;
+    cursor: pointer;
+}

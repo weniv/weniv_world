@@ -13,12 +13,11 @@
     <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/parser.js" defer></script>
     <script src="./assets/js/event.js" defer></script>
-    <script src="./assets/js/slider.js" defer></script>
 
     <!-- PyScript -->
-    <!-- TODO: 로컬로 바꿔야 합니다. -->
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <link rel="stylesheet" href="assets/pyscript/pyscript.css" />
+    <script defer src="assets/pyscript/pyscript_latest.js"></script>
+
     <py-config>
         terminal = false
         # packages = ["numpy", "nest_asyncio"]
@@ -65,12 +64,46 @@
             </ul>
         </nav>
     </header>
+    <main class="main">
+        <article class="notebook">
+            <header class="notebook-header">
+                <h2>Notebook</h2>
+                <button type="button" class="btn-add-code">코드 추가</button>
+                <ul class="notebook-btn-list">
+                    <li>
+                        <button type="button" class="downloadNotebookBtn btn-file-export">
+                            <span class="sr-only">노트북 내보내기</span>
+                        </button>
+                    </li>
+                    <li>
+                        <!-- TODO: 업로드 기능 구현 -->
+                        <button type="button" class="uploadNotebookBtn btn-file-import">
+                            <span class="sr-only">노트북 추가하기</span>
+                        </button>
+                    </li>
+                </ul>
+            </header>
+            <section class="notebook-section">
+                <h3 class="sr-only">코드 입력</h3>
+                <py-repl id="my-repl" auto-generate="true">
+                    # sample 코드입니다. shift + enter를 눌러 실행해보세요.
+                    # character_data, map_data, item_data는 기본 제공 데이터입니다.
+                    # from modules import turn_right와 같이 모듈을 불러와 사용할 수 있습니다.
+                    set_item(2, 2, 'fish')
+                    move()
+                    move()
+                    turn_left()
+                    turn_left()
+                    turn_left()
+                    repeat(2, move)
+                    # pick()
+                </py-repl>
+            </section>
+        </article>
+    </main>
     <div id='app'></div>
     <p id="pointer"></p>
     <textarea id='output'></textarea>
-    <button class='downloadNotebookBtn'>Download Notebook</button>
-    <!-- TODO: 업로드 기능 구현 -->
-    <button class='uploadNotebookBtn'>Upload Notebook</button>
     <div class="button-container">
         <input type="range" min="1" max="100" value="30" class="slider" id="speed-range">
         <label for="speed-range">Speed: <span id="speed-text"></span></label>
@@ -133,19 +166,7 @@
     
     <!-- TODO: 배포 직전에는 style="display:none;"를 풀어야 합니다. -->
     <section class="description" style="display:none;"></section>
-    <py-repl id="my-repl" auto-generate="true">
-        # sample 코드입니다. shift + enter를 눌러 실행해보세요.
-        # character_data, map_data, item_data는 기본 제공 데이터입니다.
-        # from modules import turn_right와 같이 모듈을 불러와 사용할 수 있습니다.
-        set_item(2, 2, 'fish')
-        move()
-        move()
-        turn_left()
-        turn_left()
-        turn_left()
-        repeat(2, move)
-        # pick()
-    </py-repl>
+    
     <py-script>
         from map import Map
         from wall import Wall
@@ -538,8 +559,34 @@
         a.href = url;
         a.click();
     }
+    </script>
+    <script>
+        const noteBookSection = document.querySelector(".notebook-section");
+        const pyReplElement = document.querySelector('py-repl');
 
-    
+        const observePyRepl = (mutationsList) => {
+            mutationsList.forEach((mutation) => {
+                if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
+                    for (const addedNode of mutation.addedNodes) {
+                        if (addedNode.tagName === "PY-REPL" || addedNode.className.includes("py-repl")) {
+                            const editorContainer = addedNode.querySelector(".cm-editor");
+                            const button = addedNode.querySelector(".py-repl-run-button");
+                            const header = document.createElement("header");
+                            header.setAttribute("class", "cm-header");
+
+                            header.appendChild(button);
+                            editorContainer.append(header);
+
+                            observer.unobserve(entry.target)
+                        }
+                    }
+                }
+            });
+        }
+
+        const observer = new MutationObserver(observePyRepl);
+        observer.observe(noteBookSection, { childList: true });
+        observer.observe(pyReplElement, { childList: true });
     </script>
 </body>
 </html>

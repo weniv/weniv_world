@@ -118,7 +118,45 @@
             </header>
             <section class="world-map">
                 <h3 class="sr-only">위니브월드 맵</h3>
-                <div id='app'></div>
+                <div class="world-wrap">
+                    <nav class="world-menu">
+                        <ul class="controll-btn-list">
+                            <li>
+                                <button class="btn-wall" type="button">
+                                    <span class="sr-only">벽 만들기</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn-assets" type="button">
+                                    <span class="sr-only">아이템 추가하기</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn-world-resize" type="button">
+                                    <span class="sr-only">월드 크기 조정하기</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn-speed" type="button">
+                                    <span class="sr-only">속도 조절하기</span>
+                                </button>
+                            </li>
+                        </ul>
+                        <ul class="info-btn-list">
+                            <li>
+                                <button class="btn-function" type="button">
+                                    <span class="sr-only">함수 리스트 보기</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn-variable" type="button">
+                                    <span class="sr-only">변수 리스트 보기</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div id='app'></div>
+                </div>
             </section>
             <section class="world-output">
                 <h3 class="sr-only">실행 결과</h3>

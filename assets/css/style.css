@@ -237,6 +237,10 @@ body {
   mask-position: center center;
 }
 
+.btn-code-export:hover {
+  background: var(--ColorSurface);
+}
+
 /* code-import 버튼 */
 .btn-code-import {
   width: 2rem;
@@ -252,6 +256,10 @@ body {
   mask-position: center center;
 }
 
+.btn-code-import:hover {
+  background: var(--ColorSurface);
+}
+
 /* close 버튼 */
 .btn-close {
   width: 2rem;
@@ -265,6 +273,10 @@ body {
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center center;
+}
+
+.btn-close:hover {
+  background: var(--ColorSurface);
 }
 
 /* 스토리 보기 버튼 */
@@ -906,6 +918,9 @@ body {
           justify-content: center;
   -ms-flex-item-align: start;
       align-self: start;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
   width: 100%;
   padding: 4rem 0 5.5rem;
 }
@@ -921,8 +936,7 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 100%;
-  max-height: 32rem;
+  min-height: 32rem;
   background: var(--ColorGrayLv1);
   border-top: 1px solid var(--ColorGrayLv2);
   color: var(--white-mode-w-surface, var(--ColorSurface));

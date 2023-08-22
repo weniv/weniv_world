@@ -121,6 +121,10 @@ body {
         var(--ColorGrayLv3),
         '../img/icon/icon-code-export.svg'
     );
+
+    &:hover {
+        background: var(--ColorSurface);
+    }
 }
 
 /* code-import 버튼 */
@@ -131,6 +135,10 @@ body {
         var(--ColorGrayLv3),
         '../img/icon/icon-code-import.svg'
     );
+
+    &:hover {
+        background: var(--ColorSurface);
+    }
 }
 
 /* close 버튼 */
@@ -138,6 +146,10 @@ body {
     width: 2rem;
     height: 2rem;
     @include mask-image(var(--ColorGrayLv3), '../img/icon/icon-close.svg');
+
+    &:hover {
+        background: var(--ColorSurface);
+    }
 }
 
 /* 스토리 보기 버튼 */

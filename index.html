@@ -65,7 +65,7 @@
         </nav>
     </header>
     <main class="main">
-        <article class="notebook">
+        <section class="notebook">
             <header class="notebook-header">
                 <h2>Notebook</h2>
                 <button type="button" class="btn-add-code">코드 추가</button>
@@ -85,7 +85,7 @@
             </header>
             <section class="notebook-section">
                 <h3 class="sr-only">코드 입력</h3>
-                <py-repl id="my-repl" auto-generate="true">
+                <py-repl id="my-repl" auto-generate="true" output="output">
                     # sample 코드입니다. shift + enter를 눌러 실행해보세요.
                     # character_data, map_data, item_data는 기본 제공 데이터입니다.
                     # from modules import turn_right와 같이 모듈을 불러와 사용할 수 있습니다.
@@ -99,12 +99,35 @@
                     # pick()
                 </py-repl>
             </section>
-        </article>
+        </section>
+        <section class="world">
+            <header class="world-header">
+                <h2>World</h2>
+                <ul class="world-btn-list">
+                    <li>
+                        <button type="button" class="btn-file-export">
+                            <span class="sr-only">월드 내보내기</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="btn-file-import">
+                            <span class="sr-only">월드 추가하기</span>
+                        </button>
+                    </li>
+                </ul>
+            </header>
+            <section class="world-map">
+                <h3 class="sr-only">위니브월드 맵</h3>
+                <div id='app'></div>
+            </section>
+            <section class="world-output">
+                <h3 class="sr-only">실행 결과</h3>
+                <textarea id='output' class="output"></textarea>
+            </section>
+        </section>
     </main>
-    <div id='app'></div>
     <p id="pointer"></p>
-    <textarea id='output'></textarea>
-    <div class="button-container">
+    <div class="hidden">
         <input type="range" min="1" max="100" value="30" class="slider" id="speed-range">
         <label for="speed-range">Speed: <span id="speed-text"></span></label>
         <hr>
@@ -155,7 +178,7 @@
             <li>running_speed</li>
         </ul>
     </section>
-    <section class="contents">
+    <section class="contents hidden">
             <nav class="question-nav">
                 <ol>
                     <li><a href="#" id="t1" class="btn-que">T1. 자격 증명</a></li>
@@ -574,17 +597,17 @@
             ul.setAttribute("class", "btn-list");
             ul.innerHTML = `
                 <li>
-                    <button type="button" class="code-export">
-                        <span class="sr-only">코드 다운로드</span>
+                    <button type="button" class="btn-code-export code-export">
+                        <span class="sr-only">코드 내보내기</span>
                     </button>
                 </li>
                 <li>
-                    <button type="button" class="code-export">
-                        <span class="sr-only">코드 다운로드</span>
+                    <button type="button" class="btn-code-import code-import">
+                        <span class="sr-only">코드 추가하기</span>
                     </button>
                 </li>
                 <li>
-                    <button type="button" class="code-delete">
+                    <button type="button" class="btn-close code-delete">
                         <span class="sr-only">코드 삭제</span>
                     </button>
                 </li>

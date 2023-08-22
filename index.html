@@ -590,6 +590,8 @@
                 </li>
             `;
 
+            button.querySelector("svg").remove();
+            button.classList.add("btn-play");
             header.append(button, ul);
             editorContainer.appendChild(header);
         }

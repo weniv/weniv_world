@@ -57,6 +57,12 @@
     padding: 2rem;
 }
 
+.py-repl-box {
+    display: flex;
+    gap: 1rem;
+    border-radius: 0.8rem;
+}
+
 .py-repl-editor {
     border-radius: 0.8rem;
     border: 1px solid var(--ColorGrayLv2);
@@ -125,6 +131,7 @@
 
 .ͼ1 .cm-content {
     padding: 1.2rem 0;
+    flex-basis: auto !important;
 }
 
 .ͼ1 .cm-line {
@@ -144,6 +151,7 @@
 
 .cm-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     order: -1;
     height: 5rem;
@@ -152,10 +160,27 @@
     border-bottom: 1px solid var(--ColorGrayLv2);
     background: var(--ColorBackground);
     box-sizing: border-box;
+
+    .btn-list {
+        display: flex;
+        gap: 1rem;
+
+        button {
+            display: block;
+        }
+    }
 }
 
 .py-repl-run-button {
     position: static;
     opacity: 1;
     cursor: pointer;
+}
+
+.py-repl-output {
+    overflow: hidden;
+}
+
+.py-error {
+    overflow-x: auto;
 }

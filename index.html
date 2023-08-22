@@ -85,7 +85,7 @@
             </header>
             <section class="notebook-section">
                 <h3 class="sr-only">코드 입력</h3>
-                <py-repl id="my-repl" auto-generate="true" output="output">
+                <py-repl id="my-repl" auto-generate="true">
                     # sample 코드입니다. shift + enter를 눌러 실행해보세요.
                     # character_data, map_data, item_data는 기본 제공 데이터입니다.
                     # from modules import turn_right와 같이 모듈을 불러와 사용할 수 있습니다.
@@ -122,7 +122,8 @@
             </section>
             <section class="world-output">
                 <h3 class="sr-only">실행 결과</h3>
-                <textarea id='output' class="output"></textarea>
+                <ol class="index-list"></ol>
+                <div id='output' class="output"></div>
             </section>
         </section>
     </main>
@@ -582,58 +583,6 @@
         a.href = url;
         a.click();
     }
-    </script>
-    <script>
-        const noteBookSection = document.querySelector(".notebook-section");
-        const pyReplElement = document.querySelector('py-repl');
-
-        const setHeader = (targetNode) => {
-            const editorContainer = targetNode.querySelector(".cm-editor");
-            const button = targetNode.querySelector(".py-repl-run-button");
-            const header = document.createElement("header");
-            header.setAttribute("class", "cm-header");
-
-            const ul = document.createElement("ul");
-            ul.setAttribute("class", "btn-list");
-            ul.innerHTML = `
-                <li>
-                    <button type="button" class="btn-code-export code-export">
-                        <span class="sr-only">코드 내보내기</span>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="btn-code-import code-import">
-                        <span class="sr-only">코드 추가하기</span>
-                    </button>
-                </li>
-                <li>
-                    <button type="button" class="btn-close code-delete">
-                        <span class="sr-only">코드 삭제</span>
-                    </button>
-                </li>
-            `;
-
-            button.querySelector("svg").remove();
-            button.classList.add("btn-play");
-            header.append(button, ul);
-            editorContainer.appendChild(header);
-        }
-
-        const observePyRepl = (mutationsList) => {
-            mutationsList.forEach((mutation) => {
-                if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
-                    for (const addedNode of mutation.addedNodes) {
-                        if (addedNode.tagName === "PY-REPL" || addedNode.className.includes("py-repl")) {
-                            setHeader(addedNode);
-                        }
-                    }
-                }
-            });
-        }
-
-        const observer = new MutationObserver(observePyRepl);
-        observer.observe(noteBookSection, { childList: true });
-        observer.observe(pyReplElement, { childList: true });
     </script>
 </body>
 </html>

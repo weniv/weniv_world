@@ -85,7 +85,7 @@ body {
     }
 }
 
-// file-export 버튼
+/* file-export 버튼 */
 .btn-file-export {
     width: 2.4rem;
     height: 2.4rem;
@@ -99,7 +99,7 @@ body {
     }
 }
 
-// file-import 버튼
+/* file-import 버튼 */
 .btn-file-import {
     width: 2.4rem;
     height: 2.4rem;
@@ -111,6 +111,33 @@ body {
     &:hover {
         background: var(--ColorSurface);
     }
+}
+
+/* code-export 버튼 */
+.btn-code-export {
+    width: 2rem;
+    height: 2rem;
+    @include mask-image(
+        var(--ColorGrayLv3),
+        '../img/icon/icon-code-export.svg'
+    );
+}
+
+/* code-import 버튼 */
+.btn-code-import {
+    width: 2rem;
+    height: 2rem;
+    @include mask-image(
+        var(--ColorGrayLv3),
+        '../img/icon/icon-code-import.svg'
+    );
+}
+
+/* close 버튼 */
+.btn-close {
+    width: 2rem;
+    height: 2rem;
+    @include mask-image(var(--ColorGrayLv3), '../img/icon/icon-close.svg');
 }
 
 /* 스토리 보기 버튼 */
@@ -165,7 +192,7 @@ body {
     }
 }
 
-// 툴팁
+/* 툴팁 */
 .tooltip {
     position: absolute;
     display: flex;
@@ -193,7 +220,7 @@ body {
     }
 }
 
-// slider
+/* slider */
 .slider {
     -webkit-appearance: none;
     width: 100%;
@@ -217,7 +244,7 @@ body {
     }
 }
 
-// controller-modal (map, speed, 함수, 변수 리스트)
+/* controller-modal (map, speed, 함수, 변수 리스트) */
 .controller-modal {
     position: absolute;
     display: flex;
@@ -246,7 +273,7 @@ body {
     }
 }
 
-// info-modal
+/* info-modal */
 .info-modal {
     position: absolute;
     display: flex;
@@ -274,7 +301,7 @@ body {
     }
 }
 
-// speech bubble
+/* speech bubble */
 .speech-bubble {
     display: inline-block;
     padding: 1rem 1.4rem;
@@ -288,7 +315,7 @@ body {
     box-sizing: border-box;
 }
 
-// code (함수, 변수)
+/* code (함수, 변수) */
 .code-item {
     display: inline-block;
     padding: 0.8rem 1.2rem;
@@ -307,7 +334,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1.4rem 2rem;
-    border-bottom: 1px solid var(--ColorGrayLv1);
+    border-bottom: 1px solid var(--ColorGrayLv2);
 
     h1 {
         width: 4.2rem;
@@ -329,46 +356,14 @@ body {
     }
 }
 
-// 메인
+/* 메인 */
 .main {
     display: flex;
+    width: 100%;
+    min-height: calc(100vh - 7.1rem);
 }
 
-// 이전 작성 코드
-// @keyframes player {
-//     from {
-//         background-position: -1px, -1px;
-//     }
-
-//     to {
-//         background-position: -224px, -1px;
-//     }
-// }
-
-// @keyframes attack-claw-white {
-//     from {
-//         background-position: -0px, -0px;
-//     }
-
-//     to {
-//         background-position: -128px, -0px;
-//     }
-// }
-
-// @keyframes line-opacity {
-//     from {
-//         opacity: 0;
-//     }
-
-//     to {
-//         opacity: 1;
-//     }
-// }
-
-/* #app {
-  width: 100vw;
-} */
-
+/* 이전 작성 코드 */
 .character {
     animation: player 1s steps(7) infinite;
     z-index: 10;

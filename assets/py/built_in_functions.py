@@ -2,6 +2,18 @@ import js
 from coordinate import character_data
 from item import Item
 
+# 이전 코드
+# def print(*args):
+#     '''
+#     html 문서 내 출력
+#     '''
+#     output = js.document.getElementById('output')
+#     result = ''
+#     for arg in args:
+#         result += str(arg) + '\n'
+#     result = output.value + result
+#     output.value = result
+
 def print(*args):
     '''
     html 문서 내 출력
@@ -9,9 +21,15 @@ def print(*args):
     output = js.document.getElementById('output')
     result = ''
     for arg in args:
-        result += str(arg) + '\n'
-    result = output.value + result
-    output.value = result
+        result += str(arg)
+
+    if output:
+        paragraph = js.document.createElement('p')
+        paragraph.innerHTML = result
+        paragraph.classList.add('output-item')
+        output.appendChild(paragraph)
+    else:
+        js.console.log(result)
 
 def say(text='', character=None, speech_time=5000):
     '''

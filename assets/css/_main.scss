@@ -152,25 +152,86 @@ body {
     }
 }
 
-/* 스토리 보기 버튼 */
-.btn-story {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.button-before {
     width: 4.2rem;
     height: 4.2rem;
     border-radius: 1rem;
-    background: var(--ColorActivation);
+    padding: 0.7rem;
+    box-sizing: border-box;
+
+    &:hover,
+    &.active {
+        background: var(--ColorActivation);
+    }
 
     &::before {
         content: '';
         display: block;
         width: 2.8rem;
         height: 2.8rem;
-        @include mask-image(var(--ColorGrayLv3), '../img/icon/icon-book.svg');
     }
 
-    &:active::before {
+    /* 스토리보기 버튼 */
+    &.btn-story {
+        background: var(--ColorActivation);
+
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../img/icon/icon-book.svg'
+            );
+        }
+    }
+
+    /* 벽 만들기 버튼 */
+    &.btn-wall::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../img/icon/icon-wall-import.svg'
+        );
+    }
+
+    /* 에셋 추가 버튼 */
+    &.btn-assets::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../img/icon/icon-asset-import.svg'
+        );
+    }
+
+    /* 월드 크기 조정 버튼 */
+    &.btn-resize::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../img/icon/icon-world-size.svg'
+        );
+    }
+
+    /* 속도 조절 버튼 */
+    &.btn-speed::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../img/icon/icon-speed-control.svg'
+        );
+    }
+
+    /* 함수 리스트 버튼 */
+    &.btn-function::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../img/icon/icon-function-list.svg'
+        );
+    }
+
+    /* 변수 리스트 버튼 */
+    &.btn-variable::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../img/icon/icon-variable-list.svg'
+        );
+    }
+
+    &.active::before {
         background: var(--ColorPrimary);
     }
 }
@@ -266,7 +327,7 @@ body {
     font-size: 1.4rem;
     font-weight: 500;
     line-height: 2rem;
-    border: 1px solid var(--ColorGrayLv1);
+    border: 1px solid var(--ColorGrayLv2);
     border-radius: 1rem;
     z-index: 99;
 
@@ -296,7 +357,8 @@ body {
     font-weight: 500;
     line-height: 2rem;
     border-radius: 1rem;
-    z-index: 99;
+    z-index: 20;
+    box-sizing: border-box;
 
     &::before {
         content: '';
@@ -376,86 +438,86 @@ body {
 }
 
 /* 이전 작성 코드 */
-.character {
-    animation: player 1s steps(7) infinite;
-    z-index: 10;
-}
+// .character {
+//     animation: player 1s steps(7) infinite;
+//     z-index: 10;
+// }
 
-.attack {
-    animation: attack-claw-white 0.5s steps(4) 2;
-    z-index: 999;
-}
+// .attack {
+//     animation: attack-claw-white 0.5s steps(4) 2;
+//     z-index: 999;
+// }
 
-.map-flex {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    height: 100%;
-}
+// .map-flex {
+//     display: flex;
+//     flex-direction: row;
+//     flex-wrap: wrap;
+//     width: 100%;
+//     height: 100%;
+// }
 
-.map-item {
-    width: 100px;
-    height: 100px;
-    background-color: white;
-    border: 1px solid black;
-}
+// .map-item {
+//     width: 100px;
+//     height: 100px;
+//     background-color: white;
+//     border: 1px solid black;
+// }
 
-.hidden {
-    display: none;
-}
+// .hidden {
+//     display: none;
+// }
 
-.bubble-title {
-    font-size: 1.3rem;
-    font-weight: bold;
-    text-align: center;
-}
+// .bubble-title {
+//     font-size: 1.3rem;
+//     font-weight: bold;
+//     text-align: center;
+// }
 
-.bubble-body-item-title {
-    font-size: 1.15rem;
-    font-weight: bold;
-}
+// .bubble-body-item-title {
+//     font-size: 1.15rem;
+//     font-weight: bold;
+// }
 
-/* map */
-.map-container {
-    width: fit-content;
-    position: relative;
-}
-/* wall */
-.wall-container {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
+// /* map */
+// .map-container {
+//     width: fit-content;
+//     position: relative;
+// }
+// /* wall */
+// .wall-container {
+//     position: absolute;
+//     top: 0px;
+//     left: 0px;
+//     width: 100%;
+//     height: 100%;
+//     background-color: rgba(0, 0, 0, 0.1);
+//     overflow: hidden;
+// }
 
-.wall {
-    position: absolute;
-    border: 1px solid black;
-    box-sizing: border-box;
-    background-color: cyan;
-    transform: translate(-50%, -50%);
-    width: 5px;
-    height: 102px;
-}
+// .wall {
+//     position: absolute;
+//     border: 1px solid black;
+//     box-sizing: border-box;
+//     background-color: cyan;
+//     transform: translate(-50%, -50%);
+//     width: 5px;
+//     height: 102px;
+// }
 
-/* 기본 벽 */
-.wall {
-    background-color: orange;
-}
-.wall[data-direction='landscape'] {
-    transform: rotate(90deg);
-}
+// /* 기본 벽 */
+// .wall {
+//     background-color: orange;
+// }
+// .wall[data-direction='landscape'] {
+//     transform: rotate(90deg);
+// }
 
-/* type */
-.wall[data-type='door'] {
-    background-color: sienna;
-}
-.wall[data-type='fence'] {
-    background-color: seagreen;
-}
+// /* type */
+// .wall[data-type='door'] {
+//     background-color: sienna;
+// }
+// .wall[data-type='fence'] {
+//     background-color: seagreen;
+// }
 
 /* .wall */

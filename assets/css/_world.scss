@@ -43,15 +43,11 @@
     }
 }
 
-#app {
-    overflow: scroll;
-    margin: 0 auto;
-}
-
 .world-menu {
     position: sticky;
     left: 2rem;
     top: 2rem;
+    align-self: start;
     border-radius: 1.6rem;
     border: 1px solid var(--ColorGrayLv2);
     background: var(--ColorBackground);
@@ -66,9 +62,78 @@
         padding: 1.4rem;
     }
 
-    .controll-btn-list {
-        border-bottom: 1px solid var(--ColorGrayLv2);
+    li {
+        position: relative;
     }
+
+    .controller-modal {
+        display: none;
+        top: 0;
+        left: 6.7rem;
+        box-sizing: border-box;
+
+        .input-wrap {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+    }
+
+    button.active + .controller-modal {
+        display: flex;
+    }
+}
+
+.controll-btn-list {
+    border-bottom: 1px solid var(--ColorGrayLv2);
+
+    .controller-modal {
+        width: 26.1rem;
+
+        &.wall-type,
+        &.resize {
+            flex-direction: column;
+            gap: 1.4rem;
+        }
+    }
+
+    .wall-type {
+        label {
+            vertical-align: middle;
+            cursor: pointer;
+        }
+    }
+}
+
+.info-btn-list {
+    ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.8rem 1rem;
+        padding: 0;
+    }
+
+    .controller-modal {
+        flex-direction: column;
+        gap: 1.8rem;
+        width: 60rem;
+    }
+
+    .title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        line-height: 2.4rem;
+    }
+
+    .btn-close {
+        position: absolute;
+        top: 1.6rem;
+        right: 1.6rem;
+    }
+}
+
+#app {
+    margin: 0 auto;
 }
 
 .world-output {
@@ -84,7 +149,6 @@
     overflow-x: scroll;
 
     .output {
-        flex-grow: 1;
         padding: 1.9rem 0;
     }
 
@@ -121,4 +185,110 @@
             background: var(--ColorPrimary);
         }
     }
+}
+
+/* map */
+.character {
+    position: relative;
+    animation: player 1s steps(7) infinite;
+    z-index: 10;
+
+    .character-info-bubble {
+        flex-direction: column;
+        width: 16rem;
+        font-weight: 600;
+    }
+
+    .info-title {
+        text-align: center;
+        padding-bottom: 1.2rem;
+        border-bottom: 1px solid var(--ColorGrayLv2);
+    }
+
+    .info-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.2rem 0.4rem 0;
+
+        & > .info-item {
+            display: flex;
+            gap: 0.7rem;
+
+            dt {
+                color: var(--ColorGrayLv2);
+            }
+        }
+    }
+
+    .speech-bubble {
+        position: absolute;
+        max-width: 26rem;
+        word-break: break-word;
+    }
+}
+
+.attack {
+    animation: attack-claw-white 0.5s steps(4) 2;
+    z-index: 999;
+}
+
+/* map */
+.map-container {
+    position: relative;
+}
+
+.map-items {
+    display: grid;
+    gap: 0.2rem;
+    background: var(--ColorGrayLv2);
+    border-radius: 1rem;
+    border: 2px solid var(--ColorGrayLv2);
+    overflow: hidden;
+}
+
+.map-item {
+    background: var(--ColorBackground);
+    width: 10rem;
+    height: 10rem;
+}
+
+.hidden {
+    display: none;
+}
+
+/* wall */
+.wall-container {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.wall {
+    position: absolute;
+    border: 1px solid black;
+    box-sizing: border-box;
+    background-color: cyan;
+    transform: translate(-50%, -50%);
+    width: 5px;
+    height: 102px;
+}
+
+/* 기본 벽 */
+.wall {
+    background-color: orange;
+}
+.wall[data-direction='landscape'] {
+    transform: rotate(90deg);
+}
+
+/* type */
+.wall[data-type='door'] {
+    background-color: sienna;
+}
+.wall[data-type='fence'] {
+    background-color: seagreen;
 }

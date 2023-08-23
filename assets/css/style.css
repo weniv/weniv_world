@@ -279,28 +279,38 @@ body {
   background: var(--ColorSurface);
 }
 
-/* 스토리 보기 버튼 */
-.btn-story {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+.button-before {
   width: 4.2rem;
   height: 4.2rem;
   border-radius: 1rem;
+  padding: 0.7rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  /* 스토리보기 버튼 */
+  /* 벽 만들기 버튼 */
+  /* 에셋 추가 버튼 */
+  /* 월드 크기 조정 버튼 */
+  /* 속도 조절 버튼 */
+  /* 함수 리스트 버튼 */
+  /* 변수 리스트 버튼 */
+}
+
+.button-before:hover, .button-before.active {
   background: var(--ColorActivation);
 }
 
-.btn-story::before {
+.button-before::before {
   content: '';
   display: block;
   width: 2.8rem;
   height: 2.8rem;
+}
+
+.button-before.btn-story {
+  background: var(--ColorActivation);
+}
+
+.button-before.btn-story::before {
   background: var(--ColorGrayLv3);
   -webkit-mask-image: url("../img/icon/icon-book.svg");
   -webkit-mask-size: 100%;
@@ -312,7 +322,79 @@ body {
   mask-position: center center;
 }
 
-.btn-story:active::before {
+.button-before.btn-wall::before {
+  background: var(--ColorGrayLv3);
+  -webkit-mask-image: url("../img/icon/icon-wall-import.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-wall-import.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.button-before.btn-assets::before {
+  background: var(--ColorGrayLv3);
+  -webkit-mask-image: url("../img/icon/icon-asset-import.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-asset-import.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.button-before.btn-resize::before {
+  background: var(--ColorGrayLv3);
+  -webkit-mask-image: url("../img/icon/icon-world-size.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-world-size.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.button-before.btn-speed::before {
+  background: var(--ColorGrayLv3);
+  -webkit-mask-image: url("../img/icon/icon-speed-control.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-speed-control.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.button-before.btn-function::before {
+  background: var(--ColorGrayLv3);
+  -webkit-mask-image: url("../img/icon/icon-function-list.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-function-list.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.button-before.btn-variable::before {
+  background: var(--ColorGrayLv3);
+  -webkit-mask-image: url("../img/icon/icon-variable-list.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-variable-list.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.button-before.active::before {
   background: var(--ColorPrimary);
 }
 
@@ -414,7 +496,7 @@ body {
   font-size: 1.4rem;
   font-weight: 500;
   line-height: 2rem;
-  border: 1px solid var(--ColorGrayLv1);
+  border: 1px solid var(--ColorGrayLv2);
   border-radius: 1rem;
   z-index: 99;
 }
@@ -448,7 +530,9 @@ body {
   font-weight: 500;
   line-height: 2rem;
   border-radius: 1rem;
-  z-index: 99;
+  z-index: 20;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .info-modal::before {
@@ -543,104 +627,6 @@ body {
 }
 
 /* 이전 작성 코드 */
-.character {
-  -webkit-animation: player 1s steps(7) infinite;
-          animation: player 1s steps(7) infinite;
-  z-index: 10;
-}
-
-.attack {
-  -webkit-animation: attack-claw-white 0.5s steps(4) 2;
-          animation: attack-claw-white 0.5s steps(4) 2;
-  z-index: 999;
-}
-
-.map-flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  width: 100%;
-  height: 100%;
-}
-
-.map-item {
-  width: 100px;
-  height: 100px;
-  background-color: white;
-  border: 1px solid black;
-}
-
-.hidden {
-  display: none;
-}
-
-.bubble-title {
-  font-size: 1.3rem;
-  font-weight: bold;
-  text-align: center;
-}
-
-.bubble-body-item-title {
-  font-size: 1.15rem;
-  font-weight: bold;
-}
-
-/* map */
-.map-container {
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  position: relative;
-}
-
-/* wall */
-.wall-container {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.wall {
-  position: absolute;
-  border: 1px solid black;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  background-color: cyan;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  width: 5px;
-  height: 102px;
-}
-
-/* 기본 벽 */
-.wall {
-  background-color: orange;
-}
-
-.wall[data-direction='landscape'] {
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
-}
-
-/* type */
-.wall[data-type='door'] {
-  background-color: sienna;
-}
-
-.wall[data-type='fence'] {
-  background-color: seagreen;
-}
-
 /* .wall */
 .notebook {
   width: 50rem;
@@ -927,16 +913,14 @@ body {
   padding: 4rem 0 5.5rem;
 }
 
-#app {
-  overflow: scroll;
-  margin: 0 auto;
-}
-
 .world-menu {
   position: -webkit-sticky;
   position: sticky;
   left: 2rem;
   top: 2rem;
+  -ms-flex-item-align: start;
+      -ms-grid-row-align: start;
+      align-self: start;
   border-radius: 1.6rem;
   border: 1px solid var(--ColorGrayLv2);
   background: var(--ColorBackground);
@@ -958,8 +942,89 @@ body {
   padding: 1.4rem;
 }
 
-.world-menu .controll-btn-list {
+.world-menu li {
+  position: relative;
+}
+
+.world-menu .controller-modal {
+  display: none;
+  top: 0;
+  left: 6.7rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.world-menu .controller-modal .input-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 1.2rem;
+}
+
+.world-menu button.active + .controller-modal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.controll-btn-list {
   border-bottom: 1px solid var(--ColorGrayLv2);
+}
+
+.controll-btn-list .controller-modal {
+  width: 26.1rem;
+}
+
+.controll-btn-list .controller-modal.wall-type, .controll-btn-list .controller-modal.resize {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1.4rem;
+}
+
+.controll-btn-list .wall-type label {
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.info-btn-list ul {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: 0.8rem 1rem;
+  padding: 0;
+}
+
+.info-btn-list .controller-modal {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1.8rem;
+  width: 60rem;
+}
+
+.info-btn-list .title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 2.4rem;
+}
+
+.info-btn-list .btn-close {
+  position: absolute;
+  top: 1.6rem;
+  right: 1.6rem;
+}
+
+#app {
+  margin: 0 auto;
 }
 
 .world-output {
@@ -978,9 +1043,6 @@ body {
 }
 
 .world-output .output {
-  -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
   padding: 1.9rem 0;
 }
 
@@ -1018,5 +1080,129 @@ body {
   width: 0.4rem;
   height: 100%;
   background: var(--ColorPrimary);
+}
+
+/* map */
+.character {
+  position: relative;
+  -webkit-animation: player 1s steps(7) infinite;
+          animation: player 1s steps(7) infinite;
+  z-index: 10;
+}
+
+.character .character-info-bubble {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 16rem;
+  font-weight: 600;
+}
+
+.character .info-title {
+  text-align: center;
+  padding-bottom: 1.2rem;
+  border-bottom: 1px solid var(--ColorGrayLv2);
+}
+
+.character .info-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 1rem;
+  padding: 1.2rem 0.4rem 0;
+}
+
+.character .info-list > .info-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 0.7rem;
+}
+
+.character .info-list > .info-item dt {
+  color: var(--ColorGrayLv2);
+}
+
+.character .speech-bubble {
+  position: absolute;
+  max-width: 26rem;
+  word-break: break-word;
+}
+
+.attack {
+  -webkit-animation: attack-claw-white 0.5s steps(4) 2;
+          animation: attack-claw-white 0.5s steps(4) 2;
+  z-index: 999;
+}
+
+/* map */
+.map-container {
+  position: relative;
+}
+
+.map-items {
+  display: -ms-grid;
+  display: grid;
+  gap: 0.2rem;
+  background: var(--ColorGrayLv2);
+  border-radius: 1rem;
+  border: 2px solid var(--ColorGrayLv2);
+  overflow: hidden;
+}
+
+.map-item {
+  background: var(--ColorBackground);
+  width: 10rem;
+  height: 10rem;
+}
+
+.hidden {
+  display: none;
+}
+
+/* wall */
+.wall-container {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.wall {
+  position: absolute;
+  border: 1px solid black;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background-color: cyan;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  width: 5px;
+  height: 102px;
+}
+
+/* 기본 벽 */
+.wall {
+  background-color: orange;
+}
+
+.wall[data-direction='landscape'] {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+/* type */
+.wall[data-type='door'] {
+  background-color: sienna;
+}
+
+.wall[data-type='fence'] {
+  background-color: seagreen;
 }
 /*# sourceMappingURL=style.css.map */

@@ -34,7 +34,7 @@
 <body>
     <header class="header">
         <h1>
-            <a href="/index.html">
+            <a href="/">
                 <span class="sr-only">위니브 월드</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42" fill="none">
                     <rect width="42" height="42" rx="10" fill="#2E6FF2"/>
@@ -47,7 +47,7 @@
         <nav class="menu">
             <ul class="menu-list">
                 <li>
-                    <button type="button" class="btn-story">
+                    <button type="button" class="button-before btn-story">
                         <span class="sr-only">
                             스토리 보기
                         </span>
@@ -105,12 +105,12 @@
                 <h2>World</h2>
                 <ul class="world-btn-list">
                     <li>
-                        <button type="button" class="btn-file-export">
+                        <button type="button" class="btn-file-export" id="btn-download-worlddata">
                             <span class="sr-only">월드 내보내기</span>
                         </button>
                     </li>
                     <li>
-                        <button type="button" class="btn-file-import">
+                        <button type="button" class="btn-file-import" id="btn-upload-worlddata">
                             <span class="sr-only">월드 추가하기</span>
                         </button>
                     </li>
@@ -122,36 +122,145 @@
                     <nav class="world-menu">
                         <ul class="controll-btn-list">
                             <li>
-                                <button class="btn-wall" type="button">
+                                <button class="button-before btn-wall" type="button">
                                     <span class="sr-only">벽 만들기</span>
                                 </button>
+                                <div class="controller-modal wall-type">
+                                    <!-- 벽의 종류를 정할 수 있는 label-input -->
+                                    <div class="input-wrap">
+                                        <input type="radio" name="wall-type" id="wall" value="wall" checked>
+                                        <label for="wall">wall</label>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <input type="radio" name="wall-type" id="door" value="door">
+                                        <label for="door">door</label>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <input type="radio" name="wall-type" id="fence" value="fence">
+                                        <label for="fence">fence</label>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <input type="radio" name="wall-type" id="delete" value="delete">
+                                        <label for="delete">delete</label>
+                                    </div>
+                                </div>
                             </li>
                             <li>
-                                <button class="btn-assets" type="button">
+                                <button class="button-before btn-assets" type="button">
                                     <span class="sr-only">아이템 추가하기</span>
                                 </button>
                             </li>
                             <li>
-                                <button class="btn-world-resize" type="button">
+                                <button class="button-before btn-resize" type="button">
                                     <span class="sr-only">월드 크기 조정하기</span>
                                 </button>
+                                <div class="controller-modal resize">
+                                    <div class="input-wrap">
+                                        <label for="map-range-x">Map_x</label>
+                                        <input type="range" min="3" max="10" value="5" class="slider" id="map-range-x">
+                                        <strong id="map-text-x"></strong>
+                                    </div>
+                                    <div class="input-wrap">
+                                        <label for="map-range-y">Map_y</label>
+                                        <input type="range" min="3" max="10" value="5" class="slider" id="map-range-y">
+                                        <strong id="map-text-y"></strong>
+                                    </div>
+                                </div>
                             </li>
                             <li>
-                                <button class="btn-speed" type="button">
+                                <button class="button-before btn-speed" type="button">
                                     <span class="sr-only">속도 조절하기</span>
                                 </button>
+                                <div class="controller-modal speed">
+                                    <div class="input-wrap">
+                                        <label for="speed-range">Speed</label>
+                                        <input type="range" min="1" max="100" value="30" class="slider" id="speed-range">
+                                        <strong id="speed-text"></strong>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                         <ul class="info-btn-list">
                             <li>
-                                <button class="btn-function" type="button">
+                                <button class="button-before btn-function" type="button" id="btn-list-function">
                                     <span class="sr-only">함수 리스트 보기</span>
                                 </button>
+                                <section class="controller-modal function-list">
+                                    <h4 class="title">함수 리스트</h4>
+                                    <ul>
+                                        <li>
+                                            <button type="button" class="code-item">print()</button>
+                                        </li>
+                                        <li>
+                                            
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">directions()</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">show_item()</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">set_item()</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">move()</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">turn_left()</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">pick()</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">put()</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">repeat()</button>
+                                        </li>
+                                        <li><button type="button" class="code-item">(from modules import turn_right) turn_right()</button>
+                                        </li>
+                                        <li><button type="button" class="code-item">(from modules import turn_around) turn_around()</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">(from modules import move_to_wall) move_to_wall()</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">(from modules import turn_left_until_clear) turn_left_until_clear()</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">(from modules import jump) jump()</button>
+                                        </li>
+                                    </ul>
+                                    <button class="btn-close" type="button">
+                                        <span class="sr-only">닫기 버튼</span>
+                                    </button>
+                                </section>
                             </li>
                             <li>
-                                <button class="btn-variable" type="button">
+                                <button class="button-before btn-variable" type="button" id="btn-list-variable">
                                     <span class="sr-only">변수 리스트 보기</span>
                                 </button>
+                                <section class="controller-modal variable-list">
+                                    <h4 class="title">변수 리스트</h4>
+                                    <ul>
+                                        <li>
+                                            <button type="button" class="code-item">character_data</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">map_data</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">item_data</button>
+                                        </li>
+                                        <li>
+                                            <button type="button" class="code-item">running_speed</button>
+                                        </li>
+                                    </ul>
+                                    <button class="btn-close" type="button">
+                                        <span class="sr-only">닫기 버튼</span>
+                                    </button>
+                                </section>
                             </li>
                         </ul>
                     </nav>
@@ -167,56 +276,9 @@
     </main>
     <p id="pointer"></p>
     <div class="hidden">
-        <input type="range" min="1" max="100" value="30" class="slider" id="speed-range">
-        <label for="speed-range">Speed: <span id="speed-text"></span></label>
-        <hr>
-        <input type="range" min="3" max="10" value="5" class="slider" id="map-range-x">
-        <label for="map-range-x">Map_x: <span id="map-text-x"></span></label>
-        <hr>
-        <input type="range" min="3" max="10" value="5" class="slider" id="map-range-y">
-        <label for="map-range-y">Map_y: <span id="map-text-y"></span></label>
         <button id="init">초기화(월드, 캐릭터)</button>
         <button id="init_character">캐릭터 초기화</button>
-        <button id="btn-list-function">함수 리스트</button>
-        <button id="btn-list-variable">변수 리스트</button>
-        <button id="btn-download-worlddata">다운로드 월드 데이터</button>
-        <button id="btn-upload-worlddata">업로드 월드 데이터</button>
-
-        <!-- 벽의 종류를 정할 수 있는 label-input -->
-        <label ><input type="radio" name="wall-type" id="wall" value="wall" checked> wall</label>
-        <label ><input type="radio" name="wall-type" id="door" value="door" >door</label>
-        <label><input type="radio" name="wall-type" id="fence" value="fence">fence</label>
-        <label><input type="radio" name="wall-type" id="delete" value="delete">delete</label>
     </div>
-    <section class="function-list hidden">
-        <h3>함수 리스트</h3>
-        <ul>
-            <li>print()</li>
-            <li>say()</li>
-            <li>directions()</li>
-            <li>show_item()</li>
-            <li>set_item()</li>
-            <li>move()</li>
-            <li>turn_left()</li>
-            <li>pick()</li>
-            <li>put()</li>
-            <li>repeat()</li>
-            <li>(from modules import turn_right) turn_right()</li>
-            <li>(from modules import turn_around) turn_around()</li>
-            <li>(from modules import move_to_wall) move_to_wall()</li>
-            <li>(from modules import turn_left_until_clear) turn_left_until_clear()</li>
-            <li>(from modules import jump) jump()</li>
-        </ul>
-    </section>
-    <section class="variable-list hidden">
-        <h3>변수 리스트</h3>
-        <ul>
-            <li>character_data</li>
-            <li>map_data</li>
-            <li>item_data</li>
-            <li>running_speed</li>
-        </ul>
-    </section>
     <section class="contents hidden">
             <nav class="question-nav">
                 <ol>
@@ -293,6 +355,7 @@
         map_slider_y.oninput = change_map
 
         # character 생성
+        # TODO: 캐릭터 크기 수정
         licat = Character(x=0, y=0, name='licat', width=32, height=40)
         character_data[0]['character_obj'] = licat
         draw_character = licat.draw()
@@ -378,61 +441,56 @@
             캐릭터를 클릭하면 캐릭터 정보(character_data)를 볼 수 있는 함수 
             '''
             # evt를 통해 x좌표, y좌표를 얻어냄
-            # js.console.log(evt)
-            x = evt.x
-            y = evt.y
+            # x = evt.x
+            # y = evt.y
             # x좌표, y좌표에 말풍선 생성
             bubble = js.document.createElement('div')
-            bubble.setAttribute('class', 'character-info-bubble')
+            bubble.setAttribute('class', 'character-info-bubble info-modal')
             bubble.style.position = 'absolute'
-            bubble.style.left = f'{x+10}px'
-            bubble.style.top = f'{y+10}px'
-            bubble.style.border = '1px solid black'
-            bubble.style.borderRadius = '10px'
-            bubble.style.borderTopLeftRadius = '0px'
-            bubble.style.padding = '10px'
-            bubble.style.backgroundColor = 'white'
+            bubble.style.left = '47px'
+            bubble.style.top = '15px'
             bubble.style.zIndex = '100'
             
             # 말풍선에 캐릭터 정보 추가
             bubble.innerHTML = f'''
-                <div class="bubble-content">
-                    <div class="bubble-title">캐릭터 정보</div>
-                    <div class="bubble-body">
-                        <div class="bubble-body-item">
-                            <div class="bubble-body-item-title">이름</div>
-                            <div class="bubble-body-item-content">{character_data[0]['character']}</div>
-                        </div>
-                        <div class="bubble-body-item">
-                            <div class="bubble-body-item-title">x좌표</div>
-                            <div class="bubble-body-item-content">{character_data[0]['x']}</div>
-                        </div>
-                        <div class="bubble-body-item">
-                            <div class="bubble-body-item-title">y좌표</div>
-                            <div class="bubble-body-item-content">{character_data[0]['y']}</div>
-                        </div>
-                        <div class="bubble-body-item">
-                            <div class="bubble-body-item-title">방향</div>
-                            <div class="bubble-body-item-content">{character_data[0]['directions']}</div>
-                        </div>
-                        <div class="bubble-body-item">
-                            <div class="bubble-body-item-title">아이템</div>
-                            <div class="bubble-body-item-content">{character_data[0]['items']}</div>
-                        </div>
+                <p class="info-title">캐릭터 정보</p>
+                <dl class="info-list">
+                    <div class="info-item">
+                        <dt class="bubble-body-item-title">이름</dt>
+                        <dd class="bubble-body-item-content">{character_data[0]['character']}</dd>
                     </div>
-                </div>
+                    <div class="info-item">
+                        <dt class="bubble-body-item-title">x좌표</dt>
+                        <dd class="bubble-body-item-content">{character_data[0]['x']}</dd>
+                    </div>
+                    <div class="info-item">
+                        <dt class="bubble-body-item-title">y좌표</dt>
+                        <dd class="bubble-body-item-content">{character_data[0]['y']}</dd>
+                    </div>
+                    <div class="info-item">
+                        <dt class="bubble-body-item-title">방향</dt>
+                        <dd class="bubble-body-item-content">{character_data[0]['directions']}</dd>
+                    </div>
+                    <div class="info-item">
+                        <dt class="bubble-body-item-title">아이템</dt>
+                        <dd class="bubble-body-item-content">{character_data[0]['items']}</dd>
+                    </div>
+                </dl>
             '''
-            # 말풍선을 app에 추가
-            app = js.document.querySelector('#app')
-            app.appendChild(bubble)
+            # app에 말풍선 추가(이미 말풍선이 존재하는 경우에는 추가하지 않음.)
+            addedBubble = js.document.querySelector('.character-info-bubble')
+            target_character = js.document.querySelector('.character')
+
+            if not addedBubble:
+                target_character.appendChild(bubble)
+
             # 5초후 제거
             setTimeout(
                 create_once_callable(
                     lambda: (
-                        app.removeChild(bubble)
+                        bubble.remove()
                     )
-                ),
-                5000
+                ), 5000
             )
 
         @when("click", selector="#btn-download-worlddata")

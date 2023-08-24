@@ -1043,6 +1043,9 @@ body {
 }
 
 .world-output .output {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
   padding: 1.9rem 0;
 }
 

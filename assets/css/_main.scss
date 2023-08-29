@@ -231,6 +231,11 @@ body {
         );
     }
 
+    /* 초기화 버튼 */
+    &.btn-reset::before {
+        @include mask-image(var(--ColorGrayLv3), '../img/icon/icon-reset.svg');
+    }
+
     &.active::before {
         background: var(--ColorPrimary);
     }

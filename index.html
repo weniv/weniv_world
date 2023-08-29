@@ -263,6 +263,13 @@
                                 </section>
                             </li>
                         </ul>
+                        <ul>
+                            <li>
+                                <button id="init" class="button-before btn-reset" type="button">
+                                    <span class="sr-only">월드, 캐릭터 초기화</span>
+                                </button>
+                            </li>
+                        </ul>
                     </nav>
                     <div id='app'></div>
                 </div>
@@ -275,10 +282,6 @@
         </section>
     </main>
     <p id="pointer"></p>
-    <div class="hidden">
-        <button id="init">초기화(월드, 캐릭터)</button>
-        <button id="init_character">캐릭터 초기화</button>
-    </div>
     <section class="contents hidden">
             <nav class="question-nav">
                 <ol>
@@ -476,6 +479,9 @@
                         <dd class="bubble-body-item-content">{character_data[0]['items']}</dd>
                     </div>
                 </dl>
+                <button type="button" id="init_character" class="btn-reset">
+                    <span class="sr-only">캐릭터 초기화</span>
+                </button>
             '''
             # app에 말풍선 추가(이미 말풍선이 존재하는 경우에는 추가하지 않음.)
             addedBubble = js.document.querySelector('.character-info-bubble')

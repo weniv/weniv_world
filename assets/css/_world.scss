@@ -96,13 +96,6 @@
             gap: 1.4rem;
         }
     }
-
-    .wall-type {
-        label {
-            vertical-align: middle;
-            cursor: pointer;
-        }
-    }
 }
 
 .info-btn-list {
@@ -129,6 +122,44 @@
         position: absolute;
         top: 1.6rem;
         right: 1.6rem;
+    }
+}
+
+.wall-type {
+    label {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        cursor: pointer;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 1.8rem;
+            height: 1.8rem;
+            @include mask-image(
+                var(--ColorOrange),
+                '../img/icon/icon-wall-import.svg'
+            );
+        }
+    }
+
+    input#door + label::after {
+        @include mask-image(
+            var(--ColorSienna),
+            '../img/icon/icon-wall-import.svg'
+        );
+    }
+
+    input#fence + label::after {
+        @include mask-image(
+            var(--ColorSeagrean),
+            '../img/icon/icon-wall-import.svg'
+        );
+    }
+
+    input#delete + label::after {
+        display: none;
     }
 }
 
@@ -266,30 +297,31 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+
+    .wall {
+        position: absolute;
+        border: 1px solid black;
+        box-sizing: border-box;
+        transform: translate(-50%, -50%);
+        width: 0.5rem;
+        height: 10rem;
+        margin: 2.5px 0 0 1px;
+        /* 기본 벽 */
+        background-color: var(--ColorOrange);
+    }
 }
 
-.wall {
-    position: absolute;
-    border: 1px solid black;
-    box-sizing: border-box;
-    background-color: cyan;
-    transform: translate(-50%, -50%);
-    width: 5px;
-    height: 102px;
-}
-
-/* 기본 벽 */
-.wall {
-    background-color: orange;
-}
+/* 가로벽 */
 .wall[data-direction='landscape'] {
     transform: rotate(90deg);
+    margin: 2px 0 0 1.5px;
 }
 
 /* type */
 .wall[data-type='door'] {
-    background-color: sienna;
+    background-color: var(--ColorSienna);
 }
+
 .wall[data-type='fence'] {
-    background-color: seagreen;
+    background-color: var(--ColorSeagrean);
 }

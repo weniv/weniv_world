@@ -3,6 +3,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap");
 :root {
   --ColorBtnSurface: #fff;
+  --ColorOrange: #ff9d09;
+  --ColorSienna: #a0522d;
+  --ColorSeagrean: #027371;
 }
 
 :root,
@@ -986,11 +989,6 @@ body {
   gap: 1.4rem;
 }
 
-.controll-btn-list .wall-type label {
-  vertical-align: middle;
-  cursor: pointer;
-}
-
 .info-btn-list ul {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
@@ -1021,6 +1019,61 @@ body {
   position: absolute;
   top: 1.6rem;
   right: 1.6rem;
+}
+
+.wall-type label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 1.2rem;
+  cursor: pointer;
+}
+
+.wall-type label::after {
+  content: '';
+  display: block;
+  width: 1.8rem;
+  height: 1.8rem;
+  background: var(--ColorOrange);
+  -webkit-mask-image: url("../img/icon/icon-wall-import.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-wall-import.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.wall-type input#door + label::after {
+  background: var(--ColorSienna);
+  -webkit-mask-image: url("../img/icon/icon-wall-import.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-wall-import.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.wall-type input#fence + label::after {
+  background: var(--ColorSeagrean);
+  -webkit-mask-image: url("../img/icon/icon-wall-import.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../img/icon/icon-wall-import.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+}
+
+.wall-type input#delete + label::after {
+  display: none;
 }
 
 #app {
@@ -1178,34 +1231,33 @@ body {
   overflow: hidden;
 }
 
-.wall {
+.wall-container .wall {
   position: absolute;
   border: 1px solid black;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  background-color: cyan;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  width: 5px;
-  height: 102px;
+  width: 0.5rem;
+  height: 10rem;
+  margin: 2.5px 0 0 1px;
+  /* 기본 벽 */
+  background-color: var(--ColorOrange);
 }
 
-/* 기본 벽 */
-.wall {
-  background-color: orange;
-}
-
+/* 가로벽 */
 .wall[data-direction='landscape'] {
   -webkit-transform: rotate(90deg);
           transform: rotate(90deg);
+  margin: 2px 0 0 1.5px;
 }
 
 /* type */
 .wall[data-type='door'] {
-  background-color: sienna;
+  background-color: var(--ColorSienna);
 }
 
 .wall[data-type='fence'] {
-  background-color: seagreen;
+  background-color: var(--ColorSeagrean);
 }
 /*# sourceMappingURL=style.css.map */

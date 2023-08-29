@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>weniv world</title>
 
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/img/icon/icon-logo.svg">
+
     <!-- 환경파일 -->
     <script src="./assets/js/env.js" defer></script>
 
@@ -18,6 +21,10 @@
     <link rel="stylesheet" href="assets/pyscript/pyscript.css" />
     <script defer src="assets/pyscript/pyscript_latest.js"></script>
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
     <py-config>
         terminal = false
         # packages = ["numpy", "nest_asyncio"]
@@ -26,10 +33,6 @@
         from = "./assets/py/"
         files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py"]
     </py-config>
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/reset.css">
-    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <header class="header">

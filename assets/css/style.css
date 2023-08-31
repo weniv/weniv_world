@@ -868,6 +868,7 @@ body {
 }
 
 .world {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -932,10 +933,9 @@ body {
 }
 
 .world-menu {
-  position: -webkit-sticky;
-  position: sticky;
+  position: absolute;
   left: 2rem;
-  top: 2rem;
+  top: 7rem;
   -ms-flex-item-align: start;
       -ms-grid-row-align: start;
       align-self: start;
@@ -944,7 +944,6 @@ body {
   background: var(--ColorBackground);
   -webkit-box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.04);
           box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.04);
-  margin-top: -2rem;
   z-index: 15;
 }
 

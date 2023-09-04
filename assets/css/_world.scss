@@ -69,10 +69,10 @@
         &:last-child {
             border-bottom: none;
         }
-    }
 
-    li {
-        position: relative;
+        & > li {
+            position: relative;
+        }
     }
 
     .controller-modal {

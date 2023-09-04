@@ -594,6 +594,8 @@ body {
   font-size: 1.4rem;
   font-weight: 500;
   line-height: 1.8rem;
+  word-break: break-word;
+  text-align: left;
 }
 
 .header {
@@ -967,7 +969,7 @@ body {
   border-bottom: none;
 }
 
-.world-menu li {
+.world-menu > ul > li {
   position: relative;
 }
 

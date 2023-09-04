@@ -9,6 +9,7 @@
 .world-header {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
     height: 5rem;
     padding: 0 2rem;
     border-bottom: 1px solid var(--ColorGrayLv2);
@@ -33,7 +34,7 @@
 }
 
 .world-map {
-    flex-grow: 1;
+    flex: auto;
     overflow: scroll;
 
     & > .world-wrap {
@@ -41,7 +42,8 @@
         align-self: start;
         height: auto;
         width: 100%;
-        padding: 4rem 0 5.5rem;
+        padding: 4rem 4rem 5.5rem;
+        box-sizing: border-box;
     }
 }
 
@@ -178,7 +180,7 @@
 
 .world-output {
     display: flex;
-    min-height: 32rem;
+    min-height: 25%;
     background: var(--ColorGrayLv1);
     border-top: 1px solid var(--ColorGrayLv2);
     color: var(--white-mode-w-surface, var(--ColorSurface));

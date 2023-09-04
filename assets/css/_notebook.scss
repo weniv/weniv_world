@@ -7,6 +7,7 @@
 .notebook-header {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
     height: 5rem;
     padding: 0 2rem;
     border-bottom: 1px solid var(--ColorGrayLv2);
@@ -54,8 +55,11 @@
 .notebook-section {
     display: flex;
     flex-direction: column;
+    height: calc(100% - 5.1rem);
     gap: 1.2rem;
     padding: 2rem;
+    box-sizing: border-box;
+    overflow: scroll;
 }
 
 .py-repl-box {

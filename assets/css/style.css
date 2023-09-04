@@ -641,11 +641,9 @@ body {
   display: -ms-flexbox;
   display: flex;
   width: 100%;
-  min-height: calc(100vh - 7.1rem);
+  height: calc(100vh - 7.1rem);
 }
 
-/* 이전 작성 코드 */
-/* .wall */
 .notebook {
   width: 50rem;
   border-right: 1px solid var(--ColorGrayLv2);
@@ -660,6 +658,8 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   height: 5rem;
   padding: 0 2rem;
   border-bottom: 1px solid var(--ColorGrayLv2);
@@ -723,8 +723,12 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  height: calc(100% - 5.1rem);
   gap: 1.2rem;
   padding: 2rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow: scroll;
 }
 
 .py-repl-box {
@@ -891,6 +895,8 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   height: 5rem;
   padding: 0 2rem;
   border-bottom: 1px solid var(--ColorGrayLv2);
@@ -918,8 +924,8 @@ body {
 
 .world-map {
   -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
+      -ms-flex: auto;
+          flex: auto;
   overflow: scroll;
 }
 
@@ -931,7 +937,9 @@ body {
       align-self: start;
   height: auto;
   width: 100%;
-  padding: 4rem 0 5.5rem;
+  padding: 4rem 4rem 5.5rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .world-menu {
@@ -1108,7 +1116,7 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  min-height: 32rem;
+  min-height: 25%;
   background: var(--ColorGrayLv1);
   border-top: 1px solid var(--ColorGrayLv2);
   color: var(--white-mode-w-surface, var(--ColorSurface));

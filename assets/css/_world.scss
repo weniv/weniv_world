@@ -34,17 +34,13 @@
 }
 
 .world-map {
+    display: flex;
     flex: auto;
+    margin: 0.8rem 0.6rem;
+    padding: 3.2rem 2.8rem 3.2rem 3.4rem;
+    box-sizing: border-box;
     overflow: scroll;
-
-    & > .world-wrap {
-        display: flex;
-        align-self: start;
-        height: auto;
-        width: 100%;
-        padding: 4rem 4rem 5.5rem;
-        box-sizing: border-box;
-    }
+    @include scrollbar;
 }
 
 .world-menu {
@@ -120,7 +116,8 @@
     .controller-modal {
         flex-direction: column;
         gap: 1.8rem;
-        width: 60rem;
+        width: 62.7rem;
+        padding: 2rem;
     }
 
     .title {
@@ -175,44 +172,54 @@
 }
 
 #app {
-    margin: 0 auto;
+    margin: auto;
 }
 
 .world-output {
-    display: flex;
     min-height: 25%;
     background: var(--ColorGrayLv1);
     border-top: 1px solid var(--ColorGrayLv2);
-    color: var(--white-mode-w-surface, var(--ColorSurface));
+    color: var(--ColorSurface);
     font-family: Source Code Pro;
     font-size: 1.6rem;
-    font-style: normal;
+    line-height: 2rem;
     font-weight: 500;
-    overflow-x: scroll;
+    padding: 0.6rem 0.6rem 0.6rem 0;
+
+    .output-wrap {
+        display: flex;
+        height: 100%;
+        padding: 1.3rem 0 1.3rem 0;
+        background: var(--ColorGrayLv1);
+        overflow: scroll;
+        box-sizing: border-box;
+        @include scrollbar(var(--ColorGrayLv1));
+    }
 
     .output {
         flex-grow: 1;
-        padding: 1.9rem 0;
     }
 
-    .current {
-        background: var(--ColorActivation);
+    li {
+        background: var(--ColorGrayLv1);
     }
 
     .output-item {
+        height: 4rem;
         padding: 1rem;
         white-space: pre;
+        box-sizing: border-box;
+        background: var(--ColorGrayLv1);
     }
 
     .index-list {
         position: sticky;
         left: 0;
-        padding: 1.9rem 0;
-        background: var(--ColorGrayLv1);
 
         li {
             position: relative;
             width: 5.5rem;
+            height: 4rem;
             padding: 1rem 1rem 1rem 0;
             box-sizing: border-box;
             text-align: right;
@@ -227,6 +234,10 @@
             height: 100%;
             background: var(--ColorPrimary);
         }
+    }
+
+    .current {
+        background: var(--ColorActivation);
     }
 }
 

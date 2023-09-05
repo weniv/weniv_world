@@ -24,3 +24,21 @@
     mask-repeat: $repeat;
     mask-position: $positionX $positionY;
 }
+
+@mixin scrollbar(
+    $track-color: var(--ColorBackground),
+    $thumb-color: rgba(141, 146, 153, 0.5),
+    $size: 0.6rem
+) {
+    &::-webkit-scrollbar {
+        width: $size;
+        height: $size;
+        background-color: $track-color;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $thumb-color;
+        border-radius: $size;
+        cursor: pointer;
+    }
+}

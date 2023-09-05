@@ -94,11 +94,17 @@ html {
 }
 
 body {
+  height: 100vh;
   font-size: 1.6rem;
   line-height: 1.6;
   font-family: "Pretendard";
   color: var(--ColorSurface);
   background: var(--ColorBackground);
+  letter-spacing: -0.01em;
+  overflow: hidden;
+}
+
+button {
   letter-spacing: -0.01em;
 }
 
@@ -594,7 +600,6 @@ body {
   font-size: 1.4rem;
   font-weight: 500;
   line-height: 1.8rem;
-  word-break: break-word;
   text-align: left;
 }
 
@@ -608,8 +613,11 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  height: 7rem;
   padding: 1.4rem 2rem;
   border-bottom: 1px solid var(--ColorGrayLv2);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .header h1 {
@@ -641,7 +649,7 @@ body {
   display: -ms-flexbox;
   display: flex;
   width: 100%;
-  height: calc(100vh - 7.1rem);
+  height: calc(100vh - 7rem);
 }
 
 .notebook {
@@ -723,12 +731,25 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  height: calc(100% - 5.1rem);
+  height: calc(100% - 5.1rem - 1.2rem);
   gap: 1.2rem;
-  padding: 2rem;
+  padding: 1.4rem 0.8rem 1.4rem 1.4rem;
+  margin: 0.6rem;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   overflow: scroll;
+}
+
+.notebook-section::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: var(--ColorBackground);
+}
+
+.notebook-section::-webkit-scrollbar-thumb {
+  background-color: rgba(141, 146, 153, 0.5);
+  border-radius: 0.6rem;
+  cursor: pointer;
 }
 
 .py-repl-box {
@@ -923,23 +944,29 @@ body {
 }
 
 .world-map {
-  -webkit-box-flex: 1;
-      -ms-flex: auto;
-          flex: auto;
-  overflow: scroll;
-}
-
-.world-map > .world-wrap {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-item-align: start;
-      align-self: start;
-  height: auto;
-  width: 100%;
-  padding: 4rem 4rem 5.5rem;
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
+  margin: 0.8rem 0.6rem;
+  padding: 3.2rem 2.8rem 3.2rem 3.4rem;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  overflow: scroll;
+}
+
+.world-map::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: var(--ColorBackground);
+}
+
+.world-map::-webkit-scrollbar-thumb {
+  background-color: rgba(141, 146, 153, 0.5);
+  border-radius: 0.6rem;
+  cursor: pointer;
 }
 
 .world-menu {
@@ -1038,7 +1065,8 @@ body {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 1.8rem;
-  width: 60rem;
+  width: 62.7rem;
+  padding: 2rem;
 }
 
 .info-btn-list .title {
@@ -1109,51 +1137,74 @@ body {
 }
 
 #app {
-  margin: 0 auto;
+  margin: auto;
 }
 
 .world-output {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
   min-height: 25%;
   background: var(--ColorGrayLv1);
   border-top: 1px solid var(--ColorGrayLv2);
-  color: var(--white-mode-w-surface, var(--ColorSurface));
+  color: var(--ColorSurface);
   font-family: Source Code Pro;
   font-size: 1.6rem;
-  font-style: normal;
+  line-height: 2rem;
   font-weight: 500;
-  overflow-x: scroll;
+  padding: 0.6rem 0.6rem 0.6rem 0;
+}
+
+.world-output .output-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  padding: 1.3rem 0 1.3rem 0;
+  background: var(--ColorGrayLv1);
+  overflow: scroll;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.world-output .output-wrap::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: var(--ColorGrayLv1);
+}
+
+.world-output .output-wrap::-webkit-scrollbar-thumb {
+  background-color: rgba(141, 146, 153, 0.5);
+  border-radius: 0.6rem;
+  cursor: pointer;
 }
 
 .world-output .output {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
-  padding: 1.9rem 0;
 }
 
-.world-output .current {
-  background: var(--ColorActivation);
+.world-output li {
+  background: var(--ColorGrayLv1);
 }
 
 .world-output .output-item {
+  height: 4rem;
   padding: 1rem;
   white-space: pre;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background: var(--ColorGrayLv1);
 }
 
 .world-output .index-list {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
-  padding: 1.9rem 0;
-  background: var(--ColorGrayLv1);
 }
 
 .world-output .index-list li {
   position: relative;
   width: 5.5rem;
+  height: 4rem;
   padding: 1rem 1rem 1rem 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -1168,6 +1219,10 @@ body {
   width: 0.4rem;
   height: 100%;
   background: var(--ColorPrimary);
+}
+
+.world-output .current {
+  background: var(--ColorActivation);
 }
 
 /* map */
@@ -1344,6 +1399,8 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   gap: 2rem;
   height: 5rem;
   padding: 0 1.5rem;
@@ -1406,8 +1463,23 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  height: calc(100% - 5.1rem);
   gap: 1rem;
-  padding: 2rem;
+  padding: 1.4rem 0.8rem 2rem 2rem;
+  margin: 0.6rem 0.8rem 0 0;
+  overflow: scroll;
+}
+
+.story-list::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: var(--ColorBackground);
+}
+
+.story-list::-webkit-scrollbar-thumb {
+  background-color: rgba(141, 146, 153, 0.5);
+  border-radius: 0.6rem;
+  cursor: pointer;
 }
 
 .story-list > li {

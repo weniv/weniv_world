@@ -12,6 +12,7 @@
 .story-header {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
     gap: 2rem;
     height: 5rem;
     padding: 0 1.5rem;
@@ -62,8 +63,12 @@
 .story-list {
     display: flex;
     flex-direction: column;
+    height: calc(100% - 5.1rem);
     gap: 1rem;
-    padding: 2rem;
+    padding: 1.4rem 0.8rem 2rem 2rem;
+    margin: 0.6rem 0.8rem 0 0;
+    overflow: scroll;
+    @include scrollbar;
 
     & > li {
         border-radius: 0.8rem;

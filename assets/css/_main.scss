@@ -6,11 +6,17 @@ html {
 }
 
 body {
+    height: 100vh;
     font-size: 1.6rem;
     line-height: 1.6;
     font-family: $font-basic;
     color: var(--ColorSurface);
     background: var(--ColorBackground);
+    letter-spacing: -0.01em;
+    overflow: hidden;
+}
+
+button {
     letter-spacing: -0.01em;
 }
 
@@ -406,7 +412,6 @@ body {
     font-size: 1.4rem;
     font-weight: 500;
     line-height: 1.8rem;
-    word-break: break-word;
     text-align: left;
 }
 
@@ -414,8 +419,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 7rem;
     padding: 1.4rem 2rem;
     border-bottom: 1px solid var(--ColorGrayLv2);
+    box-sizing: border-box;
 
     h1 {
         width: 4.2rem;
@@ -441,5 +448,5 @@ body {
 .main {
     display: flex;
     width: 100%;
-    height: calc(100vh - 7.1rem);
+    height: calc(100vh - 7rem);
 }

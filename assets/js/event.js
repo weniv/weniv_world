@@ -45,16 +45,17 @@ const darkModeButton = document.querySelector('.btn-dark-mode');
 
 const getUserTheme = () => (userColorTheme ? userColorTheme : osColorTheme);
 
-window.onload = () => {
-    if (getUserTheme === 'dark') {
+window.addEventListener('load', () => {
+    if (getUserTheme() === 'dark') {
         localStorage.setItem('color-theme', 'dark');
         document.documentElement.setAttribute('color-theme', 'dark');
         darkModeButton.classList.add('active');
     } else {
         localStorage.setItem('color-theme', 'light');
         document.documentElement.setAttribute('color-theme', 'light');
+        darkModeButton.classList.remove('active');
     }
-};
+});
 
 darkModeButton.addEventListener('click', () => {
     if (darkModeButton.classList.contains('active')) {

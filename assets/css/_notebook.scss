@@ -60,7 +60,7 @@
     padding: 1.4rem 0.8rem 1.4rem 1.4rem;
     margin: 0.6rem;
     box-sizing: border-box;
-    overflow: scroll;
+    overflow: auto;
     @include scrollbar;
 }
 
@@ -84,7 +84,7 @@
     font-family: 'Source Code Pro';
     font-size: 1.6rem;
     font-weight: 500;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .ͼ1.cm-focused {

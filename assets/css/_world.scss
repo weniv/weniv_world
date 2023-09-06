@@ -39,7 +39,7 @@
     margin: 0.8rem 0.6rem;
     padding: 3.2rem 2.8rem 3.2rem 3.4rem;
     box-sizing: border-box;
-    overflow: scroll;
+    overflow: auto;
     @include scrollbar;
 }
 
@@ -184,16 +184,11 @@
     font-size: 1.6rem;
     line-height: 2rem;
     font-weight: 500;
-    padding: 0.6rem 0.6rem 0.6rem 0;
+    overflow: auto;
+    padding: 1.9rem 0;
 
     .output-wrap {
         display: flex;
-        height: 100%;
-        padding: 1.3rem 0 1.3rem 0;
-        background: var(--ColorGrayLv1);
-        overflow: scroll;
-        box-sizing: border-box;
-        @include scrollbar(var(--ColorGrayLv1));
     }
 
     .output {
@@ -213,6 +208,7 @@
     }
 
     .index-list {
+        // padding: 1.9rem 0;
         position: sticky;
         left: 0;
 

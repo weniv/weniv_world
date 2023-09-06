@@ -94,7 +94,6 @@ html {
 }
 
 body {
-  height: 100vh;
   font-size: 1.6rem;
   line-height: 1.6;
   font-family: "Pretendard";
@@ -737,7 +736,7 @@ button {
   margin: 0.6rem;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .notebook-section::-webkit-scrollbar {
@@ -774,7 +773,7 @@ button {
   font-family: 'Source Code Pro';
   font-size: 1.6rem;
   font-weight: 500;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .ͼ1.cm-focused {
@@ -954,7 +953,7 @@ button {
   padding: 3.2rem 2.8rem 3.2rem 3.4rem;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .world-map::-webkit-scrollbar {
@@ -1149,31 +1148,14 @@ button {
   font-size: 1.6rem;
   line-height: 2rem;
   font-weight: 500;
-  padding: 0.6rem 0.6rem 0.6rem 0;
+  overflow: auto;
+  padding: 1.9rem 0;
 }
 
 .world-output .output-wrap {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 100%;
-  padding: 1.3rem 0 1.3rem 0;
-  background: var(--ColorGrayLv1);
-  overflow: scroll;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.world-output .output-wrap::-webkit-scrollbar {
-  width: 0.6rem;
-  height: 0.6rem;
-  background-color: var(--ColorGrayLv1);
-}
-
-.world-output .output-wrap::-webkit-scrollbar-thumb {
-  background-color: rgba(141, 146, 153, 0.5);
-  border-radius: 0.6rem;
-  cursor: pointer;
 }
 
 .world-output .output {

@@ -35,3 +35,35 @@ sliders.forEach((slider) => {
         }
     });
 });
+
+// 다크모드
+const userColorTheme = localStorage.getItem('color-theme');
+const osColorTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+const darkModeButton = document.querySelector('.btn-dark-mode');
+
+const getUserTheme = () => (userColorTheme ? userColorTheme : osColorTheme);
+
+window.onload = () => {
+    if (getUserTheme === 'dark') {
+        localStorage.setItem('color-theme', 'dark');
+        document.documentElement.setAttribute('color-theme', 'dark');
+        darkModeButton.classList.add('active');
+    } else {
+        localStorage.setItem('color-theme', 'light');
+        document.documentElement.setAttribute('color-theme', 'light');
+    }
+};
+
+darkModeButton.addEventListener('click', () => {
+    if (darkModeButton.classList.contains('active')) {
+        localStorage.setItem('color-theme', 'light');
+        document.documentElement.setAttribute('color-theme', 'light');
+        darkModeButton.classList.remove('active');
+    } else {
+        localStorage.setItem('color-theme', 'dark');
+        document.documentElement.setAttribute('color-theme', 'dark');
+        darkModeButton.classList.add('active');
+    }
+});

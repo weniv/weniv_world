@@ -1244,6 +1244,8 @@ button {
   position: relative;
   -webkit-animation: player 1s steps(7) infinite;
           animation: player 1s steps(7) infinite;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
   z-index: 10;
 }
 

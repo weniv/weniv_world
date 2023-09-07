@@ -266,6 +266,7 @@
 .character {
     position: relative;
     animation: player 1s steps(7) infinite;
+    transform: rotate(0deg);
     z-index: 10;
 
     .character-info-bubble {

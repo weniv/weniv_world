@@ -1044,7 +1044,7 @@ button {
   width: 26.1rem;
 }
 
-.controll-btn-list .controller-modal.wall-type, .controll-btn-list .controller-modal.resize {
+.controll-btn-list .controller-modal.wall-type, .controll-btn-list .controller-modal.select-items, .controll-btn-list .controller-modal.resize {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -1138,6 +1138,33 @@ button {
 
 .wall-type input#delete + label::after {
   display: none;
+}
+
+.select-items label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 1.2rem;
+  cursor: pointer;
+}
+
+.select-items label::after {
+  content: '';
+  display: block;
+  width: 1.8rem;
+  height: 1.8rem;
+  background: url("../img/item/fish-1.png") no-repeat center/cover;
+}
+
+.select-items input#fish-2 + label::after {
+  background: url("../img/item/fish-2.png") no-repeat center/cover;
+}
+
+.select-items input#fish-3 + label::after {
+  background: url("../img/item/fish-3.png") no-repeat center/cover;
 }
 
 #app {
@@ -1292,7 +1319,7 @@ button {
   width: -moz-max-content;
   width: max-content;
   max-width: 26rem;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .attack {

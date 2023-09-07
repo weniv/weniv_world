@@ -83,24 +83,13 @@ class Character:
         """
         캐릭터 위에 말풍선과 함께 출력하는 함수
         """
-        c = js.document.querySelector(f".{self.name}")
-        speech_bubble = js.document.createElement("div")
-        speech_bubble.setAttribute("class", "speech-bubble")
-        speech_bubble.style.position = "absolute"
-        speech_bubble.style.top = "-50px"
-        speech_bubble.style.left = "50px"
-        speech_bubble.style.width = "100px"
-        speech_bubble.style.backgroundColor = "white"
-        speech_bubble.style.borderRadius = "10px"
-        speech_bubble.style.border = "1px solid black"
-        speech_bubble.style.textAlign = "center"
-        speech_bubble.style.padding = "4px"
-        speech_bubble.style.margin = "4px"
-        speech_bubble.style.fontSize = "12px"
-        speech_bubble.style.fontWeight = "bold"
-        speech_bubble.style.zIndex = "100"
-        speech_bubble.style.wordBreak = "break-all"
-        speech_bubble.innerHTML = f"{text}"
+        c = js.document.querySelector(f'.{self.name}')
+        speech_bubble = js.document.createElement('div')
+        speech_bubble.setAttribute('class', 'speech-bubble')
+        speech_bubble.style.top = '-50px'
+        speech_bubble.style.left = '50px'
+        speech_bubble.style.zIndex = '20'
+        speech_bubble.innerHTML = f'{text}'
         c.appendChild(speech_bubble)
         setTimeout(
             create_once_callable(lambda: (c.removeChild(speech_bubble))), speech_time

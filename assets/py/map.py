@@ -11,12 +11,23 @@ class Map:
         '''
         container = js.document.createElement('div')
         container.setAttribute('class', 'map-container')
-        for i in range(0, self.X):
-            flex = js.document.createElement('div')
-            flex.setAttribute('class', 'map-flex')
-            for j in range(0, self.Y):
-                item = js.document.createElement('div')
-                item.setAttribute('class', 'map-item')
-                flex.appendChild(item)
-            container.appendChild(flex)
+        map_items = js.document.createElement('div')
+        map_items.setAttribute('class', 'map-items')
+
+        map_items.style.gridTemplateRows = f'repeat({self.X}, 10rem)'
+        map_items.style.gridTemplateColumns = f'repeat({self.Y}, 10rem)'
+        for i in range(0, self.X*self.Y):
+            item = js.document.createElement('div')
+            item.setAttribute('class', 'map-item')
+            map_items.appendChild(item)
+        container.appendChild(map_items)
+        
+        # for i in range(0, self.X):
+        #     flex = js.document.createElement('div')
+        #     flex.setAttribute('class', 'map-flex')
+        #     for j in range(0, self.Y):
+        #         item = js.document.createElement('div')
+        #         item.setAttribute('class', 'map-item')
+        #         flex.appendChild(item)
+        #     container.appendChild(flex)
         return container

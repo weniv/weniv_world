@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" color-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>weniv world</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/img/icon/icon-logo.svg">
 
     <!-- 환경파일 -->
     <script src="./assets/js/env.js" defer></script>
@@ -15,9 +18,13 @@
     <script src="./assets/js/event.js" defer></script>
 
     <!-- PyScript -->
-    <!-- TODO: 로컬로 바꿔야 합니다. -->
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <link rel="stylesheet" href="assets/pyscript/pyscript.css" />
+    <script defer src="assets/pyscript/pyscript_latest.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+
     <py-config>
         terminal = false
         # packages = ["numpy", "nest_asyncio"]
@@ -26,69 +33,320 @@
         from = "./assets/py/"
         files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py"]
     </py-config>
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/main.css">
 </head>
 <body>
-    <div id='app'></div>
+    <header class="header">
+        <h1>
+            <a href="/">
+                <span class="sr-only">위니브 월드</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42" fill="none">
+                    <rect width="42" height="42" rx="10" fill="#2E6FF2"/>
+                    <path d="M32.9063 21C32.3019 21 31.8126 21.4808 31.8126 22.0748C31.8126 24.7075 29.6321 26.8504 26.9532 26.8504C24.2742 26.8504 22.0937 24.7075 22.0937 22.0748C22.0937 21.4808 21.6044 21 21 21C20.3956 21 19.9063 21.4808 19.9063 22.0748C19.9063 24.7075 17.7258 26.8504 15.0468 26.8504C12.3679 26.8504 10.1874 24.7075 10.1874 22.0748C10.1874 21.4808 9.6981 21 9.09369 21C8.48928 21 8 21.4808 8 22.0748C8 25.8932 11.1614 29 15.0468 29C17.5497 29 19.7497 27.7102 21 25.7733C22.2503 27.7102 24.4515 29 26.9532 29C30.8386 29 34 25.8932 34 22.0748C34 21.4808 33.5107 21 32.9063 21Z" fill="white"/>
+                    <path d="M15 18C16.1046 18 17 17.1046 17 16C17 14.8954 16.1046 14 15 14C13.8954 14 13 14.8954 13 16C13 17.1046 13.8954 18 15 18Z" fill="white"/>
+                    <path d="M27 18C28.1046 18 29 17.1046 29 16C29 14.8954 28.1046 14 27 14C25.8954 14 25 14.8954 25 16C25 17.1046 25.8954 18 27 18Z" fill="white"/>
+                  </svg>
+            </a>
+        </h1>
+        <nav class="menu">
+            <ul class="menu-list">
+                <li>
+                    <button type="button" class="button-before btn-story">
+                        <span class="sr-only">
+                            스토리 보기
+                        </span>
+                    </button>
+                </li>
+                <li>
+                    <a href="https://pyalgo.co.kr/codeexec.html" class="basic-btn" target="_blank">코드 에디터로 이동</a>
+                </li>
+                <li>
+                    <button type="button" class="btn-dark-mode">
+                        <span class="sr-only">다크모드 온/오프 버튼</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main class="main">
+        <section class="notebook">
+            <header class="notebook-header">
+                <h2>Notebook</h2>
+                <button type="button" class="btn-add-code">코드 추가</button>
+                <ul class="notebook-btn-list">
+                    <li>
+                        <button type="button" class="downloadNotebookBtn btn-file-export">
+                            <span class="sr-only">노트북 내보내기</span>
+                        </button>
+                    </li>
+                    <li>
+                        <!-- TODO: 업로드 기능 구현 -->
+                        <button type="button" class="uploadNotebookBtn btn-file-import">
+                            <span class="sr-only">노트북 추가하기</span>
+                        </button>
+                    </li>
+                </ul>
+            </header>
+            <section class="notebook-section">
+                <h3 class="sr-only">코드 입력</h3>
+                <py-repl id="my-repl" auto-generate="true">
+                    # sample 코드입니다. shift + enter를 눌러 실행해보세요.
+                    # character_data, map_data, item_data는 기본 제공 데이터입니다.
+                    # from modules import turn_right와 같이 모듈을 불러와 사용할 수 있습니다.
+                    set_item(2, 2, 'fish')
+                    move()
+                    move()
+                    turn_left()
+                    turn_left()
+                    turn_left()
+                    repeat(2, move)
+                    # pick()
+                </py-repl>
+            </section>
+        </section>
+        <section class="world">
+            <header class="world-header">
+                <h2>World</h2>
+                <ul class="world-btn-list">
+                    <li>
+                        <button type="button" class="btn-file-export" id="btn-download-worlddata">
+                            <span class="sr-only">월드 내보내기</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="btn-file-import" id="btn-upload-worlddata">
+                            <span class="sr-only">월드 추가하기</span>
+                        </button>
+                    </li>
+                </ul>
+            </header>
+            <section class="world-map">
+                <h3 class="sr-only">위니브월드 맵</h3>
+                <div id='app'></div>
+            </section>
+            <nav class="world-menu">
+                <ul class="controll-btn-list">
+                    <li>
+                        <button class="button-before btn-wall btn-toggle" type="button">
+                            <span class="sr-only">벽 만들기</span>
+                        </button>
+                        <div class="controller-modal wall-type">
+                            <!-- 벽의 종류를 정할 수 있는 label-input -->
+                            <div class="input-wrap">
+                                <input type="radio" name="wall-type" id="wall" value="wall" checked>
+                                <label for="wall">wall(기본): orange</label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="wall-type" id="door" value="door">
+                                <label for="door">door: sienna</label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="wall-type" id="fence" value="fence">
+                                <label for="fence">fence: seagreen</label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="wall-type" id="delete" value="delete">
+                                <label for="delete">delete</label>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <button class="button-before btn-assets  btn-toggle" type="button">
+                            <span class="sr-only">아이템 추가하기</span>
+                        </button>
+                        <div class="controller-modal select-items">
+                            <!-- TODO: items data 파일 뿌려주기 -->
+                            <!-- 우선 fish 3개만 추가, 현재 동작 안 함 -->
+                            <div class="input-wrap">
+                                <input type="radio" name="item" id="fish-1" value="fish-1" checked>
+                                <label for="item">fish-1(기본)</label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="item" id="fish-2" value="fish-2">
+                                <label for="item">fish-2</label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="item" id="fish-3" value="fish-3">
+                                <label for="item">fish-3</label>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <button class="button-before btn-resize btn-toggle" type="button">
+                            <span class="sr-only">월드 크기 조정하기</span>
+                        </button>
+                        <div class="controller-modal resize">
+                            <div class="input-wrap">
+                                <label for="map-range-x">Map_x</label>
+                                <input type="range" min="3" max="10" value="5" class="slider" id="map-range-x">
+                                <strong id="map-text-x"></strong>
+                            </div>
+                            <div class="input-wrap">
+                                <label for="map-range-y">Map_y</label>
+                                <input type="range" min="3" max="10" value="5" class="slider" id="map-range-y">
+                                <strong id="map-text-y"></strong>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <button class="button-before btn-speed btn-toggle" type="button">
+                            <span class="sr-only">속도 조절하기</span>
+                        </button>
+                        <div class="controller-modal speed">
+                            <div class="input-wrap">
+                                <label for="speed-range">Speed</label>
+                                <input type="range" min="1" max="100" value="30" class="slider" id="speed-range">
+                                <strong id="speed-text"></strong>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="info-btn-list">
+                    <li>
+                        <button class="button-before btn-function btn-toggle" type="button" id="btn-list-function">
+                            <span class="sr-only">함수 리스트 보기</span>
+                        </button>
+                        <section class="controller-modal function-list">
+                            <h4 class="title">함수 리스트</h4>
+                            <ul>
+                                <li>
+                                    <button type="button" class="code-item">print()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">directions()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">show_item()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">set_item()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">move()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">turn_left()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">pick()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">put()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">repeat()</button>
+                                </li>
+                                <li><button type="button" class="code-item">(from modules import turn_right) turn_right()</button>
+                                </li>
+                                <li><button type="button" class="code-item">(from modules import turn_around) turn_around()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">(from modules import move_to_wall) move_to_wall()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">(from modules import turn_left_until_clear) <wbr />turn_left_until_clear()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">(from modules import jump) jump()</button>
+                                </li>
+                            </ul>
+                            <button class="btn-close" type="button">
+                                <span class="sr-only">닫기 버튼</span>
+                            </button>
+                        </section>
+                    </li>
+                    <li>
+                        <button class="button-before btn-variable btn-toggle" type="button" id="btn-list-variable">
+                            <span class="sr-only">변수 리스트 보기</span>
+                        </button>
+                        <section class="controller-modal variable-list">
+                            <h4 class="title">변수 리스트</h4>
+                            <ul>
+                                <li>
+                                    <button type="button" class="code-item">character_data</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">map_data</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">item_data</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">running_speed</button>
+                                </li>
+                            </ul>
+                            <button class="btn-close" type="button">
+                                <span class="sr-only">닫기 버튼</span>
+                            </button>
+                        </section>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <button id="init" class="button-before btn-reset" type="button">
+                            <span class="sr-only">월드, 캐릭터 초기화</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            <section class="world-output">
+                <h3 class="sr-only">실행 결과</h3>
+                <div class="output-wrap">
+                    <ol class="index-list"></ol>
+                    <div id='output' class="output"></div>
+                </div>
+            </section>
+        </section>
+        <section class="story">
+            <header class="story-header">
+                <h2>스토리 보기</h2>
+                <button type="button" class="btn-write-story">
+                    직접 작성하기
+                </button>
+                <button type="button" class="btn-close-story">
+                    <span class="sr-only">
+                        스토리 닫기
+                    </span>
+                </button>
+            </header>
+            <ul class="story-list">
+                <li>
+                    <section class="story-title">
+                        <h3>
+                            <span>1편</span>라이캣의 탄생
+                        </h3>
+                        <button class="btn-toggle">
+                            <span class="sr-only">스토리 여닫기</span>
+                        </button>
+                    </section>
+                    <section class="story-contents">
+                        <h3 class="sr-only">스토리</h3>
+                        <p>
+                            캣은 변방에서 생선 가게를 운영하는 평범한 소년입니다. 아픈 어머니를 대신하여 새벽이면 험한 바다에 나가 고기를 잡고, 오후가 되면 생선을 파는 생활을 반복하고 있는, 지극히 평범한 소년이죠.
+                            하지만 소년은 항상 노래를 부르고, 웃으며, 눈과 귀를 열어놓고 세상과 사람에 집중하며, 아름다운 것에 심취하고, 동화될 줄 알았습니다.
+                        </p>
+                    </section>
+                </li>
+                <li>
+                    <section class="story-title">
+                        <h3>
+                            <span>2편</span>여행을 떠난 라이캣
+                        </h3>
+                        <button class="btn-toggle">
+                            <span class="sr-only">스토리 여닫기</span>
+                        </button>
+                    </section>
+                    <section class="story-contents">
+                        <h3 class="sr-only">스토리</h3>
+                        <p>
+                            여행을 떠난 라이캣 스토리
+                        </p>
+                    </section>
+                </li>
+            </ul>
+        </section>
+    </main>
     <p id="pointer"></p>
-    <textarea id='output'></textarea>
-    <button class='downloadNotebookBtn'>Download Notebook</button>
-    <!-- TODO: 업로드 기능 구현 -->
-    <button class='uploadNotebookBtn'>Upload Notebook</button>
-    <div class="button-container">
-        <input type="range" min="1" max="100" value="10" class="slider" id="speed-range">
-        <p>Speed: <span id="speed-text"></span></p>
-        <hr>
-        <input type="range" min="3" max="10" value="5" class="slider" id="map-range-x">
-        <p>Map_x: <span id="map-text-x"></span></p>
-        <hr>
-        <input type="range" min="3" max="10" value="5" class="slider" id="map-range-y">
-        <p>Map_y: <span id="map-text-y"></span></p>
-        <button id="init">초기화(월드, 캐릭터)</button>
-        <button id="init_character">캐릭터 초기화</button>
-        <button id="btn-list-function">함수 리스트</button>
-        <button id="btn-list-variable">변수 리스트</button>
-        <button id="btn-download-worlddata">다운로드 월드 데이터</button>
-        <button id="btn-upload-worlddata">업로드 월드 데이터</button>
-
-        <!-- 벽의 종류를 정할 수 있는 label-input -->
-        <label ><input type="radio" name="wall-type" id="wall" value="wall" checked> wall</label>
-        <label ><input type="radio" name="wall-type" id="door" value="door" >door</label>
-        <label><input type="radio" name="wall-type" id="fence" value="fence">fence</label>
-        <label><input type="radio" name="wall-type" id="delete" value="delete">delete</label>
-    </div>
-    <section class="function-list hidden">
-        <h3>함수 리스트</h3>
-        <ul>
-            <li>print()</li>
-            <li>say()</li>
-            <li>directions()</li>
-            <li>show_item()</li>
-            <li>set_item()</li>
-            <li>move()</li>
-            <li>turn_left()</li>
-            <li>pick()</li>
-            <li>put()</li>
-            <li>repeat()</li>
-            <li>(from modules import turn_right) turn_right()</li>
-            <li>(from modules import turn_around) turn_around()</li>
-            <li>(from modules import move_to_wall) move_to_wall()</li>
-            <li>(from modules import turn_left_until_clear) turn_left_until_clear()</li>
-            <li>(from modules import jump) jump()</li>
-        </ul>
-    </section>
-    <section class="variable-list hidden">
-        <h3>변수 리스트</h3>
-        <ul>
-            <li>character_data</li>
-            <li>map_data</li>
-            <li>item_data</li>
-            <li>running_speed</li>
-        </ul>
-    </section>
-    <section class="contents">
+    <section class="contents hidden">
             <nav class="question-nav">
                 <ol>
                     <li><a href="#" id="t1" class="btn-que">T1. 자격 증명</a></li>
@@ -99,19 +357,7 @@
     
     <!-- TODO: 배포 직전에는 style="display:none;"를 풀어야 합니다. -->
     <section class="description" style="display:none;"></section>
-    <py-repl id="my-repl" auto-generate="true">
-        # sample 코드입니다. shift + enter를 눌러 실행해보세요.
-        # character_data, map_data, item_data는 기본 제공 데이터입니다.
-        # from modules import turn_right와 같이 모듈을 불러와 사용할 수 있습니다.
-        set_item(2, 2, 'fish')
-        move()
-        move()
-        turn_left()
-        turn_left()
-        turn_left()
-        repeat(2, move)
-        # pick()
-    </py-repl>
+    
     <py-script>
         from map import Map
         from wall import Wall
@@ -176,6 +422,7 @@
         map_slider_y.oninput = change_map
 
         # character 생성
+        # TODO: 캐릭터 크기 수정
         licat = Character(x=0, y=0, name='licat', width=32, height=40)
         character_data[0]['character_obj'] = licat
         draw_character = licat.draw()
@@ -200,8 +447,10 @@
             js.console.log('월드 초기화')
             map_data['height'] = 5
             map_data['width'] = 5
-            map_slider_output_x.innerHTML = 5
-            map_slider_output_y.innerHTML = 5
+            map_slider_x.value = 5
+            map_slider_y.value = 5
+            map_slider_output_x.innerHTML = map_slider_x.value
+            map_slider_output_y.innerHTML = map_slider_y.value
             map_exist = js.document.querySelector('.map-container')
             # TODO: map object는 map_data에서 관리해야할 것으로 보임
             if map_exist:
@@ -243,17 +492,19 @@
         def list_function(evt=None):
             '''
             메인화면에서 함수 목록 보는 함수
+            event.js에서 처리하고 있어서 주석처러하였습니다.
             '''
-            js.console.log('함수 목록')
-            js.document.querySelector('.function-list').classList.toggle('hidden')
+            # js.console.log('함수 목록')
+            # js.document.querySelector('.function-list').classList.# toggle('hidden')
 
         @when("click", selector="#btn-list-variable")
         def list_variable(evt=None):
             '''
             메인화면에서 변수 목록 보는 함수
+            event.js에서 처리하고 있어서 주석처러하였습니다.
             '''
-            js.console.log('변수 목록')
-            js.document.querySelector('.variable-list').classList.toggle('hidden')
+            # js.console.log('변수 목록')
+            # js.document.querySelector('.variable-list').classList.# # toggle('hidden')
 
         @when("click", selector=".character")
         def show_character_info(evt=None):
@@ -261,61 +512,59 @@
             캐릭터를 클릭하면 캐릭터 정보(character_data)를 볼 수 있는 함수 
             '''
             # evt를 통해 x좌표, y좌표를 얻어냄
-            # js.console.log(evt)
-            x = evt.x
-            y = evt.y
+            # x = evt.x
+            # y = evt.y
             # x좌표, y좌표에 말풍선 생성
             bubble = js.document.createElement('div')
-            bubble.setAttribute('class', 'character-info-bubble')
+            bubble.setAttribute('class', 'character-info-bubble info-modal')
             bubble.style.position = 'absolute'
-            bubble.style.left = f'{x+10}px'
-            bubble.style.top = f'{y+10}px'
-            bubble.style.border = '1px solid black'
-            bubble.style.borderRadius = '10px'
-            bubble.style.borderTopLeftRadius = '0px'
-            bubble.style.padding = '10px'
-            bubble.style.backgroundColor = 'white'
+            bubble.style.left = '47px'
+            bubble.style.top = '15px'
             bubble.style.zIndex = '100'
             
             # 말풍선에 캐릭터 정보 추가
             bubble.innerHTML = f'''
-                <div class="bubble-content">
-                    <div class="bubble-title">캐릭터 정보</div>
-                    <div class="bubble-body">
-                        <div class="bubble-body-item">
-                            <div class="bubble-body-item-title">이름</div>
-                            <div class="bubble-body-item-content">{character_data[0]['character']}</div>
-                        </div>
-                        <div class="bubble-body-item">
-                            <div class="bubble-body-item-title">x좌표</div>
-                            <div class="bubble-body-item-content">{character_data[0]['x']}</div>
-                        </div>
-                        <div class="bubble-body-item">
-                            <div class="bubble-body-item-title">y좌표</div>
-                            <div class="bubble-body-item-content">{character_data[0]['y']}</div>
-                        </div>
-                        <div class="bubble-body-item">
-                            <div class="bubble-body-item-title">방향</div>
-                            <div class="bubble-body-item-content">{character_data[0]['directions']}</div>
-                        </div>
-                        <div class="bubble-body-item">
-                            <div class="bubble-body-item-title">아이템</div>
-                            <div class="bubble-body-item-content">{character_data[0]['items']}</div>
-                        </div>
+                <p class="info-title">캐릭터 정보</p>
+                <dl class="info-list">
+                    <div class="info-item">
+                        <dt class="bubble-body-item-title">이름</dt>
+                        <dd class="bubble-body-item-content">{character_data[0]['character']}</dd>
                     </div>
-                </div>
+                    <div class="info-item">
+                        <dt class="bubble-body-item-title">x좌표</dt>
+                        <dd class="bubble-body-item-content">{character_data[0]['x']}</dd>
+                    </div>
+                    <div class="info-item">
+                        <dt class="bubble-body-item-title">y좌표</dt>
+                        <dd class="bubble-body-item-content">{character_data[0]['y']}</dd>
+                    </div>
+                    <div class="info-item">
+                        <dt class="bubble-body-item-title">방향</dt>
+                        <dd class="bubble-body-item-content">{character_data[0]['directions']}</dd>
+                    </div>
+                    <div class="info-item">
+                        <dt class="bubble-body-item-title">아이템</dt>
+                        <dd class="bubble-body-item-content">{character_data[0]['items']}</dd>
+                    </div>
+                </dl>
+                <button type="button" id="init_character" class="btn-reset">
+                    <span class="sr-only">캐릭터 초기화</span>
+                </button>
             '''
-            # 말풍선을 app에 추가
-            app = js.document.querySelector('#app')
-            app.appendChild(bubble)
+            # app에 말풍선 추가(이미 말풍선이 존재하는 경우에는 추가하지 않음.)
+            addedBubble = js.document.querySelector('.character-info-bubble')
+            target_character = js.document.querySelector('.character')
+
+            if not addedBubble:
+                target_character.appendChild(bubble)
+
             # 5초후 제거
             setTimeout(
                 create_once_callable(
                     lambda: (
-                        app.removeChild(bubble)
+                        bubble.remove()
                     )
-                ),
-                5000
+                ), 5000
             )
 
         @when("click", selector="#btn-download-worlddata")
@@ -504,8 +753,6 @@
         a.href = url;
         a.click();
     }
-
-    
     </script>
 </body>
 </html>

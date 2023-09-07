@@ -1,0 +1,29 @@
+@keyframes player {
+    from {
+        background-position: -1px, -1px;
+    }
+
+    to {
+        background-position: -224px, -1px;
+    }
+}
+
+@keyframes attack-claw-white {
+    from {
+        background-position: -0px, -0px;
+    }
+
+    to {
+        background-position: -128px, -0px;
+    }
+}
+
+@keyframes line-opacity {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

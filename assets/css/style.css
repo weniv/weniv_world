@@ -651,6 +651,11 @@ button {
   height: calc(100vh - 7rem);
 }
 
+/* pyscript */
+.py-overlay {
+  z-index: 999;
+}
+
 .notebook {
   width: 50rem;
   border-right: 1px solid var(--ColorGrayLv2);
@@ -831,7 +836,7 @@ button {
 }
 
 .ͼ1 .cm-line {
-  padding: 1rem 0 1rem 1rem;
+  padding: 1rem;
   color: var(--ColorSurface);
   border: none;
   -webkit-box-sizing: border-box;

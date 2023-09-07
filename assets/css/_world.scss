@@ -290,8 +290,9 @@
 
     .speech-bubble {
         position: absolute;
-        width: 26rem;
-        word-break: break-word;
+        width: max-content;
+        max-width: 26rem;
+        word-break: break-all;
     }
 }
 
@@ -300,7 +301,6 @@
     z-index: 999;
 }
 
-/* map */
 .map-container {
     position: relative;
 }

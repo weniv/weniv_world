@@ -651,10 +651,6 @@ button {
   height: calc(100vh - 7rem);
 }
 
-.hidden {
-  display: none !important;
-}
-
 .notebook {
   width: 50rem;
   border-right: 1px solid var(--ColorGrayLv2);
@@ -1287,8 +1283,11 @@ button {
 
 .character .speech-bubble {
   position: absolute;
-  width: 26rem;
-  word-break: break-word;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 26rem;
+  word-break: break-all;
 }
 
 .attack {
@@ -1297,7 +1296,6 @@ button {
   z-index: 999;
 }
 
-/* map */
 .map-container {
   position: relative;
 }

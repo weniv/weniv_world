@@ -27,7 +27,7 @@ const setSliderTrack = (element) => {
     element.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${width}%, #d9dbe0 ${width}%, #d9dbe0 100%)`;
 };
 
-const observer = new MutationObserver((mutationsList) => {
+const sliderValueObserver = new MutationObserver((mutationsList) => {
     mutationsList.forEach((mutation) => {
         if (mutation.type === 'childList') {
             const slider = mutation.target.previousElementSibling;
@@ -41,7 +41,7 @@ sliders.forEach((slider) => {
 });
 
 rangeValueText.forEach((target) => {
-    observer.observe(target, {
+    sliderValueObserver.observe(target, {
         childList: true,
         characterData: true,
     });
@@ -80,48 +80,57 @@ darkModeButton.addEventListener('click', () => {
     }
 });
 
-// world 메뉴 - 버튼 이벤트 추가
+// world 메뉴 - 버튼 이벤트 추가(모달 여닫기)
 const worldMenu = document.querySelector('.world-menu');
 
-worldMenu.addEventListener('click', (e) => {
-    const target = e.target;
+const toggleActive = (target) => {
+    const currentActiveItem = worldMenu.querySelector('.active');
+
     if (target.classList.contains('btn-toggle')) {
-        target.classList.toggle('active');
+        if (target == currentActiveItem) {
+            target.classList.remove('active');
+        } else {
+            currentActiveItem && currentActiveItem.classList.remove('active');
+            target.classList.add('active');
+        }
+    } else {
+        currentActiveItem && currentActiveItem.classList.remove('active');
+    }
+};
+
+worldMenu.addEventListener('click', (e) => {
+    if (e.target.tagName == 'BUTTON') {
+        toggleActive(e.target);
     }
 });
 
-// modal
-const wallButton = document.querySelector('.btn-wall');
+window.addEventListener('click', (e) => {
+    if (!worldMenu.contains(e.target)) {
+        toggleActive(e.target);
+    }
+});
 
-const createModal = (type, className, contents) => {
-    const modalDiv = document.createElement('div');
-    modalDiv.setAttribute('class', `${type}-modal ${className}`);
+// 스토리 section / 스토리 컨텐츠 여닫기
+const storyShowButton = document.querySelector('.btn-story');
+const storyCloseButton = document.querySelector('.btn-close-story');
+const storySection = document.querySelector('.story');
+const storyList = document.querySelector('.story-list');
 
-    modalDiv.innerHTML += contents;
+storyShowButton.addEventListener('click', () => {
+    storyShowButton.classList.toggle('active');
+    storySection.classList.toggle('show');
+});
 
-    return modalDiv;
-};
+storyCloseButton.addEventListener('click', () => {
+    storyShowButton.classList.remove('active');
+    storySection.classList.remove('show');
+});
 
-wallButton.addEventListener('click', () => {
-    const contents = `
-        <div class="input-wrap">
-            <input type="radio" name="wall-type" id="wall" value="wall" checked>
-            <label for="wall">wall(기본): orange</label>
-        </div>
-        <div class="input-wrap">
-            <input type="radio" name="wall-type" id="door" value="door">
-            <label for="door">door: sienna</label>
-        </div>
-        <div class="input-wrap">
-            <input type="radio" name="wall-type" id="fence" value="fence">
-            <label for="fence">fence: seagreen</label>
-        </div>
-        <div class="input-wrap">
-            <input type="radio" name="wall-type" id="delete" value="delete">
-            <label for="delete">delete</label>
-        </div>
-    `;
-
-    const modalElement = createModal('controller', 'wall-type', contents);
-    wallButton.parentNode.append(modalElement);
+storyList.addEventListener('click', (e) => {
+    if (
+        (e.target.tagName =
+            'BUTTON' && e.target.classList.contains('btn-toggle'))
+    ) {
+        e.target.closest('li').classList.toggle('active');
+    }
 });

@@ -651,6 +651,10 @@ button {
   height: calc(100vh - 7rem);
 }
 
+.hidden {
+  display: none !important;
+}
+
 .notebook {
   width: 50rem;
   border-right: 1px solid var(--ColorGrayLv2);
@@ -1449,7 +1453,7 @@ button {
   gap: 1rem;
   padding: 1.4rem 0.8rem 2rem 2rem;
   margin: 0.6rem 0.8rem 0 0;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .story-list::-webkit-scrollbar {

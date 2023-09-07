@@ -67,7 +67,7 @@
     gap: 1rem;
     padding: 1.4rem 0.8rem 2rem 2rem;
     margin: 0.6rem 0.8rem 0 0;
-    overflow: scroll;
+    overflow: auto;
     @include scrollbar;
 
     & > li {

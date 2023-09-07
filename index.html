@@ -126,7 +126,7 @@
             <nav class="world-menu">
                 <ul class="controll-btn-list">
                     <li>
-                        <button class="button-before btn-wall" type="button">
+                        <button class="button-before btn-wall btn-toggle" type="button">
                             <span class="sr-only">벽 만들기</span>
                         </button>
                         <div class="controller-modal wall-type">
@@ -150,12 +150,12 @@
                         </div>
                     </li>
                     <li>
-                        <button class="button-before btn-assets" type="button">
+                        <button class="button-before btn-assets  btn-toggle" type="button">
                             <span class="sr-only">아이템 추가하기</span>
                         </button>
                     </li>
                     <li>
-                        <button class="button-before btn-resize" type="button">
+                        <button class="button-before btn-resize btn-toggle" type="button">
                             <span class="sr-only">월드 크기 조정하기</span>
                         </button>
                         <div class="controller-modal resize">
@@ -172,7 +172,7 @@
                         </div>
                     </li>
                     <li>
-                        <button class="button-before btn-speed" type="button">
+                        <button class="button-before btn-speed btn-toggle" type="button">
                             <span class="sr-only">속도 조절하기</span>
                         </button>
                         <div class="controller-modal speed">
@@ -186,7 +186,7 @@
                 </ul>
                 <ul class="info-btn-list">
                     <li>
-                        <button class="button-before btn-function" type="button" id="btn-list-function">
+                        <button class="button-before btn-function btn-toggle" type="button" id="btn-list-function">
                             <span class="sr-only">함수 리스트 보기</span>
                         </button>
                         <section class="controller-modal function-list">
@@ -239,7 +239,7 @@
                         </section>
                     </li>
                     <li>
-                        <button class="button-before btn-variable" type="button" id="btn-list-variable">
+                        <button class="button-before btn-variable btn-toggle" type="button" id="btn-list-variable">
                             <span class="sr-only">변수 리스트 보기</span>
                         </button>
                         <section class="controller-modal variable-list">
@@ -431,8 +431,10 @@
             js.console.log('월드 초기화')
             map_data['height'] = 5
             map_data['width'] = 5
-            map_slider_output_x.innerHTML = 5
-            map_slider_output_y.innerHTML = 5
+            map_slider_x.value = 5
+            map_slider_y.value = 5
+            map_slider_output_x.innerHTML = map_slider_x.value
+            map_slider_output_y.innerHTML = map_slider_y.value
             map_exist = js.document.querySelector('.map-container')
             # TODO: map object는 map_data에서 관리해야할 것으로 보임
             if map_exist:
@@ -474,17 +476,19 @@
         def list_function(evt=None):
             '''
             메인화면에서 함수 목록 보는 함수
+            event.js에서 처리하고 있어서 주석처러하였습니다.
             '''
-            js.console.log('함수 목록')
-            js.document.querySelector('.function-list').classList.toggle('hidden')
+            # js.console.log('함수 목록')
+            # js.document.querySelector('.function-list').classList.# toggle('hidden')
 
         @when("click", selector="#btn-list-variable")
         def list_variable(evt=None):
             '''
             메인화면에서 변수 목록 보는 함수
+            event.js에서 처리하고 있어서 주석처러하였습니다.
             '''
-            js.console.log('변수 목록')
-            js.document.querySelector('.variable-list').classList.toggle('hidden')
+            # js.console.log('변수 목록')
+            # js.document.querySelector('.variable-list').classList.# # toggle('hidden')
 
         @when("click", selector=".character")
         def show_character_info(evt=None):

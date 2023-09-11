@@ -186,6 +186,10 @@ button {
                 '../img/icon/icon-book.svg'
             );
         }
+
+        &.active::before {
+            background: var(--ColorPrimary);
+        }
     }
 
     /* 벽 만들기 버튼 */
@@ -242,7 +246,7 @@ button {
     }
 
     &.active::before {
-        background: var(--ColorPrimary);
+        background: var(--ColorSurface);
     }
 }
 

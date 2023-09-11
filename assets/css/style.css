@@ -331,6 +331,10 @@ button {
   mask-position: center center;
 }
 
+.button-before.btn-story.active::before {
+  background: var(--ColorPrimary);
+}
+
 .button-before.btn-wall::before {
   background: var(--ColorGrayLv3);
   -webkit-mask-image: url("../img/icon/icon-wall-import.svg");
@@ -416,7 +420,7 @@ button {
 }
 
 .button-before.active::before {
-  background: var(--ColorPrimary);
+  background: var(--ColorSurface);
 }
 
 /* 다크 모드 버튼 */

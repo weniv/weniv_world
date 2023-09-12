@@ -35,6 +35,7 @@
 
 .world-map {
     display: flex;
+    flex: auto;
     margin: 0.8rem 0.6rem;
     padding: 3.2rem 2.8rem 3.2rem 3.4rem;
     box-sizing: border-box;
@@ -201,8 +202,9 @@
 }
 
 .world-output {
-    flex: 1;
+    min-height: 25%;
     background: var(--ColorGrayLv1);
+    border-top: 1px solid var(--ColorGrayLv2);
     color: var(--ColorSurface);
     font-family: Source Code Pro;
     font-size: 1.6rem;

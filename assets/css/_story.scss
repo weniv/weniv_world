@@ -2,6 +2,7 @@
     display: none;
     flex-direction: column;
     width: 50rem;
+    border-left: 1px solid var(--ColorGrayLv2);
 
     &.show {
         display: flex;

@@ -115,18 +115,15 @@ const storyShowButton = document.querySelector('.btn-story');
 const storyCloseButton = document.querySelector('.btn-close-story');
 const storySection = document.querySelector('.story');
 const storyList = document.querySelector('.story-list');
-const storyResizer = document.querySelector('.story-resizer');
 
 storyShowButton.addEventListener('click', () => {
     storyShowButton.classList.toggle('active');
     storySection.classList.toggle('show');
-    storyResizer.style.display = 'block';
 });
 
 storyCloseButton.addEventListener('click', () => {
     storyShowButton.classList.remove('active');
     storySection.classList.remove('show');
-    storyResizer.style.display = 'none';
 });
 
 storyList.addEventListener('click', (e) => {

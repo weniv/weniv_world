@@ -660,28 +660,9 @@ button {
   z-index: 999;
 }
 
-/* resizer */
-.resizer {
-  -ms-flex-negative: 0;
-      flex-shrink: 0;
-  width: 1px;
-  height: 100%;
-  background-color: var(--ColorGrayLv2);
-  cursor: ew-resize;
-}
-
-.resizer[data-direction='vertical'] {
-  height: 1px;
-  width: 100%;
-  cursor: ns-resize;
-}
-
-.resizer.story-resizer {
-  display: none;
-}
-
 .notebook {
   width: 50rem;
+  border-right: 1px solid var(--ColorGrayLv2);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
@@ -974,6 +955,9 @@ button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: auto;
+          flex: auto;
   margin: 0.8rem 0.6rem;
   padding: 3.2rem 2.8rem 3.2rem 3.4rem;
   -webkit-box-sizing: border-box;
@@ -1192,10 +1176,9 @@ button {
 }
 
 .world-output {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  min-height: 25%;
   background: var(--ColorGrayLv1);
+  border-top: 1px solid var(--ColorGrayLv2);
   color: var(--ColorSurface);
   font-family: Source Code Pro;
   font-size: 1.6rem;
@@ -1421,6 +1404,7 @@ button {
       -ms-flex-direction: column;
           flex-direction: column;
   width: 50rem;
+  border-left: 1px solid var(--ColorGrayLv2);
 }
 
 .story.show {

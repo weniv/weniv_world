@@ -3,44 +3,49 @@ const resizers = document.querySelectorAll('.resizer');
 
 const resizable = (resizer) => {
     const direction = resizer.getAttribute('data-direction') || 'horizontal';
+    const target = resizer.getAttribute('data-target') || 'prev';
     const prevSibling = resizer.previousElementSibling;
     const nextSibling = resizer.nextElementSibling;
+    const targetSibling =
+        target == 'prev'
+            ? resizer.previousElementSibling
+            : resizer.nextElementSibling;
 
     let x = 0;
     let y = 0;
-    let prevSiblingHeight = 0;
-    let prevSiblingWidth = 0;
+    let targetSiblingHeight = 0;
+    let targetSiblingWidth = 0;
 
     const mouseDownHandler = (e) => {
         x = e.clientX;
         y = e.clientY;
 
-        const rect = prevSibling.getBoundingClientRect();
+        const rect = targetSibling.getBoundingClientRect();
 
-        prevSiblingHeight = rect.height;
-        prevSiblingWidth = rect.width;
+        targetSiblingHeight = rect.height;
+        targetSiblingWidth = rect.width;
 
         document.addEventListener('mousemove', mouseMoveHandler);
         document.addEventListener('mouseup', mouseUpHandler);
     };
 
     const mouseMoveHandler = (e) => {
-        const dx = e.clientX - x;
-        const dy = e.clientY - y;
+        const dx = target == 'prev' ? e.clientX - x : x - e.clientX;
+        const dy = target == 'prev' ? e.clientY - y : y - e.clientY;
 
         switch (direction) {
             case 'vertical':
                 const height =
-                    ((prevSiblingHeight + dy) * 100) /
+                    ((targetSiblingHeight + dy) * 100) /
                     resizer.parentNode.getBoundingClientRect().height;
-                prevSibling.style.height = `${height}%`;
+                targetSibling.style.height = `${height}%`;
                 break;
             case 'horizontal':
             default:
                 const width =
-                    ((prevSiblingWidth + dx) * 100) /
+                    ((targetSiblingWidth + dx) * 100) /
                     resizer.parentNode.getBoundingClientRect().width;
-                prevSibling.style.width = `${width}%`;
+                targetSibling.style.width = `${width}%`;
                 break;
         }
 

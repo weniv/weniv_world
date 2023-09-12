@@ -660,9 +660,26 @@ button {
   z-index: 999;
 }
 
+/* resizer */
+.resizer {
+  width: 1px;
+  height: 100%;
+  background-color: var(--ColorGrayLv2);
+  cursor: ew-resize;
+}
+
+.resizer[data-direction='vertical'] {
+  height: 1px;
+  width: 100%;
+  cursor: ns-resize;
+}
+
+.resizer.story-resizer {
+  display: none;
+}
+
 .notebook {
   width: 50rem;
-  border-right: 1px solid var(--ColorGrayLv2);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
@@ -1178,7 +1195,6 @@ button {
 .world-output {
   min-height: 25%;
   background: var(--ColorGrayLv1);
-  border-top: 1px solid var(--ColorGrayLv2);
   color: var(--ColorSurface);
   font-family: Source Code Pro;
   font-size: 1.6rem;
@@ -1404,7 +1420,6 @@ button {
       -ms-flex-direction: column;
           flex-direction: column;
   width: 50rem;
-  border-left: 1px solid var(--ColorGrayLv2);
 }
 
 .story.show {

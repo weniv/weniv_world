@@ -610,6 +610,10 @@
                     return
                 x = conver_position(evt.offsetY)
                 y = conver_position(evt.offsetX)
+
+                # 테두리 삭제
+                if( x < 0 or x > map_data['height'] - 1 or y < 0 or y > map_data['width']-1):
+                    return
             
                 # x는 정수이고, y는 실수인 경우
                 if(isinstance(x, int) and isinstance(y, float)) or (isinstance(x, float) and isinstance(y, int)):
@@ -648,7 +652,11 @@
                 
                 x = conver_position(evt.offsetY)
                 y = conver_position(evt.offsetX)
-                
+
+                # 테두리 삭제
+                if( x < 0 or x > map_data['height'] - 1 or y < 0 or y > map_data['width']-1):
+                    return
+
                 if(isinstance(x, int) and isinstance(y, float)) or (isinstance(x, float) and isinstance(y, int)):
                     wall_container.style.cursor="pointer";
                 else:

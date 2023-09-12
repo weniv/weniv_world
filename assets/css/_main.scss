@@ -458,3 +458,22 @@ button {
 .py-overlay {
     z-index: 999;
 }
+
+/* resizer */
+.resizer {
+    flex-shrink: 0;
+    width: 1px;
+    height: 100%;
+    background-color: var(--ColorGrayLv2);
+    cursor: ew-resize;
+
+    &[data-direction='vertical'] {
+        height: 1px;
+        width: 100%;
+        cursor: ns-resize;
+    }
+
+    &.story-resizer {
+        display: none;
+    }
+}

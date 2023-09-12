@@ -972,9 +972,6 @@ button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: auto;
-          flex: auto;
   margin: 0.8rem 0.6rem;
   padding: 3.2rem 2.8rem 3.2rem 3.4rem;
   -webkit-box-sizing: border-box;
@@ -1193,7 +1190,9 @@ button {
 }
 
 .world-output {
-  min-height: 25%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   background: var(--ColorGrayLv1);
   color: var(--ColorSurface);
   font-family: Source Code Pro;

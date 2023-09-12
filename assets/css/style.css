@@ -662,6 +662,8 @@ button {
 
 /* resizer */
 .resizer {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
   width: 1px;
   height: 100%;
   background-color: var(--ColorGrayLv2);

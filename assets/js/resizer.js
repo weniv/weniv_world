@@ -12,7 +12,6 @@ const resizable = (resizer) => {
     let prevSiblingWidth = 0;
 
     const mouseDownHandler = (e) => {
-        console.log(e);
         x = e.clientX;
         y = e.clientY;
 

@@ -787,6 +787,10 @@ button {
   border-radius: 1rem;
 }
 
+.notebook-section::-webkit-scrollbar-corner {
+  background: var(--ColorBackground);
+}
+
 .py-repl-box {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -830,6 +834,10 @@ button {
 .ͼ1 .cm-scroller::-webkit-scrollbar-track {
   background-color: var(--ColorGrayLv1);
   border-radius: 1rem;
+}
+
+.ͼ1 .cm-scroller::-webkit-scrollbar-corner {
+  background: var(--ColorGrayLv1);
 }
 
 .ͼ1.cm-focused {
@@ -1023,6 +1031,10 @@ button {
 .world-map::-webkit-scrollbar-track {
   background-color: var(--ColorBackground);
   border-radius: 1rem;
+}
+
+.world-map::-webkit-scrollbar-corner {
+  background: var(--ColorBackground);
 }
 
 .world-menu {
@@ -1235,6 +1247,30 @@ button {
   font-weight: 500;
   overflow: auto;
   padding: 1.9rem 0;
+}
+
+.world-output::-webkit-scrollbar {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.world-output::-webkit-scrollbar-thumb {
+  background-color: rgba(141, 146, 153, 0.5);
+  border-radius: 1rem;
+  cursor: pointer;
+  background-clip: padding-box;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0.6rem;
+}
+
+.world-output::-webkit-scrollbar-track {
+  background-color: var(--ColorGrayLv1);
+  border-radius: 1rem;
+}
+
+.world-output::-webkit-scrollbar-corner {
+  background: var(--ColorGrayLv1);
 }
 
 .world-output .output-wrap {
@@ -1553,6 +1589,10 @@ button {
 .story-list::-webkit-scrollbar-track {
   background-color: var(--ColorBackground);
   border-radius: 1rem;
+}
+
+.story-list::-webkit-scrollbar-corner {
+  background: var(--ColorBackground);
 }
 
 .story-list > li {

@@ -28,17 +28,31 @@
 @mixin scrollbar(
     $track-color: var(--ColorBackground),
     $thumb-color: rgba(141, 146, 153, 0.5),
-    $size: 0.6rem
+    $size: 0.6rem,
+    $padding: 0
 ) {
     &::-webkit-scrollbar {
-        width: $size;
-        height: $size;
-        background-color: $track-color;
+        width: $size + ($padding * 2);
+        height: $size + ($padding * 2);
     }
 
     &::-webkit-scrollbar-thumb {
         background-color: $thumb-color;
-        border-radius: $size;
+        border-radius: 1rem;
         cursor: pointer;
+
+        @if $padding > 0 {
+            background-clip: padding-box;
+            border-color: transparent;
+            border-style: solid;
+            border-width: $padding;
+        }
     }
+
+    &::-webkit-scrollbar-track {
+        background-color: $track-color;
+        border-radius: 1rem;
+    }
+
+    @content;
 }

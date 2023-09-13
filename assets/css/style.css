@@ -764,7 +764,7 @@ button {
           flex-direction: column;
   height: calc(100% - 5.1rem - 1.2rem);
   gap: 1.2rem;
-  padding: 1.4rem 0.8rem 1.4rem 1.4rem;
+  padding: 0.8rem;
   margin: 0.6rem;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -774,13 +774,17 @@ button {
 .notebook-section::-webkit-scrollbar {
   width: 0.6rem;
   height: 0.6rem;
-  background-color: var(--ColorBackground);
 }
 
 .notebook-section::-webkit-scrollbar-thumb {
   background-color: rgba(141, 146, 153, 0.5);
-  border-radius: 0.6rem;
+  border-radius: 1rem;
   cursor: pointer;
+}
+
+.notebook-section::-webkit-scrollbar-track {
+  background-color: var(--ColorBackground);
+  border-radius: 1rem;
 }
 
 .py-repl-box {
@@ -805,7 +809,27 @@ button {
   font-family: 'Source Code Pro';
   font-size: 1.6rem;
   font-weight: 500;
-  overflow-x: auto;
+  border-radius: 0.8rem;
+}
+
+.ͼ1 .cm-scroller::-webkit-scrollbar {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.ͼ1 .cm-scroller::-webkit-scrollbar-thumb {
+  background-color: rgba(141, 146, 153, 0.5);
+  border-radius: 1rem;
+  cursor: pointer;
+  background-clip: padding-box;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0.6rem;
+}
+
+.ͼ1 .cm-scroller::-webkit-scrollbar-track {
+  background-color: var(--ColorGrayLv1);
+  border-radius: 1rem;
 }
 
 .ͼ1.cm-focused {
@@ -857,7 +881,7 @@ button {
 }
 
 .ͼ1 .cm-content {
-  padding: 1.2rem 0;
+  padding: 1.2rem 0 0.6rem;
   -ms-flex-preferred-size: auto !important;
       flex-basis: auto !important;
 }
@@ -988,13 +1012,17 @@ button {
 .world-map::-webkit-scrollbar {
   width: 0.6rem;
   height: 0.6rem;
-  background-color: var(--ColorBackground);
 }
 
 .world-map::-webkit-scrollbar-thumb {
   background-color: rgba(141, 146, 153, 0.5);
-  border-radius: 0.6rem;
+  border-radius: 1rem;
   cursor: pointer;
+}
+
+.world-map::-webkit-scrollbar-track {
+  background-color: var(--ColorBackground);
+  border-radius: 1rem;
 }
 
 .world-menu {
@@ -1514,13 +1542,17 @@ button {
 .story-list::-webkit-scrollbar {
   width: 0.6rem;
   height: 0.6rem;
-  background-color: var(--ColorBackground);
 }
 
 .story-list::-webkit-scrollbar-thumb {
   background-color: rgba(141, 146, 153, 0.5);
-  border-radius: 0.6rem;
+  border-radius: 1rem;
   cursor: pointer;
+}
+
+.story-list::-webkit-scrollbar-track {
+  background-color: var(--ColorBackground);
+  border-radius: 1rem;
 }
 
 .story-list > li {

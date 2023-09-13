@@ -15028,7 +15028,7 @@ var pyscript = (function (exports) {
       this.classes = view.themeClasses;
       this.createContainer();
       this.measureReq = { read: this.readMeasure.bind(this), write: this.writeMeasure.bind(this), key: this };
-      // this.manager = new TooltipViewManager(view, showTooltip, t => this.createTooltip(t));
+      this.manager = new TooltipViewManager(view, showTooltip, t => this.createTooltip(t));
       this.intersectionObserver = typeof IntersectionObserver == "function" ? new IntersectionObserver(entries => {
         if (Date.now() > this.lastTransaction - 50 &&
           entries.length > 0 && entries[entries.length - 1].intersectionRatio < 1)
@@ -23100,12 +23100,12 @@ var pyscript = (function (exports) {
     }
   }
   const baseAttrs = {
-    "aria-autocomplete": "none"
+    "aria-autocomplete": "list"
   };
   function makeAttrs(id, selected) {
     let result = {
-      "aria-autocomplete": "none",
-      "aria-haspopup": "false",
+      "aria-autocomplete": "list",
+      "aria-haspopup": "listbox",
       "aria-controls": id
     };
     if (selected > -1)

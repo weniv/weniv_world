@@ -210,6 +210,7 @@
     font-weight: 500;
     overflow: auto;
     padding: 1.9rem 0;
+    @include scrollbar($track-color: var(--ColorGrayLv1), $padding: 0.6rem);
 
     .output-wrap {
         display: flex;

@@ -1,5 +1,5 @@
 import js
-from coordinate import item_data
+from coordinate import item_data, map_data
 
 class Item:
     def __init__(self, x, y, name, count=1, description={}):
@@ -9,7 +9,16 @@ class Item:
         self.x = x
         self.y = y
         self.img = f'assets/img/item/{name}.png'
-
+        
+        container = js.document.createElement('div')
+        container.setAttribute('class', 'item-container')
+        self.container = container
+        
+        map_container = js.document.querySelector('.map-items')
+        map_items = map_container.querySelectorAll('.map-item')
+        index = map_data['width'] * self.x + self.y
+        self.target = map_items[index]
+        
     # TODO: 해당 좌표에 동일 아이템이 있으면 count만 증가시키고 아이템은 삭제하고 넣어야 함
     # TODO: 해당 좌표에 다른 아이템이 있으면 삭제하고 넣어야 함
     def draw(self):
@@ -23,13 +32,16 @@ class Item:
         # character.style.width = f'{self.width}px'
         item.setAttribute('src', self.img)
         item.style.position = 'absolute'
-        item.style.top = f'{self.y * 100 + 50}px'
-        item.style.left = f'{self.x * 100 + 50}px'
+        item.style.top = '50%'
+        item.style.left = '50%'
+        item.style.transform = 'translate(-50%, -50%)'
         item_data[(self.x, self.y)] = {
             'item': self.name,
             'count': self.count
         }
-        js.document.querySelector('.map-container').appendChild(item)
+        self.container.appendChild(item)
+        
+        self.target.appendChild(self.container)
         self.draw_count()
     
     # TODO: 해당 좌표에 이미 텍스트가 있으면 지우고 넣어야 함
@@ -63,8 +75,9 @@ class Item:
         count.style.borderRadius = '50%'
         count.style.fontSize = '10px'
         count.innerHTML = f'{self.count}'
-        js.document.querySelector('.map-container').appendChild(count)
+        self.container.appendChild(count)
 
+   
     def get_count(self):
         return self.count
     

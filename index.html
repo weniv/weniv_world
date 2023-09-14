@@ -416,6 +416,18 @@
                 app.appendChild(draw_map)
             
             draw_map.appendChild(wall.container)
+
+            # 맵을 벗어나는 벽 삭제
+            # DOM 요소 삭제
+            wall_elements = wall.container.querySelectorAll('.wall')
+            wall_width = wall.container.clientWidth - border_size*2 
+            wall_height = wall.container.clientHeight- border_size*2 
+            for elem in wall_elements:
+                top = int(elem.style.top[0:-2])
+                left = int(elem.style.left[0:-2])
+                if(top >= wall_height or left >=wall_width):
+                    wall.container.removeChild(elem)
+            # wall_data 수정
             
         
         map_slider_x.oninput = change_map
@@ -628,7 +640,7 @@
 
         def delete_wall(wall):
             '''
-            wall 요소 삭제
+            벽 삭제
             '''
             wall.parentNode.removeChild(wall)
             

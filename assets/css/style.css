@@ -1468,8 +1468,8 @@ button {
 
 /* 가로벽 */
 .wall[data-direction='landscape'] {
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
+  width: 10rem;
+  height: 0.5rem;
   margin: 2px 0 0 -0.5px;
 }
 

@@ -372,6 +372,7 @@
         from pyscript import when
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable
+        from pyodide.ffi.wrappers import add_event_listener
         import json
         import math
 
@@ -492,6 +493,8 @@
             character_data[0]['character_obj'] = licat
             draw_character = licat.draw()
             js.document.querySelector('.map-container').appendChild(draw_character)
+            add_event_listener(draw_character, 'click', show_character_info)
+
 
         @when("click", selector="#btn-list-function")
         def list_function(evt=None):

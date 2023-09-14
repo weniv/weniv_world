@@ -427,7 +427,14 @@
                 left = int(elem.style.left[0:-2])
                 if(top >= wall_height or left >=wall_width):
                     wall.container.removeChild(elem)
+
             # wall_data 수정
+            for type in wall_data:
+                for pos in wall_data[type]:
+                    x, y = pos
+                    if(x > map_data['height']-1 or y > map_data['width']-1):
+                        wall_data[type].remove((x, y))
+
             
         
         map_slider_x.oninput = change_map

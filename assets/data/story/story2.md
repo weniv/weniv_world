@@ -13,7 +13,11 @@
 
 그의 `포효`가 한 번 울리면, 신하들이 모여있는 대청(臺廳)은 두려움으로 가득했습니다.
 
+---
+
 ```py
+test = '3'
+
 자격을 얻으려는 자! 이곳으로 향하라!
 
 "  + +-+ -+-  "
@@ -31,6 +35,5 @@ Code의 세상 안으로! (En-Coding)
 | input | output | output |
 | input | output | output |
 | input | output | output |
-
 
 ---

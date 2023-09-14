@@ -20,6 +20,11 @@
   --ColorError: #ff3440;
   --ColorLowError: #ffc533;
   --ColorActivation: #dee8ff;
+  --ColorCodePurple: #964dd1;
+  --ColorCodePink: #c93864;
+  --ColorCodeBlue: #2e5dd6;
+  --ColorCodeGreen: #328026;
+  --ColorCodeOrange: #ed7200;
 }
 
 :root[color-theme='dark'] {
@@ -33,6 +38,11 @@
   --ColorError: #fc7377;
   --ColorLowError: #ffe187;
   --ColorActivation: #2b3444;
+  --ColorCodePurple: #c893fd;
+  --ColorCodePink: #ed4779;
+  --ColorCodeBlue: #618dff;
+  --ColorCodeGreen: #50c140;
+  --ColorCodeOrange: #ffa52a;
 }
 
 @-webkit-keyframes player {
@@ -1740,7 +1750,7 @@ h4 {
 
 code {
   font-family: 'Source Code Pro';
-  font-size: 1.4rem;
+  font-size: 85%;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -1837,5 +1847,9 @@ ol.md-list {
   height: 0.2rem;
   background: var(--ColorGrayLv2);
   border: 0;
+}
+
+.code-text {
+  color: var(--ColorCodeOrange);
 }
 /*# sourceMappingURL=style.css.map */

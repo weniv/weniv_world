@@ -31,12 +31,11 @@ class Wall:
       
       if (isinstance(x, int)): # 세로
         wall.setAttribute('data-direction','portrait')
-        wall.style.top=f'{(x+0.5)*box_size}px'
-        wall.style.left=f'{(y+0.5)*box_size}px'
       else: # 가로
         wall.setAttribute('data-direction','landscape')
-        wall.style.top=f'{(x)*box_size}px'
-        wall.style.left=f'{y*box_size+map_size/2}px'
+      
+      wall.style.top=f'{(x+0.5)*box_size}px'
+      wall.style.left=f'{(y+0.5)*box_size+1}px'
       
       wall.setAttribute('data-type',type)
       self.container.appendChild(wall)

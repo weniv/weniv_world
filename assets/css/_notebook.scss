@@ -1,6 +1,5 @@
 .notebook {
     width: 50rem;
-    border-right: 1px solid var(--ColorGrayLv2);
     box-sizing: border-box;
 }
 
@@ -57,7 +56,7 @@
     flex-direction: column;
     height: calc(100% - 5.1rem - 1.2rem);
     gap: 1.2rem;
-    padding: 1.4rem 0.8rem 1.4rem 1.4rem;
+    padding: 0.8rem;
     margin: 0.6rem;
     box-sizing: border-box;
     overflow: auto;
@@ -84,7 +83,8 @@
     font-family: 'Source Code Pro';
     font-size: 1.6rem;
     font-weight: 500;
-    overflow-x: auto;
+    border-radius: 0.8rem;
+    @include scrollbar($track-color: var(--ColorGrayLv1), $padding: 0.6rem);
 }
 
 .ͼ1.cm-focused {
@@ -137,7 +137,7 @@
 }
 
 .ͼ1 .cm-content {
-    padding: 1.2rem 0;
+    padding: 1.2rem 0 0.6rem;
     flex-basis: auto !important;
 }
 

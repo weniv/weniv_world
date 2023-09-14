@@ -660,9 +660,32 @@ button {
   z-index: 999;
 }
 
+/* resizer */
+.resizer {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  width: 1px;
+  height: 100%;
+  background-color: var(--ColorGrayLv2);
+  border-style: solid;
+  border-color: var(--ColorBackground);
+  border-width: 0 1px 0 1px;
+  cursor: ew-resize;
+}
+
+.resizer[data-direction='vertical'] {
+  height: 1px;
+  width: 100%;
+  border-width: 1px 0 1px 0;
+  cursor: ns-resize;
+}
+
+.resizer.story-resizer {
+  display: none;
+}
+
 .notebook {
   width: 50rem;
-  border-right: 1px solid var(--ColorGrayLv2);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
@@ -741,7 +764,7 @@ button {
           flex-direction: column;
   height: calc(100% - 5.1rem - 1.2rem);
   gap: 1.2rem;
-  padding: 1.4rem 0.8rem 1.4rem 1.4rem;
+  padding: 0.8rem;
   margin: 0.6rem;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -751,13 +774,21 @@ button {
 .notebook-section::-webkit-scrollbar {
   width: 0.6rem;
   height: 0.6rem;
-  background-color: var(--ColorBackground);
 }
 
 .notebook-section::-webkit-scrollbar-thumb {
   background-color: rgba(141, 146, 153, 0.5);
-  border-radius: 0.6rem;
+  border-radius: 1rem;
   cursor: pointer;
+}
+
+.notebook-section::-webkit-scrollbar-track {
+  background-color: var(--ColorBackground);
+  border-radius: 1rem;
+}
+
+.notebook-section::-webkit-scrollbar-corner {
+  background: var(--ColorBackground);
 }
 
 .py-repl-box {
@@ -782,7 +813,31 @@ button {
   font-family: 'Source Code Pro';
   font-size: 1.6rem;
   font-weight: 500;
-  overflow-x: auto;
+  border-radius: 0.8rem;
+}
+
+.ͼ1 .cm-scroller::-webkit-scrollbar {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.ͼ1 .cm-scroller::-webkit-scrollbar-thumb {
+  background-color: rgba(141, 146, 153, 0.5);
+  border-radius: 1rem;
+  cursor: pointer;
+  background-clip: padding-box;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0.6rem;
+}
+
+.ͼ1 .cm-scroller::-webkit-scrollbar-track {
+  background-color: var(--ColorGrayLv1);
+  border-radius: 1rem;
+}
+
+.ͼ1 .cm-scroller::-webkit-scrollbar-corner {
+  background: var(--ColorGrayLv1);
 }
 
 .ͼ1.cm-focused {
@@ -834,7 +889,7 @@ button {
 }
 
 .ͼ1 .cm-content {
-  padding: 1.2rem 0;
+  padding: 1.2rem 0 0.6rem;
   -ms-flex-preferred-size: auto !important;
       flex-basis: auto !important;
 }
@@ -955,9 +1010,6 @@ button {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: auto;
-          flex: auto;
   margin: 0.8rem 0.6rem;
   padding: 3.2rem 2.8rem 3.2rem 3.4rem;
   -webkit-box-sizing: border-box;
@@ -968,13 +1020,21 @@ button {
 .world-map::-webkit-scrollbar {
   width: 0.6rem;
   height: 0.6rem;
-  background-color: var(--ColorBackground);
 }
 
 .world-map::-webkit-scrollbar-thumb {
   background-color: rgba(141, 146, 153, 0.5);
-  border-radius: 0.6rem;
+  border-radius: 1rem;
   cursor: pointer;
+}
+
+.world-map::-webkit-scrollbar-track {
+  background-color: var(--ColorBackground);
+  border-radius: 1rem;
+}
+
+.world-map::-webkit-scrollbar-corner {
+  background: var(--ColorBackground);
 }
 
 .world-menu {
@@ -1176,9 +1236,10 @@ button {
 }
 
 .world-output {
-  min-height: 25%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   background: var(--ColorGrayLv1);
-  border-top: 1px solid var(--ColorGrayLv2);
   color: var(--ColorSurface);
   font-family: Source Code Pro;
   font-size: 1.6rem;
@@ -1186,6 +1247,30 @@ button {
   font-weight: 500;
   overflow: auto;
   padding: 1.9rem 0;
+}
+
+.world-output::-webkit-scrollbar {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.world-output::-webkit-scrollbar-thumb {
+  background-color: rgba(141, 146, 153, 0.5);
+  border-radius: 1rem;
+  cursor: pointer;
+  background-clip: padding-box;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 0.6rem;
+}
+
+.world-output::-webkit-scrollbar-track {
+  background-color: var(--ColorGrayLv1);
+  border-radius: 1rem;
+}
+
+.world-output::-webkit-scrollbar-corner {
+  background: var(--ColorGrayLv1);
 }
 
 .world-output .output-wrap {
@@ -1404,7 +1489,6 @@ button {
       -ms-flex-direction: column;
           flex-direction: column;
   width: 50rem;
-  border-left: 1px solid var(--ColorGrayLv2);
 }
 
 .story.show {
@@ -1494,13 +1578,21 @@ button {
 .story-list::-webkit-scrollbar {
   width: 0.6rem;
   height: 0.6rem;
-  background-color: var(--ColorBackground);
 }
 
 .story-list::-webkit-scrollbar-thumb {
   background-color: rgba(141, 146, 153, 0.5);
-  border-radius: 0.6rem;
+  border-radius: 1rem;
   cursor: pointer;
+}
+
+.story-list::-webkit-scrollbar-track {
+  background-color: var(--ColorBackground);
+  border-radius: 1rem;
+}
+
+.story-list::-webkit-scrollbar-corner {
+  background: var(--ColorBackground);
 }
 
 .story-list > li {

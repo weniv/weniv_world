@@ -16,6 +16,7 @@
     <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/parser.js" defer></script>
     <script src="./assets/js/event.js" defer></script>
+    <script src="./assets/js/resizer.js" defer></script>
 
     <!-- PyScript -->
     <link rel="stylesheet" href="assets/pyscript/pyscript.css" />
@@ -103,6 +104,7 @@
                 </py-repl>
             </section>
         </section>
+        <div class="resizer" data-direction="horizontal"></div>
         <section class="world">
             <header class="world-header">
                 <h2>World</h2>
@@ -119,10 +121,7 @@
                     </li>
                 </ul>
             </header>
-            <section class="world-map">
-                <h3 class="sr-only">위니브월드 맵</h3>
-                <div id='app'></div>
-            </section>
+
             <nav class="world-menu">
                 <ul class="controll-btn-list">
                     <li>
@@ -288,6 +287,11 @@
                     </li>
                 </ul>
             </nav>
+            <section class="world-map">
+                <h3 class="sr-only">위니브월드 맵</h3>
+                <div id='app'></div>
+            </section>
+            <div class="resizer" data-direction="vertical"></div>
             <section class="world-output">
                 <h3 class="sr-only">실행 결과</h3>
                 <div class="output-wrap">
@@ -296,6 +300,7 @@
                 </div>
             </section>
         </section>
+        <div class="resizer story-resizer" data-direction="horizontal" data-target="next"></div>
         <section class="story">
             <header class="story-header">
                 <h2>스토리 보기</h2>

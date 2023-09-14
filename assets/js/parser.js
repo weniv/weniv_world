@@ -15,7 +15,7 @@ const parser = (markdown) => {
 
     const codeBlockStart = {
         regex: /^\s*`{3}(.+)/,
-        replace: '<pre class="que-pre"><code>$1',
+        replace: '<pre class="md-pre"><code>$1',
     };
 
     const codeBlockEnd = {
@@ -25,12 +25,12 @@ const parser = (markdown) => {
 
     const unorderedListItem = {
         regex: /^\s*-\s(.+)/,
-        replace: '<li class="que-ul-li">$1',
+        replace: '<li class="md-ul-li">$1',
     };
 
     const orderedListItem = {
         regex: /^\s*(\d+\.\s)(.+)/,
-        replace: '<li class="que-ol-li">$2',
+        replace: '<li class="md-ol-li">$2',
         // 정규표현식
     };
 
@@ -52,7 +52,7 @@ const parser = (markdown) => {
 
     const blockquote = {
         regex: /^\s*"\s(.+)/,
-        replace: '<blockquote class="que-blockquote">$1</blockquote>',
+        replace: '<blockquote class="md-blockquote">$1</blockquote>',
     };
 
     const heading = {
@@ -61,22 +61,22 @@ const parser = (markdown) => {
             const tagName = `h${mark.length + 1}`;
 
             if (mark.length == 1) {
-                return `<${tagName} class="que-tit1" id="${group.replace(
+                return `<${tagName} class="md-tit1" id="${group.replace(
                     /(\*{2})|`/g,
                     '',
                 )}">${group}</${tagName}>`;
             } else if (mark.length == 2) {
-                return `<${tagName} class="que-tit2" id="${group.replace(
+                return `<${tagName} class="md-tit2" id="${group.replace(
                     /(\*{2})|`/g,
                     '',
                 )}">${group}</${tagName}>`;
             } else if (mark.length == 3) {
-                return `<${tagName} class="que-tit3" id="${group.replace(
+                return `<${tagName} class="md-tit3" id="${group.replace(
                     /(\*{2})|`/g,
                     '',
                 )}">${group}</${tagName}>`;
             }
-            return `<${tagName} class="que-tit4" id="${group.replace(
+            return `<${tagName} class="md-tit4" id="${group.replace(
                 /(\*{2})|`/g,
                 '',
             )}">${group}</${tagName}>`;
@@ -88,7 +88,7 @@ const parser = (markdown) => {
         replace: (_, g1, g2) => {
             const width = g2.match(/_{2}(\d+)\..+$/)?.[1];
             // console.log(g2)
-            return `<figure class="que-figure"><img class="que-img" src="${
+            return `<figure class="md-figure"><img class="md-img" src="${
                 window.location.origin
             }/assets/data/story/img/${g2}"${
                 width ? ` style="width: ${width}px;"` : ''
@@ -103,7 +103,7 @@ const parser = (markdown) => {
 
     const hrline = {
         regex: /---/,
-        replace: '<hr class="que-hr" />',
+        replace: '<hr class="md-hr" />',
     };
 
     const paragraph = {
@@ -112,12 +112,12 @@ const parser = (markdown) => {
         replace: (matched, group) =>
             /\<(\/)?(h\d|ul|ol|li|blockquote|pre|img|code)/.test(matched)
                 ? matched
-                : '<p class="que-p">' + group + '</p>',
+                : '<p class="md-p">' + group + '</p>',
     };
 
     const link = {
         regex: /\[(.+)\]\((.+)\)/g,
-        replace: '<a class="que-a" href="$2">$1</a>',
+        replace: '<a class="md-a" href="$2">$1</a>',
     };
 
     const strong = {
@@ -298,7 +298,7 @@ const parser = (markdown) => {
                         const depth = listDepth(token);
                         if (depth > curListDepth) {
                             tokens[i] =
-                                `<${tagName} class='que-list'>` + tokens[i];
+                                `<${tagName} class='md-list'>` + tokens[i];
                             // console.log('tokens:',tokens[i])
                             listStack.push(`</${tagName}>`);
                         } else if (depth < curListDepth) {
@@ -324,7 +324,7 @@ const parser = (markdown) => {
                         if (tableStartIndex === -1) {
                             tableStartIndex = i;
                             tokens[i] =
-                                '<table class="que-table">' +
+                                '<table class="md-table">' +
                                 tokens[i].replace(/(\<\/?)td>/g, '$1th>');
                         }
                         break;

@@ -1,6 +1,8 @@
 import js
+
 from coordinate import character_data
 from item import Item
+
 
 # 이전 코드
 # def print(*args):
@@ -75,9 +77,10 @@ def show_item(character=None):
             print('캐릭터가 없습니다.')
             return None
 
-def set_item(x, y, name, count=1, description={}):
+def set_item(x, y, name, count=1, description={}, character=None):
     item = Item(x, y, name, count, description)
     item.draw()
+    character_data[0]['character_obj'].pick()
 
 def move(character=None):
     if character != None:

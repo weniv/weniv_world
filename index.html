@@ -295,6 +295,9 @@
             <section class="world-output">
                 <h3 class="sr-only">실행 결과</h3>
                 <div class="output-wrap">
+                    <button id="output-init" class="button-before btn-reset" type="button">
+                        <span class="sr-only">월드, 캐릭터 초기화</span>
+                    </button>
                     <ol class="index-list"></ol>
                     <div id='output' class="output"></div>
                 </div>
@@ -695,7 +698,7 @@
             if(evt.target.classList.value=='wall' and wall_type=='delete'):
                 evt.target.style.outline='2px solid red'   
                 evt.target.style.cursor='pointer'
-               
+        
         @when("mouseout", selector=".wall-container")
         def out_wall(evt):
             if(evt.target.classList.value=='wall' and wall_type=='delete'):
@@ -733,6 +736,14 @@
         def change_wall_type(evt):
             global wall_type
             wall_type = evt.target.value
+
+        @when("click", selector="#output-init")
+        def init_output(evt=None):
+            # js.document.querySelectorAll('.output-item').remove()
+            for output_line in js.document.querySelectorAll('.output-item'):
+                output_line.remove()
+            for liElement in js.document.querySelectorAll('.index-list li'):
+                liElement.remove()
         
     </py-script>
     <script>

@@ -119,8 +119,12 @@ def put(character=None):
             print('캐릭터가 없습니다.')
 
 def repeat(count, f):
-    for i in range(0, count):
-        f()
+    if isinstance(count, int) == True:
+        for i in range(0, count):
+            f()
+    elif isinstance(f, int) == True:
+        for i in range(0, f):
+            count()
 
 def front_is_clear():
     pass

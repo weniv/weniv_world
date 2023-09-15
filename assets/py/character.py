@@ -119,24 +119,28 @@ class Character:
             self.draw_move_line(x, y, x, y + 1)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["y"] += 1
+            self.y = character_data[0]["y"]
         elif directions == 1:
             self._movable(x - 1, y, x, y)
             c.style.top = f"{(x - 1) * 100 + 40}px"
             self.draw_move_line(x, y, x - 1, y)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
+            self.x = character_data[0]["x"]
         elif directions == 2:
             self._movable(x, y, x, y - 1)
             c.style.left = f"{(y - 1) * 100 + 40}px"
             self.draw_move_line(x, y, x, y - 1)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
+            self.y = character_data[0]["y"]
         elif directions == 3:
             self._movable(x + 1, y, x, y)
             c.style.top = f"{(x + 1) * 100 + 40}px"
             self.draw_move_line(x, y, x + 1, y)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["x"] += 1
+            self.x = character_data[0]["x"]
 
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
@@ -240,8 +244,12 @@ class Character:
         map = js.document.querySelector(".map-container")
         map.appendChild(attack)
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
-
     def pick(self):
+        self.running_time += 1000 * running_speed
+        setTimeout(create_once_callable(lambda: (self._pick())), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+
+    def _pick(self):
         """
         발 아래 아이템을 주워서 아이템을 가지고 있는지 확인하고,
         가지고 있으면 주인공이 소유한 아이템 개수를 1 증가시키고, 맵에 있는 아이템은 1 감소시킨다.
@@ -250,9 +258,7 @@ class Character:
         """
         x = character_data[0]["x"]
         y = character_data[0]["y"]
-
         item = item_data.get((x, y))
-
         if item:
             item_count = item.get("count", 0)
             item_count -= 1

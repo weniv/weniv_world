@@ -383,13 +383,13 @@
         slider = js.document.getElementById("speed-range")
         slider_output = js.document.getElementById("speed-text")
         slider_output.innerHTML = slider.value
-        running_speed = int(slider.value)/10
+        running_speed = ((100 - int(slider.value))/10) + 0.1
 
 
         def change_speed(e):
             global running_speed
             slider_output.innerHTML = slider.value
-            running_speed = int(slider.value)/10
+            running_speed = ((100 - int(slider.value))/10) + 0.1
             if licat:
                 licat.set_speed(running_speed)
             else:

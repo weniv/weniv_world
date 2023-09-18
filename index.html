@@ -295,6 +295,12 @@
             <section class="world-output">
                 <h3 class="sr-only">실행 결과</h3>
                 <div class="output-wrap">
+                    <button id="output-init" class="button-before btn-reset" type="button">
+                        <span class="sr-only">result init button</span>
+                    </button>
+                    <button id="output-download" type="button" class="downloadNotebookBtn btn-file-export">
+                            <span class="sr-only">result download</span>
+                    </button>
                     <ol class="index-list"></ol>
                     <div id='output' class="output"></div>
                 </div>
@@ -662,7 +668,7 @@
             if(evt.target.classList.value=='wall' and wall_type=='delete'):
                 evt.target.style.outline='2px solid red'   
                 evt.target.style.cursor='pointer'
-               
+        
         @when("mouseout", selector=".wall-container")
         def out_wall(evt):
             if(evt.target.classList.value=='wall' and wall_type=='delete'):
@@ -700,7 +706,31 @@
         def change_wall_type(evt):
             global wall_type
             wall_type = evt.target.value
-        
+
+        @when("click", selector="#output-init")
+        def init_output(evt=None):
+            for output_line in js.document.querySelectorAll('.output-item'):
+                output_line.remove()
+            for liElement in js.document.querySelectorAll('.index-list li'):
+                liElement.remove()
+
+        @when("click", selector="#output-download")
+        def init_output(evt=None):
+            ''''
+            js.document.querySelectorAll('.output-item')에 있는 모든 내용을
+            txt 파일로 다운로드 하는 코드
+            '''
+            js.console.log('다운로드')
+            output = js.document.querySelectorAll('.output-item')
+            output_text = ''
+            for line in output:
+                output_text += line.innerHTML + '\n'
+            file = js.File.new([output_text], "result.txt", {type: "text/plain"})
+            url = js.URL.createObjectURL(file)
+            hidden_link = js.document.createElement("a")
+            hidden_link.setAttribute("download", "result.txt")
+            hidden_link.setAttribute("href", url)
+            hidden_link.click()
     </py-script>
     <script>
     const downloadBtn = document.querySelector('.downloadNotebookBtn')

@@ -98,6 +98,7 @@ class Character:
     def set_speed(self, speed):
         c = js.document.querySelector(f".{self.name}")
         c.style.transition = f"all {speed}s"
+        running_speed = speed
 
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):

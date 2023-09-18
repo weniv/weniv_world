@@ -265,7 +265,6 @@ const parser = (markdown) => {
 
     const parseMarkdown = (markdown) => {
         const tokens = normalize(markdown);
-        console.log(tokens);
         let isEditor = false;
         let codeBlockStartIndex = -1;
         let tableStartIndex = -1;

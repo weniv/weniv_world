@@ -87,9 +87,7 @@ const parser = (markdown) => {
         regex: /^\s*!\[(.*)\]\((.+)\)/,
         replace: (_, g1, g2) => {
             const width = g2.match(/_{2}(\d+)\..+$/)?.[1];
-            return `<figure class="md-figure"><img class="md-img" src="${
-                window.location.origin
-            }/assets/data/story/img/${g2}"${
+            return `<figure class="md-figure"><img class="md-img" src="./assets/data/story/img/${g2}" ${
                 width ? ` style="width: ${width}px;"` : ''
             } alt="">${g1 ? `<figcaption>${g1}</figcaption>` : ''}</figure>`;
         },

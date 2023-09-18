@@ -1001,7 +1001,8 @@ button {
 .map-item {
   background: var(--ColorBackground);
   width: 10rem;
-  height: 10rem; }
+  height: 10rem;
+  position: relative; }
 
 .hidden {
   display: none; }

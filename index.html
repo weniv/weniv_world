@@ -386,13 +386,13 @@
         slider = js.document.getElementById("speed-range")
         slider_output = js.document.getElementById("speed-text")
         slider_output.innerHTML = slider.value
-        running_speed = int(slider.value)/10
+        running_speed = ((100 - int(slider.value))/10) + 0.1
 
 
         def change_speed(e):
             global running_speed
             slider_output.innerHTML = slider.value
-            running_speed = int(slider.value)/10
+            running_speed = ((100 - int(slider.value))/10) + 0.1
             if licat:
                 licat.set_speed(running_speed)
             else:
@@ -503,6 +503,7 @@
         @when("click", selector="#init_character")
         def init_character(evt=None):
             js.console.log('캐릭터 초기화')
+            global running_speed
             js.document.querySelector('.character').remove()
             character_data[0] = {
                 'character': 'licat',
@@ -518,6 +519,7 @@
             character_data[0]['character_obj'] = licat
             draw_character = licat.draw()
             js.document.querySelector('.map-container').appendChild(draw_character)
+            change_speed(running_speed)
             add_event_listener(draw_character, 'click', show_character_info)
 
 

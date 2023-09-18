@@ -21,6 +21,19 @@ class Item:
         
     # TODO: 해당 좌표에 동일 아이템이 있으면 count만 증가시키고 아이템은 삭제하고 넣어야 함
     # TODO: 해당 좌표에 다른 아이템이 있으면 삭제하고 넣어야 함
+    
+    def item_exist(self):
+        '''
+        해당 좌표에 아이템이 있는지 확인하는 함수
+        '''
+        # self.target에 자식요소가 있으면 true, 없으면 false
+        if(self.target.hasChildNodes()):
+            item = self.target.querySelector('.item')
+            js.console.log(item.classList)
+            return True
+        else:
+            return False
+        
     def draw(self):
         '''
         x좌표, y좌표에 item을 생성하는 함수
@@ -54,8 +67,8 @@ class Item:
         count.classList.add(f'{self.name}')
         count.classList.add(f'count{self.x}{self.y}')
         count.style.position = 'absolute'
-        count.style.top = f'{self.y * 100 + 25}px'
-        count.style.left = f'{self.x * 100 + 75}px'
+        count.style.top = '15%'
+        count.style.right = '15%'
         count.style.display = 'flex'
         count.style.justifyContent = 'center'
         count.style.alignItems = 'center'

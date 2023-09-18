@@ -88,8 +88,6 @@ def set_item(x, y, name, count=1, description={}, character=None):
         print('error.TypeError: Coordinates must be integer')
         return None
 
-         
-        
     item = Item(x, y, name, count, description)
     item.draw()
     character_data[0]['character_obj'].pick()

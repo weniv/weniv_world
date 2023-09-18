@@ -1,5 +1,8 @@
 .DS_Store
 
+# node_modules
+/node_modules
+
 ### VisualStudioCode template
 .vscode/*
 !.vscode/settings.json

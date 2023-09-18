@@ -51,7 +51,7 @@ const parser = (markdown) => {
     };
 
     const blockquote = {
-        regex: /^\s*"\s(.+)/,
+        regex: /^\s*(?:"|>|&#62;)\s(.+)/,
         replace: '<blockquote class="md-blockquote">$1</blockquote>',
     };
 
@@ -87,7 +87,6 @@ const parser = (markdown) => {
         regex: /^\s*!\[(.*)\]\((.+)\)/,
         replace: (_, g1, g2) => {
             const width = g2.match(/_{2}(\d+)\..+$/)?.[1];
-            // console.log(g2)
             return `<figure class="md-figure"><img class="md-img" src="${
                 window.location.origin
             }/assets/data/story/img/${g2}"${
@@ -266,6 +265,7 @@ const parser = (markdown) => {
 
     const parseMarkdown = (markdown) => {
         const tokens = normalize(markdown);
+        console.log(tokens);
         let isEditor = false;
         let codeBlockStartIndex = -1;
         let tableStartIndex = -1;
@@ -299,14 +299,11 @@ const parser = (markdown) => {
                         if (depth > curListDepth) {
                             tokens[i] =
                                 `<${tagName} class='md-list'>` + tokens[i];
-                            // console.log('tokens:',tokens[i])
                             listStack.push(`</${tagName}>`);
                         } else if (depth < curListDepth) {
                             let depthDiff = (curListDepth - depth) / 2;
                             while (depthDiff) {
                                 const tag = listStack.pop();
-                                // console.log(depthDiff);
-                                // console.log(tag);
                                 tokens[i - 1] += tag;
                                 if (tag === `</${tagName}>`) {
                                     depthDiff--;
@@ -352,14 +349,10 @@ const parser = (markdown) => {
                     tokens[i] = '\n\n';
                 }
                 if (!isEditor) {
-                    // console.log(tokens[i]);
-                    // console.log(token)
                     tokens[i] = encodeCodeEntity(token);
                 }
                 if (codeBlockEnd.regex.test(token)) {
                     tokens[i] = parse(token, codeBlockEnd);
-                    // console.log(token) //```
-                    // console.log(tokens[i]); //</code></pre>
                     codeBlockStartIndex = -1;
                     isEditor = false;
                 } else {
@@ -383,18 +376,3 @@ const parser = (markdown) => {
 };
 
 export default parser;
-
-// const isChrome =
-//     /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-
-// const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-// const isSafari = navigator.userAgent.toLowerCase();
-
-// if (isChrome || iOS || isSafari.indexOf('safari') != -1) {
-//     window.addEventListener('markdownParsed', () => {
-//         const hash = window.location.hash;
-//         window.location.hash = '';
-//         window.location.hash = hash;
-//     });
-// }

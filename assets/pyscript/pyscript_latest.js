@@ -16544,14 +16544,14 @@ ${mountName} = Element("${el.id}")`;
       this.classes = view.themeClasses;
       this.createContainer();
       this.measureReq = { read: this.readMeasure.bind(this), write: this.writeMeasure.bind(this), key: this };
-      this.manager = new TooltipViewManager(view, showTooltip, (t2) => this.createTooltip(t2));
+      // this.manager = new TooltipViewManager(view, showTooltip, (t2) => this.createTooltip(t2));
       this.intersectionObserver = typeof IntersectionObserver == "function" ? new IntersectionObserver((entries) => {
         if (Date.now() > this.lastTransaction - 50 && entries.length > 0 && entries[entries.length - 1].intersectionRatio < 1)
           this.measureSoon();
       }, { threshold: [1] }) : null;
-      this.observeIntersection();
-      view.win.addEventListener("resize", this.measureSoon = this.measureSoon.bind(this));
-      this.maybeMeasure();
+      // this.observeIntersection();
+      // view.win.addEventListener("resize", this.measureSoon = this.measureSoon.bind(this));
+      // this.maybeMeasure();
     }
     createContainer() {
       if (this.parent) {
@@ -16574,36 +16574,36 @@ ${mountName} = Element("${el.id}")`;
       if (this.measureTimeout < 0)
         this.measureTimeout = setTimeout(() => {
           this.measureTimeout = -1;
-          this.maybeMeasure();
+          // this.maybeMeasure();
         }, 50);
     }
     update(update) {
       if (update.transactions.length)
         this.lastTransaction = Date.now();
-      let updated = this.manager.update(update);
-      if (updated)
-        this.observeIntersection();
-      let shouldMeasure = updated || update.geometryChanged;
+      // let updated = this.manager.update(update);
+      // if (updated)
+      //   this.observeIntersection();
+      // let shouldMeasure = updated || update.geometryChanged;
       let newConfig = update.state.facet(tooltipConfig);
       if (newConfig.position != this.position) {
         this.position = newConfig.position;
-        for (let t2 of this.manager.tooltipViews)
-          t2.dom.style.position = this.position;
-        shouldMeasure = true;
+        // for (let t2 of this.manager.tooltipViews)
+        //   t2.dom.style.position = this.position;
+        // shouldMeasure = true;
       }
       if (newConfig.parent != this.parent) {
         if (this.parent)
           this.container.remove();
         this.parent = newConfig.parent;
         this.createContainer();
-        for (let t2 of this.manager.tooltipViews)
-          this.container.appendChild(t2.dom);
-        shouldMeasure = true;
+        // for (let t2 of this.manager.tooltipViews)
+        //   this.container.appendChild(t2.dom);
+        // shouldMeasure = true;
       } else if (this.parent && this.view.themeClasses != this.classes) {
         this.classes = this.container.className = this.view.themeClasses;
       }
-      if (shouldMeasure)
-        this.maybeMeasure();
+      // if (shouldMeasure)
+      //   this.maybeMeasure();
     }
     createTooltip(tooltip) {
       let tooltipView = tooltip.create(this.view);
@@ -23818,12 +23818,12 @@ ${mountName} = Element("${el.id}")`;
     }
   }
   var baseAttrs = {
-    "aria-autocomplete": "list"
+    "aria-autocomplete": "none"
   };
   function makeAttrs(id2, selected) {
     let result = {
-      "aria-autocomplete": "list",
-      "aria-haspopup": "listbox",
+      "aria-autocomplete": "none",
+      "aria-haspopup": "false",
       "aria-controls": id2
     };
     if (selected > -1)

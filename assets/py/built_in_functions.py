@@ -1,6 +1,6 @@
 import js
 
-from coordinate import character_data
+from coordinate import character_data, map_data
 from item import Item
 
 
@@ -78,6 +78,16 @@ def show_item(character=None):
             return None
 
 def set_item(x, y, name, count=1, description={}, character=None):
+    if not (isinstance(x, int) and isinstance(y, int)):
+        js.alert('좌표를 확인해주세요')
+        print('error.TypeError: Coordinates must be integer')
+        return None
+       
+    if (x<0 or x > map_data['width']-1 or y<0 or y > map_data['height']-1):
+        js.alert('월드를 벗어나서 아이템을 추가할 수 없습니다.')
+        print('error.TypeError: Coordinates must be integer')
+        return None
+
     item = Item(x, y, name, count, description)
     item.draw()
     character_data[0]['character_obj'].pick()

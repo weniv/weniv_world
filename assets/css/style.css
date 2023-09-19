@@ -882,65 +882,6 @@ button {
 #app {
   margin: auto; }
 
-.world-output {
-  flex: 1;
-  background: var(--ColorGrayLv1);
-  color: var(--ColorSurface);
-  font-family: Source Code Pro;
-  font-size: 1.6rem;
-  line-height: 2rem;
-  font-weight: 500;
-  overflow: auto;
-  padding: 1.9rem 0; }
-  .world-output::-webkit-scrollbar {
-    width: 1.8rem;
-    height: 1.8rem; }
-  .world-output::-webkit-scrollbar-thumb {
-    background-color: rgba(141, 146, 153, 0.5);
-    border-radius: 1rem;
-    cursor: pointer;
-    background-clip: padding-box;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 0.6rem; }
-  .world-output::-webkit-scrollbar-track {
-    background-color: var(--ColorGrayLv1);
-    border-radius: 1rem; }
-  .world-output::-webkit-scrollbar-corner {
-    background: var(--ColorGrayLv1); }
-  .world-output .output-wrap {
-    display: flex; }
-  .world-output .output {
-    flex-grow: 1; }
-  .world-output li {
-    background: var(--ColorGrayLv1); }
-  .world-output .output-item {
-    height: 4rem;
-    padding: 1rem;
-    white-space: pre;
-    box-sizing: border-box;
-    background: var(--ColorGrayLv1); }
-  .world-output .index-list {
-    position: sticky;
-    left: 0; }
-    .world-output .index-list li {
-      position: relative;
-      width: 5.5rem;
-      height: 4rem;
-      padding: 1rem 1rem 1rem 0;
-      box-sizing: border-box;
-      text-align: right; }
-    .world-output .index-list li.current::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 0.4rem;
-      height: 100%;
-      background: var(--ColorPrimary); }
-  .world-output .current {
-    background: var(--ColorActivation); }
-
 /* map */
 .character {
   position: relative;
@@ -1041,12 +982,101 @@ button {
   height: 0.5rem;
   margin: 2px 0 0 -0.5px; }
 
-/* type */
+/* wall-type */
 .wall[data-type='door'] {
   background-color: var(--ColorSienna); }
 
 .wall[data-type='fence'] {
   background-color: var(--ColorSeagrean); }
+
+/* output */
+.world-output {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: var(--ColorGrayLv1);
+  color: var(--ColorSurface);
+  font-family: Source Code Pro;
+  font-size: 1.6rem;
+  line-height: 2rem;
+  font-weight: 500;
+  padding-bottom: 1.9rem;
+  overflow: auto; }
+  .world-output::-webkit-scrollbar {
+    width: 1.8rem;
+    height: 1.8rem; }
+  .world-output::-webkit-scrollbar-thumb {
+    background-color: rgba(141, 146, 153, 0.5);
+    border-radius: 1rem;
+    cursor: pointer;
+    background-clip: padding-box;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 0.6rem; }
+  .world-output::-webkit-scrollbar-track {
+    background-color: var(--ColorGrayLv1);
+    border-radius: 1rem; }
+  .world-output::-webkit-scrollbar-corner {
+    background: var(--ColorGrayLv1); }
+  .world-output .output-wrap {
+    display: flex;
+    order: 2;
+    margin-top: -0.4rem; }
+  .world-output .output {
+    flex-grow: 1; }
+  .world-output li {
+    background: var(--ColorGrayLv1); }
+  .world-output .output-item {
+    height: 4rem;
+    padding: 1rem;
+    white-space: pre;
+    box-sizing: border-box;
+    background: var(--ColorGrayLv1); }
+  .world-output .index-list {
+    position: sticky;
+    left: 0; }
+    .world-output .index-list li {
+      position: relative;
+      width: 5.5rem;
+      height: 4rem;
+      padding: 1rem 1rem 1rem 0;
+      box-sizing: border-box;
+      text-align: right; }
+    .world-output .index-list li.current::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 0.4rem;
+      height: 100%;
+      background: var(--ColorPrimary); }
+  .world-output .current {
+    background: var(--ColorActivation); }
+  .world-output .output-btn-list {
+    position: sticky;
+    top: 0.6rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    order: 1;
+    padding-right: 0.6rem; }
+    .world-output .output-btn-list li {
+      background: transparent; }
+  .world-output .btn-reset {
+    width: 2.4rem;
+    height: 2.4rem;
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../img/icon/icon-reset.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../img/icon/icon-reset.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+    .world-output .btn-reset:hover {
+      background: var(--ColorSurface); }
 
 .story {
   display: none;

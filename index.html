@@ -87,7 +87,7 @@
                     </li>
                 </ul>
             </header>
-            <section class="notebook-section">
+            <section class="notebook-section" id='notebookSection'>
                 <h3 class="sr-only">코드 입력</h3>
                 <py-repl id="my-repl" auto-generate="true">
                     # sample 코드입니다. shift + enter를 눌러 실행해보세요.
@@ -733,6 +733,18 @@
             hidden_link.setAttribute("download", "result.txt")
             hidden_link.setAttribute("href", url)
             hidden_link.click()
+
+        @when("click", selector=".btn-add-code")
+        def add_code_sell(evt=None):
+            newRepl = js.document.createElement('py-repl')
+            newRepl.textContent = ''
+            js.document.getElementById('notebookSection').appendChild(newRepl)
+
+        def add_code_shell_into_middle(evt=None):
+            newRepl = js.document.createElement('py-repl')
+            newRepl.textContent = ''
+            js.document.getElementById('notebookSection').insertBefore(newRepl, evt.target.parentNode.parentNode.parentNode.nextSibling)
+
     </py-script>
     <script>
     const downloadBtn = document.querySelector('.downloadNotebookBtn')

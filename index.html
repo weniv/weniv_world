@@ -89,8 +89,7 @@
             </header>
             <section class="notebook-section">
                 <h3 class="sr-only">코드 입력</h3>
-                <py-repl id="my-repl" auto-generate="true">
-                    # sample 코드입니다. shift + enter를 눌러 실행해보세요.
+                <!-- # sample 코드입니다. shift + enter를 눌러 실행해보세요.
                     # character_data, map_data, item_data는 기본 제공 데이터입니다.
                     # from modules import turn_right와 같이 모듈을 불러와 사용할 수 있습니다.
                     set_item(2, 2, 'fish')
@@ -100,7 +99,11 @@
                     turn_left()
                     turn_left()
                     repeat(2, move)
-                    # pick()
+                    # pick() -->
+                <py-repl id="my-repl" auto-generate="true">
+                    set_item(2, 2, 'fish-1',2)
+                    set_item(2, 4, 'fish-2')
+                    set_item(4, 2, 'fish-3')
                 </py-repl>
             </section>
         </section>
@@ -389,6 +392,7 @@
         running_speed = int(slider.value)/10
 
 
+
         def change_speed(e):
             global running_speed
             slider_output.innerHTML = slider.value
@@ -410,7 +414,8 @@
         map_slider_output_y.innerHTML = map_slider_y.value
         map_data['height'] = int(map_slider_x.value)
         map_data['width'] = int(map_slider_y.value)
-
+        
+        
         
         def change_map(e):
             map_data['height'] = int(map_slider_x.value)
@@ -447,8 +452,29 @@
                     if(x > map_data['height']-1 or y > map_data['width']-1):
                         wall_data[type].remove((x, y))
 
-            
-        
+            # 범위를 벗어난 아이템 삭제
+            global item_data
+            print(f'item_data: {item_data}')
+            keys_to_remove = []  # 제거할 항목의 키를 저장할 리스트
+
+            for (x, y) in item_data.keys():
+                if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
+                    print(f'🔥 x: {x}, y: {y}')
+                    keys_to_remove.append((x, y))  # 범위를 벗어나는 키를 추가
+                else:
+                    print(f'✨ x: {x}, y: {y}')
+
+
+
+            for key in keys_to_remove:
+                del item_data[key]  # 키를 사용하여 항목 제거
+
+            for key, value in item_data.items():
+                x, y = int(key[0]), int(key[1])
+                name = value['item']
+                count = value['count']
+                set_item(x, y, name, count)
+
         map_slider_x.oninput = change_map
         map_slider_y.oninput = change_map
 
@@ -467,7 +493,6 @@
         wall = Wall(wall_data)
         wall.drawWall();
         draw_map.appendChild(wall.container)
-
 
         # 생성된 요소 app추가
         app = Element("app").element
@@ -764,6 +789,9 @@
             hidden_link.setAttribute("download", "result.txt")
             hidden_link.setAttribute("href", url)
             hidden_link.click()
+
+
+    
     </py-script>
     <script>
     const downloadBtn = document.querySelector('.downloadNotebookBtn')

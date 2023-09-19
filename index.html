@@ -454,23 +454,16 @@
 
             # 범위를 벗어난 아이템 삭제
             global item_data
-            print(f'item_data: {item_data}')
             keys_to_remove = []  # 제거할 항목의 키를 저장할 리스트
 
             for (x, y) in item_data.keys():
                 if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
-                    print(f'🔥 x: {x}, y: {y}')
-                    keys_to_remove.append((x, y))  # 범위를 벗어나는 키를 추가
-                else:
-                    print(f'✨ x: {x}, y: {y}')
-
-
-
+                    keys_to_remove.append((x, y)) 
             for key in keys_to_remove:
-                del item_data[key]  # 키를 사용하여 항목 제거
+                del item_data[key]
 
             for key, value in item_data.items():
-                x, y = int(key[0]), int(key[1])
+                x, y = key
                 name = value['item']
                 count = value['count']
                 set_item(x, y, name, count)
@@ -670,7 +663,7 @@
                 y = conver_position(evt.offsetX)
 
                 # 테두리 삭제
-                if( x < 0 or x > map_data['height'] - 1 or y < 0 or y > map_data['width']-1):
+                if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
                     return
             
                 # x는 정수이고, y는 실수인 경우
@@ -712,7 +705,7 @@
                 y = conver_position(evt.offsetX)
 
                 # 테두리 삭제
-                if( x < 0 or x > map_data['height'] - 1 or y < 0 or y > map_data['width']-1):
+                if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
                     return
 
                 if(isinstance(x, int) and isinstance(y, float)) or (isinstance(x, float) and isinstance(y, int)):

@@ -16544,7 +16544,7 @@ ${mountName} = Element("${el.id}")`;
       this.classes = view.themeClasses;
       this.createContainer();
       this.measureReq = { read: this.readMeasure.bind(this), write: this.writeMeasure.bind(this), key: this };
-      // this.manager = new TooltipViewManager(view, showTooltip, (t2) => this.createTooltip(t2));
+      this.manager = new TooltipViewManager(view, showTooltip, (t2) => this.createTooltip(t2));
       this.intersectionObserver = typeof IntersectionObserver == "function" ? new IntersectionObserver((entries) => {
         if (Date.now() > this.lastTransaction - 50 && entries.length > 0 && entries[entries.length - 1].intersectionRatio < 1)
           this.measureSoon();

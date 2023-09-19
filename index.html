@@ -89,7 +89,8 @@
             </header>
             <section class="notebook-section">
                 <h3 class="sr-only">코드 입력</h3>
-                <!-- # sample 코드입니다. shift + enter를 눌러 실행해보세요.
+                <py-repl id="my-repl" auto-generate="true">
+                    # sample 코드입니다. shift + enter를 눌러 실행해보세요.
                     # character_data, map_data, item_data는 기본 제공 데이터입니다.
                     # from modules import turn_right와 같이 모듈을 불러와 사용할 수 있습니다.
                     set_item(2, 2, 'fish')
@@ -99,11 +100,7 @@
                     turn_left()
                     turn_left()
                     repeat(2, move)
-                    # pick() -->
-                <py-repl id="my-repl" auto-generate="true">
-                    set_item(2, 2, 'fish-1',2)
-                    set_item(2, 4, 'fish-2')
-                    set_item(4, 2, 'fish-3')
+                    # pick()
                 </py-repl>
             </section>
         </section>

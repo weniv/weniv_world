@@ -10,13 +10,13 @@
     <link rel="shortcut icon" type="image/x-icon" href="./assets/img/icon/icon-logo.svg">
 
     <!-- 환경파일 -->
-    <script src="./assets/js/env.js" defer></script>
+    <!-- <script src="./assets/js/env.js" defer></script> -->
 
     <!-- JavaScript -->
     <script src="./assets/js/editor.js" defer></script>
-    <script src="./assets/js/parser.js" defer></script>
     <script src="./assets/js/event.js" defer></script>
     <script src="./assets/js/resizer.js" defer></script>
+    <script type="module" src="./assets/js/setStory.js"></script>
 
     <!-- PyScript -->
     <link rel="stylesheet" href="assets/pyscript/pyscript.css" />
@@ -295,65 +295,38 @@
             <section class="world-output">
                 <h3 class="sr-only">실행 결과</h3>
                 <div class="output-wrap">
-                    <button id="output-init" class="button-before btn-reset" type="button">
-                        <span class="sr-only">result init button</span>
-                    </button>
-                    <button id="output-download" type="button" class="downloadNotebookBtn btn-file-export">
-                            <span class="sr-only">result download</span>
-                    </button>
                     <ol class="index-list"></ol>
                     <div id='output' class="output"></div>
                 </div>
+                <ul class="output-btn-list">
+                    <li>
+                        <button id="output-download" type="button" class="downloadNotebookBtn btn-file-export">
+                            <span class="sr-only">result download</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="output-init" class="btn-reset" type="button">
+                            <span class="sr-only">result init button</span>
+                        </button>
+                    </li>
+                </ul>
             </section>
         </section>
         <div class="resizer story-resizer" data-direction="horizontal" data-target="next"></div>
         <section class="story">
             <header class="story-header">
                 <h2>스토리 보기</h2>
-                <button type="button" class="btn-write-story">
+                <!-- TODO: 스토리 추가 기능 구현하기(WD2) -->
+                <!-- <button type="button" class="btn-write-story">
                     직접 작성하기
-                </button>
+                </button> -->
                 <button type="button" class="btn-close-story">
                     <span class="sr-only">
                         스토리 닫기
                     </span>
                 </button>
             </header>
-            <ul class="story-list">
-                <li>
-                    <section class="story-title">
-                        <h3>
-                            <span>1편</span>라이캣의 탄생
-                        </h3>
-                        <button class="btn-toggle">
-                            <span class="sr-only">스토리 여닫기</span>
-                        </button>
-                    </section>
-                    <section class="story-contents">
-                        <h3 class="sr-only">스토리</h3>
-                        <p>
-                            캣은 변방에서 생선 가게를 운영하는 평범한 소년입니다. 아픈 어머니를 대신하여 새벽이면 험한 바다에 나가 고기를 잡고, 오후가 되면 생선을 파는 생활을 반복하고 있는, 지극히 평범한 소년이죠.
-                            하지만 소년은 항상 노래를 부르고, 웃으며, 눈과 귀를 열어놓고 세상과 사람에 집중하며, 아름다운 것에 심취하고, 동화될 줄 알았습니다.
-                        </p>
-                    </section>
-                </li>
-                <li>
-                    <section class="story-title">
-                        <h3>
-                            <span>2편</span>여행을 떠난 라이캣
-                        </h3>
-                        <button class="btn-toggle">
-                            <span class="sr-only">스토리 여닫기</span>
-                        </button>
-                    </section>
-                    <section class="story-contents">
-                        <h3 class="sr-only">스토리</h3>
-                        <p>
-                            여행을 떠난 라이캣 스토리
-                        </p>
-                    </section>
-                </li>
-            </ul>
+            <ul class="story-list"></ul>
         </section>
     </main>
     <p id="pointer"></p>
@@ -386,14 +359,14 @@
         slider = js.document.getElementById("speed-range")
         slider_output = js.document.getElementById("speed-text")
         slider_output.innerHTML = slider.value
-        running_speed = int(slider.value)/10
+        running_speed = ((100 - int(slider.value))/10) + 0.1
 
 
 
         def change_speed(e):
             global running_speed
             slider_output.innerHTML = slider.value
-            running_speed = int(slider.value)/10
+            running_speed = ((100 - int(slider.value))/10) + 0.1
             if licat:
                 licat.set_speed(running_speed)
             else:
@@ -518,6 +491,7 @@
         @when("click", selector="#init_character")
         def init_character(evt=None):
             js.console.log('캐릭터 초기화')
+            global running_speed
             js.document.querySelector('.character').remove()
             character_data[0] = {
                 'character': 'licat',
@@ -533,6 +507,7 @@
             character_data[0]['character_obj'] = licat
             draw_character = licat.draw()
             js.document.querySelector('.map-container').appendChild(draw_character)
+            change_speed(running_speed)
             add_event_listener(draw_character, 'click', show_character_info)
 
 

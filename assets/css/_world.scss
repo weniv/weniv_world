@@ -200,67 +200,6 @@
     margin: auto;
 }
 
-.world-output {
-    flex: 1;
-    background: var(--ColorGrayLv1);
-    color: var(--ColorSurface);
-    font-family: Source Code Pro;
-    font-size: 1.6rem;
-    line-height: 2rem;
-    font-weight: 500;
-    overflow: auto;
-    padding: 1.9rem 0;
-    @include scrollbar($track-color: var(--ColorGrayLv1), $padding: 0.6rem);
-
-    .output-wrap {
-        display: flex;
-    }
-
-    .output {
-        flex-grow: 1;
-    }
-
-    li {
-        background: var(--ColorGrayLv1);
-    }
-
-    .output-item {
-        height: 4rem;
-        padding: 1rem;
-        white-space: pre;
-        box-sizing: border-box;
-        background: var(--ColorGrayLv1);
-    }
-
-    .index-list {
-        position: sticky;
-        left: 0;
-
-        li {
-            position: relative;
-            width: 5.5rem;
-            height: 4rem;
-            padding: 1rem 1rem 1rem 0;
-            box-sizing: border-box;
-            text-align: right;
-        }
-
-        li.current::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 0.4rem;
-            height: 100%;
-            background: var(--ColorPrimary);
-        }
-    }
-
-    .current {
-        background: var(--ColorActivation);
-    }
-}
-
 /* map */
 .character {
     position: relative;
@@ -379,11 +318,103 @@
     margin: 2px 0 0 -0.5px;
 }
 
-/* type */
+/* wall-type */
 .wall[data-type='door'] {
     background-color: var(--ColorSienna);
 }
 
 .wall[data-type='fence'] {
     background-color: var(--ColorSeagrean);
+}
+
+/* output */
+.world-output {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    background: var(--ColorGrayLv1);
+    color: var(--ColorSurface);
+    font-family: Source Code Pro;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    font-weight: 500;
+    padding-bottom: 1.9rem;
+    overflow: auto;
+    @include scrollbar($track-color: var(--ColorGrayLv1), $padding: 0.6rem);
+
+    .output-wrap {
+        display: flex;
+        order: 2;
+        margin-top: -0.4rem;
+    }
+
+    .output {
+        flex-grow: 1;
+    }
+
+    li {
+        background: var(--ColorGrayLv1);
+    }
+
+    .output-item {
+        height: 4rem;
+        padding: 1rem;
+        white-space: pre;
+        box-sizing: border-box;
+        background: var(--ColorGrayLv1);
+    }
+
+    .index-list {
+        position: sticky;
+        left: 0;
+
+        li {
+            position: relative;
+            width: 5.5rem;
+            height: 4rem;
+            padding: 1rem 1rem 1rem 0;
+            box-sizing: border-box;
+            text-align: right;
+        }
+
+        li.current::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0.4rem;
+            height: 100%;
+            background: var(--ColorPrimary);
+        }
+    }
+
+    .current {
+        background: var(--ColorActivation);
+    }
+
+    .output-btn-list {
+        position: sticky;
+        top: 0.6rem;
+        left: 0;
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.6rem;
+        order: 1;
+        padding-right: 0.6rem;
+
+        li {
+            background: transparent;
+        }
+    }
+
+    .btn-reset {
+        width: 2.4rem;
+        height: 2.4rem;
+        @include mask-image(var(--ColorGrayLv3), '../img/icon/icon-reset.svg');
+
+        &:hover {
+            background: var(--ColorSurface);
+        }
+    }
 }

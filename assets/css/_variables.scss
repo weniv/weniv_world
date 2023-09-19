@@ -13,6 +13,11 @@ $colors: (
         error: #ff3440,
         low-error: #ffc533,
         activation: #dee8ff,
+        code-purple: #964dd1,
+        code-pink: #c93864,
+        code-blue: #2e5dd6,
+        code-green: #328026,
+        code-orange: #ed7200,
     ),
     dark: (
         primary: #3075ff,
@@ -25,6 +30,11 @@ $colors: (
         error: #fc7377,
         low-error: #ffe187,
         activation: #2b3444,
+        code-purple: #c893fd,
+        code-pink: #ed4779,
+        code-blue: #618dff,
+        code-green: #50c140,
+        code-orange: #ffa52a,
     ),
 );
 
@@ -47,6 +57,11 @@ $colors: (
     --ColorError: #{get-color(error)};
     --ColorLowError: #{get-color(low-error)};
     --ColorActivation: #{get-color(activation)};
+    --ColorCodePurple: #{get-color(code-purple)};
+    --ColorCodePink: #{get-color(code-pink)};
+    --ColorCodeBlue: #{get-color(code-blue)};
+    --ColorCodeGreen: #{get-color(code-green)};
+    --ColorCodeOrange: #{get-color(code-orange)};
 }
 
 :root[color-theme='dark'] {
@@ -60,4 +75,9 @@ $colors: (
     --ColorError: #{get-color(error, dark)};
     --ColorLowError: #{get-color(low-error, dark)};
     --ColorActivation: #{get-color(activation, dark)};
+    --ColorCodePurple: #{get-color(code-purple, dark)};
+    --ColorCodePink: #{get-color(code-pink, dark)};
+    --ColorCodeBlue: #{get-color(code-blue, dark)};
+    --ColorCodeGreen: #{get-color(code-green, dark)};
+    --ColorCodeOrange: #{get-color(code-orange, dark)};
 }

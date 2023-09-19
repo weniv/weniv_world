@@ -1,0 +1,155 @@
+h1,
+h2,
+h3,
+h4 {
+    font-weight: bold;
+}
+
+.md-tit1 {
+    display: none;
+}
+
+.md-p {
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 2.2rem;
+}
+
+.md-figure {
+    .md-img {
+        margin-bottom: 1rem;
+        border-radius: 0.4rem;
+    }
+
+    figcaption {
+        display: flex;
+        justify-content: center;
+        gap: 0.2rem;
+        color: var(--ColorGrayLv3);
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 2rem;
+
+        &::before {
+            content: '▲';
+            display: block;
+            margin-right: 0.4rem;
+        }
+    }
+}
+
+.md-blockquote {
+    padding: 0.5rem 1.2rem;
+    border-left: 3px solid var(--ColorSurface);
+    font-style: italic;
+    font-weight: 700;
+}
+
+code {
+    font-family: 'Source Code Pro';
+    font-size: 85%;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    background: var(--ColorGrayLv1);
+    white-space: break-spaces;
+    padding: 0.2em 0.4em;
+    border-radius: 6px;
+}
+
+.md-pre {
+    padding: 2.8rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--ColorGrayLv2);
+    background: var(--ColorGrayLv1);
+
+    code {
+        font-size: 1.6rem;
+        padding: 0;
+        border-radius: 0;
+        background: transparent;
+    }
+}
+
+ol.md-list {
+    list-style-type: decimal;
+    padding-left: 1.4rem;
+}
+
+.md-list .que-ol-li {
+    position: relative;
+    padding-left: 0;
+    line-height: 1.5;
+}
+
+.md-ul-li {
+    position: relative;
+    padding-left: 1em;
+    line-height: 1.5;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0.5em;
+        left: 0;
+        display: block;
+        width: 0.4em;
+        height: 0.4em;
+        margin-right: 0.5em;
+        border-radius: 50%;
+        background: var(--ColorSurface);
+    }
+}
+
+.md-list:not(:first-child) .md-ul-li li::before {
+    height: 0.2em;
+    border-radius: 0;
+}
+
+.md-table {
+    border-top: 2px solid var(--ColorGrayLv2);
+    border-bottom: 2px solid var(--ColorGrayLv2);
+    text-align: center;
+    margin: 0.8rem 0;
+}
+
+.md-table td,
+.md-table th {
+    padding: 0.6em 1em;
+}
+
+.md-table th {
+    white-space: nowrap;
+    font-weight: bold;
+    background: var(--ColorGrayLv1);
+}
+
+.md-table tr {
+    th:not(:last-child),
+    td:not(:last-child) {
+        border-right: 1px solid var(--ColorGrayLv2);
+    }
+}
+
+.md-table tr:nth-child(odd) {
+    background: var(--ColorGrayLv1);
+}
+
+.md-table td {
+    border: 1px solid var(--ColorGrayLv2);
+    border-width: 1px 0;
+    text-align: left;
+}
+
+.md-hr {
+    width: 100%;
+    height: 0.2rem;
+    background: var(--ColorGrayLv2);
+    border: 0;
+}
+
+.code-text {
+    color: var(--ColorCodeOrange);
+}

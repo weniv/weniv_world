@@ -27641,7 +27641,7 @@ ${mountName} = Element("${el.id}")`;
 
   // src/components/pyrepl.ts
   var logger6 = getLogger("py-repl");
-  var RUNBUTTON = `<svg style="height:20px;width:20px;vertical-align:-.125em;transform-origin:center;overflow:visible;color:green" viewBox="0 0 384 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(192 256)" transform-origin="96 0"><g transform="translate(0,0) scale(1,1)"><path d="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z" fill="currentColor" transform="translate(-192 -256)"></path></g></g></svg>`;
+  // var RUNBUTTON = `<svg style="height:20px;width:20px;vertical-align:-.125em;transform-origin:center;overflow:visible;color:green" viewBox="0 0 384 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(192 256)" transform-origin="96 0"><g transform="translate(0,0) scale(1,1)"><path d="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z" fill="currentColor" transform="translate(-192 -256)"></path></g></g></svg>`;
   function make_PyRepl(interpreter2, app) {
     class PyRepl extends HTMLElement {
       connectedCallback() {
@@ -27748,7 +27748,7 @@ ${mountName} = Element("${el.id}")`;
       makeRunButton() {
         const runButton = document.createElement("button");
         runButton.className = "absolute py-repl-run-button";
-        runButton.innerHTML = RUNBUTTON;
+        // runButton.innerHTML = RUNBUTTON;
         runButton.setAttribute("aria-label", "Python Script Run Button");
         runButton.addEventListener("click", this.execute.bind(this));
         return runButton;

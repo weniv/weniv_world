@@ -786,16 +786,15 @@
         const cells = document.querySelectorAll('.py-repl-editor')
 
         for (let i = 0; i < cells.length; i++) {
-            cells
             notebook.cells.push({
                 "cell_type": "code",
                 "execution_count": null,
                 "metadata": {},
                 "outputs": [],
-                "source": cells[i].childNodes[0].shadowRoot.querySelector('.cm-content').innerText
+                // document.querySelector("#my-repl > div > div.py-repl-editor > div > div > div.cm-scroller > div.cm-content")
+                "source":  cells[i].querySelector('.cm-content').innerText
             });
         }
-
         const notebookJson = JSON.stringify(notebook, null, 2);
         const blob = new Blob([notebookJson], { type: 'application/json' });
         const url = URL.createObjectURL(blob);

@@ -121,177 +121,175 @@
                     </li>
                 </ul>
             </header>
+            <nav class="world-menu">
+                <ul class="controll-btn-list">
+                    <li>
+                        <button class="button-before btn-wall btn-toggle" type="button">
+                            <span class="sr-only">Add wall</span>
+                        </button>
+                        <div class="controller-modal wall-type">
+                            <div class="input-wrap">
+                                <input type="radio" name="wall-type" id="wall" value="wall" class="sr-only" checked>
+                                <label for="wall">wall(기본)</label>
+                                <div class="wall-info show-tooltip" name="blocked"></div>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="wall-type" id="door" value="door" class="sr-only">
+                                <label for="door">door</label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="wall-type" id="fence" value="fence" class="sr-only">
+                                <label for="fence">fence</label>
+                                <div class="wall-info show-tooltip" name="blocked"></div>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="wall-type" id="delete" value="delete" class="sr-only">
+                                <label for="delete">delete</label>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <button class="button-before btn-assets  btn-toggle" type="button">
+                            <span class="sr-only">아이템 추가하기</span>
+                        </button>
+                        <div class="controller-modal select-items">
+                            <!-- TODO: items data 파일 뿌려주기 -->
+                            <!-- 우선 fish 3개만 추가, 현재 동작 안 함 -->
+                            <div class="input-wrap">
+                                <input type="radio" name="item" id="fish-1" value="fish-1" checked>
+                                <label for="item">fish-1(기본)</label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="item" id="fish-2" value="fish-2">
+                                <label for="item">fish-2</label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="item" id="fish-3" value="fish-3">
+                                <label for="item">fish-3</label>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <button class="button-before btn-resize btn-toggle" type="button">
+                            <span class="sr-only">월드 크기 조정하기</span>
+                        </button>
+                        <div class="controller-modal resize">
+                            <div class="input-wrap">
+                                <label for="map-range-x">Map_x</label>
+                                <input type="range" min="3" max="10" value="5" class="slider" id="map-range-x">
+                                <strong id="map-text-x"></strong>
+                            </div>
+                            <div class="input-wrap">
+                                <label for="map-range-y">Map_y</label>
+                                <input type="range" min="3" max="10" value="5" class="slider" id="map-range-y">
+                                <strong id="map-text-y"></strong>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <button class="button-before btn-speed btn-toggle" type="button">
+                            <span class="sr-only">속도 조절하기</span>
+                        </button>
+                        <div class="controller-modal speed">
+                            <div class="input-wrap">
+                                <label for="speed-range">Speed</label>
+                                <input type="range" min="1" max="100" value="30" class="slider" id="speed-range">
+                                <strong id="speed-text"></strong>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="info-btn-list">
+                    <li>
+                        <button class="button-before btn-function btn-toggle" type="button" id="btn-list-function">
+                            <span class="sr-only">함수 리스트 보기</span>
+                        </button>
+                        <section class="controller-modal function-list">
+                            <h4 class="title">함수 리스트</h4>
+                            <ul>
+                                <li>
+                                    <button type="button" class="code-item">print()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">directions()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">show_item()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">set_item()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">move()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">turn_left()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">pick()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">put()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">repeat()</button>
+                                </li>
+                                <li><button type="button" class="code-item">(from modules import turn_right) turn_right()</button>
+                                </li>
+                                <li><button type="button" class="code-item">(from modules import turn_around) turn_around()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">(from modules import move_to_wall) move_to_wall()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">(from modules import turn_left_until_clear) <wbr />turn_left_until_clear()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">(from modules import jump) jump()</button>
+                                </li>
+                            </ul>
+                            <button class="btn-close" type="button">
+                                <span class="sr-only">닫기 버튼</span>
+                            </button>
+                        </section>
+                    </li>
+                    <li>
+                        <button class="button-before btn-variable btn-toggle" type="button" id="btn-list-variable">
+                            <span class="sr-only">변수 리스트 보기</span>
+                        </button>
+                        <section class="controller-modal variable-list">
+                            <h4 class="title">변수 리스트</h4>
+                            <ul>
+                                <li>
+                                    <button type="button" class="code-item">character_data</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">map_data</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">item_data</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item">running_speed</button>
+                                </li>
+                            </ul>
+                            <button class="btn-close" type="button">
+                                <span class="sr-only">닫기 버튼</span>
+                            </button>
+                        </section>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <button id="init" class="button-before btn-reset" type="button">
+                            <span class="sr-only">월드, 캐릭터 초기화</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
             <section class="world-map">
                 <h3 class="sr-only">위니브월드 맵</h3>
-                <nav class="world-menu">
-                    <ul class="controll-btn-list">
-                        <li>
-                            <button class="button-before btn-wall btn-toggle" type="button">
-                                <span class="sr-only">Add wall</span>
-                            </button>
-                            <div class="controller-modal wall-type">
-                                <div class="input-wrap">
-                                    <input type="radio" name="wall-type" id="wall" value="wall" class="sr-only" checked>
-                                    <label for="wall">wall(기본)</label>
-                                    <div class="wall-info show-tooltip" name="blocked"></div>
-                                </div>
-                                <div class="input-wrap">
-                                    <input type="radio" name="wall-type" id="door" value="door" class="sr-only">
-                                    <label for="door">door</label>
-                                </div>
-                                <div class="input-wrap">
-                                    <input type="radio" name="wall-type" id="fence" value="fence" class="sr-only">
-                                    <label for="fence">fence</label>
-                                    <div class="wall-info show-tooltip" name="blocked"></div>
-                                </div>
-                                <div class="input-wrap">
-                                    <input type="radio" name="wall-type" id="delete" value="delete" class="sr-only">
-                                    <label for="delete">delete</label>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <button class="button-before btn-assets  btn-toggle" type="button">
-                                <span class="sr-only">아이템 추가하기</span>
-                            </button>
-                            <div class="controller-modal select-items">
-                                <!-- TODO: items data 파일 뿌려주기 -->
-                                <!-- 우선 fish 3개만 추가, 현재 동작 안 함 -->
-                                <div class="input-wrap">
-                                    <input type="radio" name="item" id="fish-1" value="fish-1" checked>
-                                    <label for="item">fish-1(기본)</label>
-                                </div>
-                                <div class="input-wrap">
-                                    <input type="radio" name="item" id="fish-2" value="fish-2">
-                                    <label for="item">fish-2</label>
-                                </div>
-                                <div class="input-wrap">
-                                    <input type="radio" name="item" id="fish-3" value="fish-3">
-                                    <label for="item">fish-3</label>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <button class="button-before btn-resize btn-toggle" type="button">
-                                <span class="sr-only">월드 크기 조정하기</span>
-                            </button>
-                            <div class="controller-modal resize">
-                                <div class="input-wrap">
-                                    <label for="map-range-x">Map_x</label>
-                                    <input type="range" min="3" max="10" value="5" class="slider" id="map-range-x">
-                                    <strong id="map-text-x"></strong>
-                                </div>
-                                <div class="input-wrap">
-                                    <label for="map-range-y">Map_y</label>
-                                    <input type="range" min="3" max="10" value="5" class="slider" id="map-range-y">
-                                    <strong id="map-text-y"></strong>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <button class="button-before btn-speed btn-toggle" type="button">
-                                <span class="sr-only">속도 조절하기</span>
-                            </button>
-                            <div class="controller-modal speed">
-                                <div class="input-wrap">
-                                    <label for="speed-range">Speed</label>
-                                    <input type="range" min="1" max="100" value="30" class="slider" id="speed-range">
-                                    <strong id="speed-text"></strong>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <ul class="info-btn-list">
-                        <li>
-                            <button class="button-before btn-function btn-toggle" type="button" id="btn-list-function">
-                                <span class="sr-only">함수 리스트 보기</span>
-                            </button>
-                            <section class="controller-modal function-list">
-                                <h4 class="title">함수 리스트</h4>
-                                <ul>
-                                    <li>
-                                        <button type="button" class="code-item">print()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">directions()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">show_item()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">set_item()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">move()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">turn_left()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">pick()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">put()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">repeat()</button>
-                                    </li>
-                                    <li><button type="button" class="code-item">(from modules import turn_right) turn_right()</button>
-                                    </li>
-                                    <li><button type="button" class="code-item">(from modules import turn_around) turn_around()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">(from modules import move_to_wall) move_to_wall()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">(from modules import turn_left_until_clear) <wbr />turn_left_until_clear()</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">(from modules import jump) jump()</button>
-                                    </li>
-                                </ul>
-                                <button class="btn-close" type="button">
-                                    <span class="sr-only">닫기 버튼</span>
-                                </button>
-                            </section>
-                        </li>
-                        <li>
-                            <button class="button-before btn-variable btn-toggle" type="button" id="btn-list-variable">
-                                <span class="sr-only">변수 리스트 보기</span>
-                            </button>
-                            <section class="controller-modal variable-list">
-                                <h4 class="title">변수 리스트</h4>
-                                <ul>
-                                    <li>
-                                        <button type="button" class="code-item">character_data</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">map_data</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">item_data</button>
-                                    </li>
-                                    <li>
-                                        <button type="button" class="code-item">running_speed</button>
-                                    </li>
-                                </ul>
-                                <button class="btn-close" type="button">
-                                    <span class="sr-only">닫기 버튼</span>
-                                </button>
-                            </section>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <button id="init" class="button-before btn-reset" type="button">
-                                <span class="sr-only">월드, 캐릭터 초기화</span>
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-                <div class="world-map-wrap">
-                    <div id='app'></div>
-                </div>
+                <div id='app'></div>
             </section>
             <div class="resizer" data-direction="vertical"></div>
             <section class="world-output">

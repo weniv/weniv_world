@@ -764,27 +764,6 @@ button {
     .world-header .world-btn-list button {
       display: block; }
 
-.world-map {
-  overflow: hidden; }
-  .world-map .world-map-wrap {
-    display: flex;
-    margin: 0.8rem 0.6rem;
-    padding: 3.2rem 2.8rem 3.2rem 3.4rem;
-    box-sizing: border-box;
-    overflow: auto; }
-    .world-map .world-map-wrap::-webkit-scrollbar {
-      width: 0.6rem;
-      height: 0.6rem; }
-    .world-map .world-map-wrap::-webkit-scrollbar-thumb {
-      background-color: rgba(141, 146, 153, 0.5);
-      border-radius: 1rem;
-      cursor: pointer; }
-    .world-map .world-map-wrap::-webkit-scrollbar-track {
-      background-color: var(--ColorBackground);
-      border-radius: 1rem; }
-    .world-map .world-map-wrap::-webkit-scrollbar-corner {
-      background: var(--ColorBackground); }
-
 .world-menu {
   display: flex;
   align-items: center;
@@ -952,10 +931,29 @@ button {
 .select-items input#fish-3 + label::after {
   background: url("../img/item/fish-3.png") no-repeat center/cover; }
 
+/* map */
+.world-map {
+  display: flex;
+  margin: 0.8rem 0.6rem;
+  padding: 3.2rem 2.8rem 3.2rem 3.4rem;
+  height: 300px;
+  overflow: auto; }
+  .world-map::-webkit-scrollbar {
+    width: 0.6rem;
+    height: 0.6rem; }
+  .world-map::-webkit-scrollbar-thumb {
+    background-color: rgba(141, 146, 153, 0.5);
+    border-radius: 1rem;
+    cursor: pointer; }
+  .world-map::-webkit-scrollbar-track {
+    background-color: var(--ColorBackground);
+    border-radius: 1rem; }
+  .world-map::-webkit-scrollbar-corner {
+    background: var(--ColorBackground); }
+
 #app {
   margin: auto; }
 
-/* map */
 .character {
   position: relative;
   animation: player 1s steps(7) infinite;
@@ -1086,6 +1084,12 @@ button {
     border-bottom: 1px solid var(--ColorGrayLv2);
     box-sizing: border-box;
     z-index: 10; }
+    .world-output .output-header h3 {
+      color: var(--ColorSurface);
+      font-family: Pretendard;
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 2rem; }
   .world-output .output-result {
     padding: 1.9rem 0;
     overflow: auto; }

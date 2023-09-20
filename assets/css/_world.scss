@@ -33,19 +33,6 @@
     }
 }
 
-.world-map {
-    overflow: hidden;
-
-    .world-map-wrap {
-        display: flex;
-        margin: 0.8rem 0.6rem;
-        padding: 3.2rem 2.8rem 3.2rem 3.4rem;
-        box-sizing: border-box;
-        overflow: auto;
-        @include scrollbar;
-    }
-}
-
 .world-menu {
     display: flex;
     align-items: center;
@@ -243,11 +230,20 @@
     }
 }
 
+/* map */
+.world-map {
+    display: flex;
+    margin: 0.8rem 0.6rem;
+    padding: 3.2rem 2.8rem 3.2rem 3.4rem;
+    height: 300px;
+    overflow: auto;
+    @include scrollbar;
+}
+
 #app {
     margin: auto;
 }
 
-/* map */
 .character {
     position: relative;
     animation: player 1s steps(7) infinite;
@@ -399,6 +395,14 @@
         border-bottom: 1px solid var(--ColorGrayLv2);
         box-sizing: border-box;
         z-index: 10;
+
+        h3 {
+            color: var(--ColorSurface);
+            font-family: Pretendard;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 2rem;
+        }
     }
 
     .output-result {

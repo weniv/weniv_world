@@ -294,23 +294,27 @@
             </section>
             <div class="resizer" data-direction="vertical"></div>
             <section class="world-output">
-                <h3 class="sr-only">실행 결과</h3>
-                <div class="output-wrap">
-                    <ol class="index-list"></ol>
-                    <div id='output' class="output"></div>
+                <header class="output-header">
+                    <h3>Terminal</h3>
+                    <ul class="output-btn-list">
+                        <li>
+                            <button id="output-init" class="btn-reset" type="button">
+                                <span class="sr-only">result init button</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button id="output-download" type="button" class="downloadNotebookBtn btn-file-export">
+                                <span class="sr-only">result download</span>
+                            </button>
+                        </li>
+                    </ul>
+                </header>
+                <div class="output-result">
+                    <div class="output-wrap">
+                        <ol class="index-list"></ol>
+                        <div id='output' class="output"></div>
+                    </div>
                 </div>
-                <ul class="output-btn-list">
-                    <li>
-                        <button id="output-download" type="button" class="downloadNotebookBtn btn-file-export">
-                            <span class="sr-only">result download</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button id="output-init" class="btn-reset" type="button">
-                            <span class="sr-only">result init button</span>
-                        </button>
-                    </li>
-                </ul>
             </section>
         </section>
         <div class="resizer story-resizer" data-direction="horizontal" data-target="next"></div>

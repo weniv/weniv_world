@@ -1069,28 +1069,39 @@ button {
   font-size: 1.6rem;
   line-height: 2rem;
   font-weight: 500;
-  padding-bottom: 1.9rem;
-  overflow: auto; }
-  .world-output::-webkit-scrollbar {
-    width: 1.8rem;
-    height: 1.8rem; }
-  .world-output::-webkit-scrollbar-thumb {
-    background-color: rgba(141, 146, 153, 0.5);
-    border-radius: 1rem;
-    cursor: pointer;
-    background-clip: padding-box;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 0.6rem; }
-  .world-output::-webkit-scrollbar-track {
-    background-color: var(--ColorGrayLv1);
-    border-radius: 1rem; }
-  .world-output::-webkit-scrollbar-corner {
-    background: var(--ColorGrayLv1); }
-  .world-output .output-wrap {
+  overflow: hidden; }
+  .world-output .output-header {
     display: flex;
-    order: 2;
-    margin-top: -0.4rem; }
+    align-items: center;
+    flex-shrink: 0;
+    gap: 0.8rem;
+    height: 5rem;
+    padding: 0 2rem;
+    background: var(--ColorBackground);
+    border-bottom: 1px solid var(--ColorGrayLv2);
+    box-sizing: border-box;
+    z-index: 10; }
+  .world-output .output-result {
+    padding: 1.9rem 0;
+    overflow: auto; }
+    .world-output .output-result::-webkit-scrollbar {
+      width: 1.8rem;
+      height: 1.8rem; }
+    .world-output .output-result::-webkit-scrollbar-thumb {
+      background-color: rgba(141, 146, 153, 0.5);
+      border-radius: 1rem;
+      cursor: pointer;
+      background-clip: padding-box;
+      border-color: transparent;
+      border-style: solid;
+      border-width: 0.6rem; }
+    .world-output .output-result::-webkit-scrollbar-track {
+      background-color: var(--ColorGrayLv1);
+      border-radius: 1rem; }
+    .world-output .output-result::-webkit-scrollbar-corner {
+      background: var(--ColorGrayLv1); }
+  .world-output .output-wrap {
+    display: flex; }
   .world-output .output {
     flex-grow: 1; }
   .world-output li {
@@ -1122,19 +1133,17 @@ button {
   .world-output .current {
     background: var(--ColorActivation); }
   .world-output .output-btn-list {
-    position: sticky;
-    top: 0.6rem;
-    left: 0;
     display: flex;
-    justify-content: flex-end;
-    gap: 0.6rem;
-    order: 1;
-    padding-right: 0.6rem; }
+    align-items: center;
+    justify-content: space-between;
+    flex-grow: 1; }
     .world-output .output-btn-list li {
       background: transparent; }
+    .world-output .output-btn-list button {
+      display: block; }
   .world-output .btn-reset {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 1.8rem;
+    height: 1.8rem;
     background: var(--ColorGrayLv3);
     -webkit-mask-image: url("../img/icon/icon-reset.svg");
     -webkit-mask-size: 100%;

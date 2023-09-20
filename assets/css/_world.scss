@@ -86,9 +86,12 @@
 
     .controller-modal {
         display: none;
-        top: 0;
-        left: 6.7rem;
+        top: calc(3.2rem + 0.9rem + 1.1rem);
         box-sizing: border-box;
+
+        ul {
+            display: flex;
+        }
 
         .input-wrap {
             display: flex;

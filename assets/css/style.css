@@ -418,15 +418,11 @@ button {
   .controller-modal::before {
     content: '';
     position: absolute;
-    top: 1rem;
-    left: 0rem;
-    width: 0.85rem;
-    height: 0.85rem;
-    background: inherit;
-    border: inherit;
-    clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
-    transform: translateX(-50%) rotate(45deg);
-    border-radius: 0px 0px 0px 0.2rem; }
+    top: -1.2rem;
+    left: 0.4rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    background: url("../img/icon/icon-polygon.svg") no-repeat center/cover; }
 
 /* info-modal */
 .info-modal {
@@ -817,9 +813,10 @@ button {
       height: 2.1rem; }
   .world-menu .controller-modal {
     display: none;
-    top: 0;
-    left: 6.7rem;
+    top: calc(3.2rem + 0.9rem + 1.1rem);
     box-sizing: border-box; }
+    .world-menu .controller-modal ul {
+      display: flex; }
     .world-menu .controller-modal .input-wrap {
       display: flex;
       align-items: center;

@@ -87,7 +87,7 @@
                     </li>
                 </ul>
             </header>
-            <section class="notebook-section">
+            <section class="notebook-section" id='notebookSection'>
                 <h3 class="sr-only">코드 입력</h3>
                 <py-repl id="my-repl" auto-generate="true">
                     # sample 코드입니다. shift + enter를 눌러 실행해보세요.
@@ -361,7 +361,6 @@
         slider_output.innerHTML = slider.value
         running_speed = ((100 - int(slider.value))/10) + 0.1
 
-
         def change_speed(e):
             global running_speed
             slider_output.innerHTML = slider.value
@@ -420,8 +419,22 @@
                     if(x > map_data['height']-1 or y > map_data['width']-1):
                         wall_data[type].remove((x, y))
 
-            
-        
+            # 범위를 벗어난 아이템 삭제
+            global item_data
+            keys_to_remove = []  # 제거할 항목의 키를 저장할 리스트
+
+            for (x, y) in item_data.keys():
+                if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
+                    keys_to_remove.append((x, y))
+            for key in keys_to_remove:
+                del item_data[key]
+
+            for key, value in item_data.items():
+                x, y = key
+                name = value['item']
+                count = value['count']
+                set_item(x, y, name, count)
+
         map_slider_x.oninput = change_map
         map_slider_y.oninput = change_map
 
@@ -440,7 +453,6 @@
         wall = Wall(wall_data)
         wall.drawWall();
         draw_map.appendChild(wall.container)
-
 
         # 생성된 요소 app추가
         app = Element("app").element
@@ -620,7 +632,7 @@
                 y = conver_position(evt.offsetX)
 
                 # 테두리 삭제
-                if( x < 0 or x > map_data['height'] - 1 or y < 0 or y > map_data['width']-1):
+                if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
                     return
             
                 # x는 정수이고, y는 실수인 경우
@@ -662,7 +674,7 @@
                 y = conver_position(evt.offsetX)
 
                 # 테두리 삭제
-                if( x < 0 or x > map_data['height'] - 1 or y < 0 or y > map_data['width']-1):
+                if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
                     return
 
                 if(isinstance(x, int) and isinstance(y, float)) or (isinstance(x, float) and isinstance(y, int)):
@@ -739,6 +751,18 @@
             hidden_link.setAttribute("download", "result.txt")
             hidden_link.setAttribute("href", url)
             hidden_link.click()
+
+        @when("click", selector=".btn-add-code")
+        def add_code_sell(evt=None):
+            newRepl = js.document.createElement('py-repl')
+            newRepl.textContent = ''
+            js.document.getElementById('notebookSection').appendChild(newRepl)
+
+        def add_code_shell_into_middle(evt=None):
+            newRepl = js.document.createElement('py-repl')
+            newRepl.textContent = ''
+            js.document.getElementById('notebookSection').insertBefore(newRepl, evt.target.parentNode.parentNode.parentNode.nextSibling)
+
     </py-script>
     <script>
     const downloadBtn = document.querySelector('.downloadNotebookBtn')
@@ -774,16 +798,15 @@
         const cells = document.querySelectorAll('.py-repl-editor')
 
         for (let i = 0; i < cells.length; i++) {
-            cells
             notebook.cells.push({
                 "cell_type": "code",
                 "execution_count": null,
                 "metadata": {},
                 "outputs": [],
-                "source": cells[i].childNodes[0].shadowRoot.querySelector('.cm-content').innerText
+                // document.querySelector("#my-repl > div > div.py-repl-editor > div > div > div.cm-scroller > div.cm-content")
+                "source":  cells[i].querySelector('.cm-content').innerText
             });
         }
-
         const notebookJson = JSON.stringify(notebook, null, 2);
         const blob = new Blob([notebookJson], { type: 'application/json' });
         const url = URL.createObjectURL(blob);

@@ -5743,12 +5743,12 @@ var pyscript = (() => {
                 errMsg = `Fetching from URL ${url} failed with error '${error.message}'. Are your filename and path correct?`;
             } else {
                 errMsg = `PyScript: Access to local files
-        (using [[fetch]] configurations in &lt;py-config&gt;)
-        is not available when directly opening a HTML file;
-        you must use a webserver to serve the additional files.
-        See <a style="text-decoration: underline;" href="https://github.com/pyscript/pyscript/issues/257#issuecomment-1119595062">this reference</a>
-        on starting a simple webserver with Python.
-            `;
+          (using [[fetch]] configurations in &lt;py-config&gt;)
+          is not available when directly opening a HTML file;
+          you must use a webserver to serve the additional files.
+          See <a style="text-decoration: underline;" href="https://github.com/pyscript/pyscript/issues/257#issuecomment-1119595062">this reference</a>
+          on starting a simple webserver with Python.
+              `;
             }
             throw new FetchError('PY0001' /* FETCH_ERROR */, errMsg);
         }
@@ -5968,7 +5968,7 @@ var pyscript = (() => {
             const mountName =
                 el.getAttribute('py-mount') || el.id.split('-').join('_');
             source += `
-${mountName} = Element("${el.id}")`;
+  ${mountName} = Element("${el.id}")`;
         }
         await interpreter2.run(source);
     }
@@ -6010,12 +6010,12 @@ ${mountName} = Element("${el.id}")`;
     // node_modules/@codemirror/state/dist/index.js
     var Text = class {
         /**
-    @internal
-    */
+      @internal
+      */
         constructor() {}
         /**
-    Get the line description around the given position.
-    */
+      Get the line description around the given position.
+      */
         lineAt(pos) {
             if (pos < 0 || pos > this.length)
                 throw new RangeError(
@@ -6024,8 +6024,8 @@ ${mountName} = Element("${el.id}")`;
             return this.lineInner(pos, false, 1, 0);
         }
         /**
-    Get the description for the given (1-based) line number.
-    */
+      Get the description for the given (1-based) line number.
+      */
         line(n) {
             if (n < 1 || n > this.lines)
                 throw new RangeError(
@@ -6034,8 +6034,8 @@ ${mountName} = Element("${el.id}")`;
             return this.lineInner(n, true, 1, 0);
         }
         /**
-    Replace a range of the text with the given content.
-    */
+      Replace a range of the text with the given content.
+      */
         replace(from, to, text) {
             let parts = [];
             this.decompose(
@@ -6066,22 +6066,22 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Append another document to this one.
-    */
+      Append another document to this one.
+      */
         append(other) {
             return this.replace(this.length, this.length, other);
         }
         /**
-    Retrieve the text between the given points.
-    */
+      Retrieve the text between the given points.
+      */
         slice(from, to = this.length) {
             let parts = [];
             this.decompose(from, to, parts, 0);
             return TextNode.from(parts, to - from);
         }
         /**
-    Test whether this text is equal to another instance.
-    */
+      Test whether this text is equal to another instance.
+      */
         eq(other) {
             if (other == this) return true;
             if (other.length != this.length || other.lines != this.lines)
@@ -6105,27 +6105,27 @@ ${mountName} = Element("${el.id}")`;
             }
         }
         /**
-    Iterate over the text. When `dir` is `-1`, iteration happens
-    from end to start. This will return lines and the breaks between
-    them as separate strings.
-    */
+      Iterate over the text. When `dir` is `-1`, iteration happens
+      from end to start. This will return lines and the breaks between
+      them as separate strings.
+      */
         iter(dir = 1) {
             return new RawTextCursor(this, dir);
         }
         /**
-    Iterate over a range of the text. When `from` > `to`, the
-    iterator will run in reverse.
-    */
+      Iterate over a range of the text. When `from` > `to`, the
+      iterator will run in reverse.
+      */
         iterRange(from, to = this.length) {
             return new PartialTextCursor(this, from, to);
         }
         /**
-    Return a cursor that iterates over the given range of lines,
-    _without_ returning the line breaks between, and yielding empty
-    strings for empty lines.
-    
-    When `from` and `to` are given, they should be 1-based line numbers.
-    */
+      Return a cursor that iterates over the given range of lines,
+      _without_ returning the line breaks between, and yielding empty
+      strings for empty lines.
+      
+      When `from` and `to` are given, they should be 1-based line numbers.
+      */
         iterLines(from, to) {
             let inner;
             if (from == null) {
@@ -6148,23 +6148,23 @@ ${mountName} = Element("${el.id}")`;
             return new LineCursor(inner);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         toString() {
             return this.sliceString(0);
         }
         /**
-    Convert the document to an array of lines (which can be
-    deserialized again via [`Text.of`](https://codemirror.net/6/docs/ref/#state.Text^of)).
-    */
+      Convert the document to an array of lines (which can be
+      deserialized again via [`Text.of`](https://codemirror.net/6/docs/ref/#state.Text^of)).
+      */
         toJSON() {
             let lines = [];
             this.flatten(lines);
             return lines;
         }
         /**
-    Create a `Text` instance for the given array of lines.
-    */
+      Create a `Text` instance for the given array of lines.
+      */
         static of(text) {
             if (text.length == 0)
                 throw new RangeError('A document must have at least one line');
@@ -6646,8 +6646,8 @@ ${mountName} = Element("${el.id}")`;
     }
     var Line = class {
         /**
-    @internal
-    */
+      @internal
+      */
         constructor(from, to, number2, text) {
             this.from = from;
             this.to = to;
@@ -6655,8 +6655,8 @@ ${mountName} = Element("${el.id}")`;
             this.text = text;
         }
         /**
-    The length of the line (not including any line break after it).
-    */
+      The length of the line (not including any line break after it).
+      */
         get length() {
             return this.to - this.from;
         }
@@ -6765,14 +6765,14 @@ ${mountName} = Element("${el.id}")`;
         // otherwise. So an insertion would be (0, n>0), a deletion (n>0,
         // 0), and a replacement two positive numbers.
         /**
-    @internal
-    */
+      @internal
+      */
         constructor(sections) {
             this.sections = sections;
         }
         /**
-    The length of the document before the change.
-    */
+      The length of the document before the change.
+      */
         get length() {
             let result = 0;
             for (let i = 0; i < this.sections.length; i += 2)
@@ -6780,8 +6780,8 @@ ${mountName} = Element("${el.id}")`;
             return result;
         }
         /**
-    The length of the document after the change.
-    */
+      The length of the document after the change.
+      */
         get newLength() {
             let result = 0;
             for (let i = 0; i < this.sections.length; i += 2) {
@@ -6791,8 +6791,8 @@ ${mountName} = Element("${el.id}")`;
             return result;
         }
         /**
-    False when there are actual changes in this set.
-    */
+      False when there are actual changes in this set.
+      */
         get empty() {
             return (
                 this.sections.length == 0 ||
@@ -6800,10 +6800,10 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Iterate over the unchanged parts left by these changes. `posA`
-    provides the position of the range in the old document, `posB`
-    the new position in the changed document.
-    */
+      Iterate over the unchanged parts left by these changes. `posA`
+      provides the position of the range in the old document, `posB`
+      the new position in the changed document.
+      */
         iterGaps(f) {
             for (let i = 0, posA = 0, posB = 0; i < this.sections.length; ) {
                 let len = this.sections[i++],
@@ -6818,23 +6818,23 @@ ${mountName} = Element("${el.id}")`;
             }
         }
         /**
-    Iterate over the ranges changed by these changes. (See
-    [`ChangeSet.iterChanges`](https://codemirror.net/6/docs/ref/#state.ChangeSet.iterChanges) for a
-    variant that also provides you with the inserted text.)
-    `fromA`/`toA` provides the extent of the change in the starting
-    document, `fromB`/`toB` the extent of the replacement in the
-    changed document.
-    
-    When `individual` is true, adjacent changes (which are kept
-    separate for [position mapping](https://codemirror.net/6/docs/ref/#state.ChangeDesc.mapPos)) are
-    reported separately.
-    */
+      Iterate over the ranges changed by these changes. (See
+      [`ChangeSet.iterChanges`](https://codemirror.net/6/docs/ref/#state.ChangeSet.iterChanges) for a
+      variant that also provides you with the inserted text.)
+      `fromA`/`toA` provides the extent of the change in the starting
+      document, `fromB`/`toB` the extent of the replacement in the
+      changed document.
+      
+      When `individual` is true, adjacent changes (which are kept
+      separate for [position mapping](https://codemirror.net/6/docs/ref/#state.ChangeDesc.mapPos)) are
+      reported separately.
+      */
         iterChangedRanges(f, individual = false) {
             iterChanges(this, f, individual);
         }
         /**
-    Get a description of the inverted form of these changes.
-    */
+      Get a description of the inverted form of these changes.
+      */
         get invertedDesc() {
             let sections = [];
             for (let i = 0; i < this.sections.length; ) {
@@ -6846,10 +6846,10 @@ ${mountName} = Element("${el.id}")`;
             return new ChangeDesc(sections);
         }
         /**
-    Compute the combined effect of applying another set of changes
-    after this one. The length of the document after this set should
-    match the length before `other`.
-    */
+      Compute the combined effect of applying another set of changes
+      after this one. The length of the document after this set should
+      match the length before `other`.
+      */
         composeDesc(other) {
             return this.empty
                 ? other
@@ -6858,11 +6858,11 @@ ${mountName} = Element("${el.id}")`;
                 : composeSets(this, other);
         }
         /**
-    Map this description, which should start with the same document
-    as `other`, over another set of changes, so that it can be
-    applied after it. When `before` is true, map as if the changes
-    in `other` happened before the ones in `this`.
-    */
+      Map this description, which should start with the same document
+      as `other`, over another set of changes, so that it can be
+      applied after it. When `before` is true, map as if the changes
+      in `other` happened before the ones in `this`.
+      */
         mapDesc(other, before = false) {
             return other.empty ? this : mapSet(this, other, before);
         }
@@ -6900,10 +6900,10 @@ ${mountName} = Element("${el.id}")`;
             return posB;
         }
         /**
-    Check whether these changes touch a given range. When one of the
-    changes entirely covers the range, the string `"cover"` is
-    returned.
-    */
+      Check whether these changes touch a given range. When one of the
+      changes entirely covers the range, the string `"cover"` is
+      returned.
+      */
         touchesRange(from, to = from) {
             for (let i = 0, pos = 0; i < this.sections.length && pos <= to; ) {
                 let len = this.sections[i++],
@@ -6916,8 +6916,8 @@ ${mountName} = Element("${el.id}")`;
             return false;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         toString() {
             let result = '';
             for (let i = 0; i < this.sections.length; ) {
@@ -6929,15 +6929,15 @@ ${mountName} = Element("${el.id}")`;
             return result;
         }
         /**
-    Serialize this change desc to a JSON-representable value.
-    */
+      Serialize this change desc to a JSON-representable value.
+      */
         toJSON() {
             return this.sections;
         }
         /**
-    Create a change desc from its JSON representation (as produced
-    by [`toJSON`](https://codemirror.net/6/docs/ref/#state.ChangeDesc.toJSON).
-    */
+      Create a change desc from its JSON representation (as produced
+      by [`toJSON`](https://codemirror.net/6/docs/ref/#state.ChangeDesc.toJSON).
+      */
         static fromJSON(json) {
             if (
                 !Array.isArray(json) ||
@@ -6950,8 +6950,8 @@ ${mountName} = Element("${el.id}")`;
             return new ChangeDesc(json);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static create(sections) {
             return new ChangeDesc(sections);
         }
@@ -6962,9 +6962,9 @@ ${mountName} = Element("${el.id}")`;
             this.inserted = inserted;
         }
         /**
-    Apply the changes to a document, returning the modified
-    document.
-    */
+      Apply the changes to a document, returning the modified
+      document.
+      */
         apply(doc2) {
             if (this.length != doc2.length)
                 throw new RangeError(
@@ -6982,11 +6982,11 @@ ${mountName} = Element("${el.id}")`;
             return mapSet(this, other, before, true);
         }
         /**
-    Given the document as it existed _before_ the changes, return a
-    change set that represents the inverse of this set, which could
-    be used to go from the document created by the changes back to
-    the document as it existed before the changes.
-    */
+      Given the document as it existed _before_ the changes, return a
+      change set that represents the inverse of this set, which could
+      be used to go from the document created by the changes back to
+      the document as it existed before the changes.
+      */
         invert(doc2) {
             let sections = this.sections.slice(),
                 inserted = [];
@@ -7007,11 +7007,11 @@ ${mountName} = Element("${el.id}")`;
             return new ChangeSet(sections, inserted);
         }
         /**
-    Combine two subsequent change sets into a single set. `other`
-    must start in the document produced by `this`. If `this` goes
-    `docA` �� `docB` and `other` represents `docB` �� `docC`, the
-    returned value will represent the change `docA` �� `docC`.
-    */
+      Combine two subsequent change sets into a single set. `other`
+      must start in the document produced by `this`. If `this` goes
+      `docA` �� `docB` and `other` represents `docB` �� `docC`, the
+      returned value will represent the change `docA` �� `docC`.
+      */
         compose(other) {
             return this.empty
                 ? other
@@ -7020,43 +7020,43 @@ ${mountName} = Element("${el.id}")`;
                 : composeSets(this, other, true);
         }
         /**
-    Given another change set starting in the same document, maps this
-    change set over the other, producing a new change set that can be
-    applied to the document produced by applying `other`. When
-    `before` is `true`, order changes as if `this` comes before
-    `other`, otherwise (the default) treat `other` as coming first.
-    
-    Given two changes `A` and `B`, `A.compose(B.map(A))` and
-    `B.compose(A.map(B, true))` will produce the same document. This
-    provides a basic form of [operational
-    transformation](https://en.wikipedia.org/wiki/Operational_transformation),
-    and can be used for collaborative editing.
-    */
+      Given another change set starting in the same document, maps this
+      change set over the other, producing a new change set that can be
+      applied to the document produced by applying `other`. When
+      `before` is `true`, order changes as if `this` comes before
+      `other`, otherwise (the default) treat `other` as coming first.
+      
+      Given two changes `A` and `B`, `A.compose(B.map(A))` and
+      `B.compose(A.map(B, true))` will produce the same document. This
+      provides a basic form of [operational
+      transformation](https://en.wikipedia.org/wiki/Operational_transformation),
+      and can be used for collaborative editing.
+      */
         map(other, before = false) {
             return other.empty ? this : mapSet(this, other, before, true);
         }
         /**
-    Iterate over the changed ranges in the document, calling `f` for
-    each, with the range in the original document (`fromA`-`toA`)
-    and the range that replaces it in the new document
-    (`fromB`-`toB`).
-    
-    When `individual` is true, adjacent changes are reported
-    separately.
-    */
+      Iterate over the changed ranges in the document, calling `f` for
+      each, with the range in the original document (`fromA`-`toA`)
+      and the range that replaces it in the new document
+      (`fromB`-`toB`).
+      
+      When `individual` is true, adjacent changes are reported
+      separately.
+      */
         iterChanges(f, individual = false) {
             iterChanges(this, f, individual);
         }
         /**
-    Get a [change description](https://codemirror.net/6/docs/ref/#state.ChangeDesc) for this change
-    set.
-    */
+      Get a [change description](https://codemirror.net/6/docs/ref/#state.ChangeDesc) for this change
+      set.
+      */
         get desc() {
             return ChangeDesc.create(this.sections);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         filter(ranges) {
             let resultSections = [],
                 resultInserted = [],
@@ -7096,8 +7096,8 @@ ${mountName} = Element("${el.id}")`;
             };
         }
         /**
-    Serialize this change set to a JSON-representable value.
-    */
+      Serialize this change set to a JSON-representable value.
+      */
         toJSON() {
             let parts = [];
             for (let i = 0; i < this.sections.length; i += 2) {
@@ -7110,9 +7110,9 @@ ${mountName} = Element("${el.id}")`;
             return parts;
         }
         /**
-    Create a change set for the given changes, for a document of the
-    given length, using `lineSep` as line separator.
-    */
+      Create a change set for the given changes, for a document of the
+      given length, using `lineSep` as line separator.
+      */
         static of(changes, length, lineSep) {
             let sections = [],
                 inserted = [],
@@ -7162,15 +7162,15 @@ ${mountName} = Element("${el.id}")`;
             return total;
         }
         /**
-    Create an empty changeset of the given length.
-    */
+      Create an empty changeset of the given length.
+      */
         static empty(length) {
             return new ChangeSet(length ? [length, -1] : [], []);
         }
         /**
-    Create a changeset from its JSON representation (as produced by
-    [`toJSON`](https://codemirror.net/6/docs/ref/#state.ChangeSet.toJSON).
-    */
+      Create a changeset from its JSON representation (as produced by
+      [`toJSON`](https://codemirror.net/6/docs/ref/#state.ChangeSet.toJSON).
+      */
         static fromJSON(json) {
             if (!Array.isArray(json))
                 throw new RangeError(
@@ -7201,8 +7201,8 @@ ${mountName} = Element("${el.id}")`;
             return new ChangeSet(sections, inserted);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static createSet(sections, inserted) {
             return new ChangeSet(sections, inserted);
         }
@@ -7428,56 +7428,56 @@ ${mountName} = Element("${el.id}")`;
             this.flags = flags;
         }
         /**
-    The anchor of the range�봳he side that doesn't move when you
-    extend it.
-    */
+      The anchor of the range�봳he side that doesn't move when you
+      extend it.
+      */
         get anchor() {
             return this.flags & 16 ? this.to : this.from;
         }
         /**
-    The head of the range, which is moved when the range is
-    [extended](https://codemirror.net/6/docs/ref/#state.SelectionRange.extend).
-    */
+      The head of the range, which is moved when the range is
+      [extended](https://codemirror.net/6/docs/ref/#state.SelectionRange.extend).
+      */
         get head() {
             return this.flags & 16 ? this.from : this.to;
         }
         /**
-    True when `anchor` and `head` are at the same position.
-    */
+      True when `anchor` and `head` are at the same position.
+      */
         get empty() {
             return this.from == this.to;
         }
         /**
-    If this is a cursor that is explicitly associated with the
-    character on one of its sides, this returns the side. -1 means
-    the character before its position, 1 the character after, and 0
-    means no association.
-    */
+      If this is a cursor that is explicitly associated with the
+      character on one of its sides, this returns the side. -1 means
+      the character before its position, 1 the character after, and 0
+      means no association.
+      */
         get assoc() {
             return this.flags & 4 ? -1 : this.flags & 8 ? 1 : 0;
         }
         /**
-    The bidirectional text level associated with this cursor, if
-    any.
-    */
+      The bidirectional text level associated with this cursor, if
+      any.
+      */
         get bidiLevel() {
             let level = this.flags & 3;
             return level == 3 ? null : level;
         }
         /**
-    The goal column (stored vertical offset) associated with a
-    cursor. This is used to preserve the vertical position when
-    [moving](https://codemirror.net/6/docs/ref/#view.EditorView.moveVertically) across
-    lines of different length.
-    */
+      The goal column (stored vertical offset) associated with a
+      cursor. This is used to preserve the vertical position when
+      [moving](https://codemirror.net/6/docs/ref/#view.EditorView.moveVertically) across
+      lines of different length.
+      */
         get goalColumn() {
             let value = this.flags >> 5;
             return value == 33554431 ? void 0 : value;
         }
         /**
-    Map this range through a change, producing a valid range in the
-    updated document.
-    */
+      Map this range through a change, producing a valid range in the
+      updated document.
+      */
         map(change, assoc = -1) {
             let from, to;
             if (this.empty) {
@@ -7491,8 +7491,8 @@ ${mountName} = Element("${el.id}")`;
                 : new SelectionRange(from, to, this.flags);
         }
         /**
-    Extend this range to cover at least `from` to `to`.
-    */
+      Extend this range to cover at least `from` to `to`.
+      */
         extend(from, to = from) {
             if (from <= this.anchor && to >= this.anchor)
                 return EditorSelection.range(from, to);
@@ -7503,21 +7503,21 @@ ${mountName} = Element("${el.id}")`;
             return EditorSelection.range(this.anchor, head);
         }
         /**
-    Compare this range to another range.
-    */
+      Compare this range to another range.
+      */
         eq(other) {
             return this.anchor == other.anchor && this.head == other.head;
         }
         /**
-    Return a JSON-serializable object representing the range.
-    */
+      Return a JSON-serializable object representing the range.
+      */
         toJSON() {
             return { anchor: this.anchor, head: this.head };
         }
         /**
-    Convert a JSON representation of a range to a `SelectionRange`
-    instance.
-    */
+      Convert a JSON representation of a range to a `SelectionRange`
+      instance.
+      */
         static fromJSON(json) {
             if (
                 !json ||
@@ -7530,8 +7530,8 @@ ${mountName} = Element("${el.id}")`;
             return EditorSelection.range(json.anchor, json.head);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static create(from, to, flags) {
             return new SelectionRange(from, to, flags);
         }
@@ -7542,9 +7542,9 @@ ${mountName} = Element("${el.id}")`;
             this.mainIndex = mainIndex;
         }
         /**
-    Map a selection through a change. Used to adjust the selection
-    position for changes.
-    */
+      Map a selection through a change. Used to adjust the selection
+      position for changes.
+      */
         map(change, assoc = -1) {
             if (change.empty) return this;
             return EditorSelection.create(
@@ -7553,8 +7553,8 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Compare this selection to another selection.
-    */
+      Compare this selection to another selection.
+      */
         eq(other) {
             if (
                 this.ranges.length != other.ranges.length ||
@@ -7566,25 +7566,25 @@ ${mountName} = Element("${el.id}")`;
             return true;
         }
         /**
-    Get the primary selection range. Usually, you should make sure
-    your code applies to _all_ ranges, by using methods like
-    [`changeByRange`](https://codemirror.net/6/docs/ref/#state.EditorState.changeByRange).
-    */
+      Get the primary selection range. Usually, you should make sure
+      your code applies to _all_ ranges, by using methods like
+      [`changeByRange`](https://codemirror.net/6/docs/ref/#state.EditorState.changeByRange).
+      */
         get main() {
             return this.ranges[this.mainIndex];
         }
         /**
-    Make sure the selection only has one range. Returns a selection
-    holding only the main range from this selection.
-    */
+      Make sure the selection only has one range. Returns a selection
+      holding only the main range from this selection.
+      */
         asSingle() {
             return this.ranges.length == 1
                 ? this
                 : new EditorSelection([this.main], 0);
         }
         /**
-    Extend this selection with an extra range.
-    */
+      Extend this selection with an extra range.
+      */
         addRange(range, main = true) {
             return EditorSelection.create(
                 [range].concat(this.ranges),
@@ -7592,18 +7592,18 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Replace a given range with another range, and then normalize the
-    selection to merge and sort ranges if necessary.
-    */
+      Replace a given range with another range, and then normalize the
+      selection to merge and sort ranges if necessary.
+      */
         replaceRange(range, which = this.mainIndex) {
             let ranges = this.ranges.slice();
             ranges[which] = range;
             return EditorSelection.create(ranges, this.mainIndex);
         }
         /**
-    Convert this selection to an object that can be serialized to
-    JSON.
-    */
+      Convert this selection to an object that can be serialized to
+      JSON.
+      */
         toJSON() {
             return {
                 ranges: this.ranges.map((r) => r.toJSON()),
@@ -7611,8 +7611,8 @@ ${mountName} = Element("${el.id}")`;
             };
         }
         /**
-    Create a selection from a JSON representation.
-    */
+      Create a selection from a JSON representation.
+      */
         static fromJSON(json) {
             if (
                 !json ||
@@ -7629,8 +7629,8 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Create a selection holding a single range.
-    */
+      Create a selection holding a single range.
+      */
         static single(anchor, head = anchor) {
             return new EditorSelection(
                 [EditorSelection.range(anchor, head)],
@@ -7638,9 +7638,9 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Sort and merge the given set of ranges, creating a valid
-    selection.
-    */
+      Sort and merge the given set of ranges, creating a valid
+      selection.
+      */
         static create(ranges, mainIndex = 0) {
             if (ranges.length == 0)
                 throw new RangeError('A selection needs at least one range');
@@ -7656,9 +7656,9 @@ ${mountName} = Element("${el.id}")`;
             return new EditorSelection(ranges, mainIndex);
         }
         /**
-    Create a cursor selection range at the given position. You can
-    safely ignore the optional arguments in most situations.
-    */
+      Create a cursor selection range at the given position. You can
+      safely ignore the optional arguments in most situations.
+      */
         static cursor(pos, assoc = 0, bidiLevel, goalColumn) {
             return SelectionRange.create(
                 pos,
@@ -7672,8 +7672,8 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Create a selection range.
-    */
+      Create a selection range.
+      */
         static range(anchor, head, goalColumn, bidiLevel) {
             let flags =
                 ((goalColumn !== null && goalColumn !== void 0
@@ -7690,8 +7690,8 @@ ${mountName} = Element("${el.id}")`;
                   );
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static normalized(ranges, mainIndex = 0) {
             let main = ranges[mainIndex];
             ranges.sort((a, b) => a.from - b.from);
@@ -7735,8 +7735,8 @@ ${mountName} = Element("${el.id}")`;
                 typeof enables == 'function' ? enables(this) : enables;
         }
         /**
-    Define a new facet.
-    */
+      Define a new facet.
+      */
         static define(config2 = {}) {
             return new Facet(
                 config2.combine || ((a) => a),
@@ -7748,28 +7748,28 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Returns an extension that adds the given value to this facet.
-    */
+      Returns an extension that adds the given value to this facet.
+      */
         of(value) {
             return new FacetProvider([], this, 0, value);
         }
         /**
-    Create an extension that computes a value for the facet from a
-    state. You must take care to declare the parts of the state that
-    this value depends on, since your function is only called again
-    for a new state when one of those parts changed.
-    
-    In cases where your value depends only on a single field, you'll
-    want to use the [`from`](https://codemirror.net/6/docs/ref/#state.Facet.from) method instead.
-    */
+      Create an extension that computes a value for the facet from a
+      state. You must take care to declare the parts of the state that
+      this value depends on, since your function is only called again
+      for a new state when one of those parts changed.
+      
+      In cases where your value depends only on a single field, you'll
+      want to use the [`from`](https://codemirror.net/6/docs/ref/#state.Facet.from) method instead.
+      */
         compute(deps, get2) {
             if (this.isStatic) throw new Error("Can't compute a static facet");
             return new FacetProvider(deps, this, 1, get2);
         }
         /**
-    Create an extension that computes zero or more values for this
-    facet from a state.
-    */
+      Create an extension that computes zero or more values for this
+      facet from a state.
+      */
         computeN(deps, get2) {
             if (this.isStatic) throw new Error("Can't compute a static facet");
             return new FacetProvider(deps, this, 2, get2);
@@ -7947,8 +7947,8 @@ ${mountName} = Element("${el.id}")`;
             this.provides = void 0;
         }
         /**
-    Define a state field.
-    */
+      Define a state field.
+      */
         static define(config2) {
             let field = new StateField(
                 nextID++,
@@ -7968,8 +7968,8 @@ ${mountName} = Element("${el.id}")`;
             )(state);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         slot(addresses) {
             let idx = addresses[this.id] >> 1;
             return {
@@ -7995,18 +7995,18 @@ ${mountName} = Element("${el.id}")`;
             };
         }
         /**
-    Returns an extension that enables this field and overrides the
-    way it is initialized. Can be useful when you need to provide a
-    non-default starting value for the field.
-    */
+      Returns an extension that enables this field and overrides the
+      way it is initialized. Can be useful when you need to provide a
+      non-default starting value for the field.
+      */
         init(create) {
             return [this, initField.of({ field: this, create })];
         }
         /**
-    State field instances can be used as
-    [`Extension`](https://codemirror.net/6/docs/ref/#state.Extension) values to enable the field in a
-    given state.
-    */
+      State field instances can be used as
+      [`Extension`](https://codemirror.net/6/docs/ref/#state.Extension) values to enable the field in a
+      given state.
+      */
         get extension() {
             return this;
         }
@@ -8017,28 +8017,28 @@ ${mountName} = Element("${el.id}")`;
     }
     var Prec = {
         /**
-    The highest precedence level, for extensions that should end up
-    near the start of the precedence ordering.
-    */
+      The highest precedence level, for extensions that should end up
+      near the start of the precedence ordering.
+      */
         highest: /* @__PURE__ */ prec(Prec_.highest),
         /**
-    A higher-than-default precedence, for extensions that should
-    come before those with default precedence.
-    */
+      A higher-than-default precedence, for extensions that should
+      come before those with default precedence.
+      */
         high: /* @__PURE__ */ prec(Prec_.high),
         /**
-    The default precedence, which is also used for extensions
-    without an explicit precedence.
-    */
+      The default precedence, which is also used for extensions
+      without an explicit precedence.
+      */
         default: /* @__PURE__ */ prec(Prec_.default),
         /**
-    A lower-than-default precedence.
-    */
+      A lower-than-default precedence.
+      */
         low: /* @__PURE__ */ prec(Prec_.low),
         /**
-    The lowest precedence level. Meant for things that should end up
-    near the end of the extension order.
-    */
+      The lowest precedence level. Meant for things that should end up
+      near the end of the extension order.
+      */
         lowest: /* @__PURE__ */ prec(Prec_.lowest),
     };
     var PrecExtension = class {
@@ -8049,16 +8049,16 @@ ${mountName} = Element("${el.id}")`;
     };
     var Compartment = class {
         /**
-    Create an instance of this compartment to add to your [state
-    configuration](https://codemirror.net/6/docs/ref/#state.EditorStateConfig.extensions).
-    */
+      Create an instance of this compartment to add to your [state
+      configuration](https://codemirror.net/6/docs/ref/#state.EditorStateConfig.extensions).
+      */
         of(ext) {
             return new CompartmentInstance(this, ext);
         }
         /**
-    Create an [effect](https://codemirror.net/6/docs/ref/#state.TransactionSpec.effects) that
-    reconfigures this compartment.
-    */
+      Create an [effect](https://codemirror.net/6/docs/ref/#state.TransactionSpec.effects) that
+      reconfigures this compartment.
+      */
         reconfigure(content2) {
             return Compartment.reconfigure.of({
                 compartment: this,
@@ -8066,9 +8066,9 @@ ${mountName} = Element("${el.id}")`;
             });
         }
         /**
-    Get the current content of the compartment in the state, or
-    `undefined` if it isn't present.
-    */
+      Get the current content of the compartment in the state, or
+      `undefined` if it isn't present.
+      */
         get(state) {
             return state.config.compartments.get(this);
         }
@@ -8255,54 +8255,54 @@ ${mountName} = Element("${el.id}")`;
     });
     var Annotation = class {
         /**
-    @internal
-    */
+      @internal
+      */
         constructor(type, value) {
             this.type = type;
             this.value = value;
         }
         /**
-    Define a new type of annotation.
-    */
+      Define a new type of annotation.
+      */
         static define() {
             return new AnnotationType();
         }
     };
     var AnnotationType = class {
         /**
-    Create an instance of this annotation.
-    */
+      Create an instance of this annotation.
+      */
         of(value) {
             return new Annotation(this, value);
         }
     };
     var StateEffectType = class {
         /**
-    @internal
-    */
+      @internal
+      */
         constructor(map) {
             this.map = map;
         }
         /**
-    Create a [state effect](https://codemirror.net/6/docs/ref/#state.StateEffect) instance of this
-    type.
-    */
+      Create a [state effect](https://codemirror.net/6/docs/ref/#state.StateEffect) instance of this
+      type.
+      */
         of(value) {
             return new StateEffect(this, value);
         }
     };
     var StateEffect = class {
         /**
-    @internal
-    */
+      @internal
+      */
         constructor(type, value) {
             this.type = type;
             this.value = value;
         }
         /**
-    Map this effect through a position mapping. Will return
-    `undefined` when that ends up deleting the effect.
-    */
+      Map this effect through a position mapping. Will return
+      `undefined` when that ends up deleting the effect.
+      */
         map(mapping) {
             let mapped = this.type.map(this.value, mapping);
             return mapped === void 0
@@ -8312,22 +8312,22 @@ ${mountName} = Element("${el.id}")`;
                 : new StateEffect(this.type, mapped);
         }
         /**
-    Tells you whether this effect object is of a given
-    [type](https://codemirror.net/6/docs/ref/#state.StateEffectType).
-    */
+      Tells you whether this effect object is of a given
+      [type](https://codemirror.net/6/docs/ref/#state.StateEffectType).
+      */
         is(type) {
             return this.type == type;
         }
         /**
-    Define a new effect type. The type parameter indicates the type
-    of values that his effect holds.
-    */
+      Define a new effect type. The type parameter indicates the type
+      of values that his effect holds.
+      */
         static define(spec = {}) {
             return new StateEffectType(spec.map || ((v) => v));
         }
         /**
-    Map an array of effects through a change set.
-    */
+      Map an array of effects through a change set.
+      */
         static mapEffects(effects, mapping) {
             if (!effects.length) return effects;
             let result = [];
@@ -8364,8 +8364,8 @@ ${mountName} = Element("${el.id}")`;
                 );
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static create(
             startState,
             changes,
@@ -8384,13 +8384,13 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    The new document produced by the transaction. Contrary to
-    [`.state`](https://codemirror.net/6/docs/ref/#state.Transaction.state)`.doc`, accessing this won't
-    force the entire new state to be computed right away, so it is
-    recommended that [transaction
-    filters](https://codemirror.net/6/docs/ref/#state.EditorState^transactionFilter) use this getter
-    when they need to look at the new document.
-    */
+      The new document produced by the transaction. Contrary to
+      [`.state`](https://codemirror.net/6/docs/ref/#state.Transaction.state)`.doc`, accessing this won't
+      force the entire new state to be computed right away, so it is
+      recommended that [transaction
+      filters](https://codemirror.net/6/docs/ref/#state.EditorState^transactionFilter) use this getter
+      when they need to look at the new document.
+      */
         get newDoc() {
             return (
                 this._doc ||
@@ -8398,56 +8398,56 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    The new selection produced by the transaction. If
-    [`this.selection`](https://codemirror.net/6/docs/ref/#state.Transaction.selection) is undefined,
-    this will [map](https://codemirror.net/6/docs/ref/#state.EditorSelection.map) the start state's
-    current selection through the changes made by the transaction.
-    */
+      The new selection produced by the transaction. If
+      [`this.selection`](https://codemirror.net/6/docs/ref/#state.Transaction.selection) is undefined,
+      this will [map](https://codemirror.net/6/docs/ref/#state.EditorSelection.map) the start state's
+      current selection through the changes made by the transaction.
+      */
         get newSelection() {
             return (
                 this.selection || this.startState.selection.map(this.changes)
             );
         }
         /**
-    The new state created by the transaction. Computed on demand
-    (but retained for subsequent access), so it is recommended not to
-    access it in [transaction
-    filters](https://codemirror.net/6/docs/ref/#state.EditorState^transactionFilter) when possible.
-    */
+      The new state created by the transaction. Computed on demand
+      (but retained for subsequent access), so it is recommended not to
+      access it in [transaction
+      filters](https://codemirror.net/6/docs/ref/#state.EditorState^transactionFilter) when possible.
+      */
         get state() {
             if (!this._state) this.startState.applyTransaction(this);
             return this._state;
         }
         /**
-    Get the value of the given annotation type, if any.
-    */
+      Get the value of the given annotation type, if any.
+      */
         annotation(type) {
             for (let ann of this.annotations)
                 if (ann.type == type) return ann.value;
             return void 0;
         }
         /**
-    Indicates whether the transaction changed the document.
-    */
+      Indicates whether the transaction changed the document.
+      */
         get docChanged() {
             return !this.changes.empty;
         }
         /**
-    Indicates whether this transaction reconfigures the state
-    (through a [configuration compartment](https://codemirror.net/6/docs/ref/#state.Compartment) or
-    with a top-level configuration
-    [effect](https://codemirror.net/6/docs/ref/#state.StateEffect^reconfigure).
-    */
+      Indicates whether this transaction reconfigures the state
+      (through a [configuration compartment](https://codemirror.net/6/docs/ref/#state.Compartment) or
+      with a top-level configuration
+      [effect](https://codemirror.net/6/docs/ref/#state.StateEffect^reconfigure).
+      */
         get reconfigured() {
             return this.startState.config != this.state.config;
         }
         /**
-    Returns true if the transaction has a [user
-    event](https://codemirror.net/6/docs/ref/#state.Transaction^userEvent) annotation that is equal to
-    or more specific than `event`. For example, if the transaction
-    has `"select.pointer"` as user event, `"select"` and
-    `"select.pointer"` will match it.
-    */
+      Returns true if the transaction has a [user
+      event](https://codemirror.net/6/docs/ref/#state.Transaction^userEvent) annotation that is equal to
+      or more specific than `event`. For example, if the transaction
+      has `"select.pointer"` as user event, `"select"` and
+      `"select.pointer"` will match it.
+      */
         isUserEvent(event) {
             let e = this.annotation(Transaction.userEvent);
             return !!(
@@ -8703,26 +8703,26 @@ ${mountName} = Element("${el.id}")`;
             return getAddr(this, addr);
         }
         /**
-    Create a [transaction](https://codemirror.net/6/docs/ref/#state.Transaction) that updates this
-    state. Any number of [transaction specs](https://codemirror.net/6/docs/ref/#state.TransactionSpec)
-    can be passed. Unless
-    [`sequential`](https://codemirror.net/6/docs/ref/#state.TransactionSpec.sequential) is set, the
-    [changes](https://codemirror.net/6/docs/ref/#state.TransactionSpec.changes) (if any) of each spec
-    are assumed to start in the _current_ document (not the document
-    produced by previous specs), and its
-    [selection](https://codemirror.net/6/docs/ref/#state.TransactionSpec.selection) and
-    [effects](https://codemirror.net/6/docs/ref/#state.TransactionSpec.effects) are assumed to refer
-    to the document created by its _own_ changes. The resulting
-    transaction contains the combined effect of all the different
-    specs. For [selection](https://codemirror.net/6/docs/ref/#state.TransactionSpec.selection), later
-    specs take precedence over earlier ones.
-    */
+      Create a [transaction](https://codemirror.net/6/docs/ref/#state.Transaction) that updates this
+      state. Any number of [transaction specs](https://codemirror.net/6/docs/ref/#state.TransactionSpec)
+      can be passed. Unless
+      [`sequential`](https://codemirror.net/6/docs/ref/#state.TransactionSpec.sequential) is set, the
+      [changes](https://codemirror.net/6/docs/ref/#state.TransactionSpec.changes) (if any) of each spec
+      are assumed to start in the _current_ document (not the document
+      produced by previous specs), and its
+      [selection](https://codemirror.net/6/docs/ref/#state.TransactionSpec.selection) and
+      [effects](https://codemirror.net/6/docs/ref/#state.TransactionSpec.effects) are assumed to refer
+      to the document created by its _own_ changes. The resulting
+      transaction contains the combined effect of all the different
+      specs. For [selection](https://codemirror.net/6/docs/ref/#state.TransactionSpec.selection), later
+      specs take precedence over earlier ones.
+      */
         update(...specs) {
             return resolveTransaction(this, specs, true);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         applyTransaction(tr) {
             let conf = this.config,
                 { base: base2, compartments } = conf;
@@ -8772,9 +8772,9 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Create a [transaction spec](https://codemirror.net/6/docs/ref/#state.TransactionSpec) that
-    replaces every selection range with the given content.
-    */
+      Create a [transaction spec](https://codemirror.net/6/docs/ref/#state.TransactionSpec) that
+      replaces every selection range with the given content.
+      */
         replaceSelection(text) {
             if (typeof text == 'string') text = this.toText(text);
             return this.changeByRange((range) => ({
@@ -8783,16 +8783,16 @@ ${mountName} = Element("${el.id}")`;
             }));
         }
         /**
-    Create a set of changes and a new selection by running the given
-    function for each range in the active selection. The function
-    can return an optional set of changes (in the coordinate space
-    of the start document), plus an updated range (in the coordinate
-    space of the document produced by the call's own changes). This
-    method will merge all the changes and ranges into a single
-    changeset and selection, and return it as a [transaction
-    spec](https://codemirror.net/6/docs/ref/#state.TransactionSpec), which can be passed to
-    [`update`](https://codemirror.net/6/docs/ref/#state.EditorState.update).
-    */
+      Create a set of changes and a new selection by running the given
+      function for each range in the active selection. The function
+      can return an optional set of changes (in the coordinate space
+      of the start document), plus an updated range (in the coordinate
+      space of the document produced by the call's own changes). This
+      method will merge all the changes and ranges into a single
+      changeset and selection, and return it as a [transaction
+      spec](https://codemirror.net/6/docs/ref/#state.TransactionSpec), which can be passed to
+      [`update`](https://codemirror.net/6/docs/ref/#state.EditorState.update).
+      */
         changeByRange(f) {
             let sel = this.selection;
             let result1 = f(sel.ranges[0]);
@@ -8819,10 +8819,10 @@ ${mountName} = Element("${el.id}")`;
             };
         }
         /**
-    Create a [change set](https://codemirror.net/6/docs/ref/#state.ChangeSet) from the given change
-    description, taking the state's document length and line
-    separator into account.
-    */
+      Create a [change set](https://codemirror.net/6/docs/ref/#state.ChangeSet) from the given change
+      description, taking the state's document length and line
+      separator into account.
+      */
         changes(spec = []) {
             if (spec instanceof ChangeSet) return spec;
             return ChangeSet.of(
@@ -8832,10 +8832,10 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Using the state's [line
-    separator](https://codemirror.net/6/docs/ref/#state.EditorState^lineSeparator), create a
-    [`Text`](https://codemirror.net/6/docs/ref/#state.Text) instance from the given string.
-    */
+      Using the state's [line
+      separator](https://codemirror.net/6/docs/ref/#state.EditorState^lineSeparator), create a
+      [`Text`](https://codemirror.net/6/docs/ref/#state.Text) instance from the given string.
+      */
         toText(string2) {
             return Text.of(
                 string2.split(
@@ -8844,14 +8844,14 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Return the given range of the document as a string.
-    */
+      Return the given range of the document as a string.
+      */
         sliceDoc(from = 0, to = this.doc.length) {
             return this.doc.sliceString(from, to, this.lineBreak);
         }
         /**
-    Get the value of a state [facet](https://codemirror.net/6/docs/ref/#state.Facet).
-    */
+      Get the value of a state [facet](https://codemirror.net/6/docs/ref/#state.Facet).
+      */
         facet(facet) {
             let addr = this.config.address[facet.id];
             if (addr == null) return facet.default;
@@ -8859,11 +8859,11 @@ ${mountName} = Element("${el.id}")`;
             return getAddr(this, addr);
         }
         /**
-    Convert this state to a JSON-serializable object. When custom
-    fields should be serialized, you can pass them in as an object
-    mapping property names (in the resulting object, which should
-    not use `doc` or `selection`) to fields.
-    */
+      Convert this state to a JSON-serializable object. When custom
+      fields should be serialized, you can pass them in as an object
+      mapping property names (in the resulting object, which should
+      not use `doc` or `selection`) to fields.
+      */
         toJSON(fields) {
             let result = {
                 doc: this.sliceDoc(),
@@ -8884,11 +8884,11 @@ ${mountName} = Element("${el.id}")`;
             return result;
         }
         /**
-    Deserialize a state from its JSON representation. When custom
-    fields should be deserialized, pass the same object you passed
-    to [`toJSON`](https://codemirror.net/6/docs/ref/#state.EditorState.toJSON) when serializing as
-    third argument.
-    */
+      Deserialize a state from its JSON representation. When custom
+      fields should be deserialized, pass the same object you passed
+      to [`toJSON`](https://codemirror.net/6/docs/ref/#state.EditorState.toJSON) when serializing as
+      third argument.
+      */
         static fromJSON(json, config2 = {}, fields) {
             if (!json || typeof json.doc != 'string')
                 throw new RangeError(
@@ -8916,10 +8916,10 @@ ${mountName} = Element("${el.id}")`;
             });
         }
         /**
-    Create a new state. You'll usually only need this when
-    initializing an editor�봴pdated states are created by applying
-    transactions.
-    */
+      Create a new state. You'll usually only need this when
+      initializing an editor�봴pdated states are created by applying
+      transactions.
+      */
         static create(config2 = {}) {
             let configuration = Configuration.resolve(
                 config2.extensions || [],
@@ -8956,36 +8956,36 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    The size (in columns) of a tab in the document, determined by
-    the [`tabSize`](https://codemirror.net/6/docs/ref/#state.EditorState^tabSize) facet.
-    */
+      The size (in columns) of a tab in the document, determined by
+      the [`tabSize`](https://codemirror.net/6/docs/ref/#state.EditorState^tabSize) facet.
+      */
         get tabSize() {
             return this.facet(EditorState.tabSize);
         }
         /**
-    Get the proper [line-break](https://codemirror.net/6/docs/ref/#state.EditorState^lineSeparator)
-    string for this state.
-    */
+      Get the proper [line-break](https://codemirror.net/6/docs/ref/#state.EditorState^lineSeparator)
+      string for this state.
+      */
         get lineBreak() {
             return this.facet(EditorState.lineSeparator) || '\n';
         }
         /**
-    Returns true when the editor is
-    [configured](https://codemirror.net/6/docs/ref/#state.EditorState^readOnly) to be read-only.
-    */
+      Returns true when the editor is
+      [configured](https://codemirror.net/6/docs/ref/#state.EditorState^readOnly) to be read-only.
+      */
         get readOnly() {
             return this.facet(readOnly);
         }
         /**
-    Look up a translation for the given phrase (via the
-    [`phrases`](https://codemirror.net/6/docs/ref/#state.EditorState^phrases) facet), or return the
-    original string if no translation is found.
-    
-    If additional arguments are passed, they will be inserted in
-    place of markers like `$1` (for the first value) and `$2`, etc.
-    A single `$` is equivalent to `$1`, and `$$` will produce a
-    literal dollar sign.
-    */
+      Look up a translation for the given phrase (via the
+      [`phrases`](https://codemirror.net/6/docs/ref/#state.EditorState^phrases) facet), or return the
+      original string if no translation is found.
+      
+      If additional arguments are passed, they will be inserted in
+      place of markers like `$1` (for the first value) and `$2`, etc.
+      A single `$` is equivalent to `$1`, and `$$` will produce a
+      literal dollar sign.
+      */
         phrase(phrase2, ...insert2) {
             for (let map of this.facet(EditorState.phrases))
                 if (Object.prototype.hasOwnProperty.call(map, phrase2)) {
@@ -9001,21 +9001,21 @@ ${mountName} = Element("${el.id}")`;
             return phrase2;
         }
         /**
-    Find the values for a given language data field, provided by the
-    the [`languageData`](https://codemirror.net/6/docs/ref/#state.EditorState^languageData) facet.
-    
-    Examples of language data fields are...
-    
-    - [`"commentTokens"`](https://codemirror.net/6/docs/ref/#commands.CommentTokens) for specifying
-      comment syntax.
-    - [`"autocomplete"`](https://codemirror.net/6/docs/ref/#autocomplete.autocompletion^config.override)
-      for providing language-specific completion sources.
-    - [`"wordChars"`](https://codemirror.net/6/docs/ref/#state.EditorState.charCategorizer) for adding
-      characters that should be considered part of words in this
-      language.
-    - [`"closeBrackets"`](https://codemirror.net/6/docs/ref/#autocomplete.CloseBracketConfig) controls
-      bracket closing behavior.
-    */
+      Find the values for a given language data field, provided by the
+      the [`languageData`](https://codemirror.net/6/docs/ref/#state.EditorState^languageData) facet.
+      
+      Examples of language data fields are...
+      
+      - [`"commentTokens"`](https://codemirror.net/6/docs/ref/#commands.CommentTokens) for specifying
+        comment syntax.
+      - [`"autocomplete"`](https://codemirror.net/6/docs/ref/#autocomplete.autocompletion^config.override)
+        for providing language-specific completion sources.
+      - [`"wordChars"`](https://codemirror.net/6/docs/ref/#state.EditorState.charCategorizer) for adding
+        characters that should be considered part of words in this
+        language.
+      - [`"closeBrackets"`](https://codemirror.net/6/docs/ref/#autocomplete.CloseBracketConfig) controls
+        bracket closing behavior.
+      */
         languageDataAt(name2, pos, side = -1) {
             let values = [];
             for (let provider of this.facet(languageData)) {
@@ -9027,27 +9027,27 @@ ${mountName} = Element("${el.id}")`;
             return values;
         }
         /**
-    Return a function that can categorize strings (expected to
-    represent a single [grapheme cluster](https://codemirror.net/6/docs/ref/#state.findClusterBreak))
-    into one of:
-    
-     - Word (contains an alphanumeric character or a character
-       explicitly listed in the local language's `"wordChars"`
-       language data, which should be a string)
-     - Space (contains only whitespace)
-     - Other (anything else)
-    */
+      Return a function that can categorize strings (expected to
+      represent a single [grapheme cluster](https://codemirror.net/6/docs/ref/#state.findClusterBreak))
+      into one of:
+      
+       - Word (contains an alphanumeric character or a character
+         explicitly listed in the local language's `"wordChars"`
+         language data, which should be a string)
+       - Space (contains only whitespace)
+       - Other (anything else)
+      */
         charCategorizer(at) {
             return makeCategorizer(
                 this.languageDataAt('wordChars', at).join(''),
             );
         }
         /**
-    Find the word at the given position, meaning the range
-    containing all [word](https://codemirror.net/6/docs/ref/#state.CharCategory.Word) characters
-    around it. If no word characters are adjacent to the position,
-    this returns null.
-    */
+      Find the word at the given position, meaning the range
+      containing all [word](https://codemirror.net/6/docs/ref/#state.CharCategory.Word) characters
+      around it. If no word characters are adjacent to the position,
+      this returns null.
+      */
         wordAt(pos) {
             let { text, from, length } = this.doc.lineAt(pos);
             let cat = this.charCategorizer(pos);
@@ -9104,18 +9104,18 @@ ${mountName} = Element("${el.id}")`;
     }
     var RangeValue = class {
         /**
-    Compare this value with another value. Used when comparing
-    rangesets. The default implementation compares by identity.
-    Unless you are only creating a fixed number of unique instances
-    of your value type, it is a good idea to implement this
-    properly.
-    */
+      Compare this value with another value. Used when comparing
+      rangesets. The default implementation compares by identity.
+      Unless you are only creating a fixed number of unique instances
+      of your value type, it is a good idea to implement this
+      properly.
+      */
         eq(other) {
             return this == other;
         }
         /**
-    Create a [range](https://codemirror.net/6/docs/ref/#state.Range) with this value.
-    */
+      Create a [range](https://codemirror.net/6/docs/ref/#state.Range) with this value.
+      */
         range(from, to = from) {
             return Range.create(from, to, this);
         }
@@ -9130,8 +9130,8 @@ ${mountName} = Element("${el.id}")`;
             this.value = value;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static create(from, to, value) {
             return new Range(from, to, value);
         }
@@ -9241,14 +9241,14 @@ ${mountName} = Element("${el.id}")`;
             this.maxPoint = maxPoint;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static create(chunkPos, chunk, nextLayer, maxPoint) {
             return new RangeSet(chunkPos, chunk, nextLayer, maxPoint);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         get length() {
             let last = this.chunk.length - 1;
             return last < 0
@@ -9256,8 +9256,8 @@ ${mountName} = Element("${el.id}")`;
                 : Math.max(this.chunkEnd(last), this.nextLayer.length);
         }
         /**
-    The number of ranges in the set.
-    */
+      The number of ranges in the set.
+      */
         get size() {
             if (this.isEmpty) return 0;
             let size = this.nextLayer.size;
@@ -9265,20 +9265,20 @@ ${mountName} = Element("${el.id}")`;
             return size;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         chunkEnd(index) {
             return this.chunkPos[index] + this.chunk[index].length;
         }
         /**
-    Update the range set, optionally adding new ranges or filtering
-    out existing ones.
-    
-    (Note: The type parameter is just there as a kludge to work
-    around TypeScript variance issues that prevented `RangeSet<X>`
-    from being a subtype of `RangeSet<Y>` when `X` is a subtype of
-    `Y`.)
-    */
+      Update the range set, optionally adding new ranges or filtering
+      out existing ones.
+      
+      (Note: The type parameter is just there as a kludge to work
+      around TypeScript variance issues that prevented `RangeSet<X>`
+      from being a subtype of `RangeSet<Y>` when `X` is a subtype of
+      `Y`.)
+      */
         update(updateSpec) {
             let {
                 add: add2 = [],
@@ -9344,8 +9344,8 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Map this range set through a set of changes, return the new set.
-    */
+      Map this range set through a set of changes, return the new set.
+      */
         map(changes) {
             if (changes.empty || this.isEmpty) return this;
             let chunks = [],
@@ -9379,11 +9379,11 @@ ${mountName} = Element("${el.id}")`;
                   );
         }
         /**
-    Iterate over the ranges that touch the region `from` to `to`,
-    calling `f` for each. There is no guarantee that the ranges will
-    be reported in any specific order. When the callback returns
-    `false`, iteration stops.
-    */
+      Iterate over the ranges that touch the region `from` to `to`,
+      calling `f` for each. There is no guarantee that the ranges will
+      be reported in any specific order. When the callback returns
+      `false`, iteration stops.
+      */
         between(from, to, f) {
             if (this.isEmpty) return;
             for (let i = 0; i < this.chunk.length; i++) {
@@ -9399,29 +9399,29 @@ ${mountName} = Element("${el.id}")`;
             this.nextLayer.between(from, to, f);
         }
         /**
-    Iterate over the ranges in this set, in order, including all
-    ranges that end at or after `from`.
-    */
+      Iterate over the ranges in this set, in order, including all
+      ranges that end at or after `from`.
+      */
         iter(from = 0) {
             return HeapCursor.from([this]).goto(from);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         get isEmpty() {
             return this.nextLayer == this;
         }
         /**
-    Iterate over the ranges in a collection of sets, in order,
-    starting from `from`.
-    */
+      Iterate over the ranges in a collection of sets, in order,
+      starting from `from`.
+      */
         static iter(sets, from = 0) {
             return HeapCursor.from(sets).goto(from);
         }
         /**
-    Iterate over two groups of sets, calling methods on `comparator`
-    to notify it of possible differences.
-    */
+      Iterate over two groups of sets, calling methods on `comparator`
+      to notify it of possible differences.
+      */
         static compare(
             oldSets,
             newSets,
@@ -9449,9 +9449,9 @@ ${mountName} = Element("${el.id}")`;
                 compare(sideA, 0, sideB, 0, 0, comparator);
         }
         /**
-    Compare the contents of two groups of range sets, returning true
-    if they are equivalent in the given range.
-    */
+      Compare the contents of two groups of range sets, returning true
+      if they are equivalent in the given range.
+      */
         static eq(oldSets, newSets, from = 0, to) {
             if (to == null) to = 1e9 - 1;
             let a = oldSets.filter(
@@ -9479,12 +9479,12 @@ ${mountName} = Element("${el.id}")`;
             }
         }
         /**
-    Iterate over a group of range sets at the same time, notifying
-    the iterator about the ranges covering every given piece of
-    content. Returns the open count (see
-    [`SpanIterator.span`](https://codemirror.net/6/docs/ref/#state.SpanIterator.span)) at the end
-    of the iteration.
-    */
+      Iterate over a group of range sets at the same time, notifying
+      the iterator about the ranges covering every given piece of
+      content. Returns the open count (see
+      [`SpanIterator.span`](https://codemirror.net/6/docs/ref/#state.SpanIterator.span)) at the end
+      of the iteration.
+      */
         static spans(sets, from, to, iterator2, minPointSize = -1) {
             let cursor2 = new SpanCursor(sets, null, minPointSize).goto(from),
                 pos = from;
@@ -9522,12 +9522,12 @@ ${mountName} = Element("${el.id}")`;
             }
         }
         /**
-    Create a range set for the given range or array of ranges. By
-    default, this expects the ranges to be _sorted_ (by start
-    position and, if two start at the same position,
-    `value.startSide`). You can pass `true` as second argument to
-    cause the method to sort them.
-    */
+      Create a range set for the given range or array of ranges. By
+      default, this expects the ranges to be _sorted_ (by start
+      position and, if two start at the same position,
+      `value.startSide`). You can pass `true` as second argument to
+      cause the method to sort them.
+      */
         static of(ranges, sort = false) {
             let build = new RangeSetBuilder();
             for (let range of ranges instanceof Range
@@ -9553,8 +9553,8 @@ ${mountName} = Element("${el.id}")`;
     RangeSet.empty.nextLayer = RangeSet.empty;
     var RangeSetBuilder = class {
         /**
-    Create an empty builder.
-    */
+      Create an empty builder.
+      */
         constructor() {
             this.chunks = [];
             this.chunkPos = [];
@@ -9584,9 +9584,9 @@ ${mountName} = Element("${el.id}")`;
             }
         }
         /**
-    Add a range. Ranges should be added in sorted (by `from` and
-    `value.startSide`) order.
-    */
+      Add a range. Ranges should be added in sorted (by `from` and
+      `value.startSide`) order.
+      */
         add(from, to, value) {
             if (!this.addInner(from, to, value))
                 (
@@ -9594,8 +9594,8 @@ ${mountName} = Element("${el.id}")`;
                 ).add(from, to, value);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         addInner(from, to, value) {
             let diff =
                 from - this.lastTo || value.startSide - this.last.endSide;
@@ -9620,8 +9620,8 @@ ${mountName} = Element("${el.id}")`;
             return true;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         addChunk(from, chunk) {
             if (
                 (from - this.lastTo ||
@@ -9639,15 +9639,15 @@ ${mountName} = Element("${el.id}")`;
             return true;
         }
         /**
-    Finish the range set. Returns the new set. The builder can't be
-    used anymore after this has been called.
-    */
+      Finish the range set. Returns the new set. The builder can't be
+      used anymore after this has been called.
+      */
         finish() {
             return this.finishInner(RangeSet.empty);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         finishInner(next) {
             if (this.from.length) this.finishChunk(false);
             if (this.chunks.length == 0) return next;
@@ -11805,30 +11805,30 @@ ${mountName} = Element("${el.id}")`;
     }
     var WidgetType = class {
         /**
-    Compare this instance to another instance of the same type.
-    (TypeScript can't express this, but only instances of the same
-    specific class will be passed to this method.) This is used to
-    avoid redrawing widgets when they are replaced by a new
-    decoration of the same type. The default implementation just
-    returns `false`, which will cause new instances of the widget to
-    always be redrawn.
-    */
+      Compare this instance to another instance of the same type.
+      (TypeScript can't express this, but only instances of the same
+      specific class will be passed to this method.) This is used to
+      avoid redrawing widgets when they are replaced by a new
+      decoration of the same type. The default implementation just
+      returns `false`, which will cause new instances of the widget to
+      always be redrawn.
+      */
         eq(widget) {
             return false;
         }
         /**
-    Update a DOM element created by a widget of the same type (but
-    different, non-`eq` content) to reflect this widget. May return
-    true to indicate that it could update, false to indicate it
-    couldn't (in which case the widget will be redrawn). The default
-    implementation just returns false.
-    */
+      Update a DOM element created by a widget of the same type (but
+      different, non-`eq` content) to reflect this widget. May return
+      true to indicate that it could update, false to indicate it
+      couldn't (in which case the widget will be redrawn). The default
+      implementation just returns false.
+      */
         updateDOM(dom, view) {
             return false;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         compare(other) {
             return (
                 this == other ||
@@ -11836,32 +11836,32 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    The estimated height this widget will have, to be used when
-    estimating the height of content that hasn't been drawn. May
-    return -1 to indicate you don't know. The default implementation
-    returns -1.
-    */
+      The estimated height this widget will have, to be used when
+      estimating the height of content that hasn't been drawn. May
+      return -1 to indicate you don't know. The default implementation
+      returns -1.
+      */
         get estimatedHeight() {
             return -1;
         }
         /**
-    Can be used to configure which kinds of events inside the widget
-    should be ignored by the editor. The default is to ignore all
-    events.
-    */
+      Can be used to configure which kinds of events inside the widget
+      should be ignored by the editor. The default is to ignore all
+      events.
+      */
         ignoreEvent(event) {
             return true;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         get customView() {
             return null;
         }
         /**
-    This is called when the an instance of the widget is removed
-    from the editor view.
-    */
+      This is called when the an instance of the widget is removed
+      from the editor view.
+      */
         destroy(dom) {}
     };
     var BlockType = /* @__PURE__ */ (function (BlockType2) {
@@ -11880,27 +11880,27 @@ ${mountName} = Element("${el.id}")`;
             this.spec = spec;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         get heightRelevant() {
             return false;
         }
         /**
-    Create a mark decoration, which influences the styling of the
-    content in its range. Nested mark decorations will cause nested
-    DOM elements to be created. Nesting order is determined by
-    precedence of the [facet](https://codemirror.net/6/docs/ref/#view.EditorView^decorations), with
-    the higher-precedence decorations creating the inner DOM nodes.
-    Such elements are split on line boundaries and on the boundaries
-    of lower-precedence decorations.
-    */
+      Create a mark decoration, which influences the styling of the
+      content in its range. Nested mark decorations will cause nested
+      DOM elements to be created. Nesting order is determined by
+      precedence of the [facet](https://codemirror.net/6/docs/ref/#view.EditorView^decorations), with
+      the higher-precedence decorations creating the inner DOM nodes.
+      Such elements are split on line boundaries and on the boundaries
+      of lower-precedence decorations.
+      */
         static mark(spec) {
             return new MarkDecoration(spec);
         }
         /**
-    Create a widget decoration, which displays a DOM element at the
-    given position.
-    */
+      Create a widget decoration, which displays a DOM element at the
+      given position.
+      */
         static widget(spec) {
             let side = spec.side || 0,
                 block = !!spec.block;
@@ -11915,9 +11915,9 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Create a replace decoration which replaces the given range with
-    a widget, or simply hides it.
-    */
+      Create a replace decoration which replaces the given range with
+      a widget, or simply hides it.
+      */
         static replace(spec) {
             let block = !!spec.block,
                 startSide,
@@ -11940,23 +11940,23 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Create a line decoration, which can add DOM attributes to the
-    line starting at the given position.
-    */
+      Create a line decoration, which can add DOM attributes to the
+      line starting at the given position.
+      */
         static line(spec) {
             return new LineDecoration(spec);
         }
         /**
-    Build a [`DecorationSet`](https://codemirror.net/6/docs/ref/#view.DecorationSet) from the given
-    decorated range or ranges. If the ranges aren't already sorted,
-    pass `true` for `sort` to make the library sort them for you.
-    */
+      Build a [`DecorationSet`](https://codemirror.net/6/docs/ref/#view.DecorationSet) from the given
+      decorated range or ranges. If the ranges aren't already sorted,
+      pass `true` for `sort` to make the library sort them for you.
+      */
         static set(of, sort = false) {
             return RangeSet.of(of, sort);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         hasHeight() {
             return this.widget ? this.widget.estimatedHeight > -1 : false;
         }
@@ -12646,9 +12646,9 @@ ${mountName} = Element("${el.id}")`;
             this.extension = buildExtensions(this);
         }
         /**
-    Define a plugin from a constructor function that creates the
-    plugin's value, given an editor view.
-    */
+      Define a plugin from a constructor function that creates the
+      plugin's value, given an editor view.
+      */
         static define(create, spec) {
             const { eventHandlers, provide, decorations: deco } = spec || {};
             return new ViewPlugin(
@@ -12672,9 +12672,9 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Create a plugin for a class whose constructor takes a single
-    editor view as argument.
-    */
+      Create a plugin for a class whose constructor takes a single
+      editor view as argument.
+      */
         static fromClass(cls, spec) {
             return ViewPlugin.define((view) => new cls(view), spec);
         }
@@ -12824,54 +12824,54 @@ ${mountName} = Element("${el.id}")`;
             this.changedRanges = changedRanges;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static create(view, state, transactions) {
             return new ViewUpdate(view, state, transactions);
         }
         /**
-    Tells you whether the [viewport](https://codemirror.net/6/docs/ref/#view.EditorView.viewport) or
-    [visible ranges](https://codemirror.net/6/docs/ref/#view.EditorView.visibleRanges) changed in this
-    update.
-    */
+      Tells you whether the [viewport](https://codemirror.net/6/docs/ref/#view.EditorView.viewport) or
+      [visible ranges](https://codemirror.net/6/docs/ref/#view.EditorView.visibleRanges) changed in this
+      update.
+      */
         get viewportChanged() {
             return (this.flags & 4) > 0;
         }
         /**
-    Indicates whether the height of a block element in the editor
-    changed in this update.
-    */
+      Indicates whether the height of a block element in the editor
+      changed in this update.
+      */
         get heightChanged() {
             return (this.flags & 2) > 0;
         }
         /**
-    Returns true when the document was modified or the size of the
-    editor, or elements within the editor, changed.
-    */
+      Returns true when the document was modified or the size of the
+      editor, or elements within the editor, changed.
+      */
         get geometryChanged() {
             return this.docChanged || (this.flags & (8 | 2)) > 0;
         }
         /**
-    True when this update indicates a focus change.
-    */
+      True when this update indicates a focus change.
+      */
         get focusChanged() {
             return (this.flags & 1) > 0;
         }
         /**
-    Whether the document changed in this update.
-    */
+      Whether the document changed in this update.
+      */
         get docChanged() {
             return !this.changes.empty;
         }
         /**
-    Whether the selection was explicitly set in this update.
-    */
+      Whether the selection was explicitly set in this update.
+      */
         get selectionSet() {
             return this.transactions.some((tr) => tr.selection);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         get empty() {
             return this.flags == 0 && this.transactions.length == 0;
         }
@@ -12922,28 +12922,28 @@ ${mountName} = Element("${el.id}")`;
     var BidiRE = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac\ufb50-\ufdff]/;
     var BidiSpan = class {
         /**
-    @internal
-    */
+      @internal
+      */
         constructor(from, to, level) {
             this.from = from;
             this.to = to;
             this.level = level;
         }
         /**
-    The direction of this span.
-    */
+      The direction of this span.
+      */
         get dir() {
             return this.level % 2 ? RTL : LTR;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         side(end, dir) {
             return (this.dir == dir) == end ? this.to : this.from;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static find(order, index, level, assoc) {
             let maybe = -1;
             for (let i = 0; i < order.length; i++) {
@@ -15344,8 +15344,8 @@ ${mountName} = Element("${el.id}")`;
     };
     var BlockInfo = class {
         /**
-    @internal
-    */
+      @internal
+      */
         constructor(from, length, top2, height, type) {
             this.from = from;
             this.length = length;
@@ -15354,20 +15354,20 @@ ${mountName} = Element("${el.id}")`;
             this.type = type;
         }
         /**
-    The end of the element as a document position.
-    */
+      The end of the element as a document position.
+      */
         get to() {
             return this.from + this.length;
         }
         /**
-    The bottom position of the element.
-    */
+      The bottom position of the element.
+      */
         get bottom() {
             return this.top + this.height;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         join(other) {
             let detail = (Array.isArray(this.type) ? this.type : [this]).concat(
                 Array.isArray(other.type) ? other.type : [other],
@@ -18185,10 +18185,10 @@ ${mountName} = Element("${el.id}")`;
     }
     var EditorView = class {
         /**
-    Construct a new view. You'll want to either provide a `parent`
-    option, or put `view.dom` into your document after creating a
-    view, so that the user can see the editor.
-    */
+      Construct a new view. You'll want to either provide a `parent`
+      option, or put `view.dom` into your document after creating a
+      view, so that the user can see the editor.
+      */
         constructor(config2 = {}) {
             this.plugins = [];
             this.pluginMap = /* @__PURE__ */ new Map();
@@ -18231,65 +18231,65 @@ ${mountName} = Element("${el.id}")`;
             if (config2.parent) config2.parent.appendChild(this.dom);
         }
         /**
-    The current editor state.
-    */
+      The current editor state.
+      */
         get state() {
             return this.viewState.state;
         }
         /**
-    To be able to display large documents without consuming too much
-    memory or overloading the browser, CodeMirror only draws the
-    code that is visible (plus a margin around it) to the DOM. This
-    property tells you the extent of the current drawn viewport, in
-    document positions.
-    */
+      To be able to display large documents without consuming too much
+      memory or overloading the browser, CodeMirror only draws the
+      code that is visible (plus a margin around it) to the DOM. This
+      property tells you the extent of the current drawn viewport, in
+      document positions.
+      */
         get viewport() {
             return this.viewState.viewport;
         }
         /**
-    When there are, for example, large collapsed ranges in the
-    viewport, its size can be a lot bigger than the actual visible
-    content. Thus, if you are doing something like styling the
-    content in the viewport, it is preferable to only do so for
-    these ranges, which are the subset of the viewport that is
-    actually drawn.
-    */
+      When there are, for example, large collapsed ranges in the
+      viewport, its size can be a lot bigger than the actual visible
+      content. Thus, if you are doing something like styling the
+      content in the viewport, it is preferable to only do so for
+      these ranges, which are the subset of the viewport that is
+      actually drawn.
+      */
         get visibleRanges() {
             return this.viewState.visibleRanges;
         }
         /**
-    Returns false when the editor is entirely scrolled out of view
-    or otherwise hidden.
-    */
+      Returns false when the editor is entirely scrolled out of view
+      or otherwise hidden.
+      */
         get inView() {
             return this.viewState.inView;
         }
         /**
-    Indicates whether the user is currently composing text via
-    [IME](https://en.wikipedia.org/wiki/Input_method), and at least
-    one change has been made in the current composition.
-    */
+      Indicates whether the user is currently composing text via
+      [IME](https://en.wikipedia.org/wiki/Input_method), and at least
+      one change has been made in the current composition.
+      */
         get composing() {
             return this.inputState.composing > 0;
         }
         /**
-    Indicates whether the user is currently in composing state. Note
-    that on some platforms, like Android, this will be the case a
-    lot, since just putting the cursor on a word starts a
-    composition there.
-    */
+      Indicates whether the user is currently in composing state. Note
+      that on some platforms, like Android, this will be the case a
+      lot, since just putting the cursor on a word starts a
+      composition there.
+      */
         get compositionStarted() {
             return this.inputState.composing >= 0;
         }
         /**
-    The document or shadow root that the view lives in.
-    */
+      The document or shadow root that the view lives in.
+      */
         get root() {
             return this._root;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         get win() {
             return this.dom.ownerDocument.defaultView || window;
         }
@@ -18301,13 +18301,13 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Update the view for the given array of transactions. This will
-    update the visible document and selection to match the state
-    produced by the transactions, and notify view plugins of the
-    change. You should usually call
-    [`dispatch`](https://codemirror.net/6/docs/ref/#view.EditorView.dispatch) instead, which uses this
-    as a primitive.
-    */
+      Update the view for the given array of transactions. This will
+      update the visible document and selection to match the state
+      produced by the transactions, and notify view plugins of the
+      change. You should usually call
+      [`dispatch`](https://codemirror.net/6/docs/ref/#view.EditorView.dispatch) instead, which uses this
+      as a primitive.
+      */
         update(transactions) {
             if (this.updateState != 0)
                 throw new Error(
@@ -18431,12 +18431,12 @@ ${mountName} = Element("${el.id}")`;
                 });
         }
         /**
-    Reset the view to the given state. (This will cause the entire
-    document to be redrawn and all view plugins to be reinitialized,
-    so you should probably only use it when the new state isn't
-    derived from the old state. Otherwise, use
-    [`dispatch`](https://codemirror.net/6/docs/ref/#view.EditorView.dispatch) instead.)
-    */
+      Reset the view to the given state. (This will cause the entire
+      document to be redrawn and all view plugins to be reinitialized,
+      so you should probably only use it when the new state isn't
+      derived from the old state. Otherwise, use
+      [`dispatch`](https://codemirror.net/6/docs/ref/#view.EditorView.dispatch) instead.)
+      */
         setState(newState) {
             if (this.updateState != 0)
                 throw new Error(
@@ -18494,8 +18494,8 @@ ${mountName} = Element("${el.id}")`;
                 this.plugins[i].update(this);
         }
         /**
-    @internal
-    */
+      @internal
+      */
         measure(flush = true) {
             if (this.destroyed) return;
             if (this.measureScheduled > -1)
@@ -18599,8 +18599,8 @@ ${mountName} = Element("${el.id}")`;
                     listener(updated);
         }
         /**
-    Get the CSS classes for the currently active editor themes.
-    */
+      Get the CSS classes for the currently active editor themes.
+      */
         get themeClasses() {
             return (
                 baseThemeID +
@@ -18676,13 +18676,13 @@ ${mountName} = Element("${el.id}")`;
                 this.measure(false);
         }
         /**
-    Schedule a layout measurement, optionally providing callbacks to
-    do custom DOM measuring followed by a DOM write phase. Using
-    this is preferable reading DOM layout directly from, for
-    example, an event handler, because it'll make sure measuring and
-    drawing done by other components is synchronized, avoiding
-    unnecessary DOM layout computations.
-    */
+      Schedule a layout measurement, optionally providing callbacks to
+      do custom DOM measuring followed by a DOM write phase. Using
+      this is preferable reading DOM layout directly from, for
+      example, an event handler, because it'll make sure measuring and
+      drawing done by other components is synchronized, avoiding
+      unnecessary DOM layout computations.
+      */
         requestMeasure(request) {
             if (this.measureScheduled < 0)
                 this.measureScheduled = this.win.requestAnimationFrame(() =>
@@ -18701,11 +18701,11 @@ ${mountName} = Element("${el.id}")`;
             }
         }
         /**
-    Get the value of a specific plugin, if present. Note that
-    plugins that crash can be dropped from a view, so even when you
-    know you registered a given plugin, it is recommended to check
-    the return value of this method.
-    */
+      Get the value of a specific plugin, if present. Note that
+      plugins that crash can be dropped from a view, so even when you
+      know you registered a given plugin, it is recommended to check
+      the return value of this method.
+      */
         plugin(plugin) {
             let known = this.pluginMap.get(plugin);
             if (known === void 0 || (known && known.spec != plugin))
@@ -18717,10 +18717,10 @@ ${mountName} = Element("${el.id}")`;
             return known && known.update(this).value;
         }
         /**
-    The top position of the document, in screen coordinates. This
-    may be negative when the editor is scrolled down. Points
-    directly to the top of the first line, not above the padding.
-    */
+      The top position of the document, in screen coordinates. This
+      may be negative when the editor is scrolled down. Points
+      directly to the top of the first line, not above the padding.
+      */
         get documentTop() {
             return (
                 this.contentDOM.getBoundingClientRect().top +
@@ -18728,8 +18728,8 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Reports the padding above and below the document.
-    */
+      Reports the padding above and below the document.
+      */
         get documentPadding() {
             return {
                 top: this.viewState.paddingTop,
@@ -18737,74 +18737,74 @@ ${mountName} = Element("${el.id}")`;
             };
         }
         /**
-    Find the text line or block widget at the given vertical
-    position (which is interpreted as relative to the [top of the
-    document](https://codemirror.net/6/docs/ref/#view.EditorView.documentTop)).
-    */
+      Find the text line or block widget at the given vertical
+      position (which is interpreted as relative to the [top of the
+      document](https://codemirror.net/6/docs/ref/#view.EditorView.documentTop)).
+      */
         elementAtHeight(height) {
             this.readMeasured();
             return this.viewState.elementAtHeight(height);
         }
         /**
-    Find the line block (see
-    [`lineBlockAt`](https://codemirror.net/6/docs/ref/#view.EditorView.lineBlockAt) at the given
-    height, again interpreted relative to the [top of the
-    document](https://codemirror.net/6/docs/ref/#view.EditorView.documentTop).
-    */
+      Find the line block (see
+      [`lineBlockAt`](https://codemirror.net/6/docs/ref/#view.EditorView.lineBlockAt) at the given
+      height, again interpreted relative to the [top of the
+      document](https://codemirror.net/6/docs/ref/#view.EditorView.documentTop).
+      */
         lineBlockAtHeight(height) {
             this.readMeasured();
             return this.viewState.lineBlockAtHeight(height);
         }
         /**
-    Get the extent and vertical position of all [line
-    blocks](https://codemirror.net/6/docs/ref/#view.EditorView.lineBlockAt) in the viewport. Positions
-    are relative to the [top of the
-    document](https://codemirror.net/6/docs/ref/#view.EditorView.documentTop);
-    */
+      Get the extent and vertical position of all [line
+      blocks](https://codemirror.net/6/docs/ref/#view.EditorView.lineBlockAt) in the viewport. Positions
+      are relative to the [top of the
+      document](https://codemirror.net/6/docs/ref/#view.EditorView.documentTop);
+      */
         get viewportLineBlocks() {
             return this.viewState.viewportLines;
         }
         /**
-    Find the line block around the given document position. A line
-    block is a range delimited on both sides by either a
-    non-[hidden](https://codemirror.net/6/docs/ref/#view.Decoration^replace) line breaks, or the
-    start/end of the document. It will usually just hold a line of
-    text, but may be broken into multiple textblocks by block
-    widgets.
-    */
+      Find the line block around the given document position. A line
+      block is a range delimited on both sides by either a
+      non-[hidden](https://codemirror.net/6/docs/ref/#view.Decoration^replace) line breaks, or the
+      start/end of the document. It will usually just hold a line of
+      text, but may be broken into multiple textblocks by block
+      widgets.
+      */
         lineBlockAt(pos) {
             return this.viewState.lineBlockAt(pos);
         }
         /**
-    The editor's total content height.
-    */
+      The editor's total content height.
+      */
         get contentHeight() {
             return this.viewState.contentHeight;
         }
         /**
-    Move a cursor position by [grapheme
-    cluster](https://codemirror.net/6/docs/ref/#state.findClusterBreak). `forward` determines whether
-    the motion is away from the line start, or towards it. In
-    bidirectional text, the line is traversed in visual order, using
-    the editor's [text direction](https://codemirror.net/6/docs/ref/#view.EditorView.textDirection).
-    When the start position was the last one on the line, the
-    returned position will be across the line break. If there is no
-    further line, the original position is returned.
-    
-    By default, this method moves over a single cluster. The
-    optional `by` argument can be used to move across more. It will
-    be called with the first cluster as argument, and should return
-    a predicate that determines, for each subsequent cluster,
-    whether it should also be moved over.
-    */
+      Move a cursor position by [grapheme
+      cluster](https://codemirror.net/6/docs/ref/#state.findClusterBreak). `forward` determines whether
+      the motion is away from the line start, or towards it. In
+      bidirectional text, the line is traversed in visual order, using
+      the editor's [text direction](https://codemirror.net/6/docs/ref/#view.EditorView.textDirection).
+      When the start position was the last one on the line, the
+      returned position will be across the line break. If there is no
+      further line, the original position is returned.
+      
+      By default, this method moves over a single cluster. The
+      optional `by` argument can be used to move across more. It will
+      be called with the first cluster as argument, and should return
+      a predicate that determines, for each subsequent cluster,
+      whether it should also be moved over.
+      */
         moveByChar(start, forward, by) {
             return skipAtoms(this, start, moveByChar(this, start, forward, by));
         }
         /**
-    Move a cursor position across the next group of either
-    [letters](https://codemirror.net/6/docs/ref/#state.EditorState.charCategorizer) or non-letter
-    non-whitespace characters.
-    */
+      Move a cursor position across the next group of either
+      [letters](https://codemirror.net/6/docs/ref/#state.EditorState.charCategorizer) or non-letter
+      non-whitespace characters.
+      */
         moveByGroup(start, forward) {
             return skipAtoms(
                 this,
@@ -18815,28 +18815,28 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Move to the next line boundary in the given direction. If
-    `includeWrap` is true, line wrapping is on, and there is a
-    further wrap point on the current line, the wrap point will be
-    returned. Otherwise this function will return the start or end
-    of the line.
-    */
+      Move to the next line boundary in the given direction. If
+      `includeWrap` is true, line wrapping is on, and there is a
+      further wrap point on the current line, the wrap point will be
+      returned. Otherwise this function will return the start or end
+      of the line.
+      */
         moveToLineBoundary(start, forward, includeWrap = true) {
             return moveToLineBoundary(this, start, forward, includeWrap);
         }
         /**
-    Move a cursor position vertically. When `distance` isn't given,
-    it defaults to moving to the next line (including wrapped
-    lines). Otherwise, `distance` should provide a positive distance
-    in pixels.
-    
-    When `start` has a
-    [`goalColumn`](https://codemirror.net/6/docs/ref/#state.SelectionRange.goalColumn), the vertical
-    motion will use that as a target horizontal position. Otherwise,
-    the cursor's own horizontal position is used. The returned
-    cursor will have its goal column set to whichever column was
-    used.
-    */
+      Move a cursor position vertically. When `distance` isn't given,
+      it defaults to moving to the next line (including wrapped
+      lines). Otherwise, `distance` should provide a positive distance
+      in pixels.
+      
+      When `start` has a
+      [`goalColumn`](https://codemirror.net/6/docs/ref/#state.SelectionRange.goalColumn), the vertical
+      motion will use that as a target horizontal position. Otherwise,
+      the cursor's own horizontal position is used. The returned
+      cursor will have its goal column set to whichever column was
+      used.
+      */
         moveVertically(start, forward, distance) {
             return skipAtoms(
                 this,
@@ -18845,23 +18845,23 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Find the DOM parent node and offset (child offset if `node` is
-    an element, character offset when it is a text node) at the
-    given document position.
-    
-    Note that for positions that aren't currently in
-    `visibleRanges`, the resulting DOM position isn't necessarily
-    meaningful (it may just point before or after a placeholder
-    element).
-    */
+      Find the DOM parent node and offset (child offset if `node` is
+      an element, character offset when it is a text node) at the
+      given document position.
+      
+      Note that for positions that aren't currently in
+      `visibleRanges`, the resulting DOM position isn't necessarily
+      meaningful (it may just point before or after a placeholder
+      element).
+      */
         domAtPos(pos) {
             return this.docView.domAtPos(pos);
         }
         /**
-    Find the document position at the given DOM node. Can be useful
-    for associating positions with DOM events. Will raise an error
-    when `node` isn't part of the editor content.
-    */
+      Find the document position at the given DOM node. Can be useful
+      for associating positions with DOM events. Will raise an error
+      when `node` isn't part of the editor content.
+      */
         posAtDOM(node, offset = 0) {
             return this.docView.posFromDOM(node, offset);
         }
@@ -18870,12 +18870,12 @@ ${mountName} = Element("${el.id}")`;
             return posAtCoords(this, coords, precise);
         }
         /**
-    Get the screen coordinates at the given document position.
-    `side` determines whether the coordinates are based on the
-    element before (-1) or after (1) the position (if no element is
-    available on the given side, the method will transparently use
-    another strategy to get reasonable coordinates).
-    */
+      Get the screen coordinates at the given document position.
+      `side` determines whether the coordinates are based on the
+      element before (-1) or after (1) the position (if no element is
+      available on the given side, the method will transparently use
+      another strategy to get reasonable coordinates).
+      */
         coordsAtPos(pos, side = 1) {
             this.readMeasured();
             let rect = this.docView.coordsAt(pos, side);
@@ -18886,37 +18886,37 @@ ${mountName} = Element("${el.id}")`;
             return flattenRect(rect, (span.dir == Direction.LTR) == side > 0);
         }
         /**
-    The default width of a character in the editor. May not
-    accurately reflect the width of all characters (given variable
-    width fonts or styling of invididual ranges).
-    */
+      The default width of a character in the editor. May not
+      accurately reflect the width of all characters (given variable
+      width fonts or styling of invididual ranges).
+      */
         get defaultCharacterWidth() {
             return this.viewState.heightOracle.charWidth;
         }
         /**
-    The default height of a line in the editor. May not be accurate
-    for all lines.
-    */
+      The default height of a line in the editor. May not be accurate
+      for all lines.
+      */
         get defaultLineHeight() {
             return this.viewState.heightOracle.lineHeight;
         }
         /**
-    The text direction
-    ([`direction`](https://developer.mozilla.org/en-US/docs/Web/CSS/direction)
-    CSS property) of the editor's content element.
-    */
+      The text direction
+      ([`direction`](https://developer.mozilla.org/en-US/docs/Web/CSS/direction)
+      CSS property) of the editor's content element.
+      */
         get textDirection() {
             return this.viewState.defaultTextDirection;
         }
         /**
-    Find the text direction of the block at the given position, as
-    assigned by CSS. If
-    [`perLineTextDirection`](https://codemirror.net/6/docs/ref/#view.EditorView^perLineTextDirection)
-    isn't enabled, or the given position is outside of the viewport,
-    this will always return the same as
-    [`textDirection`](https://codemirror.net/6/docs/ref/#view.EditorView.textDirection). Note that
-    this may trigger a DOM layout.
-    */
+      Find the text direction of the block at the given position, as
+      assigned by CSS. If
+      [`perLineTextDirection`](https://codemirror.net/6/docs/ref/#view.EditorView^perLineTextDirection)
+      isn't enabled, or the given position is outside of the viewport,
+      this will always return the same as
+      [`textDirection`](https://codemirror.net/6/docs/ref/#view.EditorView.textDirection). Note that
+      this may trigger a DOM layout.
+      */
         textDirectionAt(pos) {
             let perLine = this.state.facet(perLineTextDirection);
             if (!perLine || pos < this.viewport.from || pos > this.viewport.to)
@@ -18925,22 +18925,22 @@ ${mountName} = Element("${el.id}")`;
             return this.docView.textDirectionAt(pos);
         }
         /**
-    Whether this editor [wraps lines](https://codemirror.net/6/docs/ref/#view.EditorView.lineWrapping)
-    (as determined by the
-    [`white-space`](https://developer.mozilla.org/en-US/docs/Web/CSS/white-space)
-    CSS property of its content element).
-    */
+      Whether this editor [wraps lines](https://codemirror.net/6/docs/ref/#view.EditorView.lineWrapping)
+      (as determined by the
+      [`white-space`](https://developer.mozilla.org/en-US/docs/Web/CSS/white-space)
+      CSS property of its content element).
+      */
         get lineWrapping() {
             return this.viewState.heightOracle.lineWrapping;
         }
         /**
-    Returns the bidirectional text structure of the given line
-    (which should be in the current document) as an array of span
-    objects. The order of these spans matches the [text
-    direction](https://codemirror.net/6/docs/ref/#view.EditorView.textDirection)�봧f that is
-    left-to-right, the leftmost spans come first, otherwise the
-    rightmost spans come first.
-    */
+      Returns the bidirectional text structure of the given line
+      (which should be in the current document) as an array of span
+      objects. The order of these spans matches the [text
+      direction](https://codemirror.net/6/docs/ref/#view.EditorView.textDirection)�봧f that is
+      left-to-right, the leftmost spans come first, otherwise the
+      rightmost spans come first.
+      */
         bidiSpans(line) {
             if (line.length > MaxBidiLine) return trivialOrder(line.length);
             let dir = this.textDirectionAt(line.from);
@@ -18954,8 +18954,8 @@ ${mountName} = Element("${el.id}")`;
             return order;
         }
         /**
-    Check whether the editor has focus.
-    */
+      Check whether the editor has focus.
+      */
         get hasFocus() {
             var _a2;
             return (
@@ -18969,8 +18969,8 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Put focus on the editor.
-    */
+      Put focus on the editor.
+      */
         focus() {
             this.observer.ignore(() => {
                 focusPreventScroll(this.contentDOM);
@@ -18978,9 +18978,9 @@ ${mountName} = Element("${el.id}")`;
             });
         }
         /**
-    Update the [root](https://codemirror.net/6/docs/ref/##view.EditorViewConfig.root) in which the editor lives. This is only
-    necessary when moving the editor's existing DOM to a new window or shadow root.
-    */
+      Update the [root](https://codemirror.net/6/docs/ref/##view.EditorViewConfig.root) in which the editor lives. This is only
+      necessary when moving the editor's existing DOM to a new window or shadow root.
+      */
         setRoot(root) {
             if (this._root != root) {
                 this._root = root;
@@ -18992,11 +18992,11 @@ ${mountName} = Element("${el.id}")`;
             }
         }
         /**
-    Clean up this editor view, removing its element from the
-    document, unregistering event handlers, and notifying
-    plugins. The view instance can no longer be used after
-    calling this.
-    */
+      Clean up this editor view, removing its element from the
+      document, unregistering event handlers, and notifying
+      plugins. The view instance can no longer be used after
+      calling this.
+      */
         destroy() {
             for (let plugin of this.plugins) plugin.destroy(this);
             this.plugins = [];
@@ -19008,10 +19008,10 @@ ${mountName} = Element("${el.id}")`;
             this.destroyed = true;
         }
         /**
-    Returns an effect that can be
-    [added](https://codemirror.net/6/docs/ref/#state.TransactionSpec.effects) to a transaction to
-    cause it to scroll the given position or range into view.
-    */
+      Returns an effect that can be
+      [added](https://codemirror.net/6/docs/ref/#state.TransactionSpec.effects) to a transaction to
+      cause it to scroll the given position or range into view.
+      */
         static scrollIntoView(pos, options = {}) {
             return scrollIntoView.of(
                 new ScrollTarget(
@@ -19024,38 +19024,38 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Returns an extension that can be used to add DOM event handlers.
-    The value should be an object mapping event names to handler
-    functions. For any given event, such functions are ordered by
-    extension precedence, and the first handler to return true will
-    be assumed to have handled that event, and no other handlers or
-    built-in behavior will be activated for it. These are registered
-    on the [content element](https://codemirror.net/6/docs/ref/#view.EditorView.contentDOM), except
-    for `scroll` handlers, which will be called any time the
-    editor's [scroll element](https://codemirror.net/6/docs/ref/#view.EditorView.scrollDOM) or one of
-    its parent nodes is scrolled.
-    */
+      Returns an extension that can be used to add DOM event handlers.
+      The value should be an object mapping event names to handler
+      functions. For any given event, such functions are ordered by
+      extension precedence, and the first handler to return true will
+      be assumed to have handled that event, and no other handlers or
+      built-in behavior will be activated for it. These are registered
+      on the [content element](https://codemirror.net/6/docs/ref/#view.EditorView.contentDOM), except
+      for `scroll` handlers, which will be called any time the
+      editor's [scroll element](https://codemirror.net/6/docs/ref/#view.EditorView.scrollDOM) or one of
+      its parent nodes is scrolled.
+      */
         static domEventHandlers(handlers2) {
             return ViewPlugin.define(() => ({}), { eventHandlers: handlers2 });
         }
         /**
-    Create a theme extension. The first argument can be a
-    [`style-mod`](https://github.com/marijnh/style-mod#documentation)
-    style spec providing the styles for the theme. These will be
-    prefixed with a generated class for the style.
-    
-    Because the selectors will be prefixed with a scope class, rule
-    that directly match the editor's [wrapper
-    element](https://codemirror.net/6/docs/ref/#view.EditorView.dom)�봳o which the scope class will be
-    added�봭eed to be explicitly differentiated by adding an `&` to
-    the selector for that element�봣or example
-    `&.cm-focused`.
-    
-    When `dark` is set to true, the theme will be marked as dark,
-    which will cause the `&dark` rules from [base
-    themes](https://codemirror.net/6/docs/ref/#view.EditorView^baseTheme) to be used (as opposed to
-    `&light` when a light theme is active).
-    */
+      Create a theme extension. The first argument can be a
+      [`style-mod`](https://github.com/marijnh/style-mod#documentation)
+      style spec providing the styles for the theme. These will be
+      prefixed with a generated class for the style.
+      
+      Because the selectors will be prefixed with a scope class, rule
+      that directly match the editor's [wrapper
+      element](https://codemirror.net/6/docs/ref/#view.EditorView.dom)�봳o which the scope class will be
+      added�봭eed to be explicitly differentiated by adding an `&` to
+      the selector for that element�봣or example
+      `&.cm-focused`.
+      
+      When `dark` is set to true, the theme will be marked as dark,
+      which will cause the `&dark` rules from [base
+      themes](https://codemirror.net/6/docs/ref/#view.EditorView^baseTheme) to be used (as opposed to
+      `&light` when a light theme is active).
+      */
         static theme(spec, options) {
             let prefix = StyleModule.newName();
             let result = [
@@ -19066,12 +19066,12 @@ ${mountName} = Element("${el.id}")`;
             return result;
         }
         /**
-    Create an extension that adds styles to the base theme. Like
-    with [`theme`](https://codemirror.net/6/docs/ref/#view.EditorView^theme), use `&` to indicate the
-    place of the editor wrapper element when directly targeting
-    that. You can also use `&dark` or `&light` instead to only
-    target editors with a dark or light theme.
-    */
+      Create an extension that adds styles to the base theme. Like
+      with [`theme`](https://codemirror.net/6/docs/ref/#view.EditorView^theme), use `&` to indicate the
+      place of the editor wrapper element when directly targeting
+      that. You can also use `&dark` or `&light` instead to only
+      target editors with a dark or light theme.
+      */
         static baseTheme(spec) {
             return Prec.lowest(
                 styleModule.of(
@@ -19080,9 +19080,9 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Retrieve an editor view instance from the view's DOM
-    representation.
-    */
+      Retrieve an editor view instance from the view's DOM
+      representation.
+      */
         static findFromDOM(dom) {
             var _a2;
             let content2 = dom.querySelector('.cm-content');
@@ -19374,9 +19374,9 @@ ${mountName} = Element("${el.id}")`;
     }
     var RectangleMarker = class {
         /**
-    Create a marker with the given class and dimensions. If `width`
-    is null, the DOM element will get no width style.
-    */
+      Create a marker with the given class and dimensions. If `width`
+      is null, the DOM element will get no width style.
+      */
         constructor(className, left, top2, width, height) {
             this.className = className;
             this.left = left;
@@ -19411,12 +19411,12 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Create a set of rectangles for the given selection range,
-    assigning them theclass`className`. Will create a single
-    rectangle for empty ranges, and a set of selection-style
-    rectangles covering the range's content (in a bidi-aware
-    way) for non-empty ones.
-    */
+      Create a set of rectangles for the given selection range,
+      assigning them theclass`className`. Will create a single
+      rectangle for empty ranges, and a set of selection-style
+      rectangles covering the range's content (in a bidi-aware
+      way) for non-empty ones.
+      */
         static forRange(view, className, range) {
             if (range.empty) {
                 let pos = view.coordsAtPos(range.head, range.assoc || 1);
@@ -19950,8 +19950,8 @@ ${mountName} = Element("${el.id}")`;
     }
     var MatchDecorator = class {
         /**
-    Create a decorator.
-    */
+      Create a decorator.
+      */
         constructor(config2) {
             const {
                 regexp,
@@ -19985,10 +19985,10 @@ ${mountName} = Element("${el.id}")`;
             this.maxLength = maxLength;
         }
         /**
-    Compute the full set of decorations for matches in the given
-    view's viewport. You'll want to call this when initializing your
-    plugin.
-    */
+      Compute the full set of decorations for matches in the given
+      view's viewport. You'll want to call this when initializing your
+      plugin.
+      */
         createDeco(view) {
             let build = new RangeSetBuilder(),
                 add2 = build.add.bind(build);
@@ -19999,10 +19999,10 @@ ${mountName} = Element("${el.id}")`;
             return build.finish();
         }
         /**
-    Update a set of decorations for a view update. `deco` _must_ be
-    the set of decorations produced by _this_ `MatchDecorator` for
-    the view state before the update.
-    */
+      Update a set of decorations for a view update. `deco` _must_ be
+      the set of decorations produced by _this_ `MatchDecorator` for
+      the view state before the update.
+      */
         updateDeco(update, deco) {
             let changeFrom = 1e9,
                 changeTo = -1;
@@ -20580,7 +20580,9 @@ ${mountName} = Element("${el.id}")`;
                     write: this.writeMeasure.bind(this),
                     key: this,
                 };
-                // this.manager = new TooltipViewManager(view, showTooltip, (t2) => this.createTooltip(t2));
+                this.manager = new TooltipViewManager(view, showTooltip, (t2) =>
+                    this.createTooltip(t2),
+                );
                 this.intersectionObserver =
                     typeof IntersectionObserver == 'function'
                         ? new IntersectionObserver(
@@ -21380,8 +21382,8 @@ ${mountName} = Element("${el.id}")`;
     });
     var GutterMarker = class extends RangeValue {
         /**
-    @internal
-    */
+      @internal
+      */
         compare(other) {
             return (
                 this == other ||
@@ -21389,15 +21391,15 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Compare this marker to another marker of the same type.
-    */
+      Compare this marker to another marker of the same type.
+      */
         eq(other) {
             return false;
         }
         /**
-    Called if the marker has a `toDOM` method and its representation
-    was removed from a gutter.
-    */
+      Called if the marker has a `toDOM` method and its representation
+      was removed from a gutter.
+      */
         destroy(dom) {}
     };
     GutterMarker.prototype.elementClass = '';
@@ -24295,12 +24297,12 @@ ${mountName} = Element("${el.id}")`;
     var sublanguageProp = /* @__PURE__ */ new NodeProp();
     var Language = class {
         /**
-    Construct a language object. If you need to invoke this
-    directly, first define a data facet with
-    [`defineLanguageFacet`](https://codemirror.net/6/docs/ref/#language.defineLanguageFacet), and then
-    configure your parser to [attach](https://codemirror.net/6/docs/ref/#language.languageDataProp) it
-    to the language's outer syntax node.
-    */
+      Construct a language object. If you need to invoke this
+      directly, first define a data facet with
+      [`defineLanguageFacet`](https://codemirror.net/6/docs/ref/#language.defineLanguageFacet), and then
+      configure your parser to [attach](https://codemirror.net/6/docs/ref/#language.languageDataProp) it
+      to the language's outer syntax node.
+      */
         constructor(data, parser2, extraExtensions = [], name2 = '') {
             this.data = data;
             this.name = name2;
@@ -24334,8 +24336,8 @@ ${mountName} = Element("${el.id}")`;
             ].concat(extraExtensions);
         }
         /**
-    Query whether this language is active at the given position.
-    */
+      Query whether this language is active at the given position.
+      */
         isActiveAt(state, pos, side = -1) {
             return (
                 topNodeAt(state, pos, side).type.prop(languageDataProp) ==
@@ -24343,10 +24345,10 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Find the document regions that were parsed using this language.
-    The returned regions will _include_ any nested languages rooted
-    in this language, when those exist.
-    */
+      Find the document regions that were parsed using this language.
+      The returned regions will _include_ any nested languages rooted
+      in this language, when those exist.
+      */
         findRegions(state) {
             let lang = state.facet(language);
             if (
@@ -24388,9 +24390,9 @@ ${mountName} = Element("${el.id}")`;
             return result;
         }
         /**
-    Indicates whether this language allows nested languages. The
-    default implementation returns true.
-    */
+      Indicates whether this language allows nested languages. The
+      default implementation returns true.
+      */
         get allowsNesting() {
             return true;
         }
@@ -24415,8 +24417,8 @@ ${mountName} = Element("${el.id}")`;
             this.parser = parser2;
         }
         /**
-    Define a language from a parser.
-    */
+      Define a language from a parser.
+      */
         static define(spec) {
             let data = defineLanguageFacet(spec.languageData);
             return new LRLanguage(
@@ -24432,9 +24434,9 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Create a new instance of this language with a reconfigured
-    version of its parser and optionally a new name.
-    */
+      Create a new instance of this language with a reconfigured
+      version of its parser and optionally a new name.
+      */
         configure(options, name2) {
             return new LRLanguage(
                 this.data,
@@ -24503,8 +24505,8 @@ ${mountName} = Element("${el.id}")`;
             this.tempSkipped = [];
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static create(parser2, state, viewport) {
             return new ParseContext(
                 parser2,
@@ -24524,8 +24526,8 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    @internal
-    */
+      @internal
+      */
         work(until, upto) {
             if (upto != null && upto >= this.state.doc.length) upto = void 0;
             if (
@@ -24584,8 +24586,8 @@ ${mountName} = Element("${el.id}")`;
             });
         }
         /**
-    @internal
-    */
+      @internal
+      */
         takeTree() {
             let pos, tree;
             if (this.parse && (pos = this.parse.parsedPos) >= this.treeLen) {
@@ -24617,8 +24619,8 @@ ${mountName} = Element("${el.id}")`;
             return fragments;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         changes(changes, newState) {
             let { fragments, tree, treeLen, viewport, skipped } = this;
             this.takeTree();
@@ -24655,8 +24657,8 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    @internal
-    */
+      @internal
+      */
         updateViewport(viewport) {
             if (
                 this.viewport.from == viewport.from &&
@@ -24677,8 +24679,8 @@ ${mountName} = Element("${el.id}")`;
             return true;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         reset() {
             if (this.parse) {
                 this.takeTree();
@@ -24686,22 +24688,22 @@ ${mountName} = Element("${el.id}")`;
             }
         }
         /**
-    Notify the parse scheduler that the given region was skipped
-    because it wasn't in view, and the parse should be restarted
-    when it comes into view.
-    */
+      Notify the parse scheduler that the given region was skipped
+      because it wasn't in view, and the parse should be restarted
+      when it comes into view.
+      */
         skipUntilInView(from, to) {
             this.skipped.push({ from, to });
         }
         /**
-    Returns a parser intended to be used as placeholder when
-    asynchronously loading a nested parser. It'll skip its input and
-    mark it as not-really-parsed, so that the next update will parse
-    it again.
-    
-    When `until` is given, a reparse will be scheduled when that
-    promise resolves.
-    */
+      Returns a parser intended to be used as placeholder when
+      asynchronously loading a nested parser. It'll skip its input and
+      mark it as not-really-parsed, so that the next update will parse
+      it again.
+      
+      When `until` is given, a reparse will be scheduled when that
+      promise resolves.
+      */
         static getSkippingParser(until) {
             return new (class extends Parser {
                 createParse(input, fragments, ranges) {
@@ -24729,8 +24731,8 @@ ${mountName} = Element("${el.id}")`;
             })();
         }
         /**
-    @internal
-    */
+      @internal
+      */
         isDone(upto) {
             upto = Math.min(upto, this.state.doc.length);
             let frags = this.fragments;
@@ -24742,9 +24744,9 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Get the context for the current parse, or `null` if no editor
-    parse is in progress.
-    */
+      Get the context for the current parse, or `null` if no editor
+      parse is in progress.
+      */
         static get() {
             return currentContext;
         }
@@ -24953,8 +24955,8 @@ ${mountName} = Element("${el.id}")`;
     });
     var LanguageSupport = class {
         /**
-    Create a language support object.
-    */
+      Create a language support object.
+      */
         constructor(language2, support = []) {
             this.language = language2;
             this.support = support;
@@ -25009,21 +25011,21 @@ ${mountName} = Element("${el.id}")`;
     }
     var IndentContext = class {
         /**
-    Create an indent context.
-    */
+      Create an indent context.
+      */
         constructor(state, options = {}) {
             this.state = state;
             this.options = options;
             this.unit = getIndentUnit(state);
         }
         /**
-    Get a description of the line at the given position, taking
-    [simulated line
-    breaks](https://codemirror.net/6/docs/ref/#language.IndentContext.constructor^options.simulateBreak)
-    into account. If there is such a break at `pos`, the `bias`
-    argument determines whether the part of the line line before or
-    after the break is used.
-    */
+      Get a description of the line at the given position, taking
+      [simulated line
+      breaks](https://codemirror.net/6/docs/ref/#language.IndentContext.constructor^options.simulateBreak)
+      into account. If there is such a break at `pos`, the `bias`
+      argument determines whether the part of the line line before or
+      after the break is used.
+      */
         lineAt(pos, bias = 1) {
             let line = this.state.doc.lineAt(pos);
             let { simulateBreak, simulateDoubleBreak } = this.options;
@@ -25048,9 +25050,9 @@ ${mountName} = Element("${el.id}")`;
             return line;
         }
         /**
-    Get the text directly after `pos`, either the entire line
-    or the next 100 characters, whichever is shorter.
-    */
+      Get the text directly after `pos`, either the entire line
+      or the next 100 characters, whichever is shorter.
+      */
         textAfterPos(pos, bias = 1) {
             if (
                 this.options.simulateDoubleBreak &&
@@ -25064,8 +25066,8 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    Find the column for the given position.
-    */
+      Find the column for the given position.
+      */
         column(pos, bias = 1) {
             let { text, from } = this.lineAt(pos, bias);
             let result = this.countColumn(text, pos - from);
@@ -25078,15 +25080,15 @@ ${mountName} = Element("${el.id}")`;
             return result;
         }
         /**
-    Find the column position (taking tabs into account) of the given
-    position in the given string.
-    */
+      Find the column position (taking tabs into account) of the given
+      position in the given string.
+      */
         countColumn(line, pos = line.length) {
             return countColumn(line, this.state.tabSize, pos);
         }
         /**
-    Find the indentation column of the line at the given point.
-    */
+      Find the indentation column of the line at the given point.
+      */
         lineIndent(pos, bias = 1) {
             let { text, from } = this.lineAt(pos, bias);
             let override = this.options.overrideIndentation;
@@ -25097,10 +25099,10 @@ ${mountName} = Element("${el.id}")`;
             return this.countColumn(text, text.search(/\S|$/));
         }
         /**
-    Returns the [simulated line
-    break](https://codemirror.net/6/docs/ref/#language.IndentContext.constructor^options.simulateBreak)
-    for this context, if any.
-    */
+      Returns the [simulated line
+      break](https://codemirror.net/6/docs/ref/#language.IndentContext.constructor^options.simulateBreak)
+      for this context, if any.
+      */
         get simulatedBreak() {
             return this.options.simulateBreak || null;
         }
@@ -25156,25 +25158,25 @@ ${mountName} = Element("${el.id}")`;
             this.node = node;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         static create(base2, pos, node) {
             return new TreeIndentContext(base2, pos, node);
         }
         /**
-    Get the text directly after `this.pos`, either the entire line
-    or the next 100 characters, whichever is shorter.
-    */
+      Get the text directly after `this.pos`, either the entire line
+      or the next 100 characters, whichever is shorter.
+      */
         get textAfter() {
             return this.textAfterPos(this.pos);
         }
         /**
-    Get the indentation at the reference line for `this.node`, which
-    is the line on which it starts, unless there is a node that is
-    _not_ a parent of this node covering the start of that line. If
-    so, the line at the start of that node is tried, again skipping
-    on if it is covered by another such node.
-    */
+      Get the indentation at the reference line for `this.node`, which
+      is the line on which it starts, unless there is a node that is
+      _not_ a parent of this node covering the start of that line. If
+      so, the line at the start of that node is tried, again skipping
+      on if it is covered by another such node.
+      */
         get baseIndent() {
             let line = this.state.doc.lineAt(this.node.from);
             for (;;) {
@@ -25187,9 +25189,9 @@ ${mountName} = Element("${el.id}")`;
             return this.lineIndent(line.from);
         }
         /**
-    Continue looking for indentations in the node's parent nodes,
-    and return the result of that.
-    */
+      Continue looking for indentations in the node's parent nodes,
+      and return the result of that.
+      */
         continue() {
             let parent = this.node.parent;
             return parent ? indentFrom(parent, this.pos, this.base) : 0;
@@ -25704,20 +25706,20 @@ ${mountName} = Element("${el.id}")`;
             this.themeType = options.themeType;
         }
         /**
-    Create a highlighter style that associates the given styles to
-    the given tags. The specs must be objects that hold a style tag
-    or array of tags in their `tag` property, and either a single
-    `class` property providing a static CSS class (for highlighter
-    that rely on external styling), or a
-    [`style-mod`](https://github.com/marijnh/style-mod#documentation)-style
-    set of CSS properties (which define the styling for those tags).
-    
-    The CSS rules created for a highlighter will be emitted in the
-    order of the spec's properties. That means that for elements that
-    have multiple tags associated with them, styles defined further
-    down in the list will have a higher CSS precedence than styles
-    defined earlier.
-    */
+      Create a highlighter style that associates the given styles to
+      the given tags. The specs must be objects that hold a style tag
+      or array of tags in their `tag` property, and either a single
+      `class` property providing a static CSS class (for highlighter
+      that rely on external styling), or a
+      [`style-mod`](https://github.com/marijnh/style-mod#documentation)-style
+      set of CSS properties (which define the styling for those tags).
+      
+      The CSS rules created for a highlighter will be emitted in the
+      order of the spec's properties. That means that for elements that
+      have multiple tags associated with them, styles defined further
+      down in the list will have a higher CSS precedence than styles
+      defined earlier.
+      */
         static define(specs, options) {
             return new HighlightStyle(specs, options || {});
         }
@@ -27874,18 +27876,18 @@ ${mountName} = Element("${el.id}")`;
             : (x) => x;
     var SearchCursor = class {
         /**
-    Create a text cursor. The query is the search string, `from` to
-    `to` provides the region to search.
-    
-    When `normalize` is given, it will be called, on both the query
-    string and the content it is matched against, before comparing.
-    You can, for example, create a case-insensitive search by
-    passing `s => s.toLowerCase()`.
-    
-    Text is always normalized with
-    [`.normalize("NFKD")`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize)
-    (when supported).
-    */
+      Create a text cursor. The query is the search string, `from` to
+      `to` provides the region to search.
+      
+      When `normalize` is given, it will be called, on both the query
+      string and the content it is matched against, before comparing.
+      You can, for example, create a case-insensitive search by
+      passing `s => s.toLowerCase()`.
+      
+      Text is always normalized with
+      [`.normalize("NFKD")`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/normalize)
+      (when supported).
+      */
         constructor(text, query, from = 0, to = text.length, normalize, test) {
             this.test = test;
             this.value = { from: 0, to: 0 };
@@ -27911,20 +27913,20 @@ ${mountName} = Element("${el.id}")`;
             return codePointAt(this.buffer, this.bufferPos);
         }
         /**
-    Look for the next match. Updates the iterator's
-    [`value`](https://codemirror.net/6/docs/ref/#search.SearchCursor.value) and
-    [`done`](https://codemirror.net/6/docs/ref/#search.SearchCursor.done) properties. Should be called
-    at least once before using the cursor.
-    */
+      Look for the next match. Updates the iterator's
+      [`value`](https://codemirror.net/6/docs/ref/#search.SearchCursor.value) and
+      [`done`](https://codemirror.net/6/docs/ref/#search.SearchCursor.done) properties. Should be called
+      at least once before using the cursor.
+      */
         next() {
             while (this.matches.length) this.matches.pop();
             return this.nextOverlapping();
         }
         /**
-    The `next` method will ignore matches that partially overlap a
-    previous match. This method behaves like `next`, but includes
-    such matches.
-    */
+      The `next` method will ignore matches that partially overlap a
+      previous match. This method behaves like `next`, but includes
+      such matches.
+      */
         nextOverlapping() {
             for (;;) {
                 let next = this.peek();
@@ -27992,10 +27994,10 @@ ${mountName} = Element("${el.id}")`;
     var baseFlags = 'gm' + (/x/.unicode == null ? '' : 'u');
     var RegExpCursor = class {
         /**
-    Create a cursor that will search the given range in the given
-    document. `query` should be the raw pattern (as you'd pass it to
-    `new RegExp`).
-    */
+      Create a cursor that will search the given range in the given
+      document. `query` should be the raw pattern (as you'd pass it to
+      `new RegExp`).
+      */
         constructor(text, query, options, from = 0, to = text.length) {
             this.text = text;
             this.to = to;
@@ -28049,8 +28051,8 @@ ${mountName} = Element("${el.id}")`;
             else this.getLine(0);
         }
         /**
-    Move to the next match, if there is one.
-    */
+      Move to the next match, if there is one.
+      */
         next() {
             for (let off = this.matchPos - this.curLineStart; ; ) {
                 this.re.lastIndex = off;
@@ -28524,8 +28526,8 @@ ${mountName} = Element("${el.id}")`;
     });
     var SearchQuery = class {
         /**
-    Create a query object.
-    */
+      Create a query object.
+      */
         constructor(config2) {
             this.search = config2.search;
             this.caseSensitive = !!config2.caseSensitive;
@@ -28538,8 +28540,8 @@ ${mountName} = Element("${el.id}")`;
             this.wholeWord = !!config2.wholeWord;
         }
         /**
-    @internal
-    */
+      @internal
+      */
         unquote(text) {
             return this.literal
                 ? text
@@ -28554,8 +28556,8 @@ ${mountName} = Element("${el.id}")`;
                   );
         }
         /**
-    Compare this query to another query.
-    */
+      Compare this query to another query.
+      */
         eq(other) {
             return (
                 this.search == other.search &&
@@ -28566,15 +28568,15 @@ ${mountName} = Element("${el.id}")`;
             );
         }
         /**
-    @internal
-    */
+      @internal
+      */
         create() {
             return this.regexp ? new RegExpQuery(this) : new StringQuery(this);
         }
         /**
-    Get a search cursor for this query, searching through the given
-    range in the given state.
-    */
+      Get a search cursor for this query, searching through the given
+      range in the given state.
+      */
         getCursor(state, from = 0, to) {
             let st = state.doc ? state : EditorState.create({ doc: state });
             if (to == null) to = st.doc.length;
@@ -29339,10 +29341,10 @@ ${mountName} = Element("${el.id}")`;
     // node_modules/@codemirror/autocomplete/dist/index.js
     var CompletionContext = class {
         /**
-    Create a new completion context. (Mostly useful for testing
-    completion sources�봧n the editor, the extension will create
-    these for you.)
-    */
+      Create a new completion context. (Mostly useful for testing
+      completion sources�봧n the editor, the extension will create
+      these for you.)
+      */
         constructor(state, pos, explicit) {
             this.state = state;
             this.pos = pos;
@@ -29350,9 +29352,9 @@ ${mountName} = Element("${el.id}")`;
             this.abortListeners = [];
         }
         /**
-    Get the extent, content, and (if there is a token) type of the
-    token before `this.pos`.
-    */
+      Get the extent, content, and (if there is a token) type of the
+      token before `this.pos`.
+      */
         tokenBefore(types2) {
             let token = syntaxTree(this.state).resolveInner(this.pos, -1);
             while (token && types2.indexOf(token.name) < 0)
@@ -29367,9 +29369,9 @@ ${mountName} = Element("${el.id}")`;
                 : null;
         }
         /**
-    Get the match of the given expression directly before the
-    cursor.
-    */
+      Get the match of the given expression directly before the
+      cursor.
+      */
         matchBefore(expr) {
             let line = this.state.doc.lineAt(this.pos);
             let start = Math.max(line.from, this.pos - 250);
@@ -29380,17 +29382,17 @@ ${mountName} = Element("${el.id}")`;
                 : { from: start + found, to: this.pos, text: str.slice(found) };
         }
         /**
-    Yields true when the query has been aborted. Can be useful in
-    asynchronous queries to avoid doing work that will be ignored.
-    */
+      Yields true when the query has been aborted. Can be useful in
+      asynchronous queries to avoid doing work that will be ignored.
+      */
         get aborted() {
             return this.abortListeners == null;
         }
         /**
-    Allows you to register abort handlers, which will be called when
-    the query is
-    [aborted](https://codemirror.net/6/docs/ref/#autocomplete.CompletionContext.aborted).
-    */
+      Allows you to register abort handlers, which will be called when
+      the query is
+      [aborted](https://codemirror.net/6/docs/ref/#autocomplete.CompletionContext.aborted).
+      */
         addEventListener(type, listener) {
             if (type == 'abort' && this.abortListeners)
                 this.abortListeners.push(listener);
@@ -35327,7 +35329,7 @@ ${mountName} = Element("${el.id}")`;
 
     // src/components/pyrepl.ts
     var logger6 = getLogger('py-repl');
-    var RUNBUTTON = `<svg style="height:20px;width:20px;vertical-align:-.125em;transform-origin:center;overflow:visible;color:green" viewBox="0 0 384 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(192 256)" transform-origin="96 0"><g transform="translate(0,0) scale(1,1)"><path d="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z" fill="currentColor" transform="translate(-192 -256)"></path></g></g></svg>`;
+    // var RUNBUTTON = `<svg style="height:20px;width:20px;vertical-align:-.125em;transform-origin:center;overflow:visible;color:green" viewBox="0 0 384 512" aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg"><g transform="translate(192 256)" transform-origin="96 0"><g transform="translate(0,0) scale(1,1)"><path d="M361 215C375.3 223.8 384 239.3 384 256C384 272.7 375.3 288.2 361 296.1L73.03 472.1C58.21 482 39.66 482.4 24.52 473.9C9.377 465.4 0 449.4 0 432V80C0 62.64 9.377 46.63 24.52 38.13C39.66 29.64 58.21 29.99 73.03 39.04L361 215z" fill="currentColor" transform="translate(-192 -256)"></path></g></g></svg>`;
     function make_PyRepl(interpreter2, app) {
         class PyRepl extends HTMLElement {
             connectedCallback() {
@@ -35447,7 +35449,7 @@ ${mountName} = Element("${el.id}")`;
             makeRunButton() {
                 const runButton = document.createElement('button');
                 runButton.className = 'absolute py-repl-run-button';
-                runButton.innerHTML = RUNBUTTON;
+                // runButton.innerHTML = RUNBUTTON;
                 runButton.setAttribute(
                     'aria-label',
                     'Python Script Run Button',
@@ -35789,14 +35791,14 @@ ${mountName} = Element("${el.id}")`;
     // src/plugins/splashscreen.ts
     var logger8 = getLogger('py-splashscreen');
     var AUTOCLOSE_LOADER_DEPRECATED = `
-The setting autoclose_loader is deprecated. Please use the
-following instead:<br>
-<pre>
-&lt;py-config&gt;
-[splashscreen]
-autoclose = false
-&lt;/py-config&gt;
-</pre>`;
+  The setting autoclose_loader is deprecated. Please use the
+  following instead:<br>
+  <pre>
+  &lt;py-config&gt;
+  [splashscreen]
+  autoclose = false
+  &lt;/py-config&gt;
+  </pre>`;
     var SplashscreenPlugin = class extends Plugin {
         configure(config2) {
             this.autoclose = true;
@@ -35840,14 +35842,14 @@ autoclose = false
         }
         connectedCallback() {
             this.innerHTML = `<div id="pyscript_loading_splash" class="py-overlay">
-        <div class="py-pop-up">
-        <div class="smooth spinner"></div>
-        <div id="pyscript-loading-label" class="label">
-          <div id="pyscript-operation-details">
+          <div class="py-pop-up">
+          <div class="smooth spinner"></div>
+          <div id="pyscript-loading-label" class="label">
+            <div id="pyscript-operation-details">
+            </div>
           </div>
-        </div>
-        </div>
-      </div>`;
+          </div>
+        </div>`;
             this.mount_name = this.id.split('-').join('_');
             this.operation = $('#pyscript-operation', document);
             this.details = $('#pyscript-operation-details', document);
@@ -36021,209 +36023,209 @@ autoclose = false
             [
                 'pyscript/_html.py',
                 `from textwrap import dedent
-
-import js
-from _pyscript_js import deepQuerySelector
-
-from . import _internal
-from ._mime import format_mime as _format_mime
-
-
-class HTML:
-    """
-    Wrap a string so that display() can render it as plain HTML
-    """
-
-    def __init__(self, html):
-        self._html = html
-
-    def _repr_html_(self):
-        return self._html
-
-
-def write(element_id, value, append=False, exec_id=0):
-    """Writes value to the element with id "element_id"""
-    Element(element_id).write(value=value, append=append)
-    js.console.warn(
-        dedent(
-            """PyScript Deprecation Warning: PyScript.write is
-    marked as deprecated and will be removed sometime soon. Please, use
-    Element(<id>).write instead."""
-        )
-    )
-
-
-def display(*values, target=None, append=True):
-    if target is None:
-        target = _internal.DISPLAY_TARGET
-    if target is None:
-        raise Exception(
-            "Implicit target not allowed here. Please use display(..., target=...)"
-        )
-    for v in values:
-        Element(target).write(v, append=append)
-
-
-class Element:
-    def __init__(self, element_id, element=None):
-        self._id = element_id
-        self._element = element
-
-    @property
-    def id(self):
-        return self._id
-
-    @property
-    def element(self):
-        """Return the dom element"""
-        if not self._element:
-            self._element = deepQuerySelector(f"#{self._id}")
-        return self._element
-
-    @property
-    def value(self):
-        return self.element.value
-
-    @property
-    def innerHtml(self):
-        return self.element.innerHTML
-
-    def write(self, value, append=False):
-        html, mime_type = _format_mime(value)
-        if html == "\\n":
-            return
-
-        if append:
-            child = js.document.createElement("div")
-            self.element.appendChild(child)
-
-        if append and self.element.children:
-            out_element = self.element.children[-1]
-        else:
-            out_element = self.element
-
-        if mime_type in ("application/javascript", "text/html"):
-            script_element = js.document.createRange().createContextualFragment(html)
-            out_element.appendChild(script_element)
-        else:
-            out_element.innerHTML = html
-
-    def clear(self):
-        if hasattr(self.element, "value"):
-            self.element.value = ""
-        else:
-            self.write("", append=False)
-
-    def select(self, query, from_content=False):
-        el = self.element
-
-        if from_content:
-            el = el.content
-
-        _el = el.querySelector(query)
-        if _el:
-            return Element(_el.id, _el)
-        else:
-            js.console.warn(f"WARNING: can't find element matching query {query}")
-
-    def clone(self, new_id=None, to=None):
-        if new_id is None:
-            new_id = self.element.id
-
-        clone = self.element.cloneNode(True)
-        clone.id = new_id
-
-        if to:
-            to.element.appendChild(clone)
-            # Inject it into the DOM
-            to.element.after(clone)
-        else:
-            # Inject it into the DOM
-            self.element.after(clone)
-
-        return Element(clone.id, clone)
-
-    def remove_class(self, classname):
-        classList = self.element.classList
-        if isinstance(classname, list):
-            classList.remove(*classname)
-        else:
-            classList.remove(classname)
-
-    def add_class(self, classname):
-        classList = self.element.classList
-        if isinstance(classname, list):
-            classList.add(*classname)
-        else:
-            self.element.classList.add(classname)
-
-
-def add_classes(element, class_list):
-    classList = element.classList
-    classList.add(*class_list.split(" "))
-
-
-def create(what, id_=None, classes=""):
-    element = js.document.createElement(what)
-    if id_:
-        element.id = id_
-    add_classes(element, classes)
-    return Element(id_, element)
-`,
+  
+  import js
+  from _pyscript_js import deepQuerySelector
+  
+  from . import _internal
+  from ._mime import format_mime as _format_mime
+  
+  
+  class HTML:
+      """
+      Wrap a string so that display() can render it as plain HTML
+      """
+  
+      def __init__(self, html):
+          self._html = html
+  
+      def _repr_html_(self):
+          return self._html
+  
+  
+  def write(element_id, value, append=False, exec_id=0):
+      """Writes value to the element with id "element_id"""
+      Element(element_id).write(value=value, append=append)
+      js.console.warn(
+          dedent(
+              """PyScript Deprecation Warning: PyScript.write is
+      marked as deprecated and will be removed sometime soon. Please, use
+      Element(<id>).write instead."""
+          )
+      )
+  
+  
+  def display(*values, target=None, append=True):
+      if target is None:
+          target = _internal.DISPLAY_TARGET
+      if target is None:
+          raise Exception(
+              "Implicit target not allowed here. Please use display(..., target=...)"
+          )
+      for v in values:
+          Element(target).write(v, append=append)
+  
+  
+  class Element:
+      def __init__(self, element_id, element=None):
+          self._id = element_id
+          self._element = element
+  
+      @property
+      def id(self):
+          return self._id
+  
+      @property
+      def element(self):
+          """Return the dom element"""
+          if not self._element:
+              self._element = deepQuerySelector(f"#{self._id}")
+          return self._element
+  
+      @property
+      def value(self):
+          return self.element.value
+  
+      @property
+      def innerHtml(self):
+          return self.element.innerHTML
+  
+      def write(self, value, append=False):
+          html, mime_type = _format_mime(value)
+          if html == "\\n":
+              return
+  
+          if append:
+              child = js.document.createElement("div")
+              self.element.appendChild(child)
+  
+          if append and self.element.children:
+              out_element = self.element.children[-1]
+          else:
+              out_element = self.element
+  
+          if mime_type in ("application/javascript", "text/html"):
+              script_element = js.document.createRange().createContextualFragment(html)
+              out_element.appendChild(script_element)
+          else:
+              out_element.innerHTML = html
+  
+      def clear(self):
+          if hasattr(self.element, "value"):
+              self.element.value = ""
+          else:
+              self.write("", append=False)
+  
+      def select(self, query, from_content=False):
+          el = self.element
+  
+          if from_content:
+              el = el.content
+  
+          _el = el.querySelector(query)
+          if _el:
+              return Element(_el.id, _el)
+          else:
+              js.console.warn(f"WARNING: can't find element matching query {query}")
+  
+      def clone(self, new_id=None, to=None):
+          if new_id is None:
+              new_id = self.element.id
+  
+          clone = self.element.cloneNode(True)
+          clone.id = new_id
+  
+          if to:
+              to.element.appendChild(clone)
+              # Inject it into the DOM
+              to.element.after(clone)
+          else:
+              # Inject it into the DOM
+              self.element.after(clone)
+  
+          return Element(clone.id, clone)
+  
+      def remove_class(self, classname):
+          classList = self.element.classList
+          if isinstance(classname, list):
+              classList.remove(*classname)
+          else:
+              classList.remove(classname)
+  
+      def add_class(self, classname):
+          classList = self.element.classList
+          if isinstance(classname, list):
+              classList.add(*classname)
+          else:
+              self.element.classList.add(classname)
+  
+  
+  def add_classes(element, class_list):
+      classList = element.classList
+      classList.add(*class_list.split(" "))
+  
+  
+  def create(what, id_=None, classes=""):
+      element = js.document.createElement(what)
+      if id_:
+          element.id = id_
+      add_classes(element, classes)
+      return Element(id_, element)
+  `,
             ],
             [
                 'pyscript/__init__.py',
                 `from _pyscript_js import showWarning
-
-from ._event_handling import when
-from ._event_loop import LOOP as loop
-from ._event_loop import run_until_complete
-from ._html import (
-    HTML,
-    Element,
-    add_classes,
-    create,
-    display,
-    write,
-)
-from ._plugin import Plugin
-
-# these are set by _set_version_info
-__version__ = None
-version_info = None
-
-
-def __getattr__(attr):
-    if attr == "js":
-        global js
-        import js
-        from _pyscript_js import showWarning
-
-        # Deprecated after 2023.03.1
-        showWarning(
-            "<code>pyscript.js</code> is deprecated, please use <code>import js</code> instead.",
-            "html",
-        )
-        return js
-    raise AttributeError(f"module 'pyscript' has no attribute '{attr}'")
-
-
-__all__ = [
-    "HTML",
-    "write",
-    "display",
-    "Element",
-    "add_classes",
-    "create",
-    "run_until_complete",
-    "loop",
-    "Plugin",
-    "__version__",
-    "version_info",
-    "showWarning",
-    "when",
-]
-`,
+  
+  from ._event_handling import when
+  from ._event_loop import LOOP as loop
+  from ._event_loop import run_until_complete
+  from ._html import (
+      HTML,
+      Element,
+      add_classes,
+      create,
+      display,
+      write,
+  )
+  from ._plugin import Plugin
+  
+  # these are set by _set_version_info
+  __version__ = None
+  version_info = None
+  
+  
+  def __getattr__(attr):
+      if attr == "js":
+          global js
+          import js
+          from _pyscript_js import showWarning
+  
+          # Deprecated after 2023.03.1
+          showWarning(
+              "<code>pyscript.js</code> is deprecated, please use <code>import js</code> instead.",
+              "html",
+          )
+          return js
+      raise AttributeError(f"module 'pyscript' has no attribute '{attr}'")
+  
+  
+  __all__ = [
+      "HTML",
+      "write",
+      "display",
+      "Element",
+      "add_classes",
+      "create",
+      "run_until_complete",
+      "loop",
+      "Plugin",
+      "__version__",
+      "version_info",
+      "showWarning",
+      "when",
+  ]
+  `,
             ],
             [
                 'pyscript/_plugin.py',
@@ -36232,269 +36234,269 @@ __all__ = [
             [
                 'pyscript/_mime.py',
                 `import base64
-import html
-import io
-import re
-
-from js import console
-
-MIME_METHODS = {
-    "__repr__": "text/plain",
-    "_repr_html_": "text/html",
-    "_repr_markdown_": "text/markdown",
-    "_repr_svg_": "image/svg+xml",
-    "_repr_png_": "image/png",
-    "_repr_pdf_": "application/pdf",
-    "_repr_jpeg_": "image/jpeg",
-    "_repr_latex": "text/latex",
-    "_repr_json_": "application/json",
-    "_repr_javascript_": "application/javascript",
-    "savefig": "image/png",
-}
-
-
-def render_image(mime, value, meta):
-    # If the image value is using bytes we should convert it to base64
-    # otherwise it will return raw bytes and the browser will not be able to
-    # render it.
-    if isinstance(value, bytes):
-        value = base64.b64encode(value).decode("utf-8")
-
-    # This is the pattern of base64 strings
-    base64_pattern = re.compile(
-        r"^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$"
-    )
-    # If value doesn't match the base64 pattern we should encode it to base64
-    if len(value) > 0 and not base64_pattern.match(value):
-        value = base64.b64encode(value.encode("utf-8")).decode("utf-8")
-
-    data = f"data:{mime};charset=utf-8;base64,{value}"
-    attrs = " ".join(['{k}="{v}"' for k, v in meta.items()])
-    return f'<img src="{data}" {attrs}></img>'
-
-
-def identity(value, meta):
-    return value
-
-
-MIME_RENDERERS = {
-    "text/plain": html.escape,
-    "text/html": identity,
-    "image/png": lambda value, meta: render_image("image/png", value, meta),
-    "image/jpeg": lambda value, meta: render_image("image/jpeg", value, meta),
-    "image/svg+xml": identity,
-    "application/json": identity,
-    "application/javascript": lambda value, meta: f"<script>{value}<\/script>",
-}
-
-
-def eval_formatter(obj, print_method):
-    """
-    Evaluates a formatter method.
-    """
-    if print_method == "__repr__":
-        return repr(obj)
-    elif hasattr(obj, print_method):
-        if print_method == "savefig":
-            buf = io.BytesIO()
-            obj.savefig(buf, format="png")
-            buf.seek(0)
-            return base64.b64encode(buf.read()).decode("utf-8")
-        return getattr(obj, print_method)()
-    elif print_method == "_repr_mimebundle_":
-        return {}, {}
-    return None
-
-
-def format_mime(obj):
-    """
-    Formats object using _repr_x_ methods.
-    """
-    if isinstance(obj, str):
-        return html.escape(obj), "text/plain"
-
-    mimebundle = eval_formatter(obj, "_repr_mimebundle_")
-    if isinstance(mimebundle, tuple):
-        format_dict, _ = mimebundle
-    else:
-        format_dict = mimebundle
-
-    output, not_available = None, []
-    for method, mime_type in reversed(MIME_METHODS.items()):
-        if mime_type in format_dict:
-            output = format_dict[mime_type]
-        else:
-            output = eval_formatter(obj, method)
-
-        if output is None:
-            continue
-        elif mime_type not in MIME_RENDERERS:
-            not_available.append(mime_type)
-            continue
-        break
-    if output is None:
-        if not_available:
-            console.warn(
-                f"Rendered object requested unavailable MIME renderers: {not_available}"
-            )
-        output = repr(output)
-        mime_type = "text/plain"
-    elif isinstance(output, tuple):
-        output, meta = output
-    else:
-        meta = {}
-    return MIME_RENDERERS[mime_type](output, meta), mime_type
-`,
+  import html
+  import io
+  import re
+  
+  from js import console
+  
+  MIME_METHODS = {
+      "__repr__": "text/plain",
+      "_repr_html_": "text/html",
+      "_repr_markdown_": "text/markdown",
+      "_repr_svg_": "image/svg+xml",
+      "_repr_png_": "image/png",
+      "_repr_pdf_": "application/pdf",
+      "_repr_jpeg_": "image/jpeg",
+      "_repr_latex": "text/latex",
+      "_repr_json_": "application/json",
+      "_repr_javascript_": "application/javascript",
+      "savefig": "image/png",
+  }
+  
+  
+  def render_image(mime, value, meta):
+      # If the image value is using bytes we should convert it to base64
+      # otherwise it will return raw bytes and the browser will not be able to
+      # render it.
+      if isinstance(value, bytes):
+          value = base64.b64encode(value).decode("utf-8")
+  
+      # This is the pattern of base64 strings
+      base64_pattern = re.compile(
+          r"^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$"
+      )
+      # If value doesn't match the base64 pattern we should encode it to base64
+      if len(value) > 0 and not base64_pattern.match(value):
+          value = base64.b64encode(value.encode("utf-8")).decode("utf-8")
+  
+      data = f"data:{mime};charset=utf-8;base64,{value}"
+      attrs = " ".join(['{k}="{v}"' for k, v in meta.items()])
+      return f'<img src="{data}" {attrs}></img>'
+  
+  
+  def identity(value, meta):
+      return value
+  
+  
+  MIME_RENDERERS = {
+      "text/plain": html.escape,
+      "text/html": identity,
+      "image/png": lambda value, meta: render_image("image/png", value, meta),
+      "image/jpeg": lambda value, meta: render_image("image/jpeg", value, meta),
+      "image/svg+xml": identity,
+      "application/json": identity,
+      "application/javascript": lambda value, meta: f"<script>{value}<\/script>",
+  }
+  
+  
+  def eval_formatter(obj, print_method):
+      """
+      Evaluates a formatter method.
+      """
+      if print_method == "__repr__":
+          return repr(obj)
+      elif hasattr(obj, print_method):
+          if print_method == "savefig":
+              buf = io.BytesIO()
+              obj.savefig(buf, format="png")
+              buf.seek(0)
+              return base64.b64encode(buf.read()).decode("utf-8")
+          return getattr(obj, print_method)()
+      elif print_method == "_repr_mimebundle_":
+          return {}, {}
+      return None
+  
+  
+  def format_mime(obj):
+      """
+      Formats object using _repr_x_ methods.
+      """
+      if isinstance(obj, str):
+          return html.escape(obj), "text/plain"
+  
+      mimebundle = eval_formatter(obj, "_repr_mimebundle_")
+      if isinstance(mimebundle, tuple):
+          format_dict, _ = mimebundle
+      else:
+          format_dict = mimebundle
+  
+      output, not_available = None, []
+      for method, mime_type in reversed(MIME_METHODS.items()):
+          if mime_type in format_dict:
+              output = format_dict[mime_type]
+          else:
+              output = eval_formatter(obj, method)
+  
+          if output is None:
+              continue
+          elif mime_type not in MIME_RENDERERS:
+              not_available.append(mime_type)
+              continue
+          break
+      if output is None:
+          if not_available:
+              console.warn(
+                  f"Rendered object requested unavailable MIME renderers: {not_available}"
+              )
+          output = repr(output)
+          mime_type = "text/plain"
+      elif isinstance(output, tuple):
+          output, meta = output
+      else:
+          meta = {}
+      return MIME_RENDERERS[mime_type](output, meta), mime_type
+  `,
             ],
             [
                 'pyscript/_deprecated_globals.py',
                 `from _pyscript_js import showWarning
-
-
-class DeprecatedGlobal:
-    """
-    Proxy for globals which are deprecated.
-
-    The intendend usage is as follows:
-
-        # in the global namespace
-        Element = pyscript.DeprecatedGlobal('Element', pyscript.Element, "...")
-        console = pyscript.DeprecatedGlobal('console', js.console, "...")
-        ...
-
-    The proxy forwards __getattr__ and __call__ to the underlying object, and
-    emit a warning on the first usage.
-
-    This way users see a warning only if they actually access the top-level
-    name.
-    """
-
-    def __init__(self, name, obj, message):
-        self.__name = name
-        self.__obj = obj
-        self.__message = message
-        self.__warning_already_shown = False
-
-    def __repr__(self):
-        return f"<DeprecatedGlobal({self.__name!r})>"
-
-    def _show_warning(self, message):
-        """
-        NOTE: this is overridden by unit tests
-        """
-        showWarning(message, "html")  # noqa: F821
-
-    def _show_warning_maybe(self):
-        if self.__warning_already_shown:
-            return
-        self._show_warning(self.__message)
-        self.__warning_already_shown = True
-
-    def __getattr__(self, attr):
-        self._show_warning_maybe()
-        return getattr(self.__obj, attr)
-
-    def __call__(self, *args, **kwargs):
-        self._show_warning_maybe()
-        return self.__obj(*args, **kwargs)
-
-    def __iter__(self):
-        self._show_warning_maybe()
-        return iter(self.__obj)
-
-    def __getitem__(self, key):
-        self._show_warning_maybe()
-        return self.__obj[key]
-
-    def __setitem__(self, key, value):
-        self._show_warning_maybe()
-        self.__obj[key] = value
-`,
+  
+  
+  class DeprecatedGlobal:
+      """
+      Proxy for globals which are deprecated.
+  
+      The intendend usage is as follows:
+  
+          # in the global namespace
+          Element = pyscript.DeprecatedGlobal('Element', pyscript.Element, "...")
+          console = pyscript.DeprecatedGlobal('console', js.console, "...")
+          ...
+  
+      The proxy forwards __getattr__ and __call__ to the underlying object, and
+      emit a warning on the first usage.
+  
+      This way users see a warning only if they actually access the top-level
+      name.
+      """
+  
+      def __init__(self, name, obj, message):
+          self.__name = name
+          self.__obj = obj
+          self.__message = message
+          self.__warning_already_shown = False
+  
+      def __repr__(self):
+          return f"<DeprecatedGlobal({self.__name!r})>"
+  
+      def _show_warning(self, message):
+          """
+          NOTE: this is overridden by unit tests
+          """
+          showWarning(message, "html")  # noqa: F821
+  
+      def _show_warning_maybe(self):
+          if self.__warning_already_shown:
+              return
+          self._show_warning(self.__message)
+          self.__warning_already_shown = True
+  
+      def __getattr__(self, attr):
+          self._show_warning_maybe()
+          return getattr(self.__obj, attr)
+  
+      def __call__(self, *args, **kwargs):
+          self._show_warning_maybe()
+          return self.__obj(*args, **kwargs)
+  
+      def __iter__(self):
+          self._show_warning_maybe()
+          return iter(self.__obj)
+  
+      def __getitem__(self, key):
+          self._show_warning_maybe()
+          return self.__obj[key]
+  
+      def __setitem__(self, key, value):
+          self._show_warning_maybe()
+          self.__obj[key] = value
+  `,
             ],
             [
                 'pyscript/_event_loop.py',
                 `import asyncio
-import contextvars
-from collections.abc import Callable
-from contextlib import contextmanager
-from typing import Any
-
-from js import setTimeout
-from pyodide.ffi import create_once_callable
-from pyodide.webloop import WebLoop
-
-
-class PyscriptWebLoop(WebLoop):
-    def __init__(self):
-        super().__init__()
-        self._ready = False
-        self._usercode = False
-        self._deferred_handles = []
-
-    def call_later(
-        self,
-        delay: float,
-        callback: Callable[..., Any],
-        *args: Any,
-        context: contextvars.Context | None = None,
-    ) -> asyncio.Handle:
-        """Based on call_later from Pyodide's webloop
-
-        With some unneeded stuff removed and a mechanism for deferring tasks
-        scheduled from user code.
-        """
-        if delay < 0:
-            raise ValueError("Can't schedule in the past")
-        h = asyncio.Handle(callback, args, self, context=context)
-
-        def run_handle():
-            if h.cancelled():
-                return
-            h._run()
-
-        if self._ready or not self._usercode:
-            setTimeout(create_once_callable(run_handle), delay * 1000)
-        else:
-            self._deferred_handles.append((run_handle, self.time() + delay))
-        return h
-
-    def _schedule_deferred_tasks(self):
-        asyncio._set_running_loop(self)
-        t = self.time()
-        for [run_handle, delay] in self._deferred_handles:
-            delay = delay - t
-            if delay < 0:
-                delay = 0
-            setTimeout(create_once_callable(run_handle), delay * 1000)
-        self._ready = True
-        self._deferred_handles = []
-
-
-LOOP = None
-
-
-def install_pyscript_loop():
-    global LOOP
-    LOOP = PyscriptWebLoop()
-    asyncio.set_event_loop(LOOP)
-
-
-def schedule_deferred_tasks():
-    LOOP._schedule_deferred_tasks()
-
-
-@contextmanager
-def defer_user_asyncio():
-    LOOP._usercode = True
-    try:
-        yield
-    finally:
-        LOOP._usercode = False
-
-
-def run_until_complete(f):
-    return LOOP.run_until_complete(f)
-`,
+  import contextvars
+  from collections.abc import Callable
+  from contextlib import contextmanager
+  from typing import Any
+  
+  from js import setTimeout
+  from pyodide.ffi import create_once_callable
+  from pyodide.webloop import WebLoop
+  
+  
+  class PyscriptWebLoop(WebLoop):
+      def __init__(self):
+          super().__init__()
+          self._ready = False
+          self._usercode = False
+          self._deferred_handles = []
+  
+      def call_later(
+          self,
+          delay: float,
+          callback: Callable[..., Any],
+          *args: Any,
+          context: contextvars.Context | None = None,
+      ) -> asyncio.Handle:
+          """Based on call_later from Pyodide's webloop
+  
+          With some unneeded stuff removed and a mechanism for deferring tasks
+          scheduled from user code.
+          """
+          if delay < 0:
+              raise ValueError("Can't schedule in the past")
+          h = asyncio.Handle(callback, args, self, context=context)
+  
+          def run_handle():
+              if h.cancelled():
+                  return
+              h._run()
+  
+          if self._ready or not self._usercode:
+              setTimeout(create_once_callable(run_handle), delay * 1000)
+          else:
+              self._deferred_handles.append((run_handle, self.time() + delay))
+          return h
+  
+      def _schedule_deferred_tasks(self):
+          asyncio._set_running_loop(self)
+          t = self.time()
+          for [run_handle, delay] in self._deferred_handles:
+              delay = delay - t
+              if delay < 0:
+                  delay = 0
+              setTimeout(create_once_callable(run_handle), delay * 1000)
+          self._ready = True
+          self._deferred_handles = []
+  
+  
+  LOOP = None
+  
+  
+  def install_pyscript_loop():
+      global LOOP
+      LOOP = PyscriptWebLoop()
+      asyncio.set_event_loop(LOOP)
+  
+  
+  def schedule_deferred_tasks():
+      LOOP._schedule_deferred_tasks()
+  
+  
+  @contextmanager
+  def defer_user_asyncio():
+      LOOP._usercode = True
+      try:
+          yield
+      finally:
+          LOOP._usercode = False
+  
+  
+  def run_until_complete(f):
+      return LOOP.run_until_complete(f)
+  `,
             ],
             [
                 'pyscript/_internal.py',
@@ -36503,35 +36505,35 @@ def run_until_complete(f):
             [
                 'pyscript/_event_handling.py',
                 `import inspect
-
-import js
-from pyodide.ffi.wrappers import add_event_listener
-
-
-def when(event_type=None, selector=None):
-    """
-    Decorates a function and passes py-* events to the decorated function
-    The events might or not be an argument of the decorated function
-    """
-
-    def decorator(func):
-        elements = js.document.querySelectorAll(selector)
-        sig = inspect.signature(func)
-        # Function doesn't receive events
-        if not sig.parameters:
-
-            def wrapper(*args, **kwargs):
-                func()
-
-            for el in elements:
-                add_event_listener(el, event_type, wrapper)
-        else:
-            for el in elements:
-                add_event_listener(el, event_type, func)
-        return func
-
-    return decorator
-`,
+  
+  import js
+  from pyodide.ffi.wrappers import add_event_listener
+  
+  
+  def when(event_type=None, selector=None):
+      """
+      Decorates a function and passes py-* events to the decorated function
+      The events might or not be an argument of the decorated function
+      """
+  
+      def decorator(func):
+          elements = js.document.querySelectorAll(selector)
+          sig = inspect.signature(func)
+          # Function doesn't receive events
+          if not sig.parameters:
+  
+              def wrapper(*args, **kwargs):
+                  func()
+  
+              for el in elements:
+                  add_event_listener(el, event_type, wrapper)
+          else:
+              for el in elements:
+                  add_event_listener(el, event_type, func)
+          return func
+  
+      return decorator
+  `,
             ],
         ],
     };
@@ -36609,10 +36611,10 @@ def when(event_type=None, selector=None):
                 await this.loadPackage('micropip');
             }
             this.interface.runPython(`
-        import js
-        import pyscript
-        from pyscript import Element, display, HTML
-        `);
+          import js
+          import pyscript
+          from pyscript import Element, display, HTML
+          `);
             logger10.info('pyodide loaded and initialized');
         }
         /**
@@ -36836,15 +36838,15 @@ def when(event_type=None, selector=None):
                 throw new UserError(
                     'PY1000' /* BAD_CONFIG */,
                     `When execution_thread is "worker", the site must be cross origin isolated, but crossOriginIsolated is false.
-                To be cross origin isolated, the server must use https and also serve with the following headers: ${JSON.stringify(
-                    {
-                        'Cross-Origin-Embedder-Policy': 'require-corp',
-                        'Cross-Origin-Opener-Policy': 'same-origin',
-                    },
-                )}.
-
-                The problem may be that one or both of these are missing.
-                `,
+                  To be cross origin isolated, the server must use https and also serve with the following headers: ${JSON.stringify(
+                      {
+                          'Cross-Origin-Embedder-Policy': 'require-corp',
+                          'Cross-Origin-Opener-Policy': 'same-origin',
+                      },
+                  )}.
+  
+                  The problem may be that one or both of these are missing.
+                  `,
                 );
             }
             logger11.info(
@@ -37078,8 +37080,8 @@ def when(event_type=None, selector=None):
     return __toCommonJS(main_exports);
 })();
 /*! Bundled license information:
-
-not-so-weak/esm/index.js:
-  (*! (c) Andrea Giammarchi - ISC *)
-*/
+  
+  not-so-weak/esm/index.js:
+    (*! (c) Andrea Giammarchi - ISC *)
+  */
 //# sourceMappingURL=pyscript.js.map

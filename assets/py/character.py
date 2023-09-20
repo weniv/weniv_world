@@ -10,7 +10,8 @@ from coordinate import (
     wall_data,
     blockingWallType,
 )
-from error import OutOfWorld, WallIsExist
+from built_in_functions import print
+from error import OutOfWorld, WallIsExist, FrontIsNotClear
 from item import Item
 
 
@@ -176,7 +177,6 @@ class Character:
         c = js.document.querySelector(f".{self.name}")
         directions = character_data[0]["directions"]
         c.style.transformOrigin = "center center"
-
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         # data = c.style.transform[7:].replace(")", "")
 
@@ -382,17 +382,90 @@ class Character:
         js.document.querySelector(".map-container").appendChild(line)
 
     def front_is_clear(self):
-        pass
-
+        '''
+        캐릭터가 바라보는 방향의 앞이 비어있는지 확인하는 함수
+        '''
+        if(self._is_clear('front')):
+            print(f'{self.name}의 앞은 비어있습니다.')
+            return True
+        else:
+            print(f'{self.name}의 앞은 비어있지 않습니다.')
+            return False
+            
     def left_is_clear(self):
-        pass
+        '''
+        캐릭터가 바라보는 방향의 왼쪽이 비어있는지 확인하는 함수
+        '''
+        if(self._is_clear('left')):
+            print(f'{self.name}의 왼쪽은 비어있습니다.')
+            return True
+        else:
+            print(f'{self.name}의 왼쪽은 비어있지 않습니다.')
+            return False
 
     def right_is_clear(self):
-        pass
+        '''
+        캐릭터가 바라보는 방향의 오른쪽이 비어있는지 확인하는 함수
+        '''
+        if(self._is_clear('right')):
+            print(f'{self.name}의 오른쪽은 비어있습니다.')
+            return True
+        else:
+            print(f'{self.name}의 오른쪽은 비어있지 않습니다.')
+            return False
 
     def back_is_clear(self):
-        pass
+        '''
+        캐릭터가 바라보는 방향의 뒤가 비어있는지 확인하는 함수
+        '''
+        if(self._is_clear('back')):
+            print(f'{self.name}의 뒤는 비어있습니다.')
+            return True
+        else:
+            print(f'{self.name}의 뒤는 비어있지 않습니다.')
+            return False
 
+    def _is_clear(self, target='front'):
+        print(f'wall_data: {wall_data}')
+        # target_direction = self.directions
+        target_direction = character_data[0]["directions"]
+        
+        if (target=='front'):
+            print('front')
+            pass
+        elif (target=='left'):
+            print('left')
+            target_direction += 1
+        elif (target=='back'):
+            print('back')
+            target_direction += 2
+        elif (target=='right'):
+            print('right')
+            target_direction +=3
+        else: 
+            # TODO: 에러 처리
+            return None
+            
+        if (target_direction > 3):
+            target_direction -= 4
+            
+        target_position = (0, 0)
+       
+       # 캐릭터 기준 벽은 0.5만큼 떨어져있음
+        if target_direction == 0: # 동
+            target_position = (self.x, self.y + 0.5)
+        elif target_direction == 1: # 북
+            target_position = (self.x - 0.5, self.y)
+        elif target_direction == 2: # 서
+            target_position = (self.x, self.y - 0.5)
+        elif target_direction == 3: # 남
+            target_position = (self.x + 0.5, self.y)
+        
+        for type in wall_data:
+            if target_position in wall_data[type]:
+                return False
+        return True
+        
     def directions(self):
         pass
 

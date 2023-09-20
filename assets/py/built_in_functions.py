@@ -137,11 +137,42 @@ def repeat(count, f):
         for i in range(0, f):
             count()
 
-def front_is_clear():
-    pass
+def front_is_clear(character=None):
+    if character != None:
+        print(f'character not none')
+        character.front_is_clear()
+    else:
+        if character_data[0]['character_obj'] != None:
+            character_data[0]['character_obj'].front_is_clear()
+        else:
+            print('캐릭터가 없습니다.')
 
-def left_is_clear():
-    pass
+def left_is_clear(character=None):
+    if character != None:
+        character.left_is_clear()
+    else:
+        if character_data[0]['character_obj'] != None:
+            character_data[0]['character_obj'].left_is_clear()
+        else:
+            print('캐릭터가 없습니다.')
+            
+def right_is_clear(character=None):
+    if character != None:
+        character.right_is_clear()
+    else:
+        if character_data[0]['character_obj'] != None:
+            character_data[0]['character_obj'].right_is_clear()
+        else:
+            print('캐릭터가 없습니다.')
+            
+def back_is_clear(character=None):
+    if character != None:
+        character.back_is_clear()
+    else:
+        if character_data[0]['character_obj'] != None:
+            character_data[0]['character_obj'].back_is_clear()
+        else:
+            print('캐릭터가 없습니다.')
 
 def attack(character=None):
     if character != None:

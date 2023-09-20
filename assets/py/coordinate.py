@@ -28,6 +28,6 @@ border_size=1
 running_speed = 1
 
 # 맵에 있는 벽 데이터
-wall_data = {'wall': [], 'door': [(0.5, 2)], 'fence':[]}
+wall_data = {}
 blockingWallType=['wall', 'fence'] # 이동 불가한 벽 종류
 wall_type = 'wall' #현재 선택되어 있는 벽 종류

@@ -190,7 +190,6 @@
     border-radius: 1.8rem;
     background: var(--ColorGrayLv2);
     box-sizing: border-box;
-    cursor: pointer;
 
     &::after {
         content: '';
@@ -340,7 +339,6 @@
         margin: 1px 0 0 1px;
         /* 기본 벽 */
         background-color: transparent;
-        cursor: pointer;
     }
     .wall[data-type='']:hover {
         background-color: var(--ColorActivation);
@@ -355,6 +353,10 @@
 }
 
 /* wall-type */
+.wall[data-type='wall'] {
+    background-color: var(--ColorWallGray);
+}
+
 .wall[data-type='door'] {
     background-color: var(--ColorWallBlue);
 }

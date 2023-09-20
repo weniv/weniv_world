@@ -12,18 +12,18 @@ const setHeader = (targetNode) => {
     ul.setAttribute('class', 'btn-list');
     ul.innerHTML = `
                 <li>
-                    <button type="button" class="btn-code-export code-export">
-                        <span class="sr-only">코드 내보내기</span>
+                    <button type="button" class="btn-code-download code-export">
+                        <span class="sr-only">download code</span>
                     </button>
                 </li>
                 <li>
-                    <button type="button" class="btn-code-import code-import">
-                        <span class="sr-only">코드 추가하기</span>
+                    <button type="button" class="btn-code-upload code-import">
+                        <span class="sr-only">upload code</span>
                     </button>
                 </li>
                 <li>
                     <button type="button" class="btn-close code-delete">
-                        <span class="sr-only">코드 삭제</span>
+                        <span class="sr-only">delete code</span>
                     </button>
                 </li>
             `;
@@ -56,8 +56,9 @@ const ReplObserver = new MutationObserver(observePyRepl);
 ReplObserver.observe(notebookSection, { childList: true });
 ReplObserver.observe(pyReplElement, { childList: true });
 
-// 코드 실행결과 인덱스 붙이기
+// 코드 실행결과 인덱스 붙이기, 스크롤 하단으로 내리기
 const outputElement = document.querySelector('#output');
+const outputResult = document.querySelector('.output-result');
 
 const createIndexList = (target) => {
     const indexList = document.querySelector('.world-output .index-list');
@@ -86,12 +87,17 @@ const setCurrentItem = (target) => {
     target.classList.add('current');
 };
 
+const scrollToBottom = () => {
+    outputResult.scrollTop = outputResult.scrollHeight;
+};
+
 const observeOutput = (mutationsList) => {
     mutationsList.forEach((mutation) => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
             for (const addedNode of mutation.addedNodes) {
                 setCurrentItem(addedNode);
                 createIndexList(addedNode);
+                scrollToBottom();
             }
         }
     });

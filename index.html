@@ -126,24 +126,25 @@
                 <ul class="controll-btn-list">
                     <li>
                         <button class="button-before btn-wall btn-toggle" type="button">
-                            <span class="sr-only">벽 만들기</span>
+                            <span class="sr-only">Add wall</span>
                         </button>
                         <div class="controller-modal wall-type">
-                            <!-- 벽의 종류를 정할 수 있는 label-input -->
                             <div class="input-wrap">
-                                <input type="radio" name="wall-type" id="wall" value="wall" checked>
-                                <label for="wall">wall(기본): orange</label>
+                                <input type="radio" name="wall-type" id="wall" value="wall" class="sr-only" checked>
+                                <label for="wall">wall(기본)</label>
+                                <div class="wall-info show-tooltip" name="blocked"></div>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="wall-type" id="door" value="door">
-                                <label for="door">door: sienna</label>
+                                <input type="radio" name="wall-type" id="door" value="door" class="sr-only">
+                                <label for="door">door</label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="wall-type" id="fence" value="fence">
-                                <label for="fence">fence: seagreen</label>
+                                <input type="radio" name="wall-type" id="fence" value="fence" class="sr-only">
+                                <label for="fence">fence</label>
+                                <div class="wall-info show-tooltip" name="blocked"></div>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="wall-type" id="delete" value="delete">
+                                <input type="radio" name="wall-type" id="delete" value="delete" class="sr-only">
                                 <label for="delete">delete</label>
                             </div>
                         </div>

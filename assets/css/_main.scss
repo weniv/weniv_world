@@ -280,9 +280,15 @@ button {
 }
 
 /* 툴팁 */
+.show-tooltip {
+    position: relative;
+}
+
 .tooltip {
     position: absolute;
     display: flex;
+    left: 50%;
+    transform: translateX(-50%);
     padding: 0.8rem 1.2rem;
     background: var(--ColorSurface);
     color: var(--ColorBackground);

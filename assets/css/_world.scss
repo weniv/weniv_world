@@ -140,34 +140,67 @@
         gap: 1.2rem;
         cursor: pointer;
 
+        &::before {
+            content: '';
+            display: block;
+            width: 1.6rem;
+            height: 1.6rem;
+            border: 1px solid var(--ColorGrayLv2);
+            border-radius: 50%;
+            box-sizing: border-box;
+        }
+
         &::after {
             content: '';
             display: block;
             width: 1.8rem;
             height: 1.8rem;
             @include mask-image(
-                var(--ColorOrange),
+                var(--ColorWallGray),
                 '../img/icon/icon-wall-import.svg'
             );
         }
     }
 
     input#door + label::after {
-        @include mask-image(
-            var(--ColorSienna),
-            '../img/icon/icon-wall-import.svg'
-        );
+        @include mask-image(var(--ColorWallBlue), '../img/icon/icon-door.svg');
     }
 
     input#fence + label::after {
         @include mask-image(
-            var(--ColorSeagrean),
-            '../img/icon/icon-wall-import.svg'
+            var(--ColorWallGreen),
+            '../img/icon/icon-fence.svg'
         );
     }
 
     input#delete + label::after {
         display: none;
+    }
+
+    input:checked + label::before {
+        border: 5px solid var(--ColorPrimary);
+    }
+}
+
+.wall-info {
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-left: -0.4rem;
+    padding: 0.3rem;
+    border-radius: 1.8rem;
+    background: var(--ColorGrayLv2);
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &::after {
+        content: '';
+        display: block;
+        width: 1rem;
+        height: 1rem;
+        @include mask-image(
+            var(--ColorBtnSurface),
+            '../img/icon/icon-blocked.svg'
+        );
     }
 }
 
@@ -307,7 +340,7 @@
         height: 10rem;
         margin: 1px 0 0 1px;
         /* 기본 벽 */
-        background-color: var(--ColorOrange);
+        background-color: var(--ColorWallGray);
     }
 }
 
@@ -320,11 +353,11 @@
 
 /* wall-type */
 .wall[data-type='door'] {
-    background-color: var(--ColorSienna);
+    background-color: var(--ColorWallBlue);
 }
 
 .wall[data-type='fence'] {
-    background-color: var(--ColorSeagrean);
+    background-color: var(--ColorWallGreen);
 }
 
 /* output */

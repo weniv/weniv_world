@@ -168,6 +168,27 @@
     }
 }
 
+.wall-info {
+    width: 1.6rem;
+    height: 1.6rem;
+    padding: 0.3rem;
+    border-radius: 1.8rem;
+    background: var(--ColorGrayLv2);
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &::after {
+        content: '';
+        display: block;
+        width: 1rem;
+        height: 1rem;
+        @include mask-image(
+            var(--ColorBtnSurface),
+            '../img/icon/icon-blocked.svg'
+        );
+    }
+}
+
 .select-items {
     label {
         display: flex;

@@ -178,7 +178,7 @@ worldMenu.addEventListener('click', (e) => {
 });
 
 window.addEventListener('click', (e) => {
-    if (!worldMenu.contains(e.target)) {
+    if (e.target == worldMenu || !worldMenu.contains(e.target)) {
         toggleActive(e.target);
     }
 });

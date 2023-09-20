@@ -414,7 +414,8 @@ button {
   line-height: 2rem;
   border: 1px solid var(--ColorGrayLv2);
   border-radius: 1rem;
-  z-index: 99; }
+  z-index: 99;
+  width: max-content; }
   .controller-modal::before {
     content: '';
     position: absolute;
@@ -791,6 +792,7 @@ button {
   padding: 0 0.4rem;
   border-bottom: 1px solid var(--ColorGrayLv2);
   background: var(--ColorBackground);
+  box-sizing: border-box;
   z-index: 15; }
   .world-menu > ul {
     display: flex;

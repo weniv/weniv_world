@@ -350,6 +350,7 @@ button {
     border: 1px solid var(--ColorGrayLv2);
     border-radius: 1rem;
     z-index: 99;
+    width: max-content;
 
     &::before {
         content: '';

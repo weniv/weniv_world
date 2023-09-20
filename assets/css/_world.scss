@@ -53,6 +53,7 @@
     padding: 0 0.4rem;
     border-bottom: 1px solid var(--ColorGrayLv2);
     background: var(--ColorBackground);
+    box-sizing: border-box;
     z-index: 15;
 
     & > ul {

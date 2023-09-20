@@ -156,6 +156,43 @@
     background: var(--ColorActivation);
 }
 
+.ͼb {
+    color: var(--ColorCodePurple);
+}
+
+.ͼg {
+    color: var(--ColorCodePink);
+}
+
+.ͼd {
+    color: var(--ColorCodeGreen);
+}
+
+.ͼe {
+    color: var(--ColorCodeOrange);
+}
+
+.ͼ1.cm-focused .cm-matchingBracket {
+    background: var(--ColorGrayLv1);
+}
+
+.ͼ1.cm-focused .cm-selectionBackground,
+.ͼ2 .cm-selectionBackground {
+    background: none;
+}
+
+.ͼ4 .cm-line::selection {
+    background: var(--ColorGrayLv2) !important;
+}
+
+.ͼ4 .cm-line ::selection {
+    background: var(--ColorGrayLv2) !important;
+}
+
+.ͼ1 .cm-selectionMatch {
+    background: var(--ColorActivation);
+}
+
 .cm-header {
     display: flex;
     justify-content: space-between;

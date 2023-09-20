@@ -118,13 +118,13 @@ button {
     }
 }
 
-/* code-export 버튼 */
-.btn-code-export {
+/* code-download 버튼 */
+.btn-code-download {
     width: 2rem;
     height: 2rem;
     @include mask-image(
         var(--ColorGrayLv3),
-        '../img/icon/icon-code-export.svg'
+        '../img/icon/icon-code-download.svg'
     );
 
     &:hover {
@@ -132,13 +132,13 @@ button {
     }
 }
 
-/* code-import 버튼 */
-.btn-code-import {
+/* code-upload 버튼 */
+.btn-code-upload {
     width: 2rem;
     height: 2rem;
     @include mask-image(
         var(--ColorGrayLv3),
-        '../img/icon/icon-code-import.svg'
+        '../img/icon/icon-code-upload.svg'
     );
 
     &:hover {

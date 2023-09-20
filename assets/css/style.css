@@ -173,36 +173,36 @@ button {
   .btn-file-import:hover {
     background: var(--ColorSurface); }
 
-/* code-export 버튼 */
-.btn-code-export {
+/* code-download 버튼 */
+.btn-code-download {
   width: 2rem;
   height: 2rem;
   background: var(--ColorGrayLv3);
-  -webkit-mask-image: url("../img/icon/icon-code-export.svg");
+  -webkit-mask-image: url("../img/icon/icon-code-download.svg");
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center center;
-  mask-image: url("../img/icon/icon-code-export.svg");
+  mask-image: url("../img/icon/icon-code-download.svg");
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center center; }
-  .btn-code-export:hover {
+  .btn-code-download:hover {
     background: var(--ColorSurface); }
 
-/* code-import 버튼 */
-.btn-code-import {
+/* code-upload 버튼 */
+.btn-code-upload {
   width: 2rem;
   height: 2rem;
   background: var(--ColorGrayLv3);
-  -webkit-mask-image: url("../img/icon/icon-code-import.svg");
+  -webkit-mask-image: url("../img/icon/icon-code-upload.svg");
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center center;
-  mask-image: url("../img/icon/icon-code-import.svg");
+  mask-image: url("../img/icon/icon-code-upload.svg");
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center center; }
-  .btn-code-import:hover {
+  .btn-code-upload:hover {
     background: var(--ColorSurface); }
 
 /* close 버튼 */

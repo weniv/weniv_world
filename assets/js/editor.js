@@ -12,18 +12,18 @@ const setHeader = (targetNode) => {
     ul.setAttribute('class', 'btn-list');
     ul.innerHTML = `
                 <li>
-                    <button type="button" class="btn-code-export code-export">
-                        <span class="sr-only">코드 내보내기</span>
+                    <button type="button" class="btn-code-download code-export">
+                        <span class="sr-only">download code</span>
                     </button>
                 </li>
                 <li>
-                    <button type="button" class="btn-code-import code-import">
-                        <span class="sr-only">코드 추가하기</span>
+                    <button type="button" class="btn-code-upload code-import">
+                        <span class="sr-only">upload code</span>
                     </button>
                 </li>
                 <li>
                     <button type="button" class="btn-close code-delete">
-                        <span class="sr-only">코드 삭제</span>
+                        <span class="sr-only">delete code</span>
                     </button>
                 </li>
             `;

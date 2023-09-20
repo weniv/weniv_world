@@ -854,6 +854,14 @@ button {
   align-items: center;
   gap: 1.2rem;
   cursor: pointer; }
+  .wall-type label::before {
+    content: '';
+    display: block;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 1px solid var(--ColorGrayLv2);
+    border-radius: 50%;
+    box-sizing: border-box; }
   .wall-type label::after {
     content: '';
     display: block;
@@ -894,9 +902,13 @@ button {
 .wall-type input#delete + label::after {
   display: none; }
 
+.wall-type input:checked + label::before {
+  border: 5px solid var(--ColorPrimary); }
+
 .wall-info {
   width: 1.6rem;
   height: 1.6rem;
+  margin-left: -0.4rem;
   padding: 0.3rem;
   border-radius: 1.8rem;
   background: var(--ColorGrayLv2);

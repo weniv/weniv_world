@@ -638,16 +638,18 @@
 
             # 벽 추가: type이 없는 항목에서만 동작
             if(wall_type != 'delete'):
-                if (not currentType):
+                if not currentType:
                     wall_data[(posX, posY)]=wall_type
                     evt.target.dataset.type = wall_type
 
             # 벽 삭제: type이 있는 항목에서만 동작
             else:
-                if(currentType):
+                if currentType:
                     print(wall_data[(posX,posY)])
                     wall_data[(posX, posY)] = ''
                     evt.target.dataset.type = ''
+                    evt.target.style.outline = ''
+
             print(f"wall data: {wall_data}")
         
         @when('mouseover', selector='.wall')
@@ -656,19 +658,35 @@
 
             # 벽 추가: type이 없는 항목에서만 pointer
             if(wall_type != 'delete'):
-                if (not currentType):
+                if not currentType:
                     evt.target.style.cursor = 'pointer'
                 else:
                     evt.target.style.cursor = 'default'
 
             # 벽 삭제: type이 있는 항목에서만 pointer
             else:
-                if(currentType):
+                if currentType:
                     evt.target.style.cursor = 'pointer'
                 else:
                     evt.target.style.cursor = 'default'
 
-            
+        @when('mouseenter', selector='.wall')
+        def mouseWallEnter(evt):
+            currentType = evt.target.dataset.type
+
+            if(wall_type == 'delete'):
+                if currentType:
+                    evt.target.style.outline = '3px solid red'
+
+        @when('mouseleave', selector='.wall')
+        def mouseWallLeave(evt):
+            currentType = evt.target.dataset.type
+
+            if(wall_type == 'delete'):
+                if currentType:
+                    evt.target.style.outline = ''
+
+        
         # radio 속성을 선택했을 때, wall_type을 변경하는 이벤트 등록
         @when("change", selector="input[name='wall-type']")
         def change_wall_type(evt):

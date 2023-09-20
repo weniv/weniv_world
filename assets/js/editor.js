@@ -28,7 +28,10 @@ const setHeader = (targetNode) => {
                 </li>
             `;
 
-    button.querySelector('svg').remove();
+    let querySelector = button.querySelector('svg');
+    if (querySelector) {
+        querySelector.remove();
+    }
     button.classList.add('btn-play');
     header.append(button, ul);
     editorContainer.appendChild(header);

@@ -137,3 +137,48 @@ storyList.addEventListener('click', (e) => {
         e.target.closest('li').classList.toggle('active');
     }
 });
+
+// 툴팁 표시
+const tooltipTargetElement = document.querySelectorAll('.show-tooltip');
+
+const createTooltip = (textContent) => {
+    const div = document.createElement('div');
+    div.setAttribute('class', 'tooltip');
+    div.textContent = textContent;
+
+    return div;
+};
+
+const addTooltip = (target) => {
+    const textContent = target.getAttribute('name');
+    const targetHeight = target.clientHeight;
+    const tooltip = createTooltip(textContent);
+    tooltip.style.top = `${targetHeight + 10}px`;
+
+    target.append(tooltip);
+};
+
+const removeTooltip = (target) => {
+    const tooltip = target.querySelector('.tooltip');
+
+    tooltip.remove();
+};
+
+const setTooltipPosition = (target) => {
+    const targetHeight = target.clientHeight;
+    console.log(targetHeight);
+};
+
+tooltipTargetElement.forEach((target) => {
+    target.addEventListener('mouseover', () => {
+        setTimeout(() => {
+            addTooltip(target);
+        }, 500);
+    });
+
+    target.addEventListener('mouseout', () => {
+        setTimeout(() => {
+            removeTooltip(target);
+        }, 500);
+    });
+});

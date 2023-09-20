@@ -350,19 +350,16 @@ button {
     border: 1px solid var(--ColorGrayLv2);
     border-radius: 1rem;
     z-index: 99;
+    width: max-content;
 
     &::before {
         content: '';
         position: absolute;
-        top: 1rem;
-        left: 0rem;
-        width: 0.85rem;
-        height: 0.85rem;
-        background: inherit;
-        border: inherit;
-        clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
-        transform: translateX(-50%) rotate(45deg);
-        border-radius: 0px 0px 0px 0.2rem;
+        top: -1.2rem;
+        left: 0.4rem;
+        width: 2.4rem;
+        height: 2.4rem;
+        background: url('../img/icon/icon-polygon.svg') no-repeat center / cover;
     }
 }
 

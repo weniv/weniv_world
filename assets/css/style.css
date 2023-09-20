@@ -414,19 +414,16 @@ button {
   line-height: 2rem;
   border: 1px solid var(--ColorGrayLv2);
   border-radius: 1rem;
-  z-index: 99; }
+  z-index: 99;
+  width: max-content; }
   .controller-modal::before {
     content: '';
     position: absolute;
-    top: 1rem;
-    left: 0rem;
-    width: 0.85rem;
-    height: 0.85rem;
-    background: inherit;
-    border: inherit;
-    clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
-    transform: translateX(-50%) rotate(45deg);
-    border-radius: 0px 0px 0px 0.2rem; }
+    top: -1.2rem;
+    left: 0.4rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    background: url("../img/icon/icon-polygon.svg") no-repeat center/cover; }
 
 /* info-modal */
 .info-modal {
@@ -767,51 +764,40 @@ button {
     .world-header .world-btn-list button {
       display: block; }
 
-.world-map {
-  display: flex;
-  margin: 0.8rem 0.6rem;
-  padding: 3.2rem 2.8rem 3.2rem 3.4rem;
-  box-sizing: border-box;
-  overflow: auto; }
-  .world-map::-webkit-scrollbar {
-    width: 0.6rem;
-    height: 0.6rem; }
-  .world-map::-webkit-scrollbar-thumb {
-    background-color: rgba(141, 146, 153, 0.5);
-    border-radius: 1rem;
-    cursor: pointer; }
-  .world-map::-webkit-scrollbar-track {
-    background-color: var(--ColorBackground);
-    border-radius: 1rem; }
-  .world-map::-webkit-scrollbar-corner {
-    background: var(--ColorBackground); }
-
 .world-menu {
-  position: absolute;
-  left: 2rem;
-  top: 7rem;
-  align-self: start;
-  border-radius: 1.6rem;
-  border: 1px solid var(--ColorGrayLv2);
+  display: flex;
+  align-items: center;
+  height: 5rem;
+  padding: 0 0.4rem;
+  border-bottom: 1px solid var(--ColorGrayLv2);
   background: var(--ColorBackground);
-  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
   z-index: 15; }
-  .world-menu ul {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.4rem; }
   .world-menu > ul {
-    border-bottom: 1px solid var(--ColorGrayLv2); }
-    .world-menu > ul:last-child {
-      border-bottom: none; }
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    height: 100%;
+    padding: 0 1.6rem; }
+    .world-menu > ul:not(:last-child) {
+      border-right: 1px solid var(--ColorGrayLv2); }
     .world-menu > ul > li {
       position: relative; }
+  .world-menu .button-before {
+    height: 3.2rem;
+    width: 3.2rem;
+    padding: 0.5rem; }
+    .world-menu .button-before::before {
+      content: '';
+      display: block;
+      width: 2.1rem;
+      height: 2.1rem; }
   .world-menu .controller-modal {
     display: none;
-    top: 0;
-    left: 6.7rem;
+    top: calc(3.2rem + 0.9rem + 1.1rem);
     box-sizing: border-box; }
+    .world-menu .controller-modal ul {
+      display: flex; }
     .world-menu .controller-modal .input-wrap {
       display: flex;
       align-items: center;
@@ -819,13 +805,11 @@ button {
   .world-menu button.active + .controller-modal {
     display: flex; }
 
-.controll-btn-list {
-  border-bottom: 1px solid var(--ColorGrayLv2); }
-  .controll-btn-list .controller-modal {
-    width: 26.1rem; }
-    .controll-btn-list .controller-modal.wall-type, .controll-btn-list .controller-modal.select-items, .controll-btn-list .controller-modal.resize {
-      flex-direction: column;
-      gap: 1.4rem; }
+.controll-btn-list .controller-modal {
+  width: 26.1rem; }
+  .controll-btn-list .controller-modal.wall-type, .controll-btn-list .controller-modal.select-items, .controll-btn-list .controller-modal.resize {
+    flex-direction: column;
+    gap: 1.4rem; }
 
 .info-btn-list ul {
   flex-direction: row;
@@ -947,10 +931,29 @@ button {
 .select-items input#fish-3 + label::after {
   background: url("../img/item/fish-3.png") no-repeat center/cover; }
 
+/* map */
+.world-map {
+  display: flex;
+  margin: 0.8rem 0.6rem;
+  padding: 3.2rem 2.8rem 3.2rem 3.4rem;
+  height: 300px;
+  overflow: auto; }
+  .world-map::-webkit-scrollbar {
+    width: 0.6rem;
+    height: 0.6rem; }
+  .world-map::-webkit-scrollbar-thumb {
+    background-color: rgba(141, 146, 153, 0.5);
+    border-radius: 1rem;
+    cursor: pointer; }
+  .world-map::-webkit-scrollbar-track {
+    background-color: var(--ColorBackground);
+    border-radius: 1rem; }
+  .world-map::-webkit-scrollbar-corner {
+    background: var(--ColorBackground); }
+
 #app {
   margin: auto; }
 
-/* map */
 .character {
   position: relative;
   animation: player 1s steps(7) infinite;
@@ -1081,6 +1084,12 @@ button {
     border-bottom: 1px solid var(--ColorGrayLv2);
     box-sizing: border-box;
     z-index: 10; }
+    .world-output .output-header h3 {
+      color: var(--ColorSurface);
+      font-family: Pretendard;
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 2rem; }
   .world-output .output-result {
     padding: 1.9rem 0;
     overflow: auto; }

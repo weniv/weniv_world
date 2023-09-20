@@ -455,9 +455,9 @@
         draw_map.appendChild(draw_character)
 
         #벽 생성
-        wall = Wall(wall_data)
-        wall.drawWall();
-        draw_map.appendChild(wall.container)
+        wall = Wall()
+        wall_container = wall.drawWall();
+        draw_map.appendChild(wall_container)
 
         # 생성된 요소 app추가
         app = Element("app").element
@@ -482,12 +482,12 @@
                 app = Element("app").element
                 app.appendChild(draw_map)
 
-            # 새로운 벽 데이터를 이용하여 벽 초기화
-            wall.resetWall();
-            for key in wall_data:
-                wall_data[key] = []
-            draw_map.appendChild(wall.container)
-
+            wall_exist = js.document.querySelector('.wall-container')
+            if wall:
+                js.document.querySelector('.wall-container').remove()
+                wall = Wall()
+                draw_wall = wall.drawWall()
+                draw_map.appendChild(draw_wall)
             init_character()
 
         @when("click", selector="#init_character")
@@ -643,12 +643,18 @@
                 # x는 정수이고, y는 실수인 경우
                 if(isinstance(x, int) and isinstance(y, float)) or (isinstance(x, float) and isinstance(y, int)):
                     wall_data[wall_type].append((x, y))
-                    wall.addWall(wall_type,(x, y))
+                    # wall.addWall(wall_type,(x, y))
         
             else: # 삭제
                 if(wall_type=='delete'):
                     delete_wall(evt.target)
             
+        @when("click", selector=".wall")
+        def change_type(evt):
+            '''
+            벽 타입 변경
+            '''
+            print(f'wall_type: {wall_type}')
             
 
         def delete_wall(wall):

@@ -404,25 +404,27 @@
                 app = Element("app").element
                 app.appendChild(draw_map)
             
-            draw_map.appendChild(wall.container)
+            # draw_map.appendChild(wall.container)
+            wall_container = wall.resizeWall(map_data['width'], map_data['height'])
+            draw_map.appendChild(wall_container)
 
             # 맵을 벗어나는 벽 삭제
             # DOM 요소 삭제
-            wall_elements = wall.container.querySelectorAll('.wall')
-            wall_width = wall.container.clientWidth - border_size*2 
-            wall_height = wall.container.clientHeight- border_size*2 
-            for elem in wall_elements:
-                top = int(elem.style.top[0:-2])
-                left = int(elem.style.left[0:-2])
-                if(top >= wall_height or left >=wall_width):
-                    wall.container.removeChild(elem)
+            # wall_elements = wall.container.querySelectorAll('.wall')
+            # wall_width = wall.container.clientWidth - border_size*2 
+            # wall_height = wall.container.clientHeight- border_size*2 
+            # for elem in wall_elements:
+            #     top = int(elem.style.top[0:-2])
+            #     left = int(elem.style.left[0:-2])
+            #     if(top >= wall_height or left >=wall_width):
+            #         wall.container.removeChild(elem)
 
-            # wall_data 수정
-            for type in wall_data:
-                for pos in wall_data[type]:
-                    x, y = pos
-                    if(x > map_data['height']-1 or y > map_data['width']-1):
-                        wall_data[type].remove((x, y))
+            # # wall_data 수정
+            # for type in wall_data:
+            #     for pos in wall_data[type]:
+            #         x, y = pos
+            #         if(x > map_data['height']-1 or y > map_data['width']-1):
+            #             wall_data[type].remove((x, y))
 
             # 범위를 벗어난 아이템 삭제
             global item_data
@@ -458,7 +460,7 @@
         wall = Wall()
         wall_container = wall.drawWall();
         wall_data = wall.wall_data
-        # print(wall_data)
+        print('벽 생성\n', wall_data)
         draw_map.appendChild(wall_container)
 
         # 생성된 요소 app추가

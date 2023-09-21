@@ -1,4 +1,4 @@
-// 코드 에디터 헤더 등 요소 추가
+// 코드 에디터 관련 요소 추가(헤더, 코드 추가 버튼 등)
 const notebookSection = document.querySelector('.notebook-section');
 const pyReplElement = document.querySelector('py-repl');
 
@@ -37,6 +37,22 @@ const setHeader = (targetNode) => {
     editorContainer.appendChild(header);
 };
 
+const setAddCodeButton = (targetNode) => {
+    const pyRepl =
+        targetNode.tagName === 'PY-REPL'
+            ? targetNode
+            : targetNode.closest('PY-REPL');
+    const buttonContainer = document.createElement('div');
+    buttonContainer.setAttribute('class', 'py-repl-btn-wrap');
+    buttonContainer.innerHTML = `
+        <button type="button" class="btn-add-code add-code-next">
+            코드 추가
+        </button>
+    `;
+
+    pyRepl.after(buttonContainer);
+};
+
 const observePyRepl = (mutationsList) => {
     mutationsList.forEach((mutation) => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
@@ -46,6 +62,7 @@ const observePyRepl = (mutationsList) => {
                     addedNode.className.includes('py-repl')
                 ) {
                     setHeader(addedNode);
+                    setAddCodeButton(addedNode);
                 }
             }
         }

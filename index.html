@@ -149,23 +149,40 @@
                         </div>
                     </li>
                     <li>
-                        <button class="button-before btn-assets  btn-toggle" type="button">
+                        <button class="button-before btn-assets btn-toggle" type="button">
                             <span class="sr-only">아이템 추가하기</span>
                         </button>
                         <div class="controller-modal select-items">
                             <!-- TODO: items data 파일 뿌려주기 -->
-                            <!-- 우선 fish 3개만 추가, 현재 동작 안 함 -->
                             <div class="input-wrap">
-                                <input type="radio" name="item" id="fish-1" value="fish-1" checked>
-                                <label for="item">fish-1(기본)</label>
+                                <input type="radio" name="item" id="fish-1" value="fish-1" class="sr-only" checked>
+                                <label for="fish-1">
+                                    <span class="sr-only">fish-1(기본)</span>
+                                </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="item" id="fish-2" value="fish-2">
-                                <label for="item">fish-2</label>
+                                <input type="radio" name="item" id="fish-2" value="fish-2" class="sr-only">
+                                <label for="fish-2">
+                                    <span class="sr-only">fish-2</span>
+                                </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="item" id="fish-3" value="fish-3">
-                                <label for="item">fish-3</label>
+                                <input type="radio" name="item" id="fish-3" value="fish-3" class="sr-only">
+                                <label for="fish-3">
+                                    <span class="sr-only">fish-3</span>
+                                </label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="item" id="diamond" value="diamond" class="sr-only">
+                                <label for="diamond">
+                                    <span class="sr-only">diamond</span>
+                                </label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="item" id="apple" value="apple" class="sr-only">
+                                <label for="apple">
+                                    <span class="sr-only">apple</span>
+                                </label>
                             </div>
                         </div>
                     </li>

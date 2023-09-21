@@ -94,15 +94,10 @@
 }
 
 .controll-btn-list {
-    .controller-modal {
-        width: 26.1rem;
-
-        &.wall-type,
-        &.select-items,
-        &.resize {
-            flex-direction: column;
-            gap: 1.4rem;
-        }
+    .wall-type,
+    .resize {
+        flex-direction: column;
+        gap: 1.4rem;
     }
 }
 
@@ -205,27 +200,49 @@
 }
 
 .select-items {
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    width: 29.8rem;
+    padding: 1.9rem;
+
     label {
         display: flex;
         align-items: center;
         gap: 1.2rem;
+        width: 4.2rem;
+        height: 4.2rem;
+        border-radius: 10px;
+        border: 1px solid var(--ColorGrayLv2);
+        background: var(--ColorBackground) url('../img/item/fish-1.png')
+            no-repeat center / 3rem auto;
+        box-sizing: border-box;
         cursor: pointer;
-
-        &::after {
-            content: '';
-            display: block;
-            width: 1.8rem;
-            height: 1.8rem;
-            background: url('../img/item/fish-1.png') no-repeat center / cover;
-        }
     }
 
-    input#fish-2 + label::after {
-        background: url('../img/item/fish-2.png') no-repeat center / cover;
+    input:checked,
+    label:hover {
+        outline: 2px solid var(--ColorPrimary);
+        border: transparent;
     }
 
-    input#fish-3 + label::after {
-        background: url('../img/item/fish-3.png') no-repeat center / cover;
+    input#fish-2 + label {
+        background: var(--ColorBackground) url('../img/item/fish-2.png')
+            no-repeat center / 3rem auto;
+    }
+
+    input#fish-3 + label {
+        background: var(--ColorBackground) url('../img/item/fish-3.png')
+            no-repeat center / 3rem auto;
+    }
+
+    input#diamond + label {
+        background: var(--ColorBackground) url('../img/item/diamond-2.png')
+            no-repeat center / 3rem auto;
+    }
+
+    input#apple + label {
+        background: var(--ColorBackground) url('../img/item/apple.png')
+            no-repeat center / 3rem auto;
     }
 }
 

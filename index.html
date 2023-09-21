@@ -390,6 +390,7 @@
 
         
         def change_map(e):
+            global wall_data
             map_data['height'] = int(map_slider_x.value)
             map_data['width'] = int(map_slider_y.value)
             map_slider_output_x.innerHTML = map_slider_x.value
@@ -404,16 +405,17 @@
                 app = Element("app").element
                 app.appendChild(draw_map)
             
-            wall_container = wall.resizeWall(map_data['width'], map_data['height'])
-            
-            # wall_container의 자식요소들에 이벤트 추가
-            for elem in wall_container.querySelectorAll('.wall'):
-                add_event_listener(elem,'click',change_wall_type)
-                add_event_listener(elem,'mouseover',wall_mouse_activation)
-                add_event_listener(elem,'mouseenter',wall_mouse_enter)
-                add_event_listener(elem,'mouseleave',wall_mouse_leave)
+                wall_data= wall.resizeWall(map_data['width'], map_data['height'])
+                wall_container = wall.drawWall()
                 
-            draw_map.appendChild(wall_container)
+                # wall_container의 자식요소들에 이벤트 추가
+                for elem in wall_container.querySelectorAll('.wall'):
+                    add_event_listener(elem,'click',change_wall_type)
+                    add_event_listener(elem,'mouseover',wall_mouse_activation)
+                    add_event_listener(elem,'mouseenter',wall_mouse_enter)
+                    add_event_listener(elem,'mouseleave',wall_mouse_leave)
+                    
+                draw_map.appendChild(wall_container)
 
             # 범위를 벗어난 아이템 삭제
             global item_data
@@ -459,6 +461,7 @@
         @when("click", selector="#init")
         def init(evt):
             js.console.log('월드 초기화')
+            global wall_data
             map_data['height'] = 5
             map_data['width'] = 5
             map_slider_x.value = 5
@@ -475,16 +478,18 @@
                 app = Element("app").element
                 app.appendChild(draw_map)
 
-            wall_container = wall.resetWall()
-            
-            # wall_container의 자식요소들에 이벤트 추가
-            for elem in wall_container.querySelectorAll('.wall'):
-                add_event_listener(elem,'click',change_wall_type)
-                add_event_listener(elem,'mouseover',wall_mouse_activation)
-                add_event_listener(elem,'mouseenter',wall_mouse_enter)
-                add_event_listener(elem,'mouseleave',wall_mouse_leave)
+                wall_data= wall.resetWall(map_data['width'], map_data['height'])
+                wall_container = wall.drawWall()
                 
-            draw_map.appendChild(wall_container)
+                # wall_container의 자식요소들에 이벤트 추가
+                for elem in wall_container.querySelectorAll('.wall'):
+                    add_event_listener(elem,'click',change_wall_type)
+                    add_event_listener(elem,'mouseover',wall_mouse_activation)
+                    add_event_listener(elem,'mouseenter',wall_mouse_enter)
+                    add_event_listener(elem,'mouseleave',wall_mouse_leave)
+                    
+                draw_map.appendChild(wall_container)
+
 
             init_character()
 
@@ -628,6 +633,7 @@
             '''
             벽 타입 변경
             '''
+            global wall_data
             posX = float(evt.target.dataset.x)
             posY= float(evt.target.dataset.y)
             currentType = evt.target.dataset.type
@@ -641,12 +647,11 @@
             # 벽 삭제: type이 있는 항목에서만 동작
             else:
                 if currentType:
-                    print(wall_data[(posX,posY)])
                     wall_data[(posX, posY)] = ''
                     evt.target.dataset.type = ''
                     evt.target.style.outline = ''
+            wall.wall_data = wall_data
 
-        
         @when('mouseover', selector='.wall')
         def wall_mouse_activation(evt):
             currentType = evt.target.dataset.type

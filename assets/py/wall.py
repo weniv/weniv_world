@@ -5,9 +5,9 @@ class Wall:
     def __init__(self):
       self.width = map_data['width']
       self.height = map_data['height']
-      self.wall_data = self.initWallDate(self.width, self.height)
+      self.wall_data = self.initWallData(self.width, self.height)
     
-    def initWallDate(self, width, height):
+    def initWallData(self, width, height):
       initWall = {}
       
       x = 0
@@ -62,23 +62,23 @@ class Wall:
       map의 크기가 변경될 때, wall_data를 갱신합니다.
       '''
       # 새로운 wall_data를 생성
-      new_wall_data = self.initWallDate(width, height)
+      global wall_data
+      new_wall_data = self.initWallData(width, height)
       for key in new_wall_data.keys():
-        if key in self.wall_data.keys():
+        if key in self.wall_data.keys() and self.wall_data[key]:
           new_wall_data[key] = self.wall_data[key]
           
       self.width = width
       self.height = height
       self.wall_data = new_wall_data
-      wall_data = new_wall_data # 전역변수 wall_data 갱신
+      return new_wall_data
       
-      return self.drawWall()
-      
-    def resetWall(self):
+    def resetWall(self,width,height):
       '''
       wall_data를 초기화합니다.
       '''
-      self.wall_data = self.initWallDate(self.width, self.height)
-      wall_data = self.wall_data
-      
-      return self.drawWall()
+      new_wall_data = self.initWallData(width, height)
+      self.width=width
+      self.height=height
+      self.wall_data = new_wall_data
+      return new_wall_data

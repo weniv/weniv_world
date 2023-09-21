@@ -249,7 +249,7 @@
         border-radius: 1rem;
         border: 1px solid var(--ColorGrayLv2);
         background: var(--ColorBackground);
-        box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.04);
+        box-shadow: var(--EffectShadow);
         box-sizing: border-box;
     }
 

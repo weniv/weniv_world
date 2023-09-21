@@ -33,38 +33,25 @@
     }
 }
 
-.world-map {
-    display: flex;
-    margin: 0.8rem 0.6rem;
-    padding: 3.2rem 2.8rem 3.2rem 3.4rem;
-    box-sizing: border-box;
-    overflow: auto;
-    @include scrollbar;
-}
-
 .world-menu {
-    position: absolute;
-    left: 2rem;
-    top: 7rem;
-    align-self: start;
-    border-radius: 1.6rem;
-    border: 1px solid var(--ColorGrayLv2);
+    display: flex;
+    align-items: center;
+    height: 5rem;
+    padding: 0 0.4rem;
+    border-bottom: 1px solid var(--ColorGrayLv2);
     background: var(--ColorBackground);
-    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
     z-index: 15;
 
-    ul {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        padding: 1.4rem;
-    }
-
     & > ul {
-        border-bottom: 1px solid var(--ColorGrayLv2);
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        height: 100%;
+        padding: 0 1.6rem;
 
-        &:last-child {
-            border-bottom: none;
+        &:not(:last-child) {
+            border-right: 1px solid var(--ColorGrayLv2);
         }
 
         & > li {
@@ -72,11 +59,27 @@
         }
     }
 
+    .button-before {
+        height: 3.2rem;
+        width: 3.2rem;
+        padding: 0.5rem;
+
+        &::before {
+            content: '';
+            display: block;
+            width: 2.1rem;
+            height: 2.1rem;
+        }
+    }
+
     .controller-modal {
         display: none;
-        top: 0;
-        left: 6.7rem;
+        top: calc(3.2rem + 0.9rem + 1.1rem);
         box-sizing: border-box;
+
+        ul {
+            display: flex;
+        }
 
         .input-wrap {
             display: flex;
@@ -91,8 +94,6 @@
 }
 
 .controll-btn-list {
-    border-bottom: 1px solid var(--ColorGrayLv2);
-
     .controller-modal {
         width: 26.1rem;
 
@@ -228,11 +229,20 @@
     }
 }
 
+/* map */
+.world-map {
+    display: flex;
+    margin: 0.8rem 0.6rem;
+    padding: 3.2rem 2.8rem 3.2rem 3.4rem;
+    height: 300px;
+    overflow: auto;
+    @include scrollbar;
+}
+
 #app {
     margin: auto;
 }
 
-/* map */
 .character {
     position: relative;
     animation: player 1s steps(7) infinite;
@@ -390,6 +400,14 @@
         border-bottom: 1px solid var(--ColorGrayLv2);
         box-sizing: border-box;
         z-index: 10;
+
+        h3 {
+            color: var(--ColorSurface);
+            font-family: Pretendard;
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 2rem;
+        }
     }
 
     .output-result {

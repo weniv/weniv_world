@@ -80,36 +80,6 @@ darkModeButton.addEventListener('click', () => {
     }
 });
 
-// world 메뉴 - 버튼 이벤트 추가(모달 여닫기)
-const worldMenu = document.querySelector('.world-menu');
-
-const toggleActive = (target) => {
-    const currentActiveItem = worldMenu.querySelector('.active');
-
-    if (target.classList.contains('btn-toggle')) {
-        if (target == currentActiveItem) {
-            target.classList.remove('active');
-        } else {
-            currentActiveItem && currentActiveItem.classList.remove('active');
-            target.classList.add('active');
-        }
-    } else {
-        currentActiveItem && currentActiveItem.classList.remove('active');
-    }
-};
-
-worldMenu.addEventListener('click', (e) => {
-    if (e.target.tagName == 'BUTTON') {
-        toggleActive(e.target);
-    }
-});
-
-window.addEventListener('click', (e) => {
-    if (!worldMenu.contains(e.target)) {
-        toggleActive(e.target);
-    }
-});
-
 // 스토리 section / 스토리 컨텐츠 여닫기
 const storyShowButton = document.querySelector('.btn-story');
 const storyCloseButton = document.querySelector('.btn-close-story');
@@ -182,3 +152,97 @@ tooltipTargetElement.forEach((target) => {
         }, 500);
     });
 });
+
+// world 메뉴 - 버튼 이벤트 추가(모달 여닫기)
+const worldMenu = document.querySelector('.world-menu');
+
+const toggleActive = (target) => {
+    const currentActiveItem = worldMenu.querySelector('.active');
+
+    if (target.classList.contains('btn-toggle')) {
+        if (target == currentActiveItem) {
+            target.classList.remove('active');
+        } else {
+            currentActiveItem && currentActiveItem.classList.remove('active');
+            target.classList.add('active');
+        }
+    } else {
+        currentActiveItem && currentActiveItem.classList.remove('active');
+    }
+};
+
+worldMenu.addEventListener('click', (e) => {
+    if (e.target.tagName == 'BUTTON') {
+        toggleActive(e.target);
+    }
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target == worldMenu || !worldMenu.contains(e.target)) {
+        toggleActive(e.target);
+    }
+});
+
+// worldmenu - 모달 크기 조절
+const world = document.querySelector('.world');
+const modals = document.querySelectorAll('.controller-modal');
+
+const resizeModal = (target, ratio) => {
+    const targetWidth = target.clientWidth;
+    const resizedWidth = targetWidth * ratio;
+
+    target.style.maxWidth = `${resizedWidth}px`;
+};
+
+const resizeIfHidden = (targetModal) => {
+    const modalRect = targetModal.getBoundingClientRect();
+    const containerRect = world.getBoundingClientRect();
+
+    const isPartiallyHiddenOrFullyHidden =
+        modalRect.right >= containerRect.right;
+
+    if (isPartiallyHiddenOrFullyHidden) {
+        const term = modalRect.right - containerRect.right;
+        const visibleRatio = 1 - term / modalRect.width;
+        resizeModal(targetModal, visibleRatio);
+    } else {
+        targetModal.style.maxWidth = '700px';
+    }
+};
+
+const resizeObserver = new ResizeObserver(() => {
+    const activeButton = world.querySelector('.active');
+    if (activeButton) {
+        const targetModal = activeButton
+            .closest('li')
+            .querySelector('.controller-modal');
+
+        resizeIfHidden(targetModal);
+    }
+});
+
+const observerCallback = (entries, observer) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            const intersectionRatio = entry.intersectionRatio;
+            if (intersectionRatio < 1) {
+                resizeModal(entry.target, intersectionRatio);
+            }
+        } else {
+            entry.target.style.maxWidth = '700px';
+        }
+    });
+};
+
+const modalIntersectionObserver = new IntersectionObserver(observerCallback, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1,
+});
+
+modals.forEach((modal) => {
+    modalIntersectionObserver.observe(modal);
+});
+
+resizeObserver.observe(world);
+resizeObserver.observe(window.document.body);

@@ -970,7 +970,7 @@ button {
   .select-items input#fish-3 + label {
     background: var(--ColorBackground) url("../img/item/fish-3.png") no-repeat center/3rem auto; }
   .select-items input#diamond + label {
-    background: var(--ColorBackground) url("../img/item/diamond-2.png") no-repeat center/3rem auto; }
+    background: var(--ColorBackground) url("../img/item/diamond.png") no-repeat center/3rem auto; }
   .select-items input#apple + label {
     background: var(--ColorBackground) url("../img/item/apple.png") no-repeat center/3rem auto; }
 

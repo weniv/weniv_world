@@ -548,40 +548,42 @@ button {
     font-weight: 600;
     line-height: 2rem;
     margin-right: 1.2rem; }
-  .notebook-header .btn-add-code {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    color: var(--ColorPrimary);
-    font-size: 1.4rem;
-    font-weight: 600;
-    line-height: 2rem; }
-    .notebook-header .btn-add-code::before {
-      content: '';
-      display: inline-block;
-      width: 2rem;
-      height: 2rem;
-      background: var(--ColorPrimary);
-      -webkit-mask-image: url("../img/icon/icon-plus.svg");
-      -webkit-mask-size: 100%;
-      -webkit-mask-repeat: no-repeat;
-      -webkit-mask-position: center center;
-      mask-image: url("../img/icon/icon-plus.svg");
-      mask-size: 100%;
-      mask-repeat: no-repeat;
-      mask-position: center center; }
-  .notebook-header .notebook-btn-list {
-    display: flex;
-    gap: 1rem;
-    margin-left: auto; }
-    .notebook-header .notebook-btn-list button {
-      display: block; }
+
+.btn-add-code {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--ColorPrimary);
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 2rem; }
+  .btn-add-code::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background: var(--ColorPrimary);
+    -webkit-mask-image: url("../img/icon/icon-plus.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../img/icon/icon-plus.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+
+.notebook-btn-list {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto; }
+  .notebook-btn-list button {
+    display: block; }
 
 .notebook-section {
   display: flex;
   flex-direction: column;
   height: calc(100% - 5.1rem - 1.2rem);
-  gap: 1.2rem;
+  gap: 0.5rem;
   padding: 0.8rem;
   margin: 0.6rem;
   box-sizing: border-box;
@@ -601,7 +603,6 @@ button {
 
 .py-repl-box {
   display: flex;
-  gap: 1rem;
   border-radius: 0.8rem; }
 
 .py-repl-editor {
@@ -740,6 +741,35 @@ button {
 
 .py-error {
   overflow-x: auto; }
+
+.py-repl-btn-wrap {
+  position: relative;
+  width: calc(100% - (3rem * 2));
+  height: 0.2rem;
+  border-radius: 0.2rem;
+  background: var(--ColorBackground);
+  border: 1px solid var(--ColorBackground);
+  margin: 0 auto;
+  z-index: 2;
+  transition: all 0.3s;
+  cursor: pointer; }
+  .py-repl-btn-wrap .btn-add-code {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 3.6rem;
+    padding: 0.8rem 1.6rem 0.8rem 1.2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--ColorGrayLv2);
+    background: var(--ColorBackground);
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box; }
+  .py-repl-btn-wrap:hover {
+    background: var(--ColorGrayLv2); }
+    .py-repl-btn-wrap:hover .btn-add-code {
+      display: flex; }
 
 .world {
   position: relative;

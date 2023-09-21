@@ -155,7 +155,6 @@ class Character:
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
         
-        print('type', wall_data['world'][(wall_x, wall_y)])
         if wall_data['world'][(wall_x, wall_y)] in blockingWallType:
                 js.alert("벽에 부딪혔습니다!")
                 raise WallIsExist

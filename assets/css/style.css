@@ -929,8 +929,7 @@ button {
   padding: 0.3rem;
   border-radius: 1.8rem;
   background: var(--ColorGrayLv2);
-  box-sizing: border-box;
-  cursor: pointer; }
+  box-sizing: border-box; }
   .wall-info::after {
     content: '';
     display: block;
@@ -1082,22 +1081,26 @@ button {
   height: 100%; }
   .wall-container .wall {
     position: absolute;
-    border: 1px solid black;
     box-sizing: border-box;
     transform: translate(-50%, -50%);
-    width: 0.5rem;
+    width: 1rem;
     height: 10rem;
     margin: 1px 0 0 1px;
     /* 기본 벽 */
-    background-color: var(--ColorWallGray); }
+    background-color: transparent; }
+  .wall-container .wall[data-type='']:hover {
+    background-color: var(--ColorActivation); }
 
 /* 가로벽 */
 .wall[data-direction='landscape'] {
   width: 10rem;
-  height: 0.5rem;
+  height: 1rem;
   margin: 2px 0 0 -0.5px; }
 
 /* wall-type */
+.wall[data-type='wall'] {
+  background-color: var(--ColorWallGray); }
+
 .wall[data-type='door'] {
   background-color: var(--ColorWallBlue); }
 

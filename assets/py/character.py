@@ -146,21 +146,16 @@ class Character:
 
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
-        if (
-            nx < 0
-            or nx > map_data["width"] - 1
-            or ny < 0
-            or ny > map_data["height"] - 1
-        ):
+        global wall_data
+        if not (0<= nx < map_data['height'] and 0 <= ny < map_data['width']):
             js.alert("맵을 벗어납니다.")
             raise OutOfWorld
 
         # 이동 경로에 벽이 있는지 확인
-        wall_x = (x + nx) / 2
-        wall_y = (y + ny) / 2
-
-        for type in blockingWallType:
-            if (wall_x, wall_y) in wall_data[type]:
+        wall_x = float((x + nx) / 2)
+        wall_y = float((y + ny) / 2)
+        
+        if wall_data['world'][(wall_x, wall_y)] in blockingWallType:
                 js.alert("벽에 부딪혔습니다!")
                 raise WallIsExist
 
@@ -410,6 +405,7 @@ class Character:
 
     def _is_clear(self, target='front'):
         # target_direction = self.directions
+        global wall_data
         target_direction = character_data[0]["directions"]
         
         if (target=='front'):
@@ -427,28 +423,29 @@ class Character:
         if (target_direction > 3):
             target_direction -= 4
             
-        target_position = (0, 0)
+        posX, posY = (0, 0)
        
        # 캐릭터 기준 벽은 0.5만큼 떨어져있음
         if target_direction == 0: # 동
-            target_position = (self.x, self.y + 0.5)
+            posX, posY = (self.x, self.y + 0.5)
         elif target_direction == 1: # 북
-            target_position = (self.x - 0.5, self.y)
+            posX, posY = (self.x - 0.5, self.y)
         elif target_direction == 2: # 서
-            target_position = (self.x, self.y - 0.5)
+            posX, posY = (self.x, self.y - 0.5)
         elif target_direction == 3: # 남
-            target_position = (self.x + 0.5, self.y)
-            
-        if not (0 <= target_position[0] < map_data["height"] and 0 <= target_position[1] < map_data["width"]):
-            print(f'<벽>{self.name}의 {target} 비어있지 않습니다.')
+            posX, posY = (self.x + 0.5, self.y)
+        
+        if not (0<= posX < map_data['height'] and 0<= posY < map_data['width']):
+            print("맵을 벗어납니다.")
             return False
-            
-        for type in wall_data:
-            if target_position in wall_data[type]:
-                print(f'{self.name}의 {target}은 비어있지 않습니다.')
-                return False
+        
+        if wall_data['world'][(posX, posY)]:
+            print(f'{self.name}의 {target}은 비어있지 않습니다.')
+            return False
         print(f'{self.name}의 {target}은 비어있습니다.')
         return True
+          
+       
         
     def directions(self):
         pass

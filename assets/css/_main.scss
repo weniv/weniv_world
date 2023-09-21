@@ -178,8 +178,6 @@ button {
 
     /* 스토리보기 버튼 */
     &.btn-story {
-        background: var(--ColorActivation);
-
         &::before {
             @include mask-image(
                 var(--ColorGrayLv3),

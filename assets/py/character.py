@@ -147,22 +147,16 @@ class Character:
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
         global wall_data
-        print(f"movable: {wall_data}")
-        if (
-            nx < 0
-            or nx > map_data["width"] - 1
-            or ny < 0
-            or ny > map_data["height"] - 1
-        ):
+        if not (0<= nx < map_data['height'] and 0 <= ny < map_data['width']):
             js.alert("맵을 벗어납니다.")
             raise OutOfWorld
 
         # 이동 경로에 벽이 있는지 확인
-        wall_x = (x + nx) / 2
-        wall_y = (y + ny) / 2
-
-        for type in blockingWallType:
-            if (wall_x, wall_y) in wall_data[type]:
+        wall_x = float((x + nx) / 2)
+        wall_y = float((y + ny) / 2)
+        
+        print('type', wall_data['world'][(wall_x, wall_y)])
+        if wall_data['world'][(wall_x, wall_y)] in blockingWallType:
                 js.alert("벽에 부딪혔습니다!")
                 raise WallIsExist
 

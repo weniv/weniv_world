@@ -534,6 +534,7 @@ button {
 
 .notebook {
   width: 50rem;
+  min-width: 26rem;
   box-sizing: border-box; }
 
 .notebook-header {
@@ -779,6 +780,7 @@ button {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-width: 39rem;
   overflow: hidden; }
 
 .world-header {
@@ -1116,6 +1118,7 @@ button {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 10rem;
   background: var(--ColorGrayLv1);
   color: var(--ColorSurface);
   font-family: Source Code Pro;
@@ -1218,7 +1221,8 @@ button {
 .story {
   display: none;
   flex-direction: column;
-  width: 50rem; }
+  width: 50rem;
+  min-width: 26rem; }
   .story.show {
     display: flex; }
 

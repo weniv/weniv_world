@@ -37,6 +37,7 @@ const renderContent = (markdownData) => {
             titleSection.setAttribute('class', 'story-title');
 
             const heading = document.createElement('h3');
+            heading.setAttribute('class', 'sl-ellipsis');
             heading.innerHTML = `<span>${data.id}편</span>${data.title}`;
 
             const button = document.createElement('button');

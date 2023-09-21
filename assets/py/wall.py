@@ -44,25 +44,12 @@ class Wall:
             wall.setAttribute('data-direction', 'landscape')
         container.appendChild(wall)
       return container
-    
-    def changeWallType(self, event):
-      # 이벤트가 발생한 DOM 요소에 dataset_type을 추가
-      if(wall_type == 'delete'):
-        event.target.setAttribute('data-type', '')
-      else:
-        event.target.setAttribute('data-type', wall_type)
-      
-    def deleteActivate(self, event):
-      if(event.target.getAttribute('data-type') and wall_type == 'delete'):
-        event.target.style.outline = '1px solid red'
-        
         
     def resizeWall(self, width, height):
       '''
       map의 크기가 변경될 때, wall_data를 갱신합니다.
       '''
       # 새로운 wall_data를 생성
-      global wall_data
       new_wall_data = self.initWallData(width, height)
       for key in new_wall_data.keys():
         if key in self.wall_data.keys() and self.wall_data[key]:

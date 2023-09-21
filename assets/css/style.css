@@ -767,6 +767,8 @@ button {
     background: var(--ColorBackground);
     box-shadow: var(--EffectShadow);
     box-sizing: border-box; }
+    .py-repl-btn-wrap .btn-add-code:hover {
+      border: 1px solid var(--ColorPrimary); }
   .py-repl-btn-wrap:hover {
     background: var(--ColorGrayLv2); }
     .py-repl-btn-wrap:hover .btn-add-code {

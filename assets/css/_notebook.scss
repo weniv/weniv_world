@@ -251,6 +251,10 @@
         background: var(--ColorBackground);
         box-shadow: var(--EffectShadow);
         box-sizing: border-box;
+
+        &:hover {
+            border: 1px solid var(--ColorPrimary);
+        }
     }
 
     &:hover {

@@ -403,9 +403,10 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
-            
-                wall_data= wall.resizeWall(map_data['width'], map_data['height'])
+
+                create_once_callable(wall.resizeWall(map_data['width'], map_data['height']))
                 wall_container = wall.drawWall()
+                wall_data['world'] = wall.wall_data
                 
                 # wall_container의 자식요소들에 이벤트 추가
                 for elem in wall_container.querySelectorAll('.wall'):
@@ -435,6 +436,11 @@
         map_slider_x.oninput = change_map
         map_slider_y.oninput = change_map
 
+        #벽 생성
+        wall = Wall()
+        wall_container = wall.drawWall();
+        wall_data['world'] = wall.wall_data
+        
         # character 생성
         # TODO: 캐릭터 크기 수정
         licat = Character(x=0, y=0, name='licat', width=32, height=40)
@@ -445,12 +451,6 @@
         map = Map(map_data['height'], map_data['width'])
         draw_map = map.drawMap()
         draw_map.appendChild(draw_character)
-
-        #벽 생성
-        wall = Wall()
-        wall_container = wall.drawWall();
-        wall_data = wall.wall_data
-        print('벽 생성\n', wall_data)
         draw_map.appendChild(wall_container)
 
         # 생성된 요소 app추가
@@ -459,8 +459,8 @@
 
         @when("click", selector="#init")
         def init(evt):
-            js.console.log('월드 초기화')
             global wall_data
+            js.console.log('월드 초기화')
             map_data['height'] = 5
             map_data['width'] = 5
             map_slider_x.value = 5
@@ -476,9 +476,10 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
-
-                wall_data= wall.resetWall(map_data['width'], map_data['height'])
+                
+                create_once_callable(wall.resetWall(map_data['width'], map_data['height']))
                 wall_container = wall.drawWall()
+                wall_data['world']= wall.wall_data
                 
                 # wall_container의 자식요소들에 이벤트 추가
                 for elem in wall_container.querySelectorAll('.wall'):
@@ -608,7 +609,7 @@
                 "character_data": character_info,
                 "item_data": item_data,
                 "map_data": map_data,
-                "wall_data": wall_data
+                "wall_data": wall_data['world']
             }
             
             json_data = json.dumps(worlddata)
@@ -632,7 +633,6 @@
             '''
             벽 타입 변경
             '''
-            global wall_data
             posX = float(evt.target.dataset.x)
             posY= float(evt.target.dataset.y)
             currentType = evt.target.dataset.type
@@ -640,16 +640,15 @@
             # 벽 추가: type이 없는 항목에서만 동작
             if(wall_type != 'delete'):
                 if not currentType:
-                    wall_data[(posX, posY)]=wall_type
+                    wall_data['world'][(posX, posY)]=wall_type
                     evt.target.dataset.type = wall_type
 
             # 벽 삭제: type이 있는 항목에서만 동작
             else:
                 if currentType:
-                    wall_data[(posX, posY)] = ''
+                    wall_data['world'][(posX, posY)] = ''
                     evt.target.dataset.type = ''
                     evt.target.style.outline = ''
-            wall.wall_data = wall_data
 
         @when('mouseover', selector='.wall')
         def wall_mouse_activation(evt):

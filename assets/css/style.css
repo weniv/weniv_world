@@ -242,20 +242,18 @@ button {
     display: block;
     width: 2.8rem;
     height: 2.8rem; }
-  .button-before.btn-story {
-    background: var(--ColorActivation); }
-    .button-before.btn-story::before {
-      background: var(--ColorGrayLv3);
-      -webkit-mask-image: url("../img/icon/icon-book.svg");
-      -webkit-mask-size: 100%;
-      -webkit-mask-repeat: no-repeat;
-      -webkit-mask-position: center center;
-      mask-image: url("../img/icon/icon-book.svg");
-      mask-size: 100%;
-      mask-repeat: no-repeat;
-      mask-position: center center; }
-    .button-before.btn-story.active::before {
-      background: var(--ColorPrimary); }
+  .button-before.btn-story::before {
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../img/icon/icon-book.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../img/icon/icon-book.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .button-before.btn-story.active::before {
+    background: var(--ColorPrimary); }
   .button-before.btn-wall::before {
     background: var(--ColorGrayLv3);
     -webkit-mask-image: url("../img/icon/icon-wall-import.svg");

@@ -74,4 +74,11 @@ class Wall:
       
       return self.drawWall()
       
+    def resetWall(self):
+      '''
+      wall_data를 초기화합니다.
+      '''
+      self.wall_data = self.initWallDate(self.width, self.height)
+      wall_data = self.wall_data
       
+      return self.drawWall()

@@ -363,6 +363,14 @@ button {
     }
 }
 
+:root[color-theme='dark'] .controller-modal {
+    &::before {
+        top: -1.1rem;
+        background: url('../img/icon/icon-polygon-dark.svg') no-repeat center /
+            cover;
+    }
+}
+
 /* info-modal */
 .info-modal {
     position: absolute;

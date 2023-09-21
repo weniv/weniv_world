@@ -707,6 +707,12 @@
         def change_walltype_input(evt):
             global wall_type
             wall_type = evt.target.value
+            
+        @when("click", selector="input[name='item']")
+        def select_item(evt):
+            print(f"selected item: {evt.target.id}")
+            js.document.querySelector('.world-map').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
+            
 
         @when("click", selector="#output-init")
         def init_output(evt=None):

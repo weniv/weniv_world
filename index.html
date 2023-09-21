@@ -406,6 +406,14 @@
             
             # draw_map.appendChild(wall.container)
             wall_container = wall.resizeWall(map_data['width'], map_data['height'])
+            
+            # wall_container의 자식요소들에 이벤트 추가
+            for elem in wall_container.querySelectorAll('.wall'):
+                add_event_listener(elem,'click',change_wall_type)
+                add_event_listener(elem,'mouseover',wall_mouse_activation)
+                add_event_listener(elem,'mouseenter',wall_mouse_enter)
+                add_event_listener(elem,'mouseleave',wall_mouse_leave)
+                
             draw_map.appendChild(wall_container)
 
             # 맵을 벗어나는 벽 삭제
@@ -630,7 +638,7 @@
         
 
         @when("click", selector=".wall")
-        def changeWallType(evt):
+        def change_wall_type(evt):
             '''
             벽 타입 변경
             '''
@@ -655,7 +663,7 @@
             print(f"wall data: {wall_data}")
         
         @when('mouseover', selector='.wall')
-        def mouseActivate(evt):
+        def wall_mouse_activation(evt):
             currentType = evt.target.dataset.type
 
             # 벽 추가: type이 없는 항목에서만 pointer
@@ -673,7 +681,7 @@
                     evt.target.style.cursor = 'default'
 
         @when('mouseenter', selector='.wall')
-        def mouseWallEnter(evt):
+        def wall_mouse_enter(evt):
             currentType = evt.target.dataset.type
 
             if(wall_type == 'delete'):
@@ -681,7 +689,7 @@
                     evt.target.style.outline = '3px solid red'
 
         @when('mouseleave', selector='.wall')
-        def mouseWallLeave(evt):
+        def wall_mouse_leave(evt):
             currentType = evt.target.dataset.type
 
             if(wall_type == 'delete'):
@@ -691,7 +699,7 @@
         
         # radio 속성을 선택했을 때, wall_type을 변경하는 이벤트 등록
         @when("change", selector="input[name='wall-type']")
-        def change_wall_type(evt):
+        def change_walltype_input(evt):
             global wall_type
             wall_type = evt.target.value
 

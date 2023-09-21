@@ -1,6 +1,6 @@
 import js
 from coordinate import map_data, map_size, wall_data, border_size, wall_type
-         
+
 class Wall:
     def __init__(self):
       self.width = map_data['width']
@@ -8,26 +8,22 @@ class Wall:
       self.wall_data = self.initWallDate(self.width, self.height)
     
     def initWallDate(self, width, height):
-      wall_data = {}
+      initWall = {}
       
       x = 0
       while x <= height - 1:
           if x == int(x):  # x가 정수일 때
               y = 0.5
               while y <= width - 1:
-                  wall_data[(x, y)]=''
+                  initWall[(x, y)]=''
                   y += 1
           else:  # x가 정수가 아닐 때
               y = 0
               while y <= width - 1:
-                  wall_data[(x, y)]=''
+                  initWall[(x, y)]=''
                   y += 1
           x += 0.5
-          
-      wall_data[(0, 0.5)] = 'wall'
-      wall_data[(0, 1.5)] = 'door'
-      wall_data[(0, 2.5)] = 'fence'
-      return wall_data
+      return initWall
       
     def drawWall(self):
       box_size = map_size + border_size*2

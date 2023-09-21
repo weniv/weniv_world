@@ -23,7 +23,8 @@
   --ColorCodePink: #c93864;
   --ColorCodeBlue: #2e5dd6;
   --ColorCodeGreen: #328026;
-  --ColorCodeOrange: #ed7200; }
+  --ColorCodeOrange: #ed7200;
+  --EffectShadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.04); }
 
 :root[color-theme='dark'] {
   --ColorPrimary: #3075ff;
@@ -40,7 +41,9 @@
   --ColorCodePink: #ed4779;
   --ColorCodeBlue: #618dff;
   --ColorCodeGreen: #50c140;
-  --ColorCodeOrange: #ffa52a; }
+  --ColorCodeOrange: #ffa52a;
+  --EffectShadow: 0px 8px 12px 0px rgba(18, 18, 18, 0.2),
+        0px 8px 12px 0px rgba(18, 18, 18, 0.2); }
 
 @keyframes player {
   from {
@@ -242,20 +245,18 @@ button {
     display: block;
     width: 2.8rem;
     height: 2.8rem; }
-  .button-before.btn-story {
-    background: var(--ColorActivation); }
-    .button-before.btn-story::before {
-      background: var(--ColorGrayLv3);
-      -webkit-mask-image: url("../img/icon/icon-book.svg");
-      -webkit-mask-size: 100%;
-      -webkit-mask-repeat: no-repeat;
-      -webkit-mask-position: center center;
-      mask-image: url("../img/icon/icon-book.svg");
-      mask-size: 100%;
-      mask-repeat: no-repeat;
-      mask-position: center center; }
-    .button-before.btn-story.active::before {
-      background: var(--ColorPrimary); }
+  .button-before.btn-story::before {
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../img/icon/icon-book.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../img/icon/icon-book.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .button-before.btn-story.active::before {
+    background: var(--ColorPrimary); }
   .button-before.btn-wall::before {
     background: var(--ColorGrayLv3);
     -webkit-mask-image: url("../img/icon/icon-wall-import.svg");
@@ -533,6 +534,7 @@ button {
 
 .notebook {
   width: 50rem;
+  min-width: 26rem;
   box-sizing: border-box; }
 
 .notebook-header {
@@ -764,8 +766,10 @@ button {
     border-radius: 1rem;
     border: 1px solid var(--ColorGrayLv2);
     background: var(--ColorBackground);
-    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.04);
+    box-shadow: var(--EffectShadow);
     box-sizing: border-box; }
+    .py-repl-btn-wrap .btn-add-code:hover {
+      border: 1px solid var(--ColorPrimary); }
   .py-repl-btn-wrap:hover {
     background: var(--ColorGrayLv2); }
     .py-repl-btn-wrap:hover .btn-add-code {
@@ -776,6 +780,7 @@ button {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-width: 39rem;
   overflow: hidden; }
 
 .world-header {
@@ -1113,6 +1118,7 @@ button {
   display: flex;
   flex-direction: column;
   flex: 1;
+  min-height: 10rem;
   background: var(--ColorGrayLv1);
   color: var(--ColorSurface);
   font-family: Source Code Pro;
@@ -1215,7 +1221,8 @@ button {
 .story {
   display: none;
   flex-direction: column;
-  width: 50rem; }
+  width: 50rem;
+  min-width: 26rem; }
   .story.show {
     display: flex; }
 

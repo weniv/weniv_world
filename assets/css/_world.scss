@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    min-width: 39rem;
     overflow: hidden;
 }
 
@@ -398,6 +399,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+    min-height: 10rem;
     background: var(--ColorGrayLv1);
     color: var(--ColorSurface);
     font-family: Source Code Pro;

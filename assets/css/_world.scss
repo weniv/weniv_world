@@ -218,6 +218,10 @@
         box-sizing: border-box;
         cursor: pointer;
     }
+    label.active {
+        border: 2px solid var(--ColorPrimary);
+        background-color: var(--ColorActivation) !important;
+    }
 
     input:checked,
     label:hover {

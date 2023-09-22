@@ -375,6 +375,12 @@
         from pyodide.ffi.wrappers import add_event_listener
         import json
         import math
+        
+        # item select
+        item_select = {
+            'status':False,
+            'name':''
+        }
 
         # speed slide bar
         slider = js.document.getElementById("speed-range")
@@ -709,10 +715,32 @@
             wall_type = evt.target.value
             
         @when("click", selector="input[name='item']")
-        def select_item(evt):
-            print(f"selected item: {evt.target.id}")
-            js.document.querySelector('.world-map').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
-            
+        def change_item_select(evt):
+            if(item_select['status'] and evt.target.id == item_select['name']):
+                # 선택 취소
+                label = js.document.querySelector(f"label[for='{evt.target.id}']")
+                label.style.outline=''
+                label.style.backgroundColor='var(--ColorBackground)'
+                
+                item_select['status'] = False
+                item_select['name'] = ''
+                js.document.querySelector('.world-map').style.cursor='auto'
+            else:
+                # 이전 선택 스타일 취소
+                if(item_select['name']):
+                    label = js.document.querySelector(f"label[for='{item_select['name']}']")
+                    label.style.outline=''
+                    label.style.backgroundColor='var(--ColorBackground)'
+                
+                item_select['status'] = True
+                item_select['name'] = evt.target.id
+                js.document.querySelector('.world-map').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
+                
+                label = js.document.querySelector(f"label[for='{evt.target.id}']")
+                label.style.outline='2px solid var(--ColorPrimary)'
+                label.style.backgroundColor='var(--ColorActivation)'
+                
+            print(item_select)
 
         @when("click", selector="#output-init")
         def init_output(evt=None):

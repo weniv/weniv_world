@@ -375,6 +375,12 @@
         from pyodide.ffi.wrappers import add_event_listener
         import json
         import math
+        
+        # item select
+        item_select = {
+            'status':False,
+            'name':''
+        }
 
         # speed slide bar
         slider = js.document.getElementById("speed-range")
@@ -420,17 +426,21 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
-
-                create_once_callable(wall.resizeWall(map_data['width'], map_data['height']))
+                
+                wall.resizeWall(map_data['width'], map_data['height'])
                 wall_container = wall.drawWall()
                 wall_data['world'] = wall.wall_data
                 
-                # wall_container의 자식요소들에 이벤트 추가
-                for elem in wall_container.querySelectorAll('.wall'):
-                    add_event_listener(elem,'click',change_wall_type)
-                    add_event_listener(elem,'mouseover',wall_mouse_activation)
-                    add_event_listener(elem,'mouseenter',wall_mouse_enter)
-                    add_event_listener(elem,'mouseleave',wall_mouse_leave)
+                # map-item 이벤트 등록
+                for map_elem in draw_map.querySelectorAll('.map-item'):
+                    add_event_listener(map_elem, 'click', map_item_add)
+                
+                # wall_container의 자식요소들에 이벤트 등록
+                for wall_elem in wall_container.querySelectorAll('.wall'):
+                    add_event_listener(wall_elem,'click',change_wall_type)
+                    add_event_listener(wall_elem,'mouseover',wall_mouse_activation)
+                    add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
+                    add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
                     
                 draw_map.appendChild(wall_container)
 
@@ -482,6 +492,7 @@
             map_data['width'] = 5
             map_slider_x.value = 5
             map_slider_y.value = 5
+            item_data.clear()
             map_slider_output_x.innerHTML = map_slider_x.value
             map_slider_output_y.innerHTML = map_slider_y.value
             map_exist = js.document.querySelector('.map-container')
@@ -493,17 +504,19 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
-                
-                create_once_callable(wall.resetWall(map_data['width'], map_data['height']))
+                wall.resetWall(map_data['width'], map_data['height'])
                 wall_container = wall.drawWall()
                 wall_data['world']= wall.wall_data
+                # map-item 이벤트 등록
+                for map_elem in draw_map.querySelectorAll('.map-item'):
+                    add_event_listener(map_elem, 'click', map_item_add)
                 
-                # wall_container의 자식요소들에 이벤트 추가
-                for elem in wall_container.querySelectorAll('.wall'):
-                    add_event_listener(elem,'click',change_wall_type)
-                    add_event_listener(elem,'mouseover',wall_mouse_activation)
-                    add_event_listener(elem,'mouseenter',wall_mouse_enter)
-                    add_event_listener(elem,'mouseleave',wall_mouse_leave)
+                # wall_container의 자식요소들에 이벤트 등록
+                for wall_elem in wall_container.querySelectorAll('.wall'):
+                    add_event_listener(wall_elem,'click',change_wall_type)
+                    add_event_listener(wall_elem,'mouseover',wall_mouse_activation)
+                    add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
+                    add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
                     
                 draw_map.appendChild(wall_container)
 
@@ -707,7 +720,57 @@
         def change_walltype_input(evt):
             global wall_type
             wall_type = evt.target.value
+                
+        @when("click", selector="input[name='item']")
+        def change_item_select(evt):
+            if(item_select['status'] and evt.target.id == item_select['name']):
+                # 선택 취소
+                label = js.document.querySelector(f"label[for='{evt.target.id}']")
+                label.classList.remove('active')
+                
+                item_select['status'] = False
+                js.document.querySelector('.wall-container').style.pointerEvents=''
 
+                item_select['name'] = ''
+                js.document.querySelector('.map-container').style.cursor='auto'
+            else:
+                # 이전 선택 스타일 취소
+                if(item_select['name']):
+                    label = js.document.querySelector(f"label[for='{item_select['name']}']")
+                    label.classList.remove('active')
+                    
+                
+                item_select['status'] = True
+                js.document.querySelector('.wall-container').style.pointerEvents='none'
+
+                item_select['name'] = evt.target.id
+                js.document.querySelector('.map-container').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
+                
+                label = js.document.querySelector(f"label[for='{evt.target.id}']")
+                label.classList.add('active')
+        
+
+        @when("click",selector=".map-item")
+        def map_item_add(evt):
+            if(item_select['status']):
+                # 좌표값 계산
+                map_items = js.document.querySelectorAll('.map-item')
+                index = 0
+                for item in map_items:
+                    if item == evt.target:
+                        break
+                    index += 1
+                    
+                # index를 통해 x, y 좌표 계산
+                x, y = divmod(index, map_data['width'])
+                evt.target.style.backgroundColor = ''
+                set_item(x, y, item_select['name'], 1)
+                
+                item_select['status']=False
+                item_select['name']=''
+                js.document.querySelector('.map-container').style.cursor='auto'
+                js.document.querySelector('.wall-container').style.pointerEvents=''
+    
         @when("click", selector="#output-init")
         def init_output(evt=None):
             for output_line in js.document.querySelectorAll('.output-item'):

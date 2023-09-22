@@ -219,6 +219,10 @@
         box-sizing: border-box;
         cursor: pointer;
     }
+    label.active {
+        border: 2px solid var(--ColorPrimary);
+        background-color: var(--ColorActivation) !important;
+    }
 
     input:checked,
     label:hover {
@@ -237,7 +241,7 @@
     }
 
     input#diamond + label {
-        background: var(--ColorBackground) url('../img/item/diamond-2.png')
+        background: var(--ColorBackground) url('../img/item/diamond.png')
             no-repeat center / 3rem auto;
     }
 
@@ -344,6 +348,9 @@
     width: 10rem;
     height: 10rem;
     position: relative;
+}
+.map-item:hover {
+    background-color: var(--ColorActivation);
 }
 
 .hidden {

@@ -49,6 +49,18 @@ const setAddCodeButton = (targetNode) => {
             코드 추가
         </button>
     `;
+        buttonContainer.addEventListener("click",(target)=>{
+        console.log('click')
+        addCodeNextCellFromSelectCell(target);
+    });
+    function addCodeNextCellFromSelectCell(target) {
+        console.log(target)
+        const selectCell = target.target.parentNode;
+        const nextCell = selectCell.nextElementSibling;
+        const newCell = document.createElement('py-repl');
+        newCell.innerHTML = ``;
+        selectCell.parentNode.insertBefore(newCell, nextCell);
+    }
 
     pyRepl.after(buttonContainer);
 };

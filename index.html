@@ -732,7 +732,7 @@
                 js.document.querySelector('.wall-container').style.pointerEvents=''
 
                 item_select['name'] = ''
-                js.document.querySelector('.world-map').style.cursor='auto'
+                js.document.querySelector('.map-container').style.cursor='auto'
             else:
                 # 이전 선택 스타일 취소
                 if(item_select['name']):
@@ -744,7 +744,7 @@
                 js.document.querySelector('.wall-container').style.pointerEvents='none'
 
                 item_select['name'] = evt.target.id
-                js.document.querySelector('.world-map').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
+                js.document.querySelector('.map-container').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
                 
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
                 label.classList.add('active')
@@ -768,7 +768,7 @@
                 
                 item_select['status']=False
                 item_select['name']=''
-                js.document.querySelector('.world-map').style.cursor='auto'
+                js.document.querySelector('.map-container').style.cursor='auto'
                 js.document.querySelector('.wall-container').style.pointerEvents=''
     
         @when("click", selector="#output-init")

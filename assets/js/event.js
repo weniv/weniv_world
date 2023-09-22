@@ -1,5 +1,4 @@
 const $btnQue = document.querySelectorAll('.btn-que');
-
 // tutorial 로딩
 $btnQue.forEach((element) => {
     element.addEventListener('click', function(e) {
@@ -258,11 +257,11 @@ const addCodeNextCellFromSelectCell = (target) => {
 
 const downloadCode = (target) => {
     const pyRepl = target.target.closest('py-repl');
-    const code = pyRepl.querySelector('.CodeMirror').CodeMirror.getValue();
+    const code= pyRepl.querySelector('.cm-content').innerText;
     const blob = new Blob([code], { type: 'text/plain' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'code.py';
+    link.download = `code_${dateFormat()}.py`;
     link.click();
 };
 const uploadCode = (target) => {

@@ -273,8 +273,7 @@ const uploadCode = (target) => {
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = (e) => {
-            const code = e.target.result;
-            pyRepl.querySelector('.CodeMirror').CodeMirror.setValue(code);
+            pyRepl.querySelector('.cm-content').innerText = e.target.result;
         };
         reader.readAsText(file);
     };

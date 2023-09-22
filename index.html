@@ -431,12 +431,16 @@
                 wall_container = wall.drawWall()
                 wall_data['world'] = wall.wall_data
                 
-                # wall_container의 자식요소들에 이벤트 추가
-                for elem in wall_container.querySelectorAll('.wall'):
-                    add_event_listener(elem,'click',change_wall_type)
-                    add_event_listener(elem,'mouseover',wall_mouse_activation)
-                    add_event_listener(elem,'mouseenter',wall_mouse_enter)
-                    add_event_listener(elem,'mouseleave',wall_mouse_leave)
+                # map-item 이벤트 등록
+                for map_elem in draw_map.querySelectorAll('.map-item'):
+                    add_event_listener(map_elem, 'click', map_item_add)
+                
+                # wall_container의 자식요소들에 이벤트 등록
+                for wall_elem in wall_container.querySelectorAll('.wall'):
+                    add_event_listener(wall_elem,'click',change_wall_type)
+                    add_event_listener(wall_elem,'mouseover',wall_mouse_activation)
+                    add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
+                    add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
                     
                 draw_map.appendChild(wall_container)
 
@@ -503,12 +507,16 @@
                 wall_container = wall.drawWall()
                 wall_data['world']= wall.wall_data
                 
-                # wall_container의 자식요소들에 이벤트 추가
-                for elem in wall_container.querySelectorAll('.wall'):
-                    add_event_listener(elem,'click',change_wall_type)
-                    add_event_listener(elem,'mouseover',wall_mouse_activation)
-                    add_event_listener(elem,'mouseenter',wall_mouse_enter)
-                    add_event_listener(elem,'mouseleave',wall_mouse_leave)
+                # map-item 이벤트 등록
+                for map_elem in draw_map.querySelectorAll('.map-item'):
+                    add_event_listener(map_elem, 'click', map_item_add)
+                
+                # wall_container의 자식요소들에 이벤트 등록
+                for wall_elem in wall_container.querySelectorAll('.wall'):
+                    add_event_listener(wall_elem,'click',change_wall_type)
+                    add_event_listener(wall_elem,'mouseover',wall_mouse_activation)
+                    add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
+                    add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
                     
                 draw_map.appendChild(wall_container)
 

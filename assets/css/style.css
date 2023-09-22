@@ -966,6 +966,9 @@ button {
     background: var(--ColorBackground) url("../img/item/fish-1.png") no-repeat center/3rem auto;
     box-sizing: border-box;
     cursor: pointer; }
+  .select-items label.active {
+    border: 2px solid var(--ColorPrimary);
+    background-color: var(--ColorActivation) !important; }
   .select-items input:checked,
   .select-items label:hover {
     outline: 2px solid var(--ColorPrimary);
@@ -975,7 +978,7 @@ button {
   .select-items input#fish-3 + label {
     background: var(--ColorBackground) url("../img/item/fish-3.png") no-repeat center/3rem auto; }
   .select-items input#diamond + label {
-    background: var(--ColorBackground) url("../img/item/diamond-2.png") no-repeat center/3rem auto; }
+    background: var(--ColorBackground) url("../img/item/diamond.png") no-repeat center/3rem auto; }
   .select-items input#apple + label {
     background: var(--ColorBackground) url("../img/item/apple.png") no-repeat center/3rem auto; }
 
@@ -1073,6 +1076,9 @@ button {
   width: 10rem;
   height: 10rem;
   position: relative; }
+
+.map-item:hover {
+  background-color: var(--ColorActivation); }
 
 .hidden {
   display: none; }

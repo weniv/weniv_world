@@ -41,6 +41,11 @@ const setHeader = (targetNode) => {
                 uploadCode(target);
                 break;
             case 'btn-close code-delete':
+                // 만약 셀이 하나 밖에 없다면 동작하지 않는다.
+                if (document.querySelectorAll('py-repl').length === 1) {
+                    alert('셀이 하나 밖에 없는 경우, 코드를 삭제할 수 없습니다.');
+                    return;
+                }
                 deleteCode(target);
                 break;
         }

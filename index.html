@@ -426,8 +426,8 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
-
-                create_once_callable(wall.resizeWall(map_data['width'], map_data['height']))
+                
+                wall.resizeWall(map_data['width'], map_data['height'])
                 wall_container = wall.drawWall()
                 wall_data['world'] = wall.wall_data
                 
@@ -499,8 +499,7 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
-                
-                create_once_callable(wall.resetWall(map_data['width'], map_data['height']))
+                wall.resetWall(map_data['width'], map_data['height'])
                 wall_container = wall.drawWall()
                 wall_data['world']= wall.wall_data
                 
@@ -713,35 +712,57 @@
         def change_walltype_input(evt):
             global wall_type
             wall_type = evt.target.value
-            
+                
         @when("click", selector="input[name='item']")
         def change_item_select(evt):
             if(item_select['status'] and evt.target.id == item_select['name']):
                 # 선택 취소
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
-                label.style.outline=''
-                label.style.backgroundColor='var(--ColorBackground)'
+                label.classList.remove('active')
                 
                 item_select['status'] = False
+                js.document.querySelector('.wall-container').style.pointerEvents=''
+
                 item_select['name'] = ''
                 js.document.querySelector('.world-map').style.cursor='auto'
             else:
                 # 이전 선택 스타일 취소
                 if(item_select['name']):
                     label = js.document.querySelector(f"label[for='{item_select['name']}']")
-                    label.style.outline=''
-                    label.style.backgroundColor='var(--ColorBackground)'
+                    label.classList.remove('active')
+                    
                 
                 item_select['status'] = True
+                js.document.querySelector('.wall-container').style.pointerEvents='none'
+
                 item_select['name'] = evt.target.id
                 js.document.querySelector('.world-map').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
                 
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
-                label.style.outline='2px solid var(--ColorPrimary)'
-                label.style.backgroundColor='var(--ColorActivation)'
-                
-            print(item_select)
+                label.classList.add('active')
+        
 
+        @when("click",selector=".map-item")
+        def map_item_add(evt):
+            if(item_select['status']):
+                # 좌표값 계산
+                map_items = js.document.querySelectorAll('.map-item')
+                index = 0
+                for item in map_items:
+                    if item == evt.target:
+                        break
+                    index += 1
+                    
+                # index를 통해 x, y 좌표 계산
+                x, y = divmod(index, map_data['width'])
+                evt.target.style.backgroundColor = ''
+                set_item(x, y, item_select['name'], 1)
+                
+                item_select['status']=False
+                item_select['name']=''
+                js.document.querySelector('.world-map').style.cursor='auto'
+                js.document.querySelector('.wall-container').style.pointerEvents=''
+    
         @when("click", selector="#output-init")
         def init_output(evt=None):
             for output_line in js.document.querySelectorAll('.output-item'):

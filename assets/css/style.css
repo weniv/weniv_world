@@ -1072,6 +1072,9 @@ button {
   height: 10rem;
   position: relative; }
 
+.map-item:hover {
+  background-color: var(--ColorActivation); }
+
 .hidden {
   display: none; }
 

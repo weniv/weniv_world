@@ -802,13 +802,20 @@
             newRepl.textContent = ''
             js.document.getElementById('notebookSection').appendChild(newRepl)
 
-        def add_code_shell_into_middle(evt=None):
-            newRepl = js.document.createElement('py-repl')
-            newRepl.textContent = ''
-            js.document.getElementById('notebookSection').insertBefore(newRepl, evt.target.parentNode.parentNode.parentNode.nextSibling)
-
     </py-script>
     <script>
+    const dateFormat = ()=>{
+        // yyyy-mm-dd-hh-mm-ss korean time
+        const date = new Date();
+        let format = '';
+        format += date.getFullYear() + '-';
+        format += (date.getMonth()+1) + '-';
+        format += date.getDate() + '-';
+        format += date.getHours() + '-';
+        format += date.getMinutes() + '-';
+        format += date.getSeconds();
+        return format;
+    }
     const downloadBtn = document.querySelector('.downloadNotebookBtn')
     downloadBtn.addEventListener('click', () => {
         downloadNotebook()
@@ -856,10 +863,39 @@
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
-        a.download = 'notebook.ipynb';
+        a.download = `notebook_${dateFormat()}.ipynb`;
         a.href = url;
         a.click();
     }
+    const uploadBtn = document.querySelector('.uploadNotebookBtn');
+    uploadBtn.addEventListener('click', () => {
+        uploadNotebook()
+    })
+    function uploadNotebook() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.ipynb';
+        input.onchange = e => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.readAsText(file, 'UTF-8');
+            reader.onload = readerEvent => {
+                const content = readerEvent.target.result;
+                const notebook = JSON.parse(content);
+                const cells = notebook.cells;
+                for (let i = 0; i < cells.length; i++) {
+                    const cell = cells[i];
+                    const source = cell.source;
+                    const newRepl = document.createElement('py-repl');
+                    newRepl.textContent = source;
+                    document.getElementById('notebookSection').appendChild(newRepl);
+                }
+            }
+        }
+        input.click();
+    }
+
+
     </script>
 </body>
 </html>

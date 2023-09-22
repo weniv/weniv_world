@@ -1,8 +1,7 @@
 const $btnQue = document.querySelectorAll('.btn-que');
-
 // tutorial 로딩
 $btnQue.forEach((element) => {
-    element.addEventListener('click', function (e) {
+    element.addEventListener('click', function(e) {
         document.getElementById('t' + PAGE_NAME).classList.remove('active');
         PAGE_NAME = e.target.id.slice(1);
         document.getElementById('t' + PAGE_NAME).classList.add('active');
@@ -246,3 +245,43 @@ modals.forEach((modal) => {
 
 resizeObserver.observe(world);
 resizeObserver.observe(window.document.body);
+
+
+const addCodeNextCellFromSelectCell = (target) => {
+    const selectCell = target.target.parentNode;
+    const nextCell = selectCell.nextElementSibling;
+    const newCell = document.createElement('py-repl');
+    newCell.innerHTML = ``;
+    selectCell.parentNode.insertBefore(newCell, nextCell);
+};
+
+const downloadCode = (target) => {
+    const pyRepl = target.target.closest('py-repl');
+    const code= pyRepl.querySelector('.cm-content').innerText;
+    const blob = new Blob([code], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `code_${dateFormat()}.py`;
+    link.click();
+};
+const uploadCode = (target) => {
+    const pyRepl = target.target.closest('py-repl');
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.py';
+    input.onchange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            pyRepl.querySelector('.cm-content').innerText = e.target.result;
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+};
+const deleteCode = (target) => {
+    const pyRepl = target.target.closest('py-repl');
+    const nextpyReplBtnWrapFromPyRepl = pyRepl.nextElementSibling;
+    nextpyReplBtnWrapFromPyRepl.remove();
+    pyRepl.remove();
+};

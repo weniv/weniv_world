@@ -12,18 +12,18 @@ const setHeader = (targetNode) => {
     ul.setAttribute('class', 'btn-list');
     ul.innerHTML = `
                 <li>
-                    <button type="button" class="btn-code-download code-export">
-                        <span class="sr-only">download code</span>
+                    <button type='button' class='btn-code-download code-export'>
+                        <span class='sr-only'>download code</span>
                     </button>
                 </li>
                 <li>
-                    <button type="button" class="btn-code-upload code-import">
-                        <span class="sr-only">upload code</span>
+                    <button type='button' class='btn-code-upload code-import'>
+                        <span class='sr-only'>upload code</span>
                     </button>
                 </li>
                 <li>
-                    <button type="button" class="btn-close code-delete">
-                        <span class="sr-only">delete code</span>
+                    <button type='button' class='btn-close code-delete'>
+                        <span class='sr-only'>delete code</span>
                     </button>
                 </li>
             `;
@@ -32,6 +32,24 @@ const setHeader = (targetNode) => {
     if (querySelector) {
         querySelector.remove();
     }
+    ul.addEventListener('click', (target) => {
+        switch (target.target.className) {
+            case 'btn-code-download code-export':
+                downloadCode(target);
+                break;
+            case 'btn-code-upload code-import':
+                uploadCode(target);
+                break;
+            case 'btn-close code-delete':
+                // 만약 셀이 하나 밖에 없다면 동작하지 않는다.
+                if (document.querySelectorAll('py-repl').length === 1) {
+                    alert('셀이 하나 밖에 없는 경우, 코드를 삭제할 수 없습니다.');
+                    return;
+                }
+                deleteCode(target);
+                break;
+        }
+    });
     button.classList.add('btn-play');
     header.append(button, ul);
     editorContainer.appendChild(header);
@@ -45,10 +63,15 @@ const setAddCodeButton = (targetNode) => {
     const buttonContainer = document.createElement('div');
     buttonContainer.setAttribute('class', 'py-repl-btn-wrap');
     buttonContainer.innerHTML = `
-        <button type="button" class="btn-add-code add-code-next">
+        <button type='button' class='btn-add-code add-code-next'>
             코드 추가
         </button>
     `;
+    // 중간 셀 추가 기능
+    buttonContainer.addEventListener('click', (target) => {
+        addCodeNextCellFromSelectCell(target);
+    });
+
 
     pyRepl.after(buttonContainer);
 };

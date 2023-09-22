@@ -492,6 +492,7 @@
             map_data['width'] = 5
             map_slider_x.value = 5
             map_slider_y.value = 5
+            item_data.clear()
             map_slider_output_x.innerHTML = map_slider_x.value
             map_slider_output_y.innerHTML = map_slider_y.value
             map_exist = js.document.querySelector('.map-container')
@@ -506,7 +507,6 @@
                 wall.resetWall(map_data['width'], map_data['height'])
                 wall_container = wall.drawWall()
                 wall_data['world']= wall.wall_data
-                
                 # map-item 이벤트 등록
                 for map_elem in draw_map.querySelectorAll('.map-item'):
                     add_event_listener(map_elem, 'click', map_item_add)

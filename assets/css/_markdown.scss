@@ -1,7 +1,38 @@
-h1,
-h2,
-h3,
-h4 {
+.md-tit1,
+.md-tit2,
+.md-tit3,
+.md-tit4 {
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 3.2rem;
+}
+
+.md-tit1 {
+    line-height: normal;
+    font-size: 4rem;
+
+    &::after {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 0.2rem;
+        background: var(--ColorGrayLv2);
+        border: 0;
+        margin-top: 2rem;
+    }
+}
+
+.md-tit2 {
+    font-size: 3.2rem;
+}
+
+.md-tit3,
+.md-tit4 {
+    font-size: 2.4rem;
+}
+
+strong {
     font-weight: bold;
 }
 
@@ -10,66 +41,61 @@ h4 {
 }
 
 .md-p {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-style: normal;
     font-weight: 400;
-    line-height: 2.2rem;
+    line-height: 3rem;
+    letter-spacing: -0.27px;
 }
 
 .md-figure {
     .md-img {
-        margin-bottom: 1rem;
-        border-radius: 0.4rem;
+        margin-bottom: 1.2rem;
     }
 
     figcaption {
-        display: flex;
-        justify-content: center;
-        gap: 0.2rem;
-        color: var(--ColorGrayLv3);
-        font-size: 14px;
-        font-style: normal;
+        color: var(--ColorGrayLv4);
+        font-size: 1.4rem;
         font-weight: 400;
         line-height: 2rem;
-
-        &::before {
-            content: '▲';
-            display: block;
-            margin-right: 0.4rem;
-        }
+        text-align: center;
     }
 }
 
 .md-blockquote {
-    padding: 0.5rem 1.2rem;
-    border-left: 3px solid var(--ColorSurface);
-    font-style: italic;
-    font-weight: 700;
+    padding-left: 1.6rem;
+    border-left: 4px solid var(--ColorPrimary);
+    font-size: 1.8rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 3.2rem;
+    letter-spacing: -0.27px;
 }
 
 code {
-    font-family: 'Source Code Pro';
-    font-size: 85%;
-    font-style: normal;
+    background: var(--ColorActivation);
+    padding: 0 0.6rem;
+    border-radius: 0.4rem;
+    color: var(--ColorPrimary);
+    font-family: Pretendard;
+    font-size: 1.8rem;
     font-weight: 500;
-    line-height: normal;
-    background: var(--ColorGrayLv1);
-    white-space: break-spaces;
-    padding: 0.2em 0.4em;
-    border-radius: 6px;
+    line-height: 3.2rem;
+    letter-spacing: -0.27px;
 }
 
 .md-pre {
-    padding: 2.8rem;
-    border-radius: 0.4rem;
-    border: 1px solid var(--ColorGrayLv2);
+    padding: 3.2rem;
+    border-radius: 1rem;
     background: var(--ColorGrayLv1);
 
     code {
+        font-family: 'Source Code Pro';
         font-size: 1.6rem;
         padding: 0;
         border-radius: 0;
         background: transparent;
+        color: initial;
     }
 }
 
@@ -109,21 +135,23 @@ ol.md-list {
 }
 
 .md-table {
-    border-top: 2px solid var(--ColorGrayLv2);
-    border-bottom: 2px solid var(--ColorGrayLv2);
-    text-align: center;
-    margin: 0.8rem 0;
+    border: 1px solid var(--ColorGrayLv2);
+    background: var(--ColorBackground);
 }
 
 .md-table td,
 .md-table th {
-    padding: 0.6em 1em;
+    padding: 1rem 1.6rem;
 }
 
 .md-table th {
     white-space: nowrap;
-    font-weight: bold;
     background: var(--ColorGrayLv1);
+    color: var(--ColorSurface);
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 2.2rem;
 }
 
 .md-table tr {
@@ -131,10 +159,6 @@ ol.md-list {
     td:not(:last-child) {
         border-right: 1px solid var(--ColorGrayLv2);
     }
-}
-
-.md-table tr:nth-child(odd) {
-    background: var(--ColorGrayLv1);
 }
 
 .md-table td {
@@ -152,4 +176,8 @@ ol.md-list {
 
 .code-text {
     color: var(--ColorCodeOrange);
+}
+
+.md-italic {
+    font-style: italic;
 }

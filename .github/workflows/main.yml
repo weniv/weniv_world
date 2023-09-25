@@ -30,7 +30,7 @@ jobs:
 
     - name: Copy dist contents to production repository
       run: |
-        cp -r dist/* ./
+        cp -r .dist/* ./
         cd .
         git add .
         git config user.name "chimaek"

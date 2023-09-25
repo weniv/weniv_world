@@ -5,7 +5,7 @@
     },
     "scripts": {
         "scss": "node-sass -wr --source-map true assets/css/style.scss assets/css/style.css",
-        "webpack": "webpack --config webpack.config.js --watch --mode development"
+        "webpack": "webpack --config webpack.config.js --mode development"
     },
     "devDependencies": {
         "copy-webpack-plugin": "^11.0.0",

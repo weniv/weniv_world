@@ -17,7 +17,7 @@ jobs:
 
     - name: Install and build
       run: |
-        cd .
+        cd weniv_world
         npm install
         npm run webpack
 
@@ -30,8 +30,8 @@ jobs:
 
     - name: Copy dist contents to production repository
       run: |
-        cp -r ./dist/* ./
-        cd .
+        cp -r weniv_world/dist/* weniv_world_production/
+        cd weniv_world_production
         git add .
         git config user.name "chimaek"
         git config user.email "pipiru100@github.com"

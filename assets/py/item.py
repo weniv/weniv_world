@@ -21,29 +21,33 @@ class Item:
         index = map_data["width"] * self.x + self.y
         self.target = map_items[index]
 
-    # TODO: 해당 좌표에 동일 아이템이 있으면 count만 증가시키고 아이템은 삭제하고 넣어야 함
-    # TODO: 해당 좌표에 다른 아이템이 있으면 삭제하고 넣어야 함
-
     def item_exist(self):
         """
         해당 좌표에 아이템이 있는지 확인하는 함수
         """
         # self.target에 자식요소가 있으면 true, 없으면 false
-        if self.target.hasChildNodes():
-            item = self.target.querySelector(".item")
-            js.console.log(item.classList)
-            return True
+        if(self.target.hasChildNodes()):
+            item = self.target.querySelector('.item')
+            count = self.target.querySelector('.count').innerHTML
+            return {'name': list(item.classList)[1], 'count': count}
         else:
             return False
 
     def draw(self):
         """
         x좌표, y좌표에 item을 생성하는 함수
-        """
-        item = js.document.createElement("img")
-        item.setAttribute("class", "item")
-        item.classList.add(f"{self.name}")
-        item.classList.add(f"item{self.x}{self.y}")
+        '''
+
+        target_item = self.item_exist()
+        if(target_item):
+            if(target_item['name'] == self.name):
+                self.set_count(self.count + int(target_item['count']))
+            self.target.removeChild(self.target.querySelector('.item-container'))
+
+        item = js.document.createElement('img')
+        item.setAttribute('class', 'item')
+        item.classList.add(f'{self.name}')
+        item.classList.add(f'item{self.x}{self.y}')
         # character.style.width = f'{self.width}px'
         item.setAttribute("src", self.img)
         item.style.position = "absolute"
@@ -56,7 +60,6 @@ class Item:
         self.target.appendChild(self.container)
         self.draw_count()
 
-    # TODO: 해당 좌표에 이미 텍스트가 있으면 지우고 넣어야 함
     def draw_count(self):
         """
         x좌표, y좌표 item에 상단 오른쪽 개수를 생성하는 함수

@@ -34,7 +34,7 @@ jobs:
         cd weniv_world_production
         git add .
         git config user.name "chimaek"
-        git config user.email "pipiru100@github.com"
+        git config user.email "pipiru100@gmail.com"
         git commit -m "Update from source repository"
         git push
 

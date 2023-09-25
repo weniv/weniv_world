@@ -1,8 +1,21 @@
 {
     "dependencies": {
-        "node-sass": "^9.0.0"
+        "node-sass": "^9.0.0",
+        "webpack": "^5.88.2"
     },
     "scripts": {
-        "scss": "node-sass -wr --source-map true assets/css/style.scss assets/css/style.css"
+        "scss": "node-sass -wr --source-map true assets/css/style.scss assets/css/style.css",
+        "webpack": "webpack --config webpack.config.js --watch --mode development"
+    },
+    "devDependencies": {
+        "copy-webpack-plugin": "^11.0.0",
+        "css-loader": "^6.8.1",
+        "file-loader": "^6.2.0",
+        "html-loader": "^4.2.0",
+        "html-webpack-plugin": "^5.5.3",
+        "sass": "^1.68.0",
+        "sass-loader": "^13.3.2",
+        "style-loader": "^3.3.3",
+        "webpack-cli": "^5.1.4"
     }
 }

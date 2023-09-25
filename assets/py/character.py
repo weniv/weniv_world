@@ -2,16 +2,15 @@ import js
 from js import setTimeout
 from pyodide.ffi import create_once_callable
 
+from built_in_functions import print
 from coordinate import (
     character_data,
     map_data,
     running_speed,
     item_data,
-    wall_data,
     blockingWallType,
 )
-from built_in_functions import print
-from error import OutOfWorld, WallIsExist, FrontIsNotClear
+from error import OutOfWorld, WallIsExist
 from item import Item
 
 
@@ -84,13 +83,13 @@ class Character:
         """
         캐릭터 위에 말풍선과 함께 출력하는 함수
         """
-        c = js.document.querySelector(f'.{self.name}')
-        speech_bubble = js.document.createElement('div')
-        speech_bubble.setAttribute('class', 'speech-bubble')
-        speech_bubble.style.top = '-50px'
-        speech_bubble.style.left = '50px'
-        speech_bubble.style.zIndex = '20'
-        speech_bubble.innerHTML = f'{text}'
+        c = js.document.querySelector(f".{self.name}")
+        speech_bubble = js.document.createElement("div")
+        speech_bubble.setAttribute("class", "speech-bubble")
+        speech_bubble.style.top = "-50px"
+        speech_bubble.style.left = "50px"
+        speech_bubble.style.zIndex = "20"
+        speech_bubble.innerHTML = f"{text}"
         c.appendChild(speech_bubble)
         setTimeout(
             create_once_callable(lambda: (c.removeChild(speech_bubble))), speech_time
@@ -147,17 +146,17 @@ class Character:
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
         global wall_data
-        if not (0<= nx < map_data['height'] and 0 <= ny < map_data['width']):
+        if not (0 <= nx < map_data["height"] and 0 <= ny < map_data["width"]):
             js.alert("맵을 벗어납니다.")
             raise OutOfWorld
 
         # 이동 경로에 벽이 있는지 확인
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
-        
-        if wall_data['world'][(wall_x, wall_y)] in blockingWallType:
-                js.alert("벽에 부딪혔습니다!")
-                raise WallIsExist
+
+        if wall_data["world"][(wall_x, wall_y)] in blockingWallType:
+            js.alert("벽에 부딪혔습니다!")
+            raise WallIsExist
 
     def _pos_to_wall(self, x, y):
         # position 좌표계를 벽을 놓을 수 있는 좌표계로 변환
@@ -240,6 +239,7 @@ class Character:
         map = js.document.querySelector(".map-container")
         map.appendChild(attack)
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
+
     def pick(self):
         self.running_time += 1000 * running_speed
         setTimeout(create_once_callable(lambda: (self._pick())), self.running_time)
@@ -377,76 +377,71 @@ class Character:
         js.document.querySelector(".map-container").appendChild(line)
 
     def front_is_clear(self):
-        '''
+        """
         캐릭터가 바라보는 방향의 앞이 비어있는지 확인하는 함수
-        '''
-        return self._is_clear('front')
-            
-    def left_is_clear(self):
-        '''
-        캐릭터가 바라보는 방향의 왼쪽이 비어있는지 확인하는 함수
-        '''
-        return self._is_clear('left')
+        """
+        return self._is_clear("front")
 
+    def left_is_clear(self):
+        """
+        캐릭터가 바라보는 방향의 왼쪽이 비어있는지 확인하는 함수
+        """
+        return self._is_clear("left")
 
     def right_is_clear(self):
-        '''
+        """
         캐릭터가 바라보는 방향의 오른쪽이 비어있는지 확인하는 함수
-        '''
-        return self._is_clear('right')
-
+        """
+        return self._is_clear("right")
 
     def back_is_clear(self):
-        '''
+        """
         캐릭터가 바라보는 방향의 뒤가 비어있는지 확인하는 함수
-        '''
-        return self._is_clear('back')
+        """
+        return self._is_clear("back")
 
-
-    def _is_clear(self, target='front'):
+    def _is_clear(self, target="front"):
         # target_direction = self.directions
         global wall_data
         target_direction = character_data[0]["directions"]
-        
-        if (target=='front'):
+
+        if target == "front":
             pass
-        elif (target=='left'):
+        elif target == "left":
             target_direction += 1
-        elif (target=='back'):
+        elif target == "back":
             target_direction += 2
-        elif (target=='right'):
-            target_direction +=3
-        else: 
+        elif target == "right":
+            target_direction += 3
+        else:
             # TODO: 에러 처리
             return None
-            
-        if (target_direction > 3):
+
+        if target_direction > 3:
             target_direction -= 4
-            
+
         posX, posY = (0, 0)
-       
-       # 캐릭터 기준 벽은 0.5만큼 떨어져있음
-        if target_direction == 0: # 동
+
+        # 캐릭터 기준 벽은 0.5만큼 떨어져있음
+        if target_direction == 0:  # 동
             posX, posY = (self.x, self.y + 0.5)
-        elif target_direction == 1: # 북
+        elif target_direction == 1:  # 북
             posX, posY = (self.x - 0.5, self.y)
-        elif target_direction == 2: # 서
+        elif target_direction == 2:  # 서
             posX, posY = (self.x, self.y - 0.5)
-        elif target_direction == 3: # 남
+        elif target_direction == 3:  # 남
             posX, posY = (self.x + 0.5, self.y)
-        
-        if not (0<= posX < map_data['height'] and 0<= posY < map_data['width']):
+
+        if not (0 <= posX < map_data["height"] and 0 <= posY < map_data["width"]):
             print("맵을 벗어납니다.")
             return False
-        
-        if wall_data['world'][(posX, posY)]:
-            print(f'{self.name}의 {target}은 비어있지 않습니다.')
+
+        if wall_data["world"][(posX, posY)]:
+            print(f"{self.name}의 {target}은 비어있지 않습니다.")
             return False
-        print(f'{self.name}의 {target}은 비어있습니다.')
+        print(f"{self.name}의 {target}은 비어있습니다.")
         return True
-          
-       
-        
+
     def directions(self):
         pass
 

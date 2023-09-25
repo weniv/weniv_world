@@ -1,5 +1,7 @@
 import js
+
 from coordinate import item_data, map_data
+
 
 class Item:
     def __init__(self, x, y, name, count=1, description={}):
@@ -9,16 +11,16 @@ class Item:
         self.x = x
         self.y = y
         self.img = f'assets/img/item/{name}.png'
-        
+
         container = js.document.createElement('div')
         container.setAttribute('class', 'item-container')
         self.container = container
-        
+
         map_container = js.document.querySelector('.map-items')
         map_items = map_container.querySelectorAll('.map-item')
         index = map_data['width'] * self.x + self.y
         self.target = map_items[index]
-        
+
     def item_exist(self):
         '''
         해당 좌표에 아이템이 있는지 확인하는 함수
@@ -30,18 +32,18 @@ class Item:
             return {'name': list(item.classList)[1], 'count': count}
         else:
             return False
-        
+
     def draw(self):
         '''
         x좌표, y좌표에 item을 생성하는 함수
         '''
-        
+
         target_item = self.item_exist()
         if(target_item):
             if(target_item['name'] == self.name):
                 self.set_count(self.count + int(target_item['count']))
             self.target.removeChild(self.target.querySelector('.item-container'))
-        
+
         item = js.document.createElement('img')
         item.setAttribute('class', 'item')
         item.classList.add(f'{self.name}')
@@ -57,10 +59,10 @@ class Item:
             'count': self.count
         }
         self.container.appendChild(item)
-        
+
         self.target.appendChild(self.container)
         self.draw_count()
-    
+
     def draw_count(self):
         '''
         x좌표, y좌표 item에 상단 오른쪽 개수를 생성하는 함수
@@ -93,10 +95,10 @@ class Item:
         count.innerHTML = f'{self.count}'
         self.container.appendChild(count)
 
-   
+
     def get_count(self):
         return self.count
-    
+
     def set_count(self, count):
         self.count = count
 

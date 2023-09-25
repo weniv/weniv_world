@@ -1,12 +1,7 @@
 [
     {
         "id": 1,
-        "title": "위니브 월드",
+        "title": "라이캣의 탄생",
         "url": "./assets/data/story/story1.md"
-    },
-    {
-        "id": 2,
-        "title": "위니브 월드2",
-        "url": "./assets/data/story/story2.md"
     }
 ]

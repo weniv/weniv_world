@@ -122,9 +122,19 @@ const parser = (markdown) => {
         tagName: 'strong',
     };
 
+    const italic = {
+        regex: /\*([^\*]+)\*/g,
+        replace: '<i class="md-italic">$1</i>',
+    };
+
     const code = {
         regex: /`([^`]+)`/g,
         tagName: 'code',
+    };
+
+    const del = {
+        regex: /~{2}([^~]+)~{2}/g,
+        replace: '<del class="md-del">$1</del>',
     };
 
     const listDepth = (token) => {
@@ -259,7 +269,7 @@ const parser = (markdown) => {
         blockquote,
     ];
 
-    const inlineRules = [link, strong, code];
+    const inlineRules = [link, strong, code, italic, del];
 
     const parseMarkdown = (markdown) => {
         const tokens = normalize(markdown);

@@ -13,7 +13,7 @@ jobs:
     - name: Checkout current repository
       uses: actions/checkout@v3
       with:
-        path: /
+        path: .
 
     - name: Install and build
       run: |
@@ -26,7 +26,7 @@ jobs:
       with:
         repository: weniv/weniv_world_production
         token: ${{ secrets.ACCESS_GITHUB_TOKEN }} # Ensure this PAT has rights to push to weniv/weniv_world_production
-        path: /
+        path: .
 
     - name: Copy dist contents to production repository
       run: |

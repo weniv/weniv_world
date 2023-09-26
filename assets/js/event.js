@@ -123,20 +123,17 @@ const removeTooltip = (target) => {
     tooltip && tooltip.remove();
 };
 
-const setTooltipPosition = (target) => {
-    const targetHeight = target.clientHeight;
-    console.log(targetHeight);
-};
-
 const addTooltipEvent = (target) => {
     target.addEventListener('mouseover', () => {
         setTimeout(() => {
             addTooltip(target);
-        }, 500);
+        }, 200);
     });
 
     target.addEventListener('mouseout', () => {
-        removeTooltip(target);
+        setTimeout(() => {
+            removeTooltip(target);
+        }, 200);
     });
 
     target.addEventListener('click', () => {

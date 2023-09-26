@@ -55,8 +55,8 @@ class Character:
         character.style.backgroundImage = f'url("{self.img}")'
         # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
         character.style.transition = f"all {running_speed}s"
-        character.style.top = f"{self.y * 100 + 20}px"
-        character.style.left = f"{self.x * 100 + 20}px"
+        character.style.top = f"{self.y * 100 + 2 + (50 - 32)}px"
+        character.style.left = f"{self.x * 100 + 2 + (50 - 32)}px"
         finder = False
         for c in character_data:
             if c["character"] == self.name:
@@ -114,28 +114,28 @@ class Character:
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
             self._movable(x, y, x, y + 1)
-            c.style.left = f"{(y + 1) * 100 + 20}px"
+            c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x, y + 1)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["y"] += 1
             self.y = character_data[0]["y"]
         elif directions == 1:
             self._movable(x - 1, y, x, y)
-            c.style.top = f"{(x - 1) * 100 + 20}px"
+            c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x - 1, y)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
             self.x = character_data[0]["x"]
         elif directions == 2:
             self._movable(x, y, x, y - 1)
-            c.style.left = f"{(y - 1) * 100 + 20}px"
+            c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x, y - 1)
             # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
             self.y = character_data[0]["y"]
         elif directions == 3:
             self._movable(x + 1, y, x, y)
-            c.style.top = f"{(x + 1) * 100 + 20}px"
+            c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x + 1, y)
             # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["x"] += 1

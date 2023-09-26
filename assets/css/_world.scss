@@ -463,11 +463,30 @@
     }
 
     .output-item {
+        position: relative;
         height: 4rem;
         padding: 1rem;
         white-space: pre;
         box-sizing: border-box;
         background: var(--ColorGrayLv1);
+
+        &[data-error='true'] {
+            color: var(--ColorError);
+
+            &.current::before {
+                background: var(--ColorError);
+            }
+        }
+
+        &.current::before {
+            content: '';
+            position: absolute;
+            left: -5.5rem;
+            top: 0;
+            width: 0.4rem;
+            height: 100%;
+            background: var(--ColorPrimary);
+        }
     }
 
     .index-list {
@@ -483,15 +502,15 @@
             text-align: right;
         }
 
-        li.current::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 0.4rem;
-            height: 100%;
-            background: var(--ColorPrimary);
-        }
+        // li.current::before {
+        //     content: '';
+        //     position: absolute;
+        //     left: 0;
+        //     top: 0;
+        //     width: 0.4rem;
+        //     height: 100%;
+        //     background: var(--ColorPrimary);
+        // }
     }
 
     .current {

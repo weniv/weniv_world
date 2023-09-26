@@ -7,37 +7,37 @@ class OutOfWorld(Exception):
     """
 
     def __init__(self):
-        print("error.OutOfWorld: out of world")
+        print("error.OutOfWorld: out of world", type="error")
         super().__init__("out of world")
 
 
 class FrontIsNotClear(Exception):
     def __init__(self):
-        print("error.FrontIsNotClear: front is not clear")
+        print("error.FrontIsNotClear: front is not clear", type="error")
         super().__init__("front is not clear")
 
 
 class CharacterIsNotExist(Exception):
     def __init__(self):
-        print("error.CharacterIsNotExist: character is not exist")
+        print("error.CharacterIsNotExist: character is not exist", type="error")
         super().__init__("character is not exist")
 
 
 class CharacterIsNotSelected(Exception):
     def __init__(self):
-        print("error.CharacterIsNotSelected: character is not selected")
+        print("error.CharacterIsNotSelected: character is not selected", type="error")
         super().__init__("character is not selected")
 
 
 class CharacterIsNotMovable(Exception):
     def __init__(self):
-        print("error.CharacterIsNotMovable: character is not movable")
+        print("error.CharacterIsNotMovable: character is not movable", type="error")
         super().__init__("character is not movable")
 
 
 class CharacterIsNotAttackable(Exception):
     def __init__(self):
-        print("error.CharacterIsNotAttackable: character is not attackable")
+        print("error.CharacterIsNotAttackable: character is not attackable", type="error")
         super().__init__("character is not attackable")
 
 
@@ -47,7 +47,7 @@ class BottomIsClear(Exception):
     """
 
     def __init__(self):
-        print("error.BottomIsClear: bottom is clear")
+        print("error.BottomIsClear: bottom is clear", type="error")
         super().__init__("bottom is clear")
 
 
@@ -57,5 +57,5 @@ class WallIsExist(Exception):
     """
 
     def __init__(self):
-        print("error.WallIsExist: wall is exist")
+        print("error.WallIsExist: wall is exist", type="error")
         super().__init__("wall is exist")

@@ -17,19 +17,22 @@ from item import Item
 #     output.value = result
 
 
-def print(*args):
+def print(*texts, type="normal"):
     """
     html 문서 내 출력
     """
     output = js.document.getElementById("output")
     result = ""
-    for arg in args:
-        result += str(arg)
+
+    for text in texts:
+        result += str(text)
 
     if output:
         paragraph = js.document.createElement("p")
         paragraph.innerHTML = result
         paragraph.classList.add("output-item")
+        if type == "error":
+            paragraph.setAttribute("data-error", "true")
         output.appendChild(paragraph)
     else:
         js.console.log(result)
@@ -85,12 +88,12 @@ def show_item(character=None):
 def set_item(x, y, name, count=1, description={}, character=None):
     if not (isinstance(x, int) and isinstance(y, int)):
         js.alert("좌표는 정수로 입력해야 합니다.")
-        print(f"{x}, {y} error.TypeError: Position must be integer")
+        print(f"{x}, {y} error.TypeError: Position must be integer", type="error")
         return None
 
     if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
         js.alert("월드를 벗어나서 아이템을 추가할 수 없습니다.")
-        print("error.OutOfWorld: out of world")
+        print("error.OutOfWorld: out of world", type="error")
         return None
 
     item = Item(x, y, name, count, description)

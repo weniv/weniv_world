@@ -1014,9 +1014,12 @@ button {
   z-index: 10; }
   .character .character-info-bubble {
     flex-direction: column;
+    position: absolute;
+    left: 100%;
     width: 22rem;
     padding: 2rem 2rem 2.4rem;
-    font-weight: 600; }
+    font-weight: 600;
+    z-index: 20; }
   .character .info-title {
     margin-bottom: 1.6rem; }
   .character .info-list {

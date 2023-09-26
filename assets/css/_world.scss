@@ -501,16 +501,6 @@
             box-sizing: border-box;
             text-align: right;
         }
-
-        // li.current::before {
-        //     content: '';
-        //     position: absolute;
-        //     left: 0;
-        //     top: 0;
-        //     width: 0.4rem;
-        //     height: 100%;
-        //     background: var(--ColorPrimary);
-        // }
     }
 
     .current {
@@ -540,5 +530,9 @@
         &:hover {
             background: var(--ColorSurface);
         }
+    }
+
+    .tooltip {
+        font-family: Pretendard;
     }
 }

@@ -294,7 +294,10 @@ button {
     font-weight: 400;
     line-height: 1.6rem;
     border-radius: 0.8rem;
-    z-index: 1;
+    width: max-content;
+    max-width: 26rem;
+    word-break: break-word;
+    z-index: 20;
 
     &::before {
         content: '';

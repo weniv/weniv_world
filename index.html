@@ -51,7 +51,7 @@
         <nav class="menu">
             <ul class="menu-list">
                 <li>
-                    <button type="button" class="button-before btn-story">
+                    <button type="button" class="button-before btn-story show-tooltip" name="스토리">
                         <span class="sr-only">
                             스토리 보기
                         </span>
@@ -61,7 +61,7 @@
                     <a href="https://pyalgo.co.kr/codeexec.html" class="basic-btn" target="_blank">코드 에디터로 이동</a>
                 </li>
                 <li>
-                    <button type="button" class="btn-dark-mode">
+                    <button type="button" class="btn-dark-mode show-tooltip" name="다크모드 ON">
                         <span class="sr-only">다크모드 온/오프 버튼</span>
                     </button>
                 </li>
@@ -74,12 +74,12 @@
                 <h2>Notebook</h2>
                 <button type="button" class="btn-add-code">코드 추가</button>
                 <ul class="notebook-btn-list">
-                    <li>
+                    <li class="show-tooltip" name="노트북 내보내기">
                         <button type="button" class="downloadNotebookBtn btn-file-export">
                             <span class="sr-only">노트북 내보내기</span>
                         </button>
                     </li>
-                    <li>
+                    <li class="show-tooltip" name="노트북 추가하기">
                         <!-- TODO: 업로드 기능 구현 -->
                         <button type="button" class="uploadNotebookBtn btn-file-import">
                             <span class="sr-only">노트북 추가하기</span>
@@ -109,12 +109,12 @@
             <header class="world-header">
                 <h2>World</h2>
                 <ul class="world-btn-list">
-                    <li>
+                    <li class="show-tooltip" name="월드 내보내기">
                         <button type="button" class="btn-file-export" id="btn-download-worlddata">
                             <span class="sr-only">월드 내보내기</span>
                         </button>
                     </li>
-                    <li>
+                    <li class="show-tooltip" name="월드 추가하기">
                         <button type="button" class="btn-file-import" id="btn-upload-worlddata">
                             <span class="sr-only">월드 추가하기</span>
                         </button>
@@ -124,7 +124,7 @@
             <nav class="world-menu">
                 <ul class="controll-btn-list">
                     <li>
-                        <button class="button-before btn-wall btn-toggle" type="button">
+                        <button class="button-before btn-wall btn-toggle show-tooltip" type="button" name="wall">
                             <span class="sr-only">Add wall</span>
                         </button>
                         <div class="controller-modal wall-type">
@@ -149,7 +149,7 @@
                         </div>
                     </li>
                     <li>
-                        <button class="button-before btn-assets btn-toggle" type="button">
+                        <button class="button-before btn-assets btn-toggle show-tooltip" type="button" name="item">
                             <span class="sr-only">아이템 추가하기</span>
                         </button>
                         <div class="controller-modal select-items">
@@ -187,7 +187,7 @@
                         </div>
                     </li>
                     <li>
-                        <button class="button-before btn-resize btn-toggle" type="button">
+                        <button class="button-before btn-resize btn-toggle show-tooltip" type="button" name="월드 크기 조정하기">
                             <span class="sr-only">월드 크기 조정하기</span>
                         </button>
                         <div class="controller-modal resize">
@@ -204,7 +204,7 @@
                         </div>
                     </li>
                     <li>
-                        <button class="button-before btn-speed btn-toggle" type="button">
+                        <button class="button-before btn-speed btn-toggle show-tooltip" type="button" name="속도 조절하기">
                             <span class="sr-only">속도 조절하기</span>
                         </button>
                         <div class="controller-modal speed">
@@ -218,7 +218,7 @@
                 </ul>
                 <ul class="info-btn-list">
                     <li>
-                        <button class="button-before btn-function btn-toggle" type="button" id="btn-list-function">
+                        <button class="button-before btn-function btn-toggle show-tooltip" type="button" id="btn-list-function" name="함수 리스트 보기">
                             <span class="sr-only">함수 리스트 보기</span>
                         </button>
                         <section class="controller-modal function-list">
@@ -271,7 +271,7 @@
                         </section>
                     </li>
                     <li>
-                        <button class="button-before btn-variable btn-toggle" type="button" id="btn-list-variable">
+                        <button class="button-before btn-variable btn-toggle show-tooltip" type="button" id="btn-list-variable" name="변수 리스트 보기">
                             <span class="sr-only">변수 리스트 보기</span>
                         </button>
                         <section class="controller-modal variable-list">
@@ -298,7 +298,7 @@
                 </ul>
                 <ul>
                     <li>
-                        <button id="init" class="button-before btn-reset" type="button">
+                        <button id="init" class="button-before btn-reset show-tooltip" type="button" name="월드, 캐릭터 초기화">
                             <span class="sr-only">월드, 캐릭터 초기화</span>
                         </button>
                     </li>
@@ -313,12 +313,12 @@
                 <header class="output-header">
                     <h3>Terminal</h3>
                     <ul class="output-btn-list">
-                        <li>
+                        <li class="show-tooltip" name="init terminal">
                             <button id="output-init" class="btn-reset" type="button">
                                 <span class="sr-only">init terminal</span>
                             </button>
                         </li>
-                        <li>
+                        <li class="show-tooltip" name="download">
                             <button id="output-download" type="button" class="downloadNotebookBtn btn-code-download">
                                 <span class="sr-only">download terminal</span>
                             </button>
@@ -341,9 +341,9 @@
                 <!-- <button type="button" class="btn-write-story">
                     직접 작성하기
                 </button> -->
-                <button type="button" class="btn-close-story">
+                <button type="button" class="btn-close-story show-tooltip" name="스토리 접기">
                     <span class="sr-only">
-                        스토리 닫기
+                        스토리 접기
                     </span>
                 </button>
             </header>
@@ -351,14 +351,6 @@
         </section>
     </main>
     <p id="pointer"></p>
-    <section class="contents hidden">
-            <nav class="question-nav">
-                <ol>
-                    <li><a href="#" id="t1" class="btn-que">T1. 자격 증명</a></li>
-                    <li><a href="#" id="t2" class="btn-que">T2. 암호문</a></li>
-                </ol>
-            </nav>
-    </section>
     
     <!-- TODO: 배포 직전에는 style="display:none;"를 풀어야 합니다. -->
     <section class="description" style="display:none;"></section>

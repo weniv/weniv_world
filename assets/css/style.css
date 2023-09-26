@@ -46,10 +46,8 @@
         0px 8px 12px 0px rgba(18, 18, 18, 0.2); }
 
 @keyframes player {
-  from {
-    background-position: -1px, -1px; }
   to {
-    background-position: -224px, -1px; } }
+    background-position: -512px, 0; } }
 
 @keyframes attack-claw-white {
   from {
@@ -1006,15 +1004,22 @@ button {
   margin: auto; }
 
 .character {
-  position: relative;
-  animation: player 1s steps(7) infinite;
-  transform: rotate(0deg);
+  position: absolute;
+  width: 6.4rem;
+  height: 6.2rem;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: 512px 62px;
+  animation: player 1s steps(8) infinite;
   z-index: 10; }
   .character .character-info-bubble {
     flex-direction: column;
+    position: absolute;
+    left: 100%;
     width: 22rem;
     padding: 2rem 2rem 2.4rem;
-    font-weight: 600; }
+    font-weight: 600;
+    z-index: 20; }
   .character .info-title {
     margin-bottom: 1.6rem; }
   .character .info-list {

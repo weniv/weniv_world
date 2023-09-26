@@ -266,16 +266,23 @@
 }
 
 .character {
-    position: relative;
-    animation: player 1s steps(7) infinite;
-    transform: rotate(0deg);
+    position: absolute;
+    width: 6.4rem;
+    height: 6.2rem;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 512px 62px;
+    animation: player 1s steps(8) infinite;
     z-index: 10;
 
     .character-info-bubble {
         flex-direction: column;
+        position: absolute;
+        left: 100%;
         width: 22rem;
         padding: 2rem 2rem 2.4rem;
         font-weight: 600;
+        z-index: 20;
     }
 
     .info-title {
@@ -349,6 +356,7 @@
     height: 10rem;
     position: relative;
 }
+
 .map-item:hover {
     background-color: var(--ColorActivation);
 }

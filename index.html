@@ -789,7 +789,12 @@
             newRepl = js.document.createElement('py-repl')
             newRepl.textContent = ''
             js.document.getElementById('notebookSection').appendChild(newRepl)
-
+        
+        @when("click", selector=".story-list>li")
+        def test_story_list(evt=None):
+            print('story list click')
+            print(evt.target.tagName)
+            
     </py-script>
     <script>
     const dateFormat = ()=>{

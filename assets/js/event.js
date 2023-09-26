@@ -76,13 +76,39 @@ const storySection = document.querySelector('.story');
 const storyList = document.querySelector('.story-list');
 const storyResizer = document.querySelector('.story-resizer');
 
+// 월드 편집 기능
+const wallEditButton = document.querySelector('.btn-wall');
+const assetsSelectButton = document.querySelector('.btn-assets');
+const mapResizeButton = document.querySelector('.btn-resize');
+
 storyShowButton.addEventListener('click', () => {
     storyShowButton.classList.toggle('active');
     storySection.classList.toggle('show');
     storyResizer.style.display = 'block';
+
+    if (storyShowButton.classList.contains('active')) {
+        alert('스토리 모드에서는 월드 편집 기능이 제한됩니다.');
+
+        wallEditButton.classList.remove('active');
+        wallEditButton.setAttribute('disabled', true);
+
+        assetsSelectButton.classList.remove('active');
+        assetsSelectButton.setAttribute('disabled', true);
+
+        mapResizeButton.classList.remove('active');
+        mapResizeButton.setAttribute('disabled', true);
+    } else {
+        wallEditButton.removeAttribute('disabled');
+        assetsSelectButton.removeAttribute('disabled');
+        mapResizeButton.removeAttribute('disabled');
+    }
 });
 
 storyCloseButton.addEventListener('click', () => {
+    wallEditButton.removeAttribute('disabled');
+    assetsSelectButton.removeAttribute('disabled');
+    mapResizeButton.removeAttribute('disabled');
+
     storyShowButton.classList.remove('active');
     storySection.classList.remove('show');
     storyResizer.style.display = 'none';

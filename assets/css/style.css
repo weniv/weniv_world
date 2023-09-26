@@ -773,6 +773,19 @@ button {
     .py-repl-btn-wrap:hover .btn-add-code {
       display: flex; }
 
+.py-error {
+  margin-top: 1.2rem;
+  padding: 1.6rem;
+  border-radius: 8px;
+  border: 2px solid var(--ColorError);
+  background: var(--ColorGrayLv1);
+  color: var(--ColorError);
+  font-family: Pretendard;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 2.2rem; }
+
 .world {
   position: relative;
   display: flex;
@@ -1180,11 +1193,24 @@ button {
   .world-output li {
     background: var(--ColorGrayLv1); }
   .world-output .output-item {
+    position: relative;
     height: 4rem;
     padding: 1rem;
     white-space: pre;
     box-sizing: border-box;
     background: var(--ColorGrayLv1); }
+    .world-output .output-item[data-error='true'] {
+      color: var(--ColorError); }
+      .world-output .output-item[data-error='true'].current::before {
+        background: var(--ColorError); }
+    .world-output .output-item.current::before {
+      content: '';
+      position: absolute;
+      left: -5.5rem;
+      top: 0;
+      width: 0.4rem;
+      height: 100%;
+      background: var(--ColorPrimary); }
   .world-output .index-list {
     position: sticky;
     left: 0; }
@@ -1195,14 +1221,6 @@ button {
       padding: 1rem 1rem 1rem 0;
       box-sizing: border-box;
       text-align: right; }
-    .world-output .index-list li.current::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 0.4rem;
-      height: 100%;
-      background: var(--ColorPrimary); }
   .world-output .current {
     background: var(--ColorActivation); }
   .world-output .output-btn-list {

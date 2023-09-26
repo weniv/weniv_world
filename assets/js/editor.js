@@ -11,22 +11,27 @@ const setHeader = (targetNode) => {
     const ul = document.createElement('ul');
     ul.setAttribute('class', 'btn-list');
     ul.innerHTML = `
-                <li>
+                <li class="show-tooltip" name="download code">
                     <button type='button' class='btn-code-download code-export'>
                         <span class='sr-only'>download code</span>
                     </button>
                 </li>
-                <li>
+                <li class="show-tooltip" name="upload code">
                     <button type='button' class='btn-code-upload code-import'>
                         <span class='sr-only'>upload code</span>
                     </button>
                 </li>
-                <li>
+                <li class="show-tooltip" name="delete">
                     <button type='button' class='btn-close code-delete'>
                         <span class='sr-only'>delete code</span>
                     </button>
                 </li>
             `;
+
+    const listItems = ul.querySelectorAll('.show-tooltip');
+    listItems.forEach((item) => {
+        addTooltipEvent(item);
+    });
 
     let querySelector = button.querySelector('svg');
     if (querySelector) {
@@ -43,7 +48,9 @@ const setHeader = (targetNode) => {
             case 'btn-close code-delete':
                 // 만약 셀이 하나 밖에 없다면 동작하지 않는다.
                 if (document.querySelectorAll('py-repl').length === 1) {
-                    alert('셀이 하나 밖에 없는 경우, 코드를 삭제할 수 없습니다.');
+                    alert(
+                        '셀이 하나 밖에 없는 경우, 코드를 삭제할 수 없습니다.',
+                    );
                     return;
                 }
                 deleteCode(target);
@@ -71,7 +78,6 @@ const setAddCodeButton = (targetNode) => {
     buttonContainer.addEventListener('click', (target) => {
         addCodeNextCellFromSelectCell(target);
     });
-
 
     pyRepl.after(buttonContainer);
 };

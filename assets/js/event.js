@@ -1,17 +1,3 @@
-const $btnQue = document.querySelectorAll('.btn-que');
-// tutorial 로딩
-$btnQue.forEach((element) => {
-    element.addEventListener('click', function(e) {
-        document.getElementById('t' + PAGE_NAME).classList.remove('active');
-        PAGE_NAME = e.target.id.slice(1);
-        document.getElementById('t' + PAGE_NAME).classList.add('active');
-        history.pushState(null, PAGE_NAME, `?page=${PAGE_NAME}`);
-        // // 문제 이동 시 에러 메시지 초기화
-        // document.getElementById("result_desc").textContent = "";
-        render(); // parser에 문제 렌더링
-    });
-});
-
 // input range 스타일 적용을 위한 코드
 const sliders = document.querySelectorAll('.slider');
 const rangeValueText = document.querySelectorAll('.slider + strong');
@@ -60,10 +46,12 @@ window.addEventListener('load', () => {
         localStorage.setItem('color-theme', 'dark');
         document.documentElement.setAttribute('color-theme', 'dark');
         darkModeButton.classList.add('active');
+        darkModeButton.setAttribute('name', '다크모드 OFF');
     } else {
         localStorage.setItem('color-theme', 'light');
         document.documentElement.setAttribute('color-theme', 'light');
         darkModeButton.classList.remove('active');
+        darkModeButton.setAttribute('name', '다크모드 ON');
     }
 });
 
@@ -72,10 +60,12 @@ darkModeButton.addEventListener('click', () => {
         localStorage.setItem('color-theme', 'light');
         document.documentElement.setAttribute('color-theme', 'light');
         darkModeButton.classList.remove('active');
+        darkModeButton.setAttribute('name', '다크모드 ON');
     } else {
         localStorage.setItem('color-theme', 'dark');
         document.documentElement.setAttribute('color-theme', 'dark');
         darkModeButton.classList.add('active');
+        darkModeButton.setAttribute('name', '다크모드 OFF');
     }
 });
 
@@ -113,7 +103,7 @@ const tooltipTargetElement = document.querySelectorAll('.show-tooltip');
 const createTooltip = (textContent) => {
     const div = document.createElement('div');
     div.setAttribute('class', 'tooltip');
-    div.textContent = textContent;
+    div.innerHTML = textContent;
 
     return div;
 };
@@ -130,7 +120,7 @@ const addTooltip = (target) => {
 const removeTooltip = (target) => {
     const tooltip = target.querySelector('.tooltip');
 
-    tooltip.remove();
+    tooltip && tooltip.remove();
 };
 
 const setTooltipPosition = (target) => {
@@ -138,7 +128,7 @@ const setTooltipPosition = (target) => {
     console.log(targetHeight);
 };
 
-tooltipTargetElement.forEach((target) => {
+const addTooltipEvent = (target) => {
     target.addEventListener('mouseover', () => {
         setTimeout(() => {
             addTooltip(target);
@@ -150,6 +140,14 @@ tooltipTargetElement.forEach((target) => {
             removeTooltip(target);
         }, 500);
     });
+
+    target.addEventListener('click', () => {
+        removeTooltip(target);
+    });
+};
+
+tooltipTargetElement.forEach((target) => {
+    addTooltipEvent(target);
 });
 
 // world 메뉴 - 버튼 이벤트 추가(모달 여닫기)
@@ -246,7 +244,6 @@ modals.forEach((modal) => {
 resizeObserver.observe(world);
 resizeObserver.observe(window.document.body);
 
-
 const addCodeNextCellFromSelectCell = (target) => {
     const selectCell = target.target.parentNode;
     const nextCell = selectCell.nextElementSibling;
@@ -257,7 +254,7 @@ const addCodeNextCellFromSelectCell = (target) => {
 
 const downloadCode = (target) => {
     const pyRepl = target.target.closest('py-repl');
-    const code= pyRepl.querySelector('.cm-content').innerText;
+    const code = pyRepl.querySelector('.cm-content').innerText;
     const blob = new Blob([code], { type: 'text/plain' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);

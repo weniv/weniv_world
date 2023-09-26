@@ -136,9 +136,7 @@ const addTooltipEvent = (target) => {
     });
 
     target.addEventListener('mouseout', () => {
-        setTimeout(() => {
-            removeTooltip(target);
-        }, 500);
+        removeTooltip(target);
     });
 
     target.addEventListener('click', () => {

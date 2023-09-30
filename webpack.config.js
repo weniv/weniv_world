@@ -12,6 +12,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './index.html', // 진입점
+    mode: 'development', // 'development' or 'production
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
@@ -46,6 +47,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './index.html', // 여기에 HTML 파일 경로를 지정합니다.
             filename: 'index.html', // 출력될 파일 이름을 지정합니다.
+            minify: false, // 빌드시 HTML 파일을 압축합니다.
         }),
         new CopyWebpackPlugin({
             patterns: [

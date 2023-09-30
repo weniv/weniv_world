@@ -321,7 +321,7 @@
         right: 2rem;
         width: 2.2rem;
         height: 2.2rem;
-        @include mask-image(var(--ColorGrayLv2), '../img/icon/icon-reset.svg');
+        @include mask-image(var(--ColorGrayLv2), 'assets/img/icon/icon-reset.svg');
     }
 
     .speech-bubble {
@@ -525,7 +525,7 @@
     .btn-reset {
         width: 1.8rem;
         height: 1.8rem;
-        @include mask-image(var(--ColorGrayLv3), '../img/icon/icon-reset.svg');
+        @include mask-image(var(--ColorGrayLv3), 'assets/img/icon/icon-reset.svg');
 
         &:hover {
             background: var(--ColorSurface);

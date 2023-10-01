@@ -10,7 +10,7 @@ class Item:
         self.description = description
         self.x = x
         self.y = y
-        self.img = f'assets/img/item/{name}.png'
+        self.img = f'/assets/img/item/{name}.png'
 
         container = js.document.createElement('div')
         container.setAttribute('class', 'item-container')

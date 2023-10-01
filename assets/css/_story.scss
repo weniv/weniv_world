@@ -46,7 +46,7 @@
             height: 2.4rem;
             @include mask-image(
                 var(--ColorGrayLv3),
-                '../img/icon/icon-double-arrow-right.svg'
+                '/assets/img/icon/icon-double-arrow-right.svg'
             );
         }
 
@@ -76,7 +76,7 @@
 
         &.active {
             .btn-toggle {
-                mask-image: url('../img/icon/icon-arrow-top.svg');
+                mask-image: url('/assets/img/icon/icon-arrow-top.svg');
             }
 
             .story-contents {
@@ -100,7 +100,7 @@
         height: 4rem;
         @include mask-image(
             var(--ColorGrayLv3),
-            '../img/icon/icon-book.svg',
+            '/assets/img/icon/icon-book.svg',
             2rem 2rem
         );
     }
@@ -125,7 +125,7 @@
         margin-left: auto;
         @include mask-image(
             var(--ColorGrayLv3),
-            '../img/icon/icon-arrow-bottom.svg'
+            '/assets/img/icon/icon-arrow-bottom.svg'
         );
 
         &:hover {

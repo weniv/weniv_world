@@ -37,7 +37,7 @@ jobs:
           git config user.email "pipiru100@gmail.com"
           git commit -m "Clear all data in pre_version"
           git merge main --allow-unrelated-histories --strategy-option=theirs 
-          git push -u origin pre_version
+          git push -u origin pre_version --force
 
       - name: Clear main branch
         run: |

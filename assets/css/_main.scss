@@ -75,18 +75,18 @@ button {
     }
 
     &.next::before {
-        -webkit-mask-image: url(/assets/img/icon/icon-play-next.svg);
-        mask-image: url(/assets/img/icon/icon-play-next.svg);
+        -webkit-mask-image: url(../../assets/img/icon/icon-play-next.svg);
+        mask-image: url(../../assets/img/icon/icon-play-next.svg);
     }
 
     &.pause::before {
-        -webkit-mask-image: url(/assets/img/icon/icon-pause.svg);
-        mask-image: url(/assets/img/icon/icon-pause.svg);
+        -webkit-mask-image: url(../../assets/img/icon/icon-pause.svg);
+        mask-image: url(../../assets/img/icon/icon-pause.svg);
     }
 
     &.stop::before {
-        -webkit-mask-image: url(/assets/img/icon/icon-stop.svg);
-        mask-image: url(/assets/img/icon/icon-stop.svg);
+        -webkit-mask-image: url(../../assets/img/icon/icon-stop.svg);
+        mask-image: url(../../assets/img/icon/icon-stop.svg);
     }
 }
 
@@ -303,16 +303,17 @@ button {
         width: 2.2rem;
         height: 2.2rem;
         background: var(--ColorGrayLv1)
-            url(/assets/img/icon/icon-light-mode.svg) no-repeat center / 1.2rem
-            1.2rem;
+            url(../../assets/img/icon/icon-light-mode.svg) no-repeat center /
+            1.2rem 1.2rem;
         border-radius: 50%;
         transition: all 0.4s;
     }
 
     &.active::after {
         left: 2.9rem;
-        background: var(--ColorGrayLv1) url(/assets/img/icon/icon-dark-mode.svg)
-            no-repeat center / 1.2rem 1.2rem;
+        background: var(--ColorGrayLv1)
+            url(../../assets/img/icon/icon-dark-mode.svg) no-repeat center /
+            1.2rem 1.2rem;
     }
 }
 

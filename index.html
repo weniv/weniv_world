@@ -210,7 +210,7 @@
                         <div class="controller-modal speed">
                             <div class="input-wrap">
                                 <label for="speed-range">Speed</label>
-                                <input type="range" min="1" max="100" value="30" class="slider" id="speed-range">
+                                <input type="range" min="1" max="100" value="50" class="slider" id="speed-range">
                                 <strong id="speed-text"></strong>
                             </div>
                         </div>
@@ -351,10 +351,10 @@
         </section>
     </main>
     <p id="pointer"></p>
-    
+
     <!-- TODO: 배포 직전에는 style="display:none;"를 풀어야 합니다. -->
     <section class="description" style="display:none;"></section>
-    
+
     <py-script>
         from map import Map
         from wall import Wall
@@ -368,7 +368,7 @@
         from pyodide.ffi.wrappers import add_event_listener
         import json
         import math
-        
+
         # item select
         item_select = {
             'status':False,
@@ -379,17 +379,21 @@
             'status': False,
             'index': 1
         }
+        # spped value
+        a = 0.00020004
+        b = -0.0408163393
+        c = 2.5411162993
 
         # speed slide bar
         slider = js.document.getElementById("speed-range")
         slider_output = js.document.getElementById("speed-text")
         slider_output.innerHTML = slider.value
-        running_speed = ((100 - int(slider.value))/10) + 0.1
+        running_speed = a * int(slider.value)**2 + b * int(slider.value) + c
 
         def change_speed(e):
             global running_speed
             slider_output.innerHTML = slider.value
-            running_speed = ((100 - int(slider.value))/10) + 0.1
+            running_speed = a * int(slider.value)**2 + b * int(slider.value) + c
             if licat:
                 licat.set_speed(running_speed)
             else:
@@ -408,7 +412,7 @@
         map_data['height'] = int(map_slider_x.value)
         map_data['width'] = int(map_slider_y.value)
 
-        
+
         def change_map(e):
             global wall_data
             map_data['height'] = int(map_slider_x.value)
@@ -424,22 +428,22 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
-                
+
                 wall.resizeWall(map_data['width'], map_data['height'])
                 wall_container = wall.drawWall()
                 wall_data['world'] = wall.wall_data
-                
+
                 # map-item 이벤트 등록
                 for map_elem in draw_map.querySelectorAll('.map-item'):
                     add_event_listener(map_elem, 'click', map_item_add)
-                
+
                 # wall_container의 자식요소들에 이벤트 등록
                 for wall_elem in wall_container.querySelectorAll('.wall'):
                     add_event_listener(wall_elem,'click',change_wall_type)
                     add_event_listener(wall_elem,'mouseover',wall_mouse_activation)
                     add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
                     add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
-                    
+
                 draw_map.appendChild(wall_container)
 
             # 범위를 벗어난 아이템 삭제
@@ -466,13 +470,13 @@
         wall_container = wall.drawWall();
         wall_data['world'] = wall.wall_data
 
-        
+
         # character 생성
         # TODO: 캐릭터 크기 수정
         licat = Character(x=0, y=0, name='licat', width=32, height=40)
         character_data[0]['character_obj'] = licat
         draw_character = licat.draw()
-        
+
         # map 생성
         map = Map(map_data['height'], map_data['width'])
         draw_map = map.drawMap()
@@ -525,14 +529,14 @@
                 # map-item 이벤트 등록
                 for map_elem in draw_map.querySelectorAll('.map-item'):
                     add_event_listener(map_elem, 'click', map_item_add)
-                
+
                 # wall_container의 자식요소들에 이벤트 등록
                 for wall_elem in wall_container.querySelectorAll('.wall'):
                     add_event_listener(wall_elem,'click',change_wall_type)
                     add_event_listener(wall_elem,'mouseover',wall_mouse_activation)
                     add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
                     add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
-                    
+
                 draw_map.appendChild(wall_container)
 
 
@@ -582,7 +586,7 @@
         @when("click", selector=".character")
         def show_character_info(evt=None):
             '''
-            캐릭터를 클릭하면 캐릭터 정보(character_data)를 볼 수 있는 함수 
+            캐릭터를 클릭하면 캐릭터 정보(character_data)를 볼 수 있는 함수
             '''
             # evt를 통해 x좌표, y좌표를 얻어냄
             # x = evt.x
@@ -590,7 +594,7 @@
             # x좌표, y좌표에 말풍선 생성
             bubble = js.document.createElement('div')
             bubble.setAttribute('class', 'character-info-bubble info-modal')
-            
+
             # 말풍선에 캐릭터 정보 추가
             bubble.innerHTML = f'''
                 <p class="info-title">캐릭터 정보</p>
@@ -652,7 +656,7 @@
                 "map_data": map_data,
                 "wall_data": wall_data['world']
             }
-            
+
             json_data = json.dumps(worlddata)
             file = js.File.new([json_data], "unused_file_name.txt", {type: "text/plain"})
             url = js.URL.createObjectURL(file)
@@ -667,7 +671,7 @@
             메인화면에서 월드데이터 업로드
             '''
             js.console.log('월드데이터 업로드')
-        
+
 
         @when("click", selector=".wall")
         def change_wall_type(evt):
@@ -725,20 +729,20 @@
                 if currentType:
                     evt.target.style.outline = ''
 
-        
+
         # radio 속성을 선택했을 때, wall_type을 변경하는 이벤트 등록
         @when("change", selector="input[name='wall-type']")
         def change_walltype_input(evt):
             global wall_type
             wall_type = evt.target.value
-                
+
         @when("click", selector="input[name='item']")
         def change_item_select(evt):
             if(item_select['status'] and evt.target.id == item_select['name']):
                 # 선택 취소
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
                 label.classList.remove('active')
-                
+
                 item_select['status'] = False
                 js.document.querySelector('.wall-container').style.pointerEvents=''
 
@@ -749,17 +753,17 @@
                 if(item_select['name']):
                     label = js.document.querySelector(f"label[for='{item_select['name']}']")
                     label.classList.remove('active')
-                    
-                
+
+
                 item_select['status'] = True
                 js.document.querySelector('.wall-container').style.pointerEvents='none'
 
                 item_select['name'] = evt.target.id
                 js.document.querySelector('.map-container').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
-                
+
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
                 label.classList.add('active')
-        
+
 
         @when("click",selector=".map-item")
         def map_item_add(evt):
@@ -771,17 +775,17 @@
                     if item == evt.target:
                         break
                     index += 1
-                    
+
                 # index를 통해 x, y 좌표 계산
                 x, y = divmod(index, map_data['width'])
                 evt.target.style.backgroundColor = ''
                 set_item(x, y, item_select['name'], 1)
-                
+
                 item_select['status']=False
                 item_select['name']=''
                 js.document.querySelector('.map-container').style.cursor='auto'
                 js.document.querySelector('.wall-container').style.pointerEvents=''
-    
+
         @when("click", selector="#output-init")
         def init_output(evt=None):
             for output_line in js.document.querySelectorAll('.output-item'):

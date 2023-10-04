@@ -71,7 +71,7 @@ button {
         display: block;
         width: 1.4rem;
         height: 1.4rem;
-        @include mask-image(#fff,"/assets/img/icon/icon-play.svg");
+        @include mask-image(#fff, '/assets/img/icon/icon-play.svg');
     }
 
     &.next::before {
@@ -186,7 +186,7 @@ button {
         &::before {
             @include mask-image(
                 var(--ColorGrayLv3),
-                '/assets/img/icon/icon-book.svg'
+                '../../assets/img/icon/icon-book.svg'
             );
         }
 
@@ -272,7 +272,10 @@ button {
 
     /* 초기화 버튼 */
     &.btn-reset::before {
-        @include mask-image(var(--ColorGrayLv3), '/assets/img/icon/icon-reset.svg');
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '/assets/img/icon/icon-reset.svg'
+        );
     }
 
     &.active::before {
@@ -296,8 +299,9 @@ button {
         left: 0.5rem;
         width: 2.2rem;
         height: 2.2rem;
-        background: var(--ColorGrayLv1) url(/assets/img/icon/icon-light-mode.svg)
-            no-repeat center / 1.2rem 1.2rem;
+        background: var(--ColorGrayLv1)
+            url(/assets/img/icon/icon-light-mode.svg) no-repeat center / 1.2rem
+            1.2rem;
         border-radius: 50%;
         transition: all 0.4s;
     }
@@ -392,15 +396,16 @@ button {
         left: 0.4rem;
         width: 2.4rem;
         height: 2.4rem;
-        background: url('/assets/img/icon/icon-polygon.svg') no-repeat center / cover;
+        background: url('/assets/img/icon/icon-polygon.svg') no-repeat center /
+            cover;
     }
 }
 
 :root[color-theme='dark'] .controller-modal {
     &::before {
         top: -1.1rem;
-        background: url('/assets/img/icon/icon-polygon-dark.svg') no-repeat center /
-            cover;
+        background: url('/assets/img/icon/icon-polygon-dark.svg') no-repeat
+            center / cover;
     }
 }
 

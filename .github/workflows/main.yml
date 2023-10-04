@@ -10,32 +10,47 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout current repository
-      uses: actions/checkout@v3
-      with:
-        path: weniv_world
+      - name: Checkout current repository
+        uses: actions/checkout@v3
+        with:
+          path: weniv_world
 
-    - name: Install and build
-      run: |
-        cd weniv_world
-        npm install
-        npm run webpack
+      - name: Install and build
+        run: |
+          cd weniv_world
+          npm install
+          npm run webpack
 
-    - name: Checkout production repository
-      uses: actions/checkout@v3
-      with:
-        repository: weniv/weniv_world_production
-        token: ${{ secrets.ACCESS_GITHUB_TOKEN }} # Ensure this PAT has rights to push to weniv/weniv_world_production
-        path: weniv_world_production
+      - name: Checkout production repository
+        uses: actions/checkout@v3
+        with:
+          repository: weniv/weniv_world_production
+          token: ${{ secrets.ACCESS_GITHUB_TOKEN }} # Ensure this PAT has rights to push to weniv/weniv_world_production
+          path: weniv_world_production
 
-    - name: Copy dist contents to production repository
-      run: |
-        cp -r weniv_world/dist/* weniv_world_production/
-        cd weniv_world_production
-        git add .
-        git config user.name "chimaek"
-        git config user.email "pipiru100@gmail.com"
-        git commit -m "Update from source repository"
-        git push
+      - name: Backup to pre_version branch
+        run: |
+          cd weniv_world_production
+          git checkout -B pre_version
+          git add .
+          git config user.name "chimaek"
+          git config user.email "pipiru100@gmail.com"
+          git commit -m "Backup before update"
+          git push origin pre_version
+
+      - name: Remove all files in production repository (main branch only)
+        if: github.ref == 'refs/heads/main'
+        run: |
+          rm -rf weniv_world_production/*
+
+      - name: Copy dist contents to production repository
+        run: |
+          cp -r weniv_world/dist/* weniv_world_production/
+          cd weniv_world_production
+          git add .
+          git config user.name "chimaek"
+          git config user.email "pipiru100@gmail.com"
+          git commit -m "Update from source repository"
+          git push
 
 # Note: The last step to set GitHub Pages source to dist/index.html should be done manually or you can automate with GitHub API.

@@ -33,7 +33,7 @@ jobs:
           cd weniv_world_production
           git checkout main
           git pull origin main
-          git checkout pre_version
+          git checkout pre_version || git checkout -b pre_version
           git rm -rf . 
           git commit -m "Clear all data in pre_version"
           git merge main --allow-unrelated-histories --strategy-option=theirs 

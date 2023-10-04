@@ -8,6 +8,8 @@ from coordinate import (
     map_data,
     item_data,
     blockingWallType,
+    wall_data,
+    running_speed,
 )
 from error import OutOfWorld, WallIsExist
 from item import Item

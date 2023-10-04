@@ -269,11 +269,11 @@ button {
     mask-position: center center; }
   .button-before.btn-wall:disabled::before {
     background: var(--ColorGrayLv2);
-    -webkit-mask-image: url("../img/icon/icon-wall-import.svg");
+    -webkit-mask-image: url("/assets/img/icon/icon-wall-import.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("../img/icon/icon-wall-import.svg");
+    mask-image: url("/assets/img/icon/icon-wall-import.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
@@ -289,11 +289,11 @@ button {
     mask-position: center center; }
   .button-before.btn-assets:disabled::before {
     background: var(--ColorGrayLv2);
-    -webkit-mask-image: url("../img/icon/icon-asset-import.svg");
+    -webkit-mask-image: url("/assets/img/icon/icon-asset-import.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("../img/icon/icon-asset-import.svg");
+    mask-image: url("/assets/img/icon/icon-asset-import.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
@@ -309,11 +309,11 @@ button {
     mask-position: center center; }
   .button-before.btn-resize:disabled::before {
     background: var(--ColorGrayLv2);
-    -webkit-mask-image: url("../img/icon/icon-world-size.svg");
+    -webkit-mask-image: url("/assets/img/icon/icon-world-size.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("../img/icon/icon-world-size.svg");
+    mask-image: url("/assets/img/icon/icon-world-size.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }

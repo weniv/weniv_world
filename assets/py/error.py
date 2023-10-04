@@ -37,7 +37,9 @@ class CharacterIsNotMovable(Exception):
 
 class CharacterIsNotAttackable(Exception):
     def __init__(self):
-        print("error.CharacterIsNotAttackable: character is not attackable", type="error")
+        print(
+            "error.CharacterIsNotAttackable: character is not attackable", type="error"
+        )
         super().__init__("character is not attackable")
 
 

@@ -154,19 +154,19 @@
             height: 1.8rem;
             @include mask-image(
                 var(--ColorWallGray),
-                '../img/icon/icon-wall-import.svg'
+                '/assets/img/icon/icon-wall-import.svg'
             );
         }
     }
 
     input#door + label::after {
-        @include mask-image(var(--ColorWallBlue), '../img/icon/icon-door.svg');
+        @include mask-image(var(--ColorWallBlue), '/assets/img/icon/icon-door.svg');
     }
 
     input#fence + label::after {
         @include mask-image(
             var(--ColorWallGreen),
-            '../img/icon/icon-fence.svg'
+            '/assets/img/icon/icon-fence.svg'
         );
     }
 
@@ -195,7 +195,7 @@
         height: 1rem;
         @include mask-image(
             var(--ColorBtnSurface),
-            '../img/icon/icon-blocked.svg'
+            '/assets/img/icon/icon-blocked.svg'
         );
     }
 }
@@ -214,7 +214,7 @@
         height: 4.2rem;
         border-radius: 10px;
         border: 1px solid var(--ColorGrayLv2);
-        background: var(--ColorBackground) url('../img/item/fish-1.png')
+        background: var(--ColorBackground) url('/assets/img/item/fish-1.png')
             no-repeat center / 3rem auto;
         box-sizing: border-box;
         cursor: pointer;
@@ -231,22 +231,22 @@
     }
 
     input#fish-2 + label {
-        background: var(--ColorBackground) url('../img/item/fish-2.png')
+        background: var(--ColorBackground) url('/assets/img/item/fish-2.png')
             no-repeat center / 3rem auto;
     }
 
     input#fish-3 + label {
-        background: var(--ColorBackground) url('../img/item/fish-3.png')
+        background: var(--ColorBackground) url('/assets/img/item/fish-3.png')
             no-repeat center / 3rem auto;
     }
 
     input#diamond + label {
-        background: var(--ColorBackground) url('../img/item/diamond.png')
+        background: var(--ColorBackground) url('/assets/img/item/diamond.png')
             no-repeat center / 3rem auto;
     }
 
     input#apple + label {
-        background: var(--ColorBackground) url('../img/item/apple.png')
+        background: var(--ColorBackground) url('/assets/img/item/apple.png')
             no-repeat center / 3rem auto;
     }
 }
@@ -321,7 +321,7 @@
         right: 2rem;
         width: 2.2rem;
         height: 2.2rem;
-        @include mask-image(var(--ColorGrayLv2), '../img/icon/icon-reset.svg');
+        @include mask-image(var(--ColorGrayLv2), '/assets/img/icon/icon-reset.svg');
     }
 
     .speech-bubble {
@@ -525,7 +525,7 @@
     .btn-reset {
         width: 1.8rem;
         height: 1.8rem;
-        @include mask-image(var(--ColorGrayLv3), '../img/icon/icon-reset.svg');
+        @include mask-image(var(--ColorGrayLv3), '/assets/img/icon/icon-reset.svg');
 
         &:hover {
             background: var(--ColorSurface);

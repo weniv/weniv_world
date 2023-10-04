@@ -71,22 +71,22 @@ button {
         display: block;
         width: 1.4rem;
         height: 1.4rem;
-        @include mask-image(#fff, '../img/icon/icon-play.svg');
+        @include mask-image(#fff,"/assets/img/icon/icon-play.svg");
     }
 
     &.next::before {
-        -webkit-mask-image: url(../img/icon/icon-play-next.svg);
-        mask-image: url(../img/icon/icon-play-next.svg);
+        -webkit-mask-image: url(/assets/img/icon/icon-play-next.svg);
+        mask-image: url(/assets/img/icon/icon-play-next.svg);
     }
 
     &.pause::before {
-        -webkit-mask-image: url(../img/icon/icon-pause.svg);
-        mask-image: url(../img/icon/icon-pause.svg);
+        -webkit-mask-image: url(/assets/img/icon/icon-pause.svg);
+        mask-image: url(/assets/img/icon/icon-pause.svg);
     }
 
     &.stop::before {
-        -webkit-mask-image: url(../img/icon/icon-stop.svg);
-        mask-image: url(../img/icon/icon-stop.svg);
+        -webkit-mask-image: url(/assets/img/icon/icon-stop.svg);
+        mask-image: url(/assets/img/icon/icon-stop.svg);
     }
 }
 
@@ -96,7 +96,7 @@ button {
     height: 2.4rem;
     @include mask-image(
         var(--ColorGrayLv3),
-        '../img/icon/icon-file-export.svg'
+        '/assets/img/icon/icon-file-export.svg'
     );
 
     &:hover {
@@ -110,7 +110,7 @@ button {
     height: 2.4rem;
     @include mask-image(
         var(--ColorGrayLv3),
-        '../img/icon/icon-file-import.svg'
+        '/assets/img/icon/icon-file-import.svg'
     );
 
     &:hover {
@@ -124,7 +124,7 @@ button {
     height: 2rem;
     @include mask-image(
         var(--ColorGrayLv3),
-        '../img/icon/icon-code-download.svg'
+        '/assets/img/icon/icon-code-download.svg'
     );
 
     &:hover {
@@ -138,7 +138,7 @@ button {
     height: 2rem;
     @include mask-image(
         var(--ColorGrayLv3),
-        '../img/icon/icon-code-upload.svg'
+        '/assets/img/icon/icon-code-upload.svg'
     );
 
     &:hover {
@@ -150,7 +150,7 @@ button {
 .btn-close {
     width: 2rem;
     height: 2rem;
-    @include mask-image(var(--ColorGrayLv3), '../img/icon/icon-close.svg');
+    @include mask-image(var(--ColorGrayLv3), '/assets/img/icon/icon-close.svg');
 
     &:hover {
         background: var(--ColorSurface);
@@ -186,7 +186,7 @@ button {
         &::before {
             @include mask-image(
                 var(--ColorGrayLv3),
-                '../img/icon/icon-book.svg'
+                '/assets/img/icon/icon-book.svg'
             );
         }
 
@@ -200,14 +200,14 @@ button {
         &::before {
             @include mask-image(
                 var(--ColorGrayLv3),
-                '../img/icon/icon-wall-import.svg'
+                '/assets/img/icon/icon-wall-import.svg'
             );
         }
 
         &:disabled::before {
             @include mask-image(
                 var(--ColorGrayLv2),
-                '../img/icon/icon-wall-import.svg'
+                '/assets/img/icon/icon-wall-import.svg'
             );
         }
     }
@@ -217,14 +217,14 @@ button {
         &::before {
             @include mask-image(
                 var(--ColorGrayLv3),
-                '../img/icon/icon-asset-import.svg'
+                '/assets/img/icon/icon-asset-import.svg'
             );
         }
 
         &:disabled::before {
             @include mask-image(
                 var(--ColorGrayLv2),
-                '../img/icon/icon-asset-import.svg'
+                '/assets/img/icon/icon-asset-import.svg'
             );
         }
     }
@@ -234,14 +234,14 @@ button {
         &::before {
             @include mask-image(
                 var(--ColorGrayLv3),
-                '../img/icon/icon-world-size.svg'
+                '/assets/img/icon/icon-world-size.svg'
             );
         }
 
         &:disabled::before {
             @include mask-image(
                 var(--ColorGrayLv2),
-                '../img/icon/icon-world-size.svg'
+                '/assets/img/icon/icon-world-size.svg'
             );
         }
     }
@@ -250,7 +250,7 @@ button {
     &.btn-speed::before {
         @include mask-image(
             var(--ColorGrayLv3),
-            '../img/icon/icon-speed-control.svg'
+            '/assets/img/icon/icon-speed-control.svg'
         );
     }
 
@@ -258,7 +258,7 @@ button {
     &.btn-function::before {
         @include mask-image(
             var(--ColorGrayLv3),
-            '../img/icon/icon-function-list.svg'
+            '/assets/img/icon/icon-function-list.svg'
         );
     }
 
@@ -266,13 +266,13 @@ button {
     &.btn-variable::before {
         @include mask-image(
             var(--ColorGrayLv3),
-            '../img/icon/icon-variable-list.svg'
+            '/assets/img/icon/icon-variable-list.svg'
         );
     }
 
     /* 초기화 버튼 */
     &.btn-reset::before {
-        @include mask-image(var(--ColorGrayLv3), '../img/icon/icon-reset.svg');
+        @include mask-image(var(--ColorGrayLv3), '/assets/img/icon/icon-reset.svg');
     }
 
     &.active::before {
@@ -296,7 +296,7 @@ button {
         left: 0.5rem;
         width: 2.2rem;
         height: 2.2rem;
-        background: var(--ColorGrayLv1) url(../img/icon/icon-light-mode.svg)
+        background: var(--ColorGrayLv1) url(/assets/img/icon/icon-light-mode.svg)
             no-repeat center / 1.2rem 1.2rem;
         border-radius: 50%;
         transition: all 0.4s;
@@ -304,7 +304,7 @@ button {
 
     &.active::after {
         left: 2.9rem;
-        background: var(--ColorGrayLv1) url(../img/icon/icon-dark-mode.svg)
+        background: var(--ColorGrayLv1) url(/assets/img/icon/icon-dark-mode.svg)
             no-repeat center / 1.2rem 1.2rem;
     }
 }
@@ -392,14 +392,14 @@ button {
         left: 0.4rem;
         width: 2.4rem;
         height: 2.4rem;
-        background: url('../img/icon/icon-polygon.svg') no-repeat center / cover;
+        background: url('/assets/img/icon/icon-polygon.svg') no-repeat center / cover;
     }
 }
 
 :root[color-theme='dark'] .controller-modal {
     &::before {
         top: -1.1rem;
-        background: url('../img/icon/icon-polygon-dark.svg') no-repeat center /
+        background: url('/assets/img/icon/icon-polygon-dark.svg') no-repeat center /
             cover;
     }
 }

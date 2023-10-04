@@ -11,17 +11,17 @@ const setHeader = (targetNode) => {
     const ul = document.createElement('ul');
     ul.setAttribute('class', 'btn-list');
     ul.innerHTML = `
-                <li class="show-tooltip" name="download code">
+                <li class='show-tooltip' name='download code'>
                     <button type='button' class='btn-code-download code-export'>
                         <span class='sr-only'>download code</span>
                     </button>
                 </li>
-                <li class="show-tooltip" name="upload code">
+                <li class='show-tooltip' name='upload code'>
                     <button type='button' class='btn-code-upload code-import'>
                         <span class='sr-only'>upload code</span>
                     </button>
                 </li>
-                <li class="show-tooltip" name="delete">
+                <li class='show-tooltip' name='delete'>
                     <button type='button' class='btn-close code-delete'>
                         <span class='sr-only'>delete code</span>
                     </button>
@@ -33,10 +33,10 @@ const setHeader = (targetNode) => {
         addTooltipEvent(item);
     });
 
-    let querySelector = button.querySelector('svg');
-    if (querySelector) {
-        querySelector.remove();
-    }
+    // let querySelector = button.querySelector('svg');
+    // if (querySelector) {
+    //     querySelector.remove();
+    // }
     ul.addEventListener('click', (target) => {
         switch (target.target.className) {
             case 'btn-code-download code-export':
@@ -57,9 +57,9 @@ const setHeader = (targetNode) => {
                 break;
         }
     });
-    button.classList.add('btn-play');
+    button && button.classList.add('btn-play');
     header.append(button, ul);
-    editorContainer.appendChild(header);
+    editorContainer && editorContainer.appendChild(header);
 };
 
 const setAddCodeButton = (targetNode) => {
@@ -79,7 +79,7 @@ const setAddCodeButton = (targetNode) => {
         addCodeNextCellFromSelectCell(target);
     });
 
-    pyRepl.after(buttonContainer);
+    pyRepl && pyRepl.after(buttonContainer);
 };
 
 const observePyRepl = (mutationsList) => {

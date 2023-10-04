@@ -6,9 +6,7 @@ from built_in_functions import print
 from coordinate import (
     character_data,
     map_data,
-    running_speed,
     item_data,
-    wall_data,
     blockingWallType,
 )
 from error import OutOfWorld, WallIsExist
@@ -94,12 +92,14 @@ class Character:
         )
 
     def set_speed(self, speed):
+        global running_speed
         c = js.document.querySelector(f".{self.name}")
         c.style.transition = f"all {speed}s"
         running_speed = speed
 
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
+        global running_speed
         self.running_time += 1000 * running_speed
         setTimeout(create_once_callable(lambda: (self._move())), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
@@ -173,13 +173,19 @@ class Character:
         # data = c.style.transform[7:].replace(")", "")
 
         if directions == 0:
-            c.style.backgroundImage = f'url("assets/img/characters/{self.name}-{directions+1}.png")'
+            c.style.backgroundImage = (
+                f'url("assets/img/characters/{self.name}-{directions+1}.png")'
+            )
             character_data[0]["directions"] += 1
         elif directions == 1:
-            c.style.backgroundImage = f'url("assets/img/characters/{self.name}-{directions+1}.png")'
+            c.style.backgroundImage = (
+                f'url("assets/img/characters/{self.name}-{directions+1}.png")'
+            )
             character_data[0]["directions"] += 1
         elif directions == 2:
-            c.style.backgroundImage = f'url("assets/img/characters/{self.name}-{directions+1}.png")'
+            c.style.backgroundImage = (
+                f'url("assets/img/characters/{self.name}-{directions+1}.png")'
+            )
             character_data[0]["directions"] += 1
         elif directions == 3:
             c.style.backgroundImage = f'url("assets/img/characters/{self.name}-0.png")'

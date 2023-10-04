@@ -28,14 +28,15 @@ jobs:
           token: ${{ secrets.ACCESS_GITHUB_TOKEN }} # Ensure this PAT has rights to push to weniv/weniv_world_production
           path: weniv_world_production
 
-      - name: Backup to pre_version branch
+      - name: Backup data to pre_version branch from main branch
         run: |
           cd weniv_world_production
-          git checkout -B pre_version
-          git add .
-          git config user.name "chimaek"
-          git config user.email "pipiru100@gmail.com"
-          git commit -m "Backup before update"
+          git checkout main
+          git pull origin main
+          git checkout pre_version
+          git rm -rf . 
+          git commit -m "Clear all data in pre_version"
+          git merge main --allow-unrelated-histories --strategy-option=theirs 
           git push origin pre_version
 
       - name: Remove all files in production repository (main branch only)

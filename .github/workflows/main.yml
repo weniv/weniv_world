@@ -33,7 +33,6 @@ jobs:
           cd weniv_world_production
           git fetch
           git checkout pre_version || git checkout -b pre_version
-          git rm -rf .
           git config user.name "chimaek"
           git config user.email "pipiru100@gmail.com"
           git reset --hard origin/main

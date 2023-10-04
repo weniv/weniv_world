@@ -238,6 +238,8 @@ button {
   /* 초기화 버튼 */ }
   .button-before:hover, .button-before.active {
     background: var(--ColorActivation); }
+  .button-before:disabled:hover, .button-before:disabled.active {
+    background: transparent; }
   .button-before::before {
     content: '';
     display: block;
@@ -265,6 +267,16 @@ button {
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
+  .button-before.btn-wall:disabled::before {
+    background: var(--ColorGrayLv2);
+    -webkit-mask-image: url("../img/icon/icon-wall-import.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../img/icon/icon-wall-import.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
   .button-before.btn-assets::before {
     background: var(--ColorGrayLv3);
     -webkit-mask-image: url("../img/icon/icon-asset-import.svg");
@@ -275,8 +287,28 @@ button {
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
+  .button-before.btn-assets:disabled::before {
+    background: var(--ColorGrayLv2);
+    -webkit-mask-image: url("../img/icon/icon-asset-import.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../img/icon/icon-asset-import.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
   .button-before.btn-resize::before {
     background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../img/icon/icon-world-size.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../img/icon/icon-world-size.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .button-before.btn-resize:disabled::before {
+    background: var(--ColorGrayLv2);
     -webkit-mask-image: url("../img/icon/icon-world-size.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;

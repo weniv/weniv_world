@@ -359,7 +359,8 @@
         from map import Map
         from wall import Wall
         from character import Character
-        from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type
+        from item import Item
+        from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type,story_wall
         from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear
         from pyscript import when
         from js import alert, setTimeout
@@ -372,6 +373,11 @@
         item_select = {
             'status':False,
             'name':''
+        }
+        # story select
+        story_select = {
+            'status': False,
+            'index': 1
         }
 
         # speed slide bar
@@ -459,6 +465,7 @@
         wall = Wall()
         wall_container = wall.drawWall();
         wall_data['world'] = wall.wall_data
+
         
         # character 생성
         # TODO: 캐릭터 크기 수정
@@ -477,7 +484,7 @@
         app.appendChild(draw_map)
 
         @when("click", selector="#init")
-        def init(evt):
+        def init(evt=None):
             global wall_data
             js.console.log('월드 초기화')
             map_data['height'] = 5
@@ -496,7 +503,23 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
+
+                
                 wall.resetWall(map_data['width'], map_data['height'])
+                
+                if(story_select['status'] or story_select['index']):
+                    draw_map.style.pointerEvents='none'
+                    idx = story_select['index']
+                    map_data['width']= story_wall[idx]['map_width']
+                    map_data['height']= story_wall[idx]['map_height']
+                    wall_data['world']= story_wall[idx]['wall']
+                    wall.wall_data = story_wall[idx]['wall']
+
+                    items = story_wall[idx]['item']
+                    for pos in items:
+                       item = Item(pos[0], pos[1], items[pos]['item'], items[pos]['count'])
+                       item.draw()
+
                 wall_container = wall.drawWall()
                 wall_data['world']= wall.wall_data
                 # map-item 이벤트 등록
@@ -789,6 +812,36 @@
             newRepl = js.document.createElement('py-repl')
             newRepl.textContent = ''
             js.document.getElementById('notebookSection').appendChild(newRepl)
+        
+        storyList = js.document.querySelectorAll('.story-list>li')
+        @when("click", selector=".story-list>li")
+        def set_story_map(evt=None):
+            if(evt.target.tagName=='BUTTON'):
+                if (evt.currentTarget.classList.contains('active')):
+                    story_select['index']=0
+                else:
+                    story_select['index']=list(storyList).index(evt.currentTarget)+1
+                init()                
+        
+        @when("click", selector=".btn-story")
+        def check_story_open(evt=None):
+            if(evt.target.classList.contains('active')):
+                story_select['status'] = True
+                if not (js.document.querySelector('.story-list>li.active')):
+                    story_select['index'] = 0
+            else:
+                story_select['status'] = False
+            init()                
+
+        
+        @when('click', selector='.btn-close-story')
+        def story_close(evt=None):
+            story_select['status'] = False
+            init()                
+
+        
+        
+            
 
     </py-script>
     <script>

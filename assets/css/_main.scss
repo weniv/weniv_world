@@ -169,6 +169,11 @@ button {
         background: var(--ColorActivation);
     }
 
+    &:disabled:hover,
+    &:disabled.active {
+        background: transparent;
+    }
+
     &::before {
         content: '';
         display: block;
@@ -191,27 +196,54 @@ button {
     }
 
     /* 벽 만들기 버튼 */
-    &.btn-wall::before {
-        @include mask-image(
-            var(--ColorGrayLv3),
-            '../img/icon/icon-wall-import.svg'
-        );
+    &.btn-wall {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../img/icon/icon-wall-import.svg'
+            );
+        }
+
+        &:disabled::before {
+            @include mask-image(
+                var(--ColorGrayLv2),
+                '../img/icon/icon-wall-import.svg'
+            );
+        }
     }
 
     /* 에셋 추가 버튼 */
-    &.btn-assets::before {
-        @include mask-image(
-            var(--ColorGrayLv3),
-            '../img/icon/icon-asset-import.svg'
-        );
+    &.btn-assets {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../img/icon/icon-asset-import.svg'
+            );
+        }
+
+        &:disabled::before {
+            @include mask-image(
+                var(--ColorGrayLv2),
+                '../img/icon/icon-asset-import.svg'
+            );
+        }
     }
 
     /* 월드 크기 조정 버튼 */
-    &.btn-resize::before {
-        @include mask-image(
-            var(--ColorGrayLv3),
-            '../img/icon/icon-world-size.svg'
-        );
+    &.btn-resize {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../img/icon/icon-world-size.svg'
+            );
+        }
+
+        &:disabled::before {
+            @include mask-image(
+                var(--ColorGrayLv2),
+                '../img/icon/icon-world-size.svg'
+            );
+        }
     }
 
     /* 속도 조절 버튼 */

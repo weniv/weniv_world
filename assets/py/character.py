@@ -8,6 +8,8 @@ from coordinate import (
     map_data,
     item_data,
     blockingWallType,
+    wall_data,
+    running_speed,
 )
 from error import OutOfWorld, WallIsExist
 from item import Item
@@ -92,14 +94,14 @@ class Character:
         )
 
     def set_speed(self, speed):
-        global running_speed
         c = js.document.querySelector(f".{self.name}")
         c.style.transition = f"all {speed}s"
+        global running_speed
         running_speed = speed
+
 
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
-        global running_speed
         self.running_time += 1000 * running_speed
         setTimeout(create_once_callable(lambda: (self._move())), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)

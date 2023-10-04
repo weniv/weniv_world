@@ -247,11 +247,11 @@ button {
     height: 2.8rem; }
   .button-before.btn-story::before {
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-book.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-book.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-book.svg");
+    mask-image: url("../../assets/img/icon/icon-book.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }

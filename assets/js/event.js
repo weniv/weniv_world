@@ -89,6 +89,7 @@ storyShowButton.addEventListener('click', () => {
     const mapContainer = document.querySelector('.map-container');
 
     if (storyShowButton.classList.contains('active')) {
+        // TODO: 모달이나 토스트로 변경
         alert('스토리 모드에서는 월드 편집 기능이 제한됩니다.');
 
         wallEditButton.classList.remove('active');
@@ -99,13 +100,10 @@ storyShowButton.addEventListener('click', () => {
 
         mapResizeButton.classList.remove('active');
         mapResizeButton.setAttribute('disabled', true);
-
-        mapContainer.style.pointerEvents = 'none';
     } else {
         wallEditButton.removeAttribute('disabled');
         assetsSelectButton.removeAttribute('disabled');
         mapResizeButton.removeAttribute('disabled');
-        mapContainer.style.pointerEvents = '';
     }
 });
 

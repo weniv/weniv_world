@@ -35,7 +35,10 @@
         display: inline-block;
         width: 2rem;
         height: 2rem;
-        @include mask-image(var(--ColorPrimary), '/assets/img/icon/icon-plus.svg');
+        @include mask-image(
+            var(--ColorPrimary),
+            '../../assets/img/icon/icon-plus.svg'
+        );
     }
 }
 

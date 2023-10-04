@@ -124,11 +124,11 @@ button {
     width: 1.4rem;
     height: 1.4rem;
     background: #fff;
-    -webkit-mask-image: url("/assets/img/icon/icon-play.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-play.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-play.svg");
+    mask-image: url("../../assets/img/icon/icon-play.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
@@ -147,11 +147,11 @@ button {
   width: 2.4rem;
   height: 2.4rem;
   background: var(--ColorGrayLv3);
-  -webkit-mask-image: url("/assets/img/icon/icon-file-export.svg");
+  -webkit-mask-image: url("../../assets/img/icon/icon-file-export.svg");
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center center;
-  mask-image: url("/assets/img/icon/icon-file-export.svg");
+  mask-image: url("../../assets/img/icon/icon-file-export.svg");
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center center; }
@@ -163,11 +163,11 @@ button {
   width: 2.4rem;
   height: 2.4rem;
   background: var(--ColorGrayLv3);
-  -webkit-mask-image: url("/assets/img/icon/icon-file-import.svg");
+  -webkit-mask-image: url("../../assets/img/icon/icon-file-import.svg");
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center center;
-  mask-image: url("/assets/img/icon/icon-file-import.svg");
+  mask-image: url("../../assets/img/icon/icon-file-import.svg");
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center center; }
@@ -179,11 +179,11 @@ button {
   width: 2rem;
   height: 2rem;
   background: var(--ColorGrayLv3);
-  -webkit-mask-image: url("/assets/img/icon/icon-code-download.svg");
+  -webkit-mask-image: url("../../assets/img/icon/icon-code-download.svg");
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center center;
-  mask-image: url("/assets/img/icon/icon-code-download.svg");
+  mask-image: url("../../assets/img/icon/icon-code-download.svg");
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center center; }
@@ -195,11 +195,11 @@ button {
   width: 2rem;
   height: 2rem;
   background: var(--ColorGrayLv3);
-  -webkit-mask-image: url("/assets/img/icon/icon-code-upload.svg");
+  -webkit-mask-image: url("../../assets/img/icon/icon-code-upload.svg");
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center center;
-  mask-image: url("/assets/img/icon/icon-code-upload.svg");
+  mask-image: url("../../assets/img/icon/icon-code-upload.svg");
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center center; }
@@ -211,11 +211,11 @@ button {
   width: 2rem;
   height: 2rem;
   background: var(--ColorGrayLv3);
-  -webkit-mask-image: url("/assets/img/icon/icon-close.svg");
+  -webkit-mask-image: url("../../assets/img/icon/icon-close.svg");
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center center;
-  mask-image: url("/assets/img/icon/icon-close.svg");
+  mask-image: url("../../assets/img/icon/icon-close.svg");
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center center; }
@@ -259,101 +259,101 @@ button {
     background: var(--ColorPrimary); }
   .button-before.btn-wall::before {
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-wall-import.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-wall-import.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-wall-import.svg");
+    mask-image: url("../../assets/img/icon/icon-wall-import.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
   .button-before.btn-wall:disabled::before {
     background: var(--ColorGrayLv2);
-    -webkit-mask-image: url("/assets/img/icon/icon-wall-import.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-wall-import.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-wall-import.svg");
+    mask-image: url("../../assets/img/icon/icon-wall-import.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
   .button-before.btn-assets::before {
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-asset-import.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-asset-import.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-asset-import.svg");
+    mask-image: url("../../assets/img/icon/icon-asset-import.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
   .button-before.btn-assets:disabled::before {
     background: var(--ColorGrayLv2);
-    -webkit-mask-image: url("/assets/img/icon/icon-asset-import.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-asset-import.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-asset-import.svg");
+    mask-image: url("../../assets/img/icon/icon-asset-import.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
   .button-before.btn-resize::before {
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-world-size.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-world-size.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-world-size.svg");
+    mask-image: url("../../assets/img/icon/icon-world-size.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
   .button-before.btn-resize:disabled::before {
     background: var(--ColorGrayLv2);
-    -webkit-mask-image: url("/assets/img/icon/icon-world-size.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-world-size.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-world-size.svg");
+    mask-image: url("../../assets/img/icon/icon-world-size.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
   .button-before.btn-speed::before {
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-speed-control.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-speed-control.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-speed-control.svg");
+    mask-image: url("../../assets/img/icon/icon-speed-control.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
   .button-before.btn-function::before {
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-function-list.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-function-list.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-function-list.svg");
+    mask-image: url("../../assets/img/icon/icon-function-list.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
   .button-before.btn-variable::before {
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-variable-list.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-variable-list.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-variable-list.svg");
+    mask-image: url("../../assets/img/icon/icon-variable-list.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
   .button-before.btn-reset::before {
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-reset.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-reset.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-reset.svg");
+    mask-image: url("../../assets/img/icon/icon-reset.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
@@ -457,11 +457,11 @@ button {
     left: 0.4rem;
     width: 2.4rem;
     height: 2.4rem;
-    background: url("/assets/img/icon/icon-polygon.svg") no-repeat center/cover; }
+    background: url("../../assets/img/icon/icon-polygon.svg") no-repeat center/cover; }
 
 :root[color-theme='dark'] .controller-modal::before {
   top: -1.1rem;
-  background: url("/assets/img/icon/icon-polygon-dark.svg") no-repeat center/cover; }
+  background: url("../../assets/img/icon/icon-polygon-dark.svg") no-repeat center/cover; }
 
 /* info-modal */
 .info-modal {
@@ -598,11 +598,11 @@ button {
     width: 2rem;
     height: 2rem;
     background: var(--ColorPrimary);
-    -webkit-mask-image: url("/assets/img/icon/icon-plus.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-plus.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-plus.svg");
+    mask-image: url("../../assets/img/icon/icon-plus.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
@@ -936,33 +936,33 @@ button {
     width: 1.8rem;
     height: 1.8rem;
     background: var(--ColorWallGray);
-    -webkit-mask-image: url("/assets/img/icon/icon-wall-import.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-wall-import.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-wall-import.svg");
+    mask-image: url("../../assets/img/icon/icon-wall-import.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
 
 .wall-type input#door + label::after {
   background: var(--ColorWallBlue);
-  -webkit-mask-image: url("/assets/img/icon/icon-door.svg");
+  -webkit-mask-image: url("../../assets/img/icon/icon-door.svg");
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center center;
-  mask-image: url("/assets/img/icon/icon-door.svg");
+  mask-image: url("../../assets/img/icon/icon-door.svg");
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center center; }
 
 .wall-type input#fence + label::after {
   background: var(--ColorWallGreen);
-  -webkit-mask-image: url("/assets/img/icon/icon-fence.svg");
+  -webkit-mask-image: url("../../assets/img/icon/icon-fence.svg");
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center center;
-  mask-image: url("/assets/img/icon/icon-fence.svg");
+  mask-image: url("../../assets/img/icon/icon-fence.svg");
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center center; }
@@ -987,11 +987,11 @@ button {
     width: 1rem;
     height: 1rem;
     background: var(--ColorBtnSurface);
-    -webkit-mask-image: url("/assets/img/icon/icon-blocked.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-blocked.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-blocked.svg");
+    mask-image: url("../../assets/img/icon/icon-blocked.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
@@ -1009,7 +1009,7 @@ button {
     height: 4.2rem;
     border-radius: 10px;
     border: 1px solid var(--ColorGrayLv2);
-    background: var(--ColorBackground) url("/assets/img/item/fish-1.png") no-repeat center/3rem auto;
+    background: var(--ColorBackground) url("../../assets/img/item/fish-1.png") no-repeat center/3rem auto;
     box-sizing: border-box;
     cursor: pointer; }
   .select-items label.active {
@@ -1020,13 +1020,13 @@ button {
     outline: 2px solid var(--ColorPrimary);
     border: transparent; }
   .select-items input#fish-2 + label {
-    background: var(--ColorBackground) url("/assets/img/item/fish-2.png") no-repeat center/3rem auto; }
+    background: var(--ColorBackground) url("../../assets/img/item/fish-2.png") no-repeat center/3rem auto; }
   .select-items input#fish-3 + label {
-    background: var(--ColorBackground) url("/assets/img/item/fish-3.png") no-repeat center/3rem auto; }
+    background: var(--ColorBackground) url("../../assets/img/item/fish-3.png") no-repeat center/3rem auto; }
   .select-items input#diamond + label {
-    background: var(--ColorBackground) url("/assets/img/item/diamond.png") no-repeat center/3rem auto; }
+    background: var(--ColorBackground) url("../../assets/img/item/diamond.png") no-repeat center/3rem auto; }
   .select-items input#apple + label {
-    background: var(--ColorBackground) url("/assets/img/item/apple.png") no-repeat center/3rem auto; }
+    background: var(--ColorBackground) url("../../assets/img/item/apple.png") no-repeat center/3rem auto; }
 
 /* map */
 .world-map {
@@ -1095,11 +1095,11 @@ button {
     width: 2.2rem;
     height: 2.2rem;
     background: var(--ColorGrayLv2);
-    -webkit-mask-image: url("/assets/img/icon/icon-reset.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-reset.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-reset.svg");
+    mask-image: url("../../assets/img/icon/icon-reset.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
@@ -1272,11 +1272,11 @@ button {
     width: 1.8rem;
     height: 1.8rem;
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-reset.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-reset.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-reset.svg");
+    mask-image: url("../../assets/img/icon/icon-reset.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
@@ -1323,11 +1323,11 @@ button {
       width: 2.4rem;
       height: 2.4rem;
       background: var(--ColorGrayLv3);
-      -webkit-mask-image: url("/assets/img/icon/icon-double-arrow-right.svg");
+      -webkit-mask-image: url("../../assets/img/icon/icon-double-arrow-right.svg");
       -webkit-mask-size: 100%;
       -webkit-mask-repeat: no-repeat;
       -webkit-mask-position: center center;
-      mask-image: url("/assets/img/icon/icon-double-arrow-right.svg");
+      mask-image: url("../../assets/img/icon/icon-double-arrow-right.svg");
       mask-size: 100%;
       mask-repeat: no-repeat;
       mask-position: center center; }
@@ -1360,7 +1360,7 @@ button {
     border-radius: 0.8rem;
     border: 1px solid var(--ColorGrayLv2); }
     .story-list > li.active .btn-toggle {
-      mask-image: url("/assets/img/icon/icon-arrow-top.svg"); }
+      mask-image: url("../../assets/img/icon/icon-arrow-top.svg"); }
     .story-list > li.active .story-contents {
       display: flex; }
 
@@ -1376,11 +1376,11 @@ button {
     width: 4rem;
     height: 4rem;
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-book.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-book.svg");
     -webkit-mask-size: 2rem 2rem;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-book.svg");
+    mask-image: url("../../assets/img/icon/icon-book.svg");
     mask-size: 2rem 2rem;
     mask-repeat: no-repeat;
     mask-position: center center; }
@@ -1399,11 +1399,11 @@ button {
     height: 2.4rem;
     margin-left: auto;
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("/assets/img/icon/icon-arrow-bottom.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-arrow-bottom.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("/assets/img/icon/icon-arrow-bottom.svg");
+    mask-image: url("../../assets/img/icon/icon-arrow-bottom.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }

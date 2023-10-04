@@ -31,12 +31,12 @@ jobs:
       - name: Backup main to pre_version branch
         run: |
           cd weniv_world_production
+          git fetch
           git checkout pre_version || git checkout -b pre_version
           git rm -rf .
           git config user.name "chimaek"
           git config user.email "pipiru100@gmail.com"
-          git commit -m "Clear all data in pre_version"
-          git merge main --allow-unrelated-histories --strategy-option=theirs 
+          git reset --hard origin/main
           git push -u origin pre_version --force
 
       - name: Clear main branch

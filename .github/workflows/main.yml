@@ -28,11 +28,9 @@ jobs:
           token: ${{ secrets.ACCESS_GITHUB_TOKEN }} # Ensure this PAT has rights to push to weniv/weniv_world_production
           path: weniv_world_production
 
-      - name: Backup data to pre_version branch from main branch
+      - name: Backup main to pre_version branch
         run: |
           cd weniv_world_production
-          git checkout main
-          git pull origin main
           git checkout pre_version || git checkout -b pre_version
           git rm -rf .
           git config user.name "chimaek"
@@ -41,10 +39,15 @@ jobs:
           git merge main --allow-unrelated-histories --strategy-option=theirs 
           git push -u origin pre_version
 
-      - name: Remove all files in production repository (main branch only)
-        if: github.ref == 'refs/heads/main'
+      - name: Clear main branch
         run: |
-          rm -rf weniv_world_production/*
+          cd weniv_world_production
+          git checkout main
+          git rm -rf .
+          git config user.name "chimaek"
+          git config user.email "pipiru100@gmail.com"
+          git commit -m "Clear main branch"
+          git push
 
       - name: Copy dist contents to production repository
         run: |

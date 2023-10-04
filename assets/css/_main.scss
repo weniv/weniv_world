@@ -200,14 +200,14 @@ button {
         &::before {
             @include mask-image(
                 var(--ColorGrayLv3),
-                '../img/icon/icon-wall-import.svg'
+                '/assets/img/icon/icon-wall-import.svg'
             );
         }
 
         &:disabled::before {
             @include mask-image(
                 var(--ColorGrayLv2),
-                '../img/icon/icon-wall-import.svg'
+                '/assets/img/icon/icon-wall-import.svg'
             );
         }
     }
@@ -217,14 +217,14 @@ button {
         &::before {
             @include mask-image(
                 var(--ColorGrayLv3),
-                '../img/icon/icon-asset-import.svg'
+                '/assets/img/icon/icon-asset-import.svg'
             );
         }
 
         &:disabled::before {
             @include mask-image(
                 var(--ColorGrayLv2),
-                '../img/icon/icon-asset-import.svg'
+                '/assets/img/icon/icon-asset-import.svg'
             );
         }
     }
@@ -234,14 +234,14 @@ button {
         &::before {
             @include mask-image(
                 var(--ColorGrayLv3),
-                '../img/icon/icon-world-size.svg'
+                '/assets/img/icon/icon-world-size.svg'
             );
         }
 
         &:disabled::before {
             @include mask-image(
                 var(--ColorGrayLv2),
-                '../img/icon/icon-world-size.svg'
+                '/assets/img/icon/icon-world-size.svg'
             );
         }
     }

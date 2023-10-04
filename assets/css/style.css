@@ -1148,7 +1148,8 @@ button {
     box-sizing: border-box;
     transform: translate(-50%, -50%);
     width: 1rem;
-    height: 10rem;
+    height: 10.5rem;
+    border-radius: 5rem;
     margin: 1px 0 0 1px;
     /* 기본 벽 */
     background-color: transparent; }
@@ -1157,7 +1158,7 @@ button {
 
 /* 가로벽 */
 .wall[data-direction='landscape'] {
-  width: 10rem;
+  width: 10.5rem;
   height: 1rem;
   margin: 2px 0 0 -0.5px; }
 

@@ -160,7 +160,10 @@
     }
 
     input#door + label::after {
-        @include mask-image(var(--ColorWallBlue), '/assets/img/icon/icon-door.svg');
+        @include mask-image(
+            var(--ColorWallBlue),
+            '/assets/img/icon/icon-door.svg'
+        );
     }
 
     input#fence + label::after {
@@ -321,7 +324,10 @@
         right: 2rem;
         width: 2.2rem;
         height: 2.2rem;
-        @include mask-image(var(--ColorGrayLv2), '/assets/img/icon/icon-reset.svg');
+        @include mask-image(
+            var(--ColorGrayLv2),
+            '/assets/img/icon/icon-reset.svg'
+        );
     }
 
     .speech-bubble {
@@ -378,7 +384,8 @@
         box-sizing: border-box;
         transform: translate(-50%, -50%);
         width: 1rem;
-        height: 10rem;
+        height: 10.5rem;
+        border-radius: 5rem;
         margin: 1px 0 0 1px;
         /* 기본 벽 */
         background-color: transparent;
@@ -390,7 +397,7 @@
 
 /* 가로벽 */
 .wall[data-direction='landscape'] {
-    width: 10rem;
+    width: 10.5rem;
     height: 1rem;
     margin: 2px 0 0 -0.5px;
 }
@@ -525,7 +532,10 @@
     .btn-reset {
         width: 1.8rem;
         height: 1.8rem;
-        @include mask-image(var(--ColorGrayLv3), '/assets/img/icon/icon-reset.svg');
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '/assets/img/icon/icon-reset.svg'
+        );
 
         &:hover {
             background: var(--ColorSurface);

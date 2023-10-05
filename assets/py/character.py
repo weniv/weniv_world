@@ -306,6 +306,7 @@ class Character:
             # TODO: 0번째에서 가져오는 것이 아니라 자신의 아이템을 찾아 가져와야 함.
             if character_data[0]["items"].get(item_name, 0) > 0:
                 item = Item(x, y, item_name, 1)
+                print('debug')
                 item.draw()
                 # 자신의 아이템에서는 삭제
                 # 'items': {}

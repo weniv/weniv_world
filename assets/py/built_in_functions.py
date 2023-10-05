@@ -132,12 +132,12 @@ def pick(character=None):
             print("캐릭터가 없습니다.")
 
 
-def put(character=None):
+def put(item_name="fish", character=None):
     if character != None:
-        character.put()
+        character.put(item_name)
     else:
         if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].put()
+            character_data[0]["character_obj"].put(item_name)
         else:
             print("캐릭터가 없습니다.")
 

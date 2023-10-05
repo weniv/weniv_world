@@ -678,18 +678,24 @@
             # 월드데이터 다운로드
             character_info = character_data.copy()
             character_info[0]['character_obj'] = None
-            worlddata = {
+
+            transform_wall_data = {}
+            for key,value in wall_data['world'].items():
+                format_key = f"{key[0]},{key[1]}"
+                transform_wall_data[format_key] = value
+
+            world_data = {
                 "character_data": character_info,
                 "item_data": item_data,
                 "map_data": map_data,
-                "wall_data": wall_data['world']
+                "wall_data": transform_wall_data
             }
 
-            json_data = json.dumps(worlddata)
-            file = js.File.new([json_data], "unused_file_name.txt", {type: "text/plain"})
+            json_data = json.dumps(world_data)
+            file = js.File.new([json_data], "world_data.json", {"type": "text/plain"})
             url = js.URL.createObjectURL(file)
             hidden_link = js.document.createElement("a")
-            hidden_link.setAttribute("download", "my_other_file_name.txt")
+            hidden_link.setAttribute("download", "world_data.json")
             hidden_link.setAttribute("href", url)
             hidden_link.click()
 

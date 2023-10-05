@@ -1,4 +1,4 @@
-import { default as parser } from './parser.js';
+// import { default as parser } from './parser.js';
 
 const fetchMarkdown = async () => {
     const response = await fetch('./assets/data/story/story.json');

@@ -10,21 +10,17 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="./assets/img/icon/icon-logo.svg">
 
-    <!-- 환경파일 -->
-    <!-- <script src="./assets/js/env.js" defer></script> -->
-
     <!-- JavaScript -->
     <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/event.js" defer></script>
     <script src="./assets/js/resizer.js" defer></script>
-    <script type="module" src="./assets/js/setStory.js"></script>
+    <script type="module" src="./assets/js/parser.js"></script>
 
     <!-- PyScript -->
     <link rel="stylesheet" href="./assets/pyscript/pyscript.css" />
     <script defer src="./assets/pyscript/pyscript_latest.js"></script>
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./assets/css/reset.css">
     <link rel="stylesheet" href="./assets/css/style.css">
 
     <py-config>
@@ -354,8 +350,8 @@
     <p id="pointer"></p>
 
     <!-- TODO: 배포 직전에는 style="display:none;"를 풀어야 합니다. -->
-    <section class="description" style="display:none;"></section>
-
+    <section class="description"></section>
+    <!-- <script type="py" src="./assets/py/event.py" defer></script> -->
     <py-script>
         from map import Map
         from wall import Wall

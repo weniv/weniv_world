@@ -8,6 +8,7 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -25,29 +26,9 @@ module.exports = {
                 use: 'html-loader',
             },
             {
-                test: /\.(png|jpe?g|gif|svg|webp)$/i,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[path][name].[ext]',  // 원래의 경로와 파일 이름을 유지
-                            context: path.resolve(__dirname, 'assets'),  // 상대 경로의 시작점 지정
-                            outputPath: 'assets',  // 출력 경로 지정
-                            publicPath: 'assets',  // 가상 경로 지정
-                        },
-                    },
-                ],
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader'],
             },
-            // {
-            //     test: /\.s[ac]ss$/i,
-            //     use: ['style-loader', 'css-loader', 'sass-loader'],
-            // },
-            // {
-            //     test: /\.css$/i,
-            //     use: ['style-loader', 'css-loader'],
-            // },
-
-            // ... 기타 로더 ...
         ],
     },
     plugins: [
@@ -55,6 +36,9 @@ module.exports = {
             template: './index.html', // 여기에 HTML 파일 경로를 지정합니다.
             filename: 'index.html', // 출력될 파일 이름을 지정합니다.
             minify: false, // 빌드시 HTML 파일을 압축합니다.
+        }),
+        new MiniCssExtractPlugin({
+            filename: './assets/css/style.css',
         }),
         new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
@@ -80,15 +64,23 @@ module.exports = {
                     to: 'assets/tutorial',
                 },
                 {
-                    from: 'assets/css',
-                    to: 'assets/css',
-                },
-                {
                     from: 'assets/py',
                     to: 'assets/py',
                 },
+                {
+                    from: 'assets/js',
+                    to: 'assets/js',
+                },
             ],
         }),
-        // ... 기타 플러그인 ...
     ],
+    devServer: {
+        static: {
+            directory: path.resolve(__dirname, 'dist'),
+        },
+        port: 5501,
+    },
+    stats: {
+        errorDetails: true,
+    },
 };

@@ -3,5 +3,20 @@
         "id": 1,
         "title": "라이캣의 탄생",
         "url": "./assets/data/story/story1.md"
+    },
+    {
+        "id": 2,
+        "title": "해골섬으로 향하는 라이캣",
+        "url": "./assets/data/story/story2.md"
+    },
+    {
+        "id": 3,
+        "title": "라이캣의 탄생",
+        "url": "./assets/data/story/story3.md"
+    },
+    {
+        "id": 4,
+        "title": "라이캣의 탄생",
+        "url": "./assets/data/story/story4.md"
     }
 ]

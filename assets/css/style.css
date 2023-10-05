@@ -1181,7 +1181,7 @@ button {
   display: flex;
   margin: 0.8rem 0.6rem;
   padding: 3.2rem 2.8rem 3.2rem 3.4rem;
-  height: 300px;
+  height: fit-content;
   overflow: auto; }
   .world-map::-webkit-scrollbar {
     width: 0.6rem;

@@ -60,10 +60,6 @@ module.exports = {
                     to: 'assets/img',
                 },
                 {
-                    from: 'assets/tutorial',
-                    to: 'assets/tutorial',
-                },
-                {
                     from: 'assets/py',
                     to: 'assets/py',
                 },

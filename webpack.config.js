@@ -9,6 +9,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: './index.html', // 진입점
@@ -28,6 +29,12 @@ module.exports = {
                 use: [
                     {
                         loader: 'file-loader',
+                        options: {
+                            name: '[path][name].[ext]',  // 원래의 경로와 파일 이름을 유지
+                            context: path.resolve(__dirname, 'assets'),  // 상대 경로의 시작점 지정
+                            outputPath: 'assets',  // 출력 경로 지정
+                            publicPath: 'assets',  // 가상 경로 지정
+                        },
                     },
                 ],
             },
@@ -49,6 +56,7 @@ module.exports = {
             filename: 'index.html', // 출력될 파일 이름을 지정합니다.
             minify: false, // 빌드시 HTML 파일을 압축합니다.
         }),
+        new CleanWebpackPlugin(),
         new CopyWebpackPlugin({
             patterns: [
                 {

@@ -97,8 +97,8 @@ story_wall = {
         },
     # 4번 스토리
     4:{
-        "map_width":4, 
-        "map_height":4, 
+        "map_width":5, 
+        "map_height":5, 
         "wall":{ # (x, y): 'wall', 'fence', 'door'
             (0, 0.5): '', (0, 1.5): '', (0, 2.5): '', (0, 3.5): '',
             (0.5, 0): 'wall', (0.5, 1): 'wall', (0.5, 2): 'wall', (0.5, 3): 'wall', (0.5, 4): 'wall', 

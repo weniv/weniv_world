@@ -259,20 +259,27 @@ class Character:
         x = character_data[0]["x"]
         y = character_data[0]["y"]
         item = item_data.get((x, y))
+        
         if item:
             item_count = item.get("count", 0)
             item_count -= 1
             item["count"] = item_count
             item_data[(x, y)] = item
+            
             # TODO: 0번째에서 꺼내는 것이 아니라 자신의 아이템에서 꺼내야 함.
             if item["item"] in character_data[0]["items"].keys():
                 character_data[0]["items"][item["item"]] += 1
             else:
                 character_data[0]["items"][item["item"]] = 1
+                
             if item_count == 0:
-                js.document.querySelector(f".count{x}{y}").remove()
-                js.document.querySelector(f".item{x}{y}").remove()
+                map_items = js.document.querySelectorAll(".map-item")
+                index = map_data["width"] * x + y
+                target = map_items[index]
+                target.removeChild(target.querySelector(".item-container"))
                 item_data.pop((x, y))
+            else:
+                js.document.querySelector(f".count{x}{y}").innerHTML = item_count
             return item_count
         else:
             return "발 아래 아이템이 없습니다!"
@@ -435,13 +442,10 @@ class Character:
             posX, posY = (self.x + 0.5, self.y)
 
         if not (0 <= posX < map_data["height"] and 0 <= posY < map_data["width"]):
-            print("맵을 벗어납니다.")
             return False
 
         if wall_data["world"][(posX, posY)]:
-            print(f"{self.name}의 {target}은 비어있지 않습니다.")
             return False
-        print(f"{self.name}의 {target}은 비어있습니다.")
         return True
 
     def directions(self):
@@ -451,6 +455,11 @@ class Character:
         self.running_time = 0
 
     def open(self):
+        self.running_time += 1000 * running_speed
+        setTimeout(create_once_callable(lambda: (self._open())), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        
+    def _open(self):
         if (self.typeof_wall()=='door'):
             self._set_wall(self._front_wall(), '')
         elif (self.typeof_wall()==''):

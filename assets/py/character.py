@@ -451,7 +451,6 @@ class Character:
         self.running_time = 0
 
     def open(self):
-        global wall_data
         if (self.typeof_wall()=='door'):
             self._set_wall(self._front_wall(), '')
         elif (self.typeof_wall()==''):
@@ -461,8 +460,10 @@ class Character:
             
         
     def typeof_wall(self):
-        x, y = self._front_wall()
-        return wall_data['world'][(x, y)]
+        global wall_data
+        
+        pos= self._front_wall()
+        return wall_data['world'][pos]
     
     def _front_wall(self):
         directions = character_data[0]["directions"]

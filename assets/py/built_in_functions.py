@@ -209,3 +209,14 @@ def open(character=None):
             character_data[0]["character_obj"].open()
         else:
             print("캐릭터가 없습니다.")
+            
+def typeof_wall(character=None):
+    if character != None:
+        return character.typeof_wall()
+    else:
+        if character_data[0]["character_obj"] != None:
+            return character_data[0]["character_obj"].typeof_wall()
+        else:
+            print("캐릭터가 없습니다.")
+            return None
+            

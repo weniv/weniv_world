@@ -200,3 +200,12 @@ def attack(character=None):
             character_data[0]["character_obj"].attack()
         else:
             print("캐릭터가 없습니다.")
+
+def open(character=None):
+    if character != None:
+        character.open()
+    else:
+        if character_data[0]["character_obj"] != None:
+            character_data[0]["character_obj"].open()
+        else:
+            print("캐릭터가 없습니다.")

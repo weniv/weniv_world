@@ -520,6 +520,11 @@
 
             idx = story_select['index']
 
+            if(story_select['status'] and story_wall.get(idx)):
+
+                map_data['width']= story_wall[idx]['map_width']
+                map_data['height']= story_wall[idx]['map_height']
+                
             map_slider_x.value = 5
             map_slider_y.value = 5
             item_data.clear()

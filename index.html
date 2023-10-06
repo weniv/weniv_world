@@ -545,6 +545,7 @@
                 if(story_select['status'] and story_wall.get(idx)):
                     wall_data['world']= story_wall[idx]['wall']
                     wall.wall_data = story_wall[idx]['wall']
+                    wall.resizeWall(story_wall[idx]['map_width'],story_wall[idx]['map_height'])
 
                     items = story_wall[idx]['item']
 

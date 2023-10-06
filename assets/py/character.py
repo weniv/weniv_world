@@ -435,13 +435,10 @@ class Character:
             posX, posY = (self.x + 0.5, self.y)
 
         if not (0 <= posX < map_data["height"] and 0 <= posY < map_data["width"]):
-            print("맵을 벗어납니다.")
             return False
 
         if wall_data["world"][(posX, posY)]:
-            print(f"{self.name}의 {target}은 비어있지 않습니다.")
             return False
-        print(f"{self.name}의 {target}은 비어있습니다.")
         return True
 
     def directions(self):

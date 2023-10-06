@@ -452,10 +452,19 @@ class Character:
 
     def open(self):
         global wall_data
+        if (self.typeof_wall()=='door'):
+            self._set_wall(self._front_wall(), '')
+        elif (self.typeof_wall()==''):
+            say('벽이 없어!')
+        else:
+            say('문이 아니면 열 수 없어!')
+            
         
-        # 캐릭터 위치에서, 앞의 방향에 벽이 있는지 확인
-        # 벽이 door 이면 벽 제거,
-        
+    def typeof_wall(self):
+        x, y = self._front_wall()
+        return wall_data['world'][(x, y)]
+    
+    def _front_wall(self):
         directions = character_data[0]["directions"]
 
         if directions == 0:  # 동
@@ -467,12 +476,9 @@ class Character:
         elif directions == 3:  # 남
             posX, posY = (self.x + 0.5, self.y)
             
-        if (wall_data['world'][(posX,posY)]=='door'):
-            wall_data['world'][(posX,posY)]=''
-            js.document.querySelector(f'.wall[data-x="{posX}"][data-y="{posY}"]').dataset.type=''
-        elif (wall_data['world'][(posX,posY)]==''):
-            say('벽이 없어!')
-        else:
-            say('문이 아니면 열 수 없어!')
-            
+        return (posX, posY)
+        
+    def _set_wall(self, pos, type):
+        wall_data['world'][pos]=type
+        js.document.querySelector(f'.wall[data-x="{pos[0]}"][data-y="{pos[1]}"]').dataset.type=type
         

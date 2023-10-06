@@ -98,8 +98,6 @@ def set_item(x, y, name, count=1, description={}, character=None):
 
     item = Item(x, y, name, count, description)
     item.draw()
-    if character_data[0]["character_obj"] != None:
-        character_data[0]["character_obj"].pick()
 
 
 def move(character=None):

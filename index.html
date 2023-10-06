@@ -545,17 +545,16 @@
                 if(story_select['status'] and story_wall.get(idx)):
                     wall_data['world']= story_wall[idx]['wall']
                     wall.wall_data = story_wall[idx]['wall']
+                
                     wall.resizeWall(story_wall[idx]['map_width'],story_wall[idx]['map_height'])
 
                     items = story_wall[idx]['item']
 
                     for pos in items:
-                        item = Item(pos[0], pos[1], items[pos]['item'], items[pos]['count'])
-                        if item.can_draw():
+                        if ( 0 <= pos[0] < map_data['height'] and 0 <= pos[1] < map_data['width']):
+                            item = Item(pos[0], pos[1], items[pos]['item'], items[pos]['count'])
                             item.draw()
-                        else:
-                            del item_data[(pos[0], pos[1])]
-
+                        
                 wall_container = wall.drawWall()
                 wall_data['world']= wall.wall_data
 

@@ -34,14 +34,6 @@ class Item:
         else:
             return False
         
-    def can_draw(self):
-        """
-        아이템이 추가될 x, y 좌표가 유효한지 판단하는 함수
-        """
-        if not (0<= self.x < map_data['height'] and 0<= self.y < map_data['width']):
-            return False
-        return True
-
     def draw(self):
         """
         x좌표, y좌표에 item을 생성하는 함수

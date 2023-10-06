@@ -513,15 +513,20 @@
         @when("click", selector="#init")
         def init(evt=None):
             global wall_data
+            global wall_container
             js.console.log('월드 초기화')
             map_data['height'] = 5
             map_data['width'] = 5
+
+            idx = story_select['index']
+
             map_slider_x.value = 5
             map_slider_y.value = 5
             item_data.clear()
             map_slider_output_x.innerHTML = map_slider_x.value
             map_slider_output_y.innerHTML = map_slider_y.value
             map_exist = js.document.querySelector('.map-container')
+
             # TODO: map object는 map_data에서 관리해야할 것으로 보임
             if map_exist:
                 js.document.querySelector('.map-container').remove()
@@ -530,22 +535,17 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
-
                 
                 wall.resetWall(map_data['width'], map_data['height'])
-                
-                if(story_select['status']):
-                    idx = story_select['index']
-                    if(story_wall.get(idx)):
-                        map_data['height']= story_wall[idx]['map_height']
-                        wall_data['world']= story_wall[idx]['wall']
-                        wall.wall_data = story_wall[idx]['wall']
+                if(story_select['status'] and story_wall.get(idx)):
+                    wall_data['world']= story_wall[idx]['wall']
+                    wall.wall_data = story_wall[idx]['wall']
 
-                        items = story_wall[idx]['item']
+                    items = story_wall[idx]['item']
 
-                        for pos in items:
-                            item = Item(pos[0], pos[1], items[pos]['item'], items[pos]['count'])
-                            item.draw()
+                    for pos in items:
+                        item = Item(pos[0], pos[1], items[pos]['item'], items[pos]['count'])
+                        item.draw()
 
                 wall_container = wall.drawWall()
                 wall_data['world']= wall.wall_data
@@ -846,25 +846,25 @@
             js.document.getElementById('notebookSection').appendChild(newRepl)
         
         storyList = js.document.querySelectorAll('.story-list>li')
-        @when("click", selector=".story-list>li")
-        def set_story_map(evt=None):
-            if(evt.target.tagName=='BUTTON'):
-                if (evt.currentTarget.classList.contains('active')):
-                    story_select['index']=0
-                else:
-                    story_select['index']=list(storyList).index(evt.currentTarget)+1
-                init()                
+        @when("click", selector=".story-title .btn-toggle")
+        def select_story(evt=None):
+            liElem = evt.target.closest('li')
+            if not liElem.classList.contains('active'):
+                story_select['index']=list(storyList).index(evt.target.closest('li'))+1 
+            else:
+                story_select['index']=0
+            init()
         
         @when("click", selector=".btn-story")
-        def check_story_open(evt=None):
+        def change_storymode(evt=None):
             if(evt.target.classList.contains('active')):
                 story_select['status'] = True
                 if not (js.document.querySelector('.story-list>li.active')):
                     story_select['index'] = 0
             else:
                 story_select['status'] = False
-            init()                
-
+            init()    
+        
         
         @when('click', selector='.btn-close-story')
         def story_close(evt=None):

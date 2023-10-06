@@ -33,5 +33,20 @@
         "id": 7,
         "title": "창고 통합",
         "url": "./assets/data/story/story7.md"
+    },
+    {
+        "id": 8,
+        "title": "자동화 하자!",
+        "url": "./assets/data/story/story8.md"
+    },
+    {
+        "id": 9,
+        "title": "체계적인 관리를 위해!",
+        "url": "./assets/data/story/story9.md"
+    },
+    {
+        "id": 10,
+        "title": "병원 설립!",
+        "url": "./assets/data/story/story10.md"
     }
 ]

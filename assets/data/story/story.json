@@ -16,17 +16,22 @@
     },
     {
         "id": 4,
-        "title": "여기는 은행인가 생선가게인가",
+        "title": "직원의 승진",
         "url": "./assets/data/story/story4.md"
     },
     {
         "id": 5,
-        "title": "무료 밥차",
+        "title": "여기는 은행인가 생선가게인가",
         "url": "./assets/data/story/story5.md"
     },
     {
         "id": 6,
-        "title": "창고 통합",
+        "title": "무료 밥차",
         "url": "./assets/data/story/story6.md"
+    },
+    {
+        "id": 7,
+        "title": "창고 통합",
+        "url": "./assets/data/story/story7.md"
     }
 ]

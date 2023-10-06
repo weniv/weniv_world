@@ -2,7 +2,7 @@ import js
 from js import setTimeout
 from pyodide.ffi import create_once_callable
 
-from built_in_functions import print
+from built_in_functions import print, say
 from coordinate import (
     character_data,
     map_data,
@@ -155,7 +155,10 @@ class Character:
         wall_y = float((y + ny) / 2)
 
         if wall_data["world"][(wall_x, wall_y)] in blockingWallType:
-            js.alert("벽에 부딪혔습니다!")
+            js.alert('이런! 벽에 부딪혔습니다.')
+            raise WallIsExist
+        if wall_data["world"][(wall_x, wall_y)]=='door':
+            js.alert('이런! 문이 닫혀있습니다.\n(*문을 열면 이동할 수 있어요)')
             raise WallIsExist
 
     def _pos_to_wall(self, x, y):
@@ -415,9 +418,6 @@ class Character:
             target_direction += 2
         elif target == "right":
             target_direction += 3
-        else:
-            # TODO: 에러 처리
-            return None
 
         if target_direction > 3:
             target_direction -= 4
@@ -449,3 +449,37 @@ class Character:
 
     def init_time(self):
         self.running_time = 0
+
+    def open(self):
+        if (self.typeof_wall()=='door'):
+            self._set_wall(self._front_wall(), '')
+        elif (self.typeof_wall()==''):
+            say('벽이 없어!')
+        else:
+            say('문이 아니면 열 수 없어!')
+            
+        
+    def typeof_wall(self):
+        global wall_data
+        
+        pos= self._front_wall()
+        return wall_data['world'][pos]
+    
+    def _front_wall(self):
+        directions = character_data[0]["directions"]
+
+        if directions == 0:  # 동
+            posX, posY = (self.x, self.y + 0.5)
+        elif directions == 1:  # 북
+            posX, posY = (self.x - 0.5, self.y)
+        elif directions == 2:  # 서
+            posX, posY = (self.x, self.y - 0.5)
+        elif directions == 3:  # 남
+            posX, posY = (self.x + 0.5, self.y)
+            
+        return (posX, posY)
+        
+    def _set_wall(self, pos, type):
+        wall_data['world'][pos]=type
+        js.document.querySelector(f'.wall[data-x="{pos[0]}"][data-y="{pos[1]}"]').dataset.type=type
+        

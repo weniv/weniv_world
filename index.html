@@ -551,7 +551,10 @@
 
                     for pos in items:
                         item = Item(pos[0], pos[1], items[pos]['item'], items[pos]['count'])
-                        item.draw()
+                        if item.can_draw():
+                            item.draw()
+                        else:
+                            del item_data[(pos[0], pos[1])]
 
                 wall_container = wall.drawWall()
                 wall_data['world']= wall.wall_data

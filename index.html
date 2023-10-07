@@ -248,44 +248,58 @@
                             <h4 class="title">함수 리스트</h4>
                             <ul>
                                 <li>
-                                    <button type="button" class="code-item">print()</button>
+                                    <button type="button" class="code-item show-tooltip" name="터미널에 결과를 출력">print()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">directions()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터의 말풍선에 출력">say()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">show_item()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터가 가진 아이템을 출력">show_item()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">set_item()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터의 방향을 반환">directions()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">move()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터가 바라보는 방향으로 한 칸 이동">move()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">turn_left()</button>
+                                    <button type="button" class="code-item show-tooltip" name="왼쪽(반시계방향)으로 회전">turn_left()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">pick()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터의 위치에 아이템이 있으면 해당 아이템 획득">pick()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">put()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터가 입력한 아이템을 가지고 있다면, 자신의 발 아래에 아이템을 추가">put(item)</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">repeat()</button>
-                                </li>
-                                <li><button type="button" class="code-item">(from modules import turn_right) turn_right()</button>
-                                </li>
-                                <li><button type="button" class="code-item">(from modules import turn_around) turn_around()</button>
+                                    <button type="button" class="code-item show-tooltip" name="함수를 count 횟수만큼 반복">repeat(count, function)</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">(from modules import move_to_wall) move_to_wall()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터 이동 방향에 door이 있는 경우 벽을 삭제">open()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">(from modules import turn_left_until_clear) <wbr />turn_left_until_clear()</button>
+                                    <button type="button" class="code-item show-tooltip" name="맵에 아이템을 추가">set_item(x,y,item,count)</button>
+                                </li> 
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터의 [앞|좌|우|뒤]에 벽이 있는지 판단">[front|left|right|back]_is_clear()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">(from modules import jump) jump()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터 이동 방향의 벽 타입을 반환">typeof_wall()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="(from modules import turn_right), 오른쪽으로 회전">turn_right()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="(from modules import turn_around), 뒤로 회전">turn_around()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="(from modules import move_to_wall), 장애물 한 칸을 뛰어넘음">move_to_wall()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="(from modules import turn_left_until_clear), 왼쪽이 비어있을 때까지 회전">turn_left_until_clear()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="(from modules import jump), 장애물 한 칸을 뛰어넘음">jump()</button>
                                 </li>
                             </ul>
                             <button class="btn-close" type="button">
@@ -336,6 +350,7 @@
                 <header class="output-header">
                     <h3>Terminal</h3>
                     <ul class="output-btn-list">
+
                         <li class="show-tooltip" name="init terminal">
                             <button id="output-init" class="btn-reset" type="button">
                                 <span class="sr-only">init terminal</span>

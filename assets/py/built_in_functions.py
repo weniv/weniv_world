@@ -98,8 +98,6 @@ def set_item(x, y, name, count=1, description={}, character=None):
 
     item = Item(x, y, name, count, description)
     item.draw()
-    if character_data[0]["character_obj"] != None:
-        character_data[0]["character_obj"].pick()
 
 
 def move(character=None):
@@ -132,12 +130,12 @@ def pick(character=None):
             print("캐릭터가 없습니다.")
 
 
-def put(character=None):
+def put(item_name="fish", character=None):
     if character != None:
-        character.put()
+        character.put(item_name)
     else:
         if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].put()
+            character_data[0]["character_obj"].put(item_name)
         else:
             print("캐릭터가 없습니다.")
 
@@ -154,10 +152,10 @@ def repeat(count, f):
 def front_is_clear(character=None):
     if character != None:
         print(f"character not none")
-        character.front_is_clear()
+        return character.front_is_clear()
     else:
         if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].front_is_clear()
+            return character_data[0]["character_obj"].front_is_clear()
         else:
             print("캐릭터가 없습니다.")
 
@@ -200,3 +198,23 @@ def attack(character=None):
             character_data[0]["character_obj"].attack()
         else:
             print("캐릭터가 없습니다.")
+
+def open(character=None):
+    if character != None:
+        character.open()
+    else:
+        if character_data[0]["character_obj"] != None:
+            character_data[0]["character_obj"].open()
+        else:
+            print("캐릭터가 없습니다.")
+            
+def typeof_wall(character=None):
+    if character != None:
+        return character.typeof_wall()
+    else:
+        if character_data[0]["character_obj"] != None:
+            return character_data[0]["character_obj"].typeof_wall()
+        else:
+            print("캐릭터가 없습니다.")
+            return None
+            

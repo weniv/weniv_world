@@ -9,10 +9,10 @@
     <!-- meta -->
     <meta property="type" content="website" />
     <meta property="title" content="위니브월드" />
-    <meta property=""keywords" content="위니브월드, weniv world, 위니브, 제주코딩베이스캠프, 파이썬, 코딩교육"/>
+    <meta property="keywords" content="위니브월드, weniv world, 위니브, 제주코딩베이스캠프, 파이썬, 코딩교육"/>
     <meta property="description" content="위니브월드로 떠나는 파이썬 코딩 여행" />
     <meta property="url" content="https://world.weniv.co.kr/" />
-    <meta property="image" content="https://world.weniv.co.kr/assets/img/og/weniv_world.png" />
+    <meta property="image" content="https://world.weniv.co.kr/assets/img/og/weniv-world.png" />
     <meta name="theme-color" content="#2f6ff2" />
 
     <!-- OG -->
@@ -21,13 +21,13 @@
     <meta property="og:site_name" content="위니브월드" />
     <meta property="og:description" content="위니브월드로 떠나는 파이썬 코딩 여행" />
     <meta property="og:url" content="https://world.weniv.co.kr/" />
-    <meta property="og:image" content="https://world.weniv.co.kr/assets/img/og/weniv_world.png" />
+    <meta property="og:image" content="https://world.weniv.co.kr/assets/img/og/weniv-world.png" />
 
     <!-- twitter -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="위니브월드" />
     <meta name="twitter:description" content="위니브월드로 떠나는 파이썬 코딩 여행" />
-    <meta name="twitter:image" content="https://world.weniv.co.kr/assets/img/og/weniv_world.png" />
+    <meta name="twitter:image" content="https://world.weniv.co.kr/assets/img/og/weniv-world.png" />
     <meta name="twitter:url" content="https://world.weniv.co.kr/" />
 
     <title>weniv world</title>
@@ -81,7 +81,7 @@
                     </button>
                 </li>
                 <li>
-                    <a href="https://pyalgo.co.kr/codeexec.html" class="basic-btn" target="_blank">코드 에디터로 이동</a>
+                    <a href="http://notebook.weniv.co.kr/" class="basic-btn" target="_blank">코드 에디터로 이동</a>
                 </li>
                 <li>
                     <button type="button" class="btn-dark-mode show-tooltip" name="다크모드 ON">
@@ -248,44 +248,58 @@
                             <h4 class="title">함수 리스트</h4>
                             <ul>
                                 <li>
-                                    <button type="button" class="code-item">print()</button>
+                                    <button type="button" class="code-item show-tooltip" name="터미널에 결과를 출력">print()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">directions()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터의 말풍선에 출력">say()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">show_item()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터가 가진 아이템을 출력">show_item()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">set_item()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터의 방향을 반환">directions()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">move()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터가 바라보는 방향으로 한 칸 이동">move()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">turn_left()</button>
+                                    <button type="button" class="code-item show-tooltip" name="왼쪽(반시계방향)으로 회전">turn_left()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">pick()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터의 위치에 아이템이 있으면 해당 아이템 획득">pick()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">put()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터가 입력한 아이템을 가지고 있다면, 자신의 발 아래에 아이템을 추가">put(item)</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">repeat()</button>
-                                </li>
-                                <li><button type="button" class="code-item">(from modules import turn_right) turn_right()</button>
-                                </li>
-                                <li><button type="button" class="code-item">(from modules import turn_around) turn_around()</button>
+                                    <button type="button" class="code-item show-tooltip" name="함수를 count 횟수만큼 반복">repeat(count, function)</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">(from modules import move_to_wall) move_to_wall()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터 이동 방향에 door이 있는 경우 벽을 삭제">open()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">(from modules import turn_left_until_clear) <wbr />turn_left_until_clear()</button>
+                                    <button type="button" class="code-item show-tooltip" name="맵에 아이템을 추가">set_item(x,y,item,count)</button>
+                                </li> 
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터의 [앞|좌|우|뒤]에 벽이 있는지 판단">[front|left|right|back]_is_clear()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">(from modules import jump) jump()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터 이동 방향의 벽 타입을 반환">typeof_wall()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="(from modules import turn_right), 오른쪽으로 회전">turn_right()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="(from modules import turn_around), 뒤로 회전">turn_around()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="(from modules import move_to_wall), 장애물 한 칸을 뛰어넘음">move_to_wall()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="(from modules import turn_left_until_clear), 왼쪽이 비어있을 때까지 회전">turn_left_until_clear()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="(from modules import jump), 장애물 한 칸을 뛰어넘음">jump()</button>
                                 </li>
                             </ul>
                             <button class="btn-close" type="button">
@@ -336,6 +350,7 @@
                 <header class="output-header">
                     <h3>Terminal</h3>
                     <ul class="output-btn-list">
+
                         <li class="show-tooltip" name="init terminal">
                             <button id="output-init" class="btn-reset" type="button">
                                 <span class="sr-only">init terminal</span>
@@ -384,7 +399,7 @@
         from character import Character
         from item import Item
         from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type,story_wall
-        from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear
+        from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear,open, typeof_wall
         from pyscript import when
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable
@@ -513,15 +528,25 @@
         @when("click", selector="#init")
         def init(evt=None):
             global wall_data
+            global wall_container
             js.console.log('월드 초기화')
             map_data['height'] = 5
             map_data['width'] = 5
+
+            idx = story_select['index']
+
+            if(story_select['status'] and story_wall.get(idx)):
+
+                map_data['width']= story_wall[idx]['map_width']
+                map_data['height']= story_wall[idx]['map_height']
+                
             map_slider_x.value = 5
             map_slider_y.value = 5
             item_data.clear()
             map_slider_output_x.innerHTML = map_slider_x.value
             map_slider_output_y.innerHTML = map_slider_y.value
             map_exist = js.document.querySelector('.map-container')
+
             # TODO: map object는 map_data에서 관리해야할 것으로 보임
             if map_exist:
                 js.document.querySelector('.map-container').remove()
@@ -530,23 +555,21 @@
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
-
                 
                 wall.resetWall(map_data['width'], map_data['height'])
+                if(story_select['status'] and story_wall.get(idx)):
+                    wall_data['world']= story_wall[idx]['wall']
+                    wall.wall_data = story_wall[idx]['wall']
                 
-                if(story_select['status']):
-                    idx = story_select['index']
-                    if(story_wall.get(idx)):
-                        map_data['height']= story_wall[idx]['map_height']
-                        wall_data['world']= story_wall[idx]['wall']
-                        wall.wall_data = story_wall[idx]['wall']
+                    wall.resizeWall(story_wall[idx]['map_width'],story_wall[idx]['map_height'])
 
-                        items = story_wall[idx]['item']
+                    items = story_wall[idx]['item']
 
-                        for pos in items:
+                    for pos in items:
+                        if ( 0 <= pos[0] < map_data['height'] and 0 <= pos[1] < map_data['width']):
                             item = Item(pos[0], pos[1], items[pos]['item'], items[pos]['count'])
                             item.draw()
-
+                        
                 wall_container = wall.drawWall()
                 wall_data['world']= wall.wall_data
 
@@ -852,25 +875,25 @@
             js.document.getElementById('notebookSection').appendChild(newRepl)
         
         storyList = js.document.querySelectorAll('.story-list>li')
-        @when("click", selector=".story-list>li")
-        def set_story_map(evt=None):
-            if(evt.target.tagName=='BUTTON'):
-                if (evt.currentTarget.classList.contains('active')):
-                    story_select['index']=0
-                else:
-                    story_select['index']=list(storyList).index(evt.currentTarget)+1
-                init()                
+        @when("click", selector=".story-title .btn-toggle")
+        def select_story(evt=None):
+            liElem = evt.target.closest('li')
+            if not liElem.classList.contains('active'):
+                story_select['index']=list(storyList).index(evt.target.closest('li'))+1 
+            else:
+                story_select['index']=0
+            init()
         
         @when("click", selector=".btn-story")
-        def check_story_open(evt=None):
+        def change_storymode(evt=None):
             if(evt.target.classList.contains('active')):
                 story_select['status'] = True
                 if not (js.document.querySelector('.story-list>li.active')):
                     story_select['index'] = 0
             else:
                 story_select['status'] = False
-            init()                
-
+            init()    
+        
         
         @when('click', selector='.btn-close-story')
         def story_close(evt=None):

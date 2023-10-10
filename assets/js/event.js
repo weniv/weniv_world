@@ -125,7 +125,14 @@ storyList.addEventListener('click', (e) => {
         (e.target.tagName =
             'BUTTON' && e.target.classList.contains('btn-toggle'))
     ) {
-        e.target.closest('li').classList.toggle('active');
+        const liElem = e.target.closest('li');
+        liElem.classList.toggle('active');
+
+        storyList.querySelectorAll('li').forEach((li) => {
+            if (li !== liElem) {
+                li.classList.remove('active');
+            }
+        });
     }
 });
 

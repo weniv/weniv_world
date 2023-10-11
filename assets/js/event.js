@@ -120,22 +120,6 @@ storyCloseButton.addEventListener('click', () => {
     storyResizer.style.display = 'none';
 });
 
-storyList.addEventListener('click', (e) => {
-    if (
-        (e.target.tagName =
-            'BUTTON' && e.target.classList.contains('btn-toggle'))
-    ) {
-        const liElem = e.target.closest('li');
-        liElem.classList.toggle('active');
-
-        storyList.querySelectorAll('li').forEach((li) => {
-            if (li !== liElem) {
-                li.classList.remove('active');
-            }
-        });
-    }
-});
-
 // 툴팁 표시
 const tooltipTargetElement = document.querySelectorAll('.show-tooltip');
 

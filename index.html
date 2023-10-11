@@ -878,14 +878,15 @@
                 liElem = evt.target.closest('li')
                 liElem.classList.toggle('active')
 
+                for li in storyItems:
+                    if(li != evt.target.closest('li')):
+                        li.classList.remove('active')
+
                 if(liElem.classList.contains('active')):
                     story_select['index']=list(storyItems).index(evt.target.closest('li'))+1 
                 else:
                     story_select['index']=0
 
-                for li in storyItems:
-                    if(li != evt.target.closest('li')):
-                        li.classList.remove('active')
                 
             init()
         

@@ -886,9 +886,7 @@
                     story_select['index']=list(storyItems).index(evt.target.closest('li'))+1 
                 else:
                     story_select['index']=0
-
-                
-            init()
+                init()
         
         @when("click", selector=".btn-story")
         def change_storymode(evt=None):

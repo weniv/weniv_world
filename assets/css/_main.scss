@@ -338,6 +338,7 @@ button {
     max-width: 26rem;
     word-break: break-word;
     z-index: 20;
+    animation: fadeIn 0.6s;
 
     &::before {
         content: '';

@@ -133,11 +133,14 @@ const createTooltip = (textContent) => {
 
 const addTooltip = (target) => {
     const textContent = target.getAttribute('name');
-    const targetHeight = target.clientHeight;
-    const tooltip = createTooltip(textContent);
-    tooltip.style.top = `${targetHeight + 10}px`;
 
-    target.append(tooltip);
+    if (textContent) {
+        const targetHeight = target.clientHeight;
+        const tooltip = createTooltip(textContent);
+        tooltip.style.top = `${targetHeight + 10}px`;
+
+        target.append(tooltip);
+    }
 };
 
 const removeTooltip = (target) => {
@@ -147,17 +150,21 @@ const removeTooltip = (target) => {
 };
 
 const addTooltipEvent = (target) => {
-    target.addEventListener('mouseover', () => {
-        setTimeout(() => {
+    target.addEventListener(
+        'mouseover',
+        () => {
             addTooltip(target);
-        }, 200);
-    });
+        },
+        false,
+    );
 
-    target.addEventListener('mouseout', () => {
-        setTimeout(() => {
+    target.addEventListener(
+        'mouseout',
+        () => {
             removeTooltip(target);
-        }, 200);
-    });
+        },
+        false,
+    );
 
     target.addEventListener('click', () => {
         removeTooltip(target);

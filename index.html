@@ -482,7 +482,10 @@
                     add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
                     add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
 
-                draw_map.appendChild(wall_container)
+                
+                # story_list에 이벤트 추가하기
+                storyElem = js.document.querySelector('.story-list')
+                add_event_listener(storyElem,'click',set_story)
 
             # 범위를 벗어난 아이템 삭제
             global item_data
@@ -868,15 +871,22 @@
             newRepl.textContent = ''
             js.document.getElementById('notebookSection').appendChild(newRepl)
         
-        storyList = js.document.querySelectorAll('.story-list>li')
-        @when("click", selector=".story-title .btn-toggle")
-        def select_story(evt=None):
-            liElem = evt.target.closest('li')
-            if not liElem.classList.contains('active'):
-                story_select['index']=list(storyList).index(evt.target.closest('li'))+1 
-            else:
-                story_select['index']=0
-            init()
+        @when("click", selector = ".story-list")
+        def set_story(evt=None):
+            if(evt.target.tagName == 'BUTTON' and evt.target.classList.contains('btn-toggle')):
+                storyItems = js.document.querySelectorAll('.story-list>li')
+                liElem = evt.target.closest('li')
+                liElem.classList.toggle('active')
+
+                for li in storyItems:
+                    if(li != evt.target.closest('li')):
+                        li.classList.remove('active')
+
+                if(liElem.classList.contains('active')):
+                    story_select['index']=list(storyItems).index(evt.target.closest('li'))+1 
+                else:
+                    story_select['index']=0
+                init()
         
         @when("click", selector=".btn-story")
         def change_storymode(evt=None):

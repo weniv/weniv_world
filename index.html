@@ -55,7 +55,7 @@
 
         [[fetch]]
         from = "./assets/py/"
-        files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py"]
+        files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py","event.py"]
     </py-config>
 </head>
 <body>
@@ -103,7 +103,6 @@
                         </button>
                     </li>
                     <li class="show-tooltip" name="노트북 추가하기">
-                        <!-- TODO: 업로드 기능 구현 -->
                         <button type="button" class="uploadNotebookBtn btn-file-import">
                             <span class="sr-only">노트북 추가하기</span>
                         </button>
@@ -138,6 +137,7 @@
                         </button>
                     </li>
                     <li class="show-tooltip" name="월드 추가하기">
+                         <input type="file" id="worldFileInput" style="display: none;" accept=".json" >
                         <button type="button" class="btn-file-import" id="btn-upload-worlddata">
                             <span class="sr-only">월드 추가하기</span>
                         </button>
@@ -395,6 +395,7 @@
     <!-- <script type="py" src="./assets/py/event.py" defer></script> -->
     <py-script>
         from map import Map
+        from event import upload_worlddata
         from wall import Wall
         from character import Character
         from item import Item
@@ -721,12 +722,6 @@
             hidden_link.setAttribute("href", url)
             hidden_link.click()
 
-        @when("click", selector="#btn-upload-worlddata")
-        def upload_worlddata(evt=None):
-            '''
-            메인화면에서 월드데이터 업로드
-            '''
-            js.console.log('월드데이터 업로드')
 
 
         @when("click", selector=".wall")

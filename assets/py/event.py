@@ -1,4 +1,5 @@
 import js
+
 from map import Map
 from wall import Wall
 from character import Character
@@ -12,7 +13,6 @@ from pyodide.ffi.wrappers import add_event_listener
 import json
 import math
 
-j.console.log("?? 실행??")
 
 # item select
 item_select = {
@@ -71,7 +71,7 @@ def change_map(e):
         map = Map(map_data['height'], map_data['width'])
         draw_map = map.drawMap()
         draw_map.appendChild(draw_character)
-        app = Element("app").element
+        app = js.document.createElement("app")
         app.appendChild(draw_map)
 
         wall.resizeWall(map_data['width'], map_data['height'])
@@ -129,7 +129,7 @@ draw_map.appendChild(draw_character)
 draw_map.appendChild(wall_container)
 
 # 생성된 요소 app추가
-app = Element("app").element
+app = js.document.createElement("app")
 app.appendChild(draw_map)
 
 @when("click", selector="#init")
@@ -150,7 +150,7 @@ def init(evt=None):
         map = Map(map_data['height'], map_data['width'])
         draw_map = map.drawMap()
         draw_map.appendChild(draw_character)
-        app = Element("app").element
+        app = js.document.createElement("app")
         app.appendChild(draw_map)
 
         
@@ -321,6 +321,134 @@ def upload_worlddata(evt=None):
     메인화면에서 월드데이터 업로드
     '''
     js.console.log('월드데이터 업로드')
+    js.document.getElementById("worldFileInput").click()
+
+
+@when("change", selector="#worldFileInput")
+def upload_world_data(evt):
+    origin_data = evt.target.files
+
+    data_file = js.FileReader.new()
+    data_file.readAsText(origin_data.item(0))
+    data_file.onload = parsing_json
+
+
+def check_json_data(json_data):
+    pass
+
+def init_charcter(draw_character):
+    js.console.log('캐릭터 초기화')
+    global running_speed
+    character = js.document.querySelector('.character')
+    if character:
+        js.document.querySelector('.character').remove()
+    for line in js.document.querySelectorAll('.line'):
+        line.remove()
+    js.document.querySelector('.map-container').appendChild(draw_character)
+    change_speed(running_speed)
+    js.console.log('캐릭터 초기화 완료')
+    add_event_listener(draw_character, 'click', show_character_info)
+
+def parsing_json(evt):
+    js.console.log('파싱')
+    js.console.log(evt.target.result),
+    js.console.log('파싱2')
+    js.console.log(json.loads(evt.target.result)),
+    js.console.log('파싱3')
+    json_data = json.loads(evt.target.result)
+    check_json_data(json_data)
+    # # 캐릭터 좌표
+    # # 0번째는 default 캐릭터
+    # character_data = [
+    #     {
+    #         "character": "licat",
+    #         "character_obj": None,
+    #         "x": 0,
+    #         "y": 0,
+    #         "directions": 0,  # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+    #         "items": {},
+    #     }
+    # ]
+
+    global wall_data
+    global character_data
+    character_data = json_data["character_data"]
+    js.console.log("캐릭터 데이터")
+    js.console.log(character_data)
+    global item_data
+    item_data = json_data["item_data"]
+    js.console.log("아이템 데이터")
+    js.console.log(item_data)
+    global map_data
+    map_data = json_data["map_data"]
+    js.console.log("맵 데이터")
+    js.console.log(map_data)
+    temp_wall_data = {}
+    for key in json_data["wall_data"].keys():
+        temp_wall_data[tuple(key)] = json_data["wall_data"][key]
+    js.console.log("벽 데이터")
+    js.console.log(temp_wall_data)
+    wall_data['world'] = temp_wall_data
+    js.console.log("벽 데이터2")
+    js.console.log(wall_data['world'])
+    global wall_container
+    map_slider_x.value = map_data['height']
+    map_slider_y.value = map_data['width']
+    map_slider_output_x.innerHTML = map_slider_x.value
+    map_slider_output_y.innerHTML = map_slider_y.value
+    map_exist = js.document.querySelector('.map-container')
+    js.console.log("맵 존재여부")
+    js.console.log(map_exist)
+    if character_data[0]['character_obj'] is None:
+        licat = Character(x=0, y=0, name='licat', width=32, height=40,rotate=0)
+        character_data[0]['character_obj'] = licat
+    else:
+        licat = character_data[0]['character_obj']
+    js.console.log("캐릭터")
+    js.console.log(licat)
+    draw_character = licat.draw()
+
+    keys_to_remove = []  # 제거할 항목의 키를 저장할 리스트
+
+    for (x, y) in item_data.keys():
+        if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
+            keys_to_remove.append((x, y))
+    for key in keys_to_remove:
+        del item_data[key]
+
+    for key, value in item_data.items():
+        x, y = key
+        name = value['item']
+        count = value['count']
+        set_item(x, y, name, count)
+    if map_exist:
+        js.console.log('존재')
+        js.document.querySelector('.map-container').remove()
+        map = Map(map_data['height'], map_data['width'])
+        draw_map = map.drawMap()
+        draw_map.appendChild(draw_character)
+        app = js.document.createElement("app")
+        app.appendChild(draw_map)
+
+        wall.resizeWall(map_data['width'], map_data['height'])
+
+        wall_container = wall.drawWall()
+        wall_data['world'] = wall.wall_data
+
+        # map-item 이벤트 등록
+        for map_elem in draw_map.querySelectorAll('.map-item'):
+            add_event_listener(map_elem, 'click', map_item_add)
+
+        # wall_container의 자식요소들에 이벤트 등록
+        for wall_elem in wall_container.querySelectorAll('.wall'):
+            add_event_listener(wall_elem,'click',change_wall_type)
+            add_event_listener(wall_elem,'mouseover',wall_mouse_activation)
+            add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
+            add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
+
+        draw_map.appendChild(wall_container)
+
+    init_charcter(draw_character)
 
 
 @when("click", selector=".wall")

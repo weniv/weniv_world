@@ -11,8 +11,8 @@ from coordinate import (
     wall_data,
     running_speed,
 )
-from error import OutOfWorld, WallIsExist
 from item import Item
+from error import OutOfWorld, WallIsExist
 
 
 class Character:
@@ -259,10 +259,9 @@ class Character:
         x = character_data[0]["x"]
         y = character_data[0]["y"]
         item = item_data.get((x, y))
-        
         if item:
             item_count = item.get("count", 0)
-            item_count -= 1
+            # item_count -= 1
             item["count"] = item_count
             item_data[(x, y)] = item
             
@@ -271,8 +270,8 @@ class Character:
                 character_data[0]["items"][item["item"]] += 1
             else:
                 character_data[0]["items"][item["item"]] = 1
-                
-            if item_count == 0:
+
+            if item_count == 1:
                 map_items = js.document.querySelectorAll(".map-item")
                 index = map_data["width"] * x + y
                 target = map_items[index]
@@ -296,33 +295,30 @@ class Character:
 
         # 주인공에게 발 아래 아이템이 있다면
         if item:
-            bottom_item_name = item.get("item")
+            bottom_item_name = item[0][0]
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
             # TODO: 0번째에서 가져오는 것이 아니라 자신의 아이템을 찾아 가져와야 함.
-            if character_data[0]["items"].get(item_name, 0) > 0:
-                if item["items"] == item_name:
-                    item_count = item.get("count", 0)
+            if character_data[0]["items"].get(ITEM_NAME, 0) > 0:
+                if item[0][0] == ITEM_NAME:
+                    item_count = item[0][1]
                     if item_count > 0:
                         item_count += 1
-                        item["count"] = item_count
-                        item_data[(x, y)] = item
+                        item_data[(x, y)] = {"item": ITEM_NAME, "count": item_count}
                         return item_count
                 else:
                     return "다른 아이템이 있습니다!"
             else:
                 return "동일한 종류의 아이템이 없습니다!"
+
         # 주인공에게 발 아래 아이템이 없다면
         else:
             # TODO: 0번째에서 가져오는 것이 아니라 자신의 아이템을 찾아 가져와야 함.
-            if character_data[0]["items"].get(item_name, 0) > 0:
-                item = Item(x, y, item_name, 1)
-                print('debug')
+            if character_data[0]["items"].get(ITEM_NAME, 0) > 0:
+                item = Item(x, y, ITEM_NAME, 1)
                 item.draw()
-                # 자신의 아이템에서는 삭제
-                # 'items': {}
-                character_data[0]["items"][item_name] -= 1
-                if character_data[0]["items"][item_name] == 0:
-                    character_data[0]["items"].pop(item_name)
+                character_data[0]["items"][ITEM_NAME] -= 1
+                if character_data[0]["items"][ITEM_NAME] == 0:
+                    character_data[0]["items"].pop(ITEM_NAME)
             else:
                 return "가진 아이템이 없습니다."
 

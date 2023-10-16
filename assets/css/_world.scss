@@ -262,6 +262,7 @@
     padding: 3.2rem 2.8rem 3.2rem 3.4rem;
     height: fit-content;
     overflow: auto;
+    box-sizing: border-box;
     @include scrollbar;
 }
 

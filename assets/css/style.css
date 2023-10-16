@@ -712,11 +712,17 @@ button {
   border-color: var(--ColorBackground);
   border-width: 0 1px 0 1px;
   cursor: ew-resize; }
+  .resizer:hover {
+    border: 0;
+    width: 3px; }
   .resizer[data-direction='vertical'] {
     height: 1px;
     width: 100%;
     border-width: 1px 0 1px 0;
     cursor: ns-resize; }
+    .resizer[data-direction='vertical']:hover {
+      border: 0;
+      height: 3px; }
   .resizer.story-resizer {
     display: none; }
 
@@ -1189,7 +1195,8 @@ button {
   margin: 0.8rem 0.6rem;
   padding: 3.2rem 2.8rem 3.2rem 3.4rem;
   height: fit-content;
-  overflow: auto; }
+  overflow: auto;
+  box-sizing: border-box; }
   .world-map::-webkit-scrollbar {
     width: 0.6rem;
     height: 0.6rem; }
@@ -1646,7 +1653,8 @@ code {
 .md-pre {
   padding: 3.2rem;
   border-radius: 1rem;
-  background: var(--ColorGrayLv1); }
+  background: var(--ColorGrayLv1);
+  overflow-x: auto; }
   .md-pre code {
     font-family: 'Source Code Pro';
     font-size: 1.6rem;

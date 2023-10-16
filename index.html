@@ -315,16 +315,16 @@
                             <h4 class="title">변수 리스트</h4>
                             <ul>
                                 <li>
-                                    <button type="button" class="code-item">character_data</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터 데이터">character_data</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">map_data</button>
+                                    <button type="button" class="code-item show-tooltip" name="지도 데이터">map_data</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">item_data</button>
+                                    <button type="button" class="code-item show-tooltip" name="아이템 데이터">item_data</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item">running_speed</button>
+                                    <button type="button" class="code-item show-tooltip" name="속도 데이터">running_speed</button>
                                 </li>
                             </ul>
                             <button class="btn-close" type="button">
@@ -898,7 +898,16 @@
         @when('click', selector='.btn-close-story')
         def story_close(evt=None):
             story_select['status'] = False
-            init()                
+            init()
+            
+        @when('click', selector='.code-item')
+        def copy_code(evt=None):
+            '''
+            코드 아이템 클릭시 클립보드에 복사
+            '''
+            code = evt.target.innerText
+            js.navigator.clipboard.writeText(code)
+            alert('클립보드에 복사되었습니다.')
 
     </py-script>
     <script>

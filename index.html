@@ -899,16 +899,6 @@
         def story_close(evt=None):
             story_select['status'] = False
             init()
-            
-        @when('click', selector='.code-item')
-        def copy_code(evt=None):
-            '''
-            코드 아이템 클릭시 클립보드에 복사
-            '''
-            code = evt.target.innerText
-            js.navigator.clipboard.writeText(code)
-            alert('클립보드에 복사되었습니다.')
-
     </py-script>
     <script>
     const dateFormat = ()=>{

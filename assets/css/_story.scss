@@ -3,6 +3,7 @@
     flex-direction: column;
     width: 50rem;
     min-width: 26rem;
+    box-sizing: border-box;
 
     &.show {
         display: flex;

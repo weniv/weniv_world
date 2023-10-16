@@ -712,7 +712,7 @@ button {
   border-color: var(--ColorBackground);
   border-width: 0 1px 0 1px;
   cursor: ew-resize; }
-  .resizer:hover {
+  .resizer:hover, .resizer.active {
     border: 0;
     width: 3px; }
   .resizer[data-direction='vertical'] {
@@ -720,7 +720,7 @@ button {
     width: 100%;
     border-width: 1px 0 1px 0;
     cursor: ns-resize; }
-    .resizer[data-direction='vertical']:hover {
+    .resizer[data-direction='vertical']:hover, .resizer[data-direction='vertical'].active {
       border: 0;
       height: 3px; }
   .resizer.story-resizer {
@@ -1451,7 +1451,8 @@ button {
   display: none;
   flex-direction: column;
   width: 50rem;
-  min-width: 26rem; }
+  min-width: 26rem;
+  box-sizing: border-box; }
   .story.show {
     display: flex; }
 

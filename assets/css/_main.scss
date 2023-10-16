@@ -524,7 +524,8 @@ button {
     border-width: 0 1px 0 1px;
     cursor: ew-resize;
 
-    &:hover {
+    &:hover,
+    &.active {
         border: 0;
         width: 3px;
     }
@@ -535,7 +536,8 @@ button {
         border-width: 1px 0 1px 0;
         cursor: ns-resize;
 
-        &:hover {
+        &:hover,
+        &.active {
             border: 0;
             height: 3px;
         }

@@ -712,8 +712,8 @@
                 "wall_data": temp_wall_data
             }
 
-        json_data = json.dumps(worlddata)
-            file = js.File.new([json_data], "unused_file_name.txt", {type: "text/plain"})
+            json_data = json.dumps(worlddata)
+            file = js.File.new([json_data], "world_data.json", {type: "text/plain"})
             url = js.URL.createObjectURL(file)
             hidden_link = js.document.createElement("a")
             hidden_link.setAttribute("download", "world_data.json")

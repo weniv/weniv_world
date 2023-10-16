@@ -524,11 +524,23 @@ button {
     border-width: 0 1px 0 1px;
     cursor: ew-resize;
 
+    &:hover,
+    &.active {
+        border: 0;
+        width: 3px;
+    }
+
     &[data-direction='vertical'] {
         height: 1px;
         width: 100%;
         border-width: 1px 0 1px 0;
         cursor: ns-resize;
+
+        &:hover,
+        &.active {
+            border: 0;
+            height: 3px;
+        }
     }
 
     &.story-resizer {

@@ -711,7 +711,8 @@
                 "map_data": map_data,
                 "wall_data": temp_wall_data
             }
-            json_data = json.dumps(worlddata)
+
+        json_data = json.dumps(worlddata)
             file = js.File.new([json_data], "unused_file_name.txt", {type: "text/plain"})
             url = js.URL.createObjectURL(file)
             hidden_link = js.document.createElement("a")

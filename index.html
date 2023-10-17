@@ -1101,7 +1101,7 @@
                 const cells = notebook.cells;
                 for (let i = 0; i < cells.length; i++) {
                     const cell = cells[i];
-                    const source = cell.source;
+                    const source = cell.source.join('');
                     const newRepl = document.createElement('py-repl');
                     newRepl.textContent = source;
                     document.getElementById('notebookSection').appendChild(newRepl);

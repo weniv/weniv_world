@@ -729,6 +729,7 @@ button {
 .notebook {
   width: 50rem;
   min-width: 26rem;
+  flex-shrink: 0;
   box-sizing: border-box; }
 
 .notebook-header {
@@ -1368,8 +1369,10 @@ button {
       font-weight: 600;
       line-height: 2rem; }
   .world-output .output-result {
+    height: 100%;
     padding: 1.9rem 0;
-    overflow: auto; }
+    overflow: auto;
+    box-sizing: border-box; }
     .world-output .output-result::-webkit-scrollbar {
       width: 1.8rem;
       height: 1.8rem; }

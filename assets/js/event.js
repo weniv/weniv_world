@@ -313,7 +313,7 @@ const functionList = document.querySelector('.function-list');
 const variableList = document.querySelector('.variable-list');
 
 const copyToClipboard = (target) => {
-    if (target.tagName == 'BUTTON') {
+    if (target.tagName == 'BUTTON' && target.classList.contains('code-item')) {
         const code = target.innerText;
         navigator.clipboard.writeText(code).then(() => {
             alert('클립보드에 복사되었습니다.');

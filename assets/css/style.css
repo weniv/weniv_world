@@ -1188,6 +1188,8 @@ button {
     background: var(--ColorBackground) url("../../assets/img/item/diamond.png") no-repeat center/3rem auto; }
   .select-items input#apple + label {
     background: var(--ColorBackground) url("../../assets/img/item/apple.png") no-repeat center/3rem auto; }
+  .select-items input#goldbar + label {
+    background: var(--ColorBackground) url("../../assets/img/item/goldbar.png") no-repeat center/3rem auto; }
 
 /* map */
 .world-map {

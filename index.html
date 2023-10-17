@@ -685,6 +685,7 @@
             target_character = js.document.querySelector('.character')
 
             if not addedBubble:
+                add_event_listener(bubble, 'click', init_character)
                 target_character.appendChild(bubble)
 
             # 5초후 제거

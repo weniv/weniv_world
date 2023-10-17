@@ -460,8 +460,10 @@
     }
 
     .output-result {
+        height: 100%;
         padding: 1.9rem 0;
         overflow: auto;
+        box-sizing: border-box;
         @include scrollbar($track-color: var(--ColorGrayLv1), $padding: 0.6rem);
     }
 

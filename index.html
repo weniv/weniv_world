@@ -686,6 +686,8 @@
 
             if not addedBubble:
                 target_character.appendChild(bubble)
+                init_button = js.document.querySelector('#init_character')
+                add_event_listener(init_button, 'click', init_character)
 
             # 5초후 제거
             setTimeout(

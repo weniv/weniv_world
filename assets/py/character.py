@@ -11,8 +11,8 @@ from coordinate import (
     wall_data,
     running_speed,
 )
-from error import OutOfWorld, WallIsExist
 from item import Item
+from error import OutOfWorld, WallIsExist
 
 
 class Character:
@@ -99,7 +99,6 @@ class Character:
         global running_speed
         running_speed = speed
 
-
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
         self.running_time += 1000 * running_speed
@@ -155,10 +154,10 @@ class Character:
         wall_y = float((y + ny) / 2)
 
         if wall_data["world"][(wall_x, wall_y)] in blockingWallType:
-            js.alert('이런! 벽에 부딪혔습니다.')
+            js.alert("이런! 벽에 부딪혔습니다.")
             raise WallIsExist
-        if wall_data["world"][(wall_x, wall_y)]=='door':
-            js.alert('이런! 문이 닫혀있습니다.\n(*문을 열면 이동할 수 있어요)')
+        if wall_data["world"][(wall_x, wall_y)] == "door":
+            js.alert("이런! 문이 닫혀있습니다.\n(*문을 열면 이동할 수 있어요)")
             raise WallIsExist
 
     def _pos_to_wall(self, x, y):
@@ -259,20 +258,18 @@ class Character:
         x = character_data[0]["x"]
         y = character_data[0]["y"]
         item = item_data.get((x, y))
-        
         if item:
             item_count = item.get("count", 0)
-            item_count -= 1
+            # item_count -= 1
             item["count"] = item_count
             item_data[(x, y)] = item
-            
             # TODO: 0번째에서 꺼내는 것이 아니라 자신의 아이템에서 꺼내야 함.
             if item["item"] in character_data[0]["items"].keys():
                 character_data[0]["items"][item["item"]] += 1
             else:
                 character_data[0]["items"][item["item"]] = 1
-                
-            if item_count == 0:
+
+            if item_count == 1:
                 map_items = js.document.querySelectorAll(".map-item")
                 index = map_data["width"] * x + y
                 target = map_items[index]
@@ -284,47 +281,48 @@ class Character:
         else:
             return "발 아래 아이템이 없습니다!"
 
-    def put(self, item_name="fish"):
+    def put(self, item_name):
+        self.running_time += 1000 * running_speed
+        setTimeout(
+            create_once_callable(lambda: (self._put(item_name))), self.running_time
+        )
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+
+    def _put(self, item_name):
         """
         주인공 발 아래 동일한 아이템을 내려놓는 함수
         """
         x = character_data[0]["x"]
         y = character_data[0]["y"]
-
-        item = item_data.get((x, y))
-        # (x, y): {item: 'beeper', count: 1}
-
-        # 주인공에게 발 아래 아이템이 있다면
-        if item:
-            bottom_item_name = item.get("item")
-            # 주인공 발 아래 아이템과 동일한 아이템이 있다면
-            # TODO: 0번째에서 가져오는 것이 아니라 자신의 아이템을 찾아 가져와야 함.
-            if character_data[0]["items"].get(item_name, 0) > 0:
-                if item["items"] == item_name:
-                    item_count = item.get("count", 0)
-                    if item_count > 0:
-                        item_count += 1
-                        item["count"] = item_count
-                        item_data[(x, y)] = item
-                        return item_count
-                else:
-                    return "다른 아이템이 있습니다!"
-            else:
-                return "동일한 종류의 아이템이 없습니다!"
-        # 주인공에게 발 아래 아이템이 없다면
-        else:
-            # TODO: 0번째에서 가져오는 것이 아니라 자신의 아이템을 찾아 가져와야 함.
-            if character_data[0]["items"].get(item_name, 0) > 0:
+        item = self.check_bottom()
+        find_item_from_character = character_data[0]["items"].get(item_name, 0)
+        # 발 아래 아이템이 없을 경우,
+        if not item:
+            if find_item_from_character > 0:
                 item = Item(x, y, item_name, 1)
-                print('debug')
                 item.draw()
-                # 자신의 아이템에서는 삭제
-                # 'items': {}
                 character_data[0]["items"][item_name] -= 1
                 if character_data[0]["items"][item_name] == 0:
                     character_data[0]["items"].pop(item_name)
             else:
-                return "가진 아이템이 없습니다."
+                print("가진 아이템이 없습니다.")
+        else:
+            # 발 아래 아이템이 있다면
+            bottom_item_name = item_data[(x, y)]["item"]
+
+            if bottom_item_name != item_name and find_item_from_character > 0:
+                print("다른 종류의 아이템이 있습니다!")
+
+            # 주인공 발 아래 아이템과 동일한 아이템이 있다면
+            elif find_item_from_character > 0 and bottom_item_name == item_name:
+                character_data[0]["items"][item_name] -= 1
+
+                if character_data[0]["items"][item_name] == 0:
+                    character_data[0]["items"].pop(item_name)
+                    item_data[(x, y)]["count"] += 1
+                    js.document.querySelector(f".count{x}{y}").innerHTML = item_data[
+                        (x, y)
+                    ]["count"]
 
     def check_bottom(self):
         """
@@ -335,10 +333,7 @@ class Character:
 
         item = item_data.get((x, y))
 
-        if item:
-            return True
-        else:
-            return False
+        return True if item else False
 
     def show_item_global(self):
         """
@@ -458,22 +453,21 @@ class Character:
         self.running_time += 1000 * running_speed
         setTimeout(create_once_callable(lambda: (self._open())), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        
+
     def _open(self):
-        if (self.typeof_wall()=='door'):
-            self._set_wall(self._front_wall(), '')
-        elif (self.typeof_wall()==''):
-            say('벽이 없어!')
+        if self.typeof_wall() == "door":
+            self._set_wall(self._front_wall(), "")
+        elif self.typeof_wall() == "":
+            say("벽이 없어!")
         else:
-            say('문이 아니면 열 수 없어!')
-            
-        
+            say("문이 아니면 열 수 없어!")
+
     def typeof_wall(self):
         global wall_data
-        
-        pos= self._front_wall()
-        return wall_data['world'][pos]
-    
+
+        pos = self._front_wall()
+        return wall_data["world"][pos]
+
     def _front_wall(self):
         directions = character_data[0]["directions"]
 
@@ -485,10 +479,11 @@ class Character:
             posX, posY = (self.x, self.y - 0.5)
         elif directions == 3:  # 남
             posX, posY = (self.x + 0.5, self.y)
-            
+
         return (posX, posY)
-        
+
     def _set_wall(self, pos, type):
-        wall_data['world'][pos]=type
-        js.document.querySelector(f'.wall[data-x="{pos[0]}"][data-y="{pos[1]}"]').dataset.type=type
-        
+        wall_data["world"][pos] = type
+        js.document.querySelector(
+            f'.wall[data-x="{pos[0]}"][data-y="{pos[1]}"]'
+        ).dataset.type = type

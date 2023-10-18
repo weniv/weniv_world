@@ -943,11 +943,19 @@
                     if item == evt.target:
                         break
                     index += 1
-
                 # index를 통해 x, y 좌표 계산
                 x, y = divmod(index, map_data['width'])
                 evt.target.style.backgroundColor = ''
                 set_item(x, y, item_select['name'], 1)
+                pos = f"{x},{y}"
+
+                if item_data.get(pos):
+                    item_data[pos]['count'] += 1
+                else:
+                    item_data[pos] = {
+                        'item': item_select['name'],
+                        'count': 1
+                    }
 
                 item_select['status']=False
                 item_select['name']=''

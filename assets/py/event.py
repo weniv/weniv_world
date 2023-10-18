@@ -336,12 +336,9 @@ def download_worlddata(evt=None):
     hidden_link.setAttribute("href", url)
     hidden_link.click()
 
-
+'''
 @when("click", selector="#btn-upload-worlddata")
 def upload_worlddata(evt=None):
-    """
-    메인화면에서 월드데이터 업로드
-    '''
     js.console.log('월드데이터 업로드')
     js.document.getElementById("worldFileInput").click()
 
@@ -471,8 +468,7 @@ def parsing_json(evt):
         draw_map.appendChild(wall_container)
 
     init_charcter(draw_character)
-
-
+'''
 @when("click", selector=".wall")
 def change_wall_type(evt):
     """

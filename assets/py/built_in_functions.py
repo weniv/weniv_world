@@ -75,11 +75,15 @@ def show_item(character=None):
     """
     if character != None:
         # TODO: 0번째가 아니라 순회 돌면서 self.name으로 찾아서 items 반환
-        return character_data[0]["items"]
+        # return character_data[0]["items"]
+        print(character_data[0]["items"])
+        return None
     else:
         if character_data[0]["character_obj"] != None:
             # return d[character_data[0]['character_obj'].directions] # self.directions가 제대로 반영 안되어 있음
-            return character_data[0]["items"]
+            # return character_data[0]["items"]
+            print(character_data[0]["items"])
+            return None
         else:
             print("캐릭터가 없습니다.")
             return None

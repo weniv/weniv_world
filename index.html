@@ -712,7 +712,7 @@
                 temp_wall_data[f"{key[0]},{key[1]}"] = wall_data['world'][key]
             temp_item_data = {}
             for key in item_data.keys():
-                temp_item_data[f"{key[0]},{key[1]}"] = item_data[key]
+                temp_item_data[str(key)] = item_data[key]
             worlddata = {
                 "character_data": character_info,
                 "item_data": temp_item_data,
@@ -787,7 +787,9 @@
                 temp_wall_data[(temp_1,temp_2)] = json_data["wall_data"][key]
 
             for key in json_data["item_data"].keys():
-                temp_item_data[tuple(key)] = json_data["item_data"][key]
+                item_x,item_y = key.split(',')
+                tuple_item_pos = (int(item_x),int(item_y))
+                temp_item_data[tuple_item_pos] = json_data["item_data"][key]
 
             global wall_container
 
@@ -830,10 +832,9 @@
                     add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
 
                 draw_map.appendChild(wall_container)
-
             # 아이템 추가
-            for key, value in item_data.items():
-                x, y = int(key[0]),int(key[2])
+            for key, value in temp_item_data.items():
+                x,y = key[0],key[1]
                 name = value['item']
                 count = value['count']
                 create_once_callable(set_item(x, y, name, count))

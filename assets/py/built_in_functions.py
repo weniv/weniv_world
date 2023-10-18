@@ -130,7 +130,7 @@ def pick(character=None):
             print("캐릭터가 없습니다.")
 
 
-def put(item_name="fish", character=None):
+def put(item_name, character=None):
     if character != None:
         character.put(item_name)
     else:
@@ -199,6 +199,7 @@ def attack(character=None):
         else:
             print("캐릭터가 없습니다.")
 
+
 def open(character=None):
     if character != None:
         character.open()
@@ -207,7 +208,8 @@ def open(character=None):
             character_data[0]["character_obj"].open()
         else:
             print("캐릭터가 없습니다.")
-            
+
+
 def typeof_wall(character=None):
     if character != None:
         return character.typeof_wall()
@@ -217,4 +219,3 @@ def typeof_wall(character=None):
         else:
             print("캐릭터가 없습니다.")
             return None
-            

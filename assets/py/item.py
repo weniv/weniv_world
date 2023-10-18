@@ -25,7 +25,7 @@ class Item:
         """
         해당 좌표에 아이템이 있는지 확인하는 함수
         """
-        
+
         # self.target에 자식요소가 있으면 true, 없으면 false
         if self.target.hasChildNodes():
             item = self.target.querySelector(".item")
@@ -33,7 +33,7 @@ class Item:
             return {"name": list(item.classList)[1], "count": count}
         else:
             return False
-        
+
     def draw(self):
         """
         x좌표, y좌표에 item을 생성하는 함수

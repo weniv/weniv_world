@@ -712,17 +712,24 @@ button {
   border-color: var(--ColorBackground);
   border-width: 0 1px 0 1px;
   cursor: ew-resize; }
+  .resizer:hover, .resizer.active {
+    border: 0;
+    width: 3px; }
   .resizer[data-direction='vertical'] {
     height: 1px;
     width: 100%;
     border-width: 1px 0 1px 0;
     cursor: ns-resize; }
+    .resizer[data-direction='vertical']:hover, .resizer[data-direction='vertical'].active {
+      border: 0;
+      height: 3px; }
   .resizer.story-resizer {
     display: none; }
 
 .notebook {
   width: 50rem;
   min-width: 26rem;
+  flex-shrink: 0;
   box-sizing: border-box; }
 
 .notebook-header {
@@ -1182,6 +1189,8 @@ button {
     background: var(--ColorBackground) url("../../assets/img/item/diamond.png") no-repeat center/3rem auto; }
   .select-items input#apple + label {
     background: var(--ColorBackground) url("../../assets/img/item/apple.png") no-repeat center/3rem auto; }
+  .select-items input#goldbar + label {
+    background: var(--ColorBackground) url("../../assets/img/item/goldbar.png") no-repeat center/3rem auto; }
 
 /* map */
 .world-map {
@@ -1189,7 +1198,8 @@ button {
   margin: 0.8rem 0.6rem;
   padding: 3.2rem 2.8rem 3.2rem 3.4rem;
   height: fit-content;
-  overflow: auto; }
+  overflow: auto;
+  box-sizing: border-box; }
   .world-map::-webkit-scrollbar {
     width: 0.6rem;
     height: 0.6rem; }
@@ -1359,8 +1369,10 @@ button {
       font-weight: 600;
       line-height: 2rem; }
   .world-output .output-result {
+    height: 100%;
     padding: 1.9rem 0;
-    overflow: auto; }
+    overflow: auto;
+    box-sizing: border-box; }
     .world-output .output-result::-webkit-scrollbar {
       width: 1.8rem;
       height: 1.8rem; }
@@ -1444,7 +1456,8 @@ button {
   display: none;
   flex-direction: column;
   width: 50rem;
-  min-width: 26rem; }
+  min-width: 26rem;
+  box-sizing: border-box; }
   .story.show {
     display: flex; }
 
@@ -1646,7 +1659,8 @@ code {
 .md-pre {
   padding: 3.2rem;
   border-radius: 1rem;
-  background: var(--ColorGrayLv1); }
+  background: var(--ColorGrayLv1);
+  overflow-x: auto; }
   .md-pre code {
     font-family: 'Source Code Pro';
     font-size: 1.6rem;

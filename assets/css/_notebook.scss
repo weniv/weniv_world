@@ -1,6 +1,7 @@
 .notebook {
     width: 50rem;
     min-width: 26rem;
+    flex-shrink: 0;
     box-sizing: border-box;
 }
 

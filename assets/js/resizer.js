@@ -25,6 +25,7 @@ const resizable = (resizer) => {
         targetSiblingHeight = rect.height;
         targetSiblingWidth = rect.width;
 
+        resizer.classList.add('active');
         document.addEventListener('mousemove', mouseMoveHandler);
         document.addEventListener('mouseup', mouseUpHandler);
     };
@@ -70,6 +71,7 @@ const resizable = (resizer) => {
         nextSibling.style.removeProperty('user-select');
         nextSibling.style.removeProperty('pointer-events');
 
+        resizer.classList.remove('active');
         document.removeEventListener('mousemove', mouseMoveHandler);
         document.removeEventListener('mouseup', mouseUpHandler);
     };

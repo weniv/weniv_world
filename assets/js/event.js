@@ -307,3 +307,24 @@ const deleteCode = (target) => {
     nextpyReplBtnWrapFromPyRepl.remove();
     pyRepl.remove();
 };
+
+// 함수, 변수 리스트 클립보드에 복사
+const functionList = document.querySelector('.function-list');
+const variableList = document.querySelector('.variable-list');
+
+const copyToClipboard = (target) => {
+    if (target.tagName == 'BUTTON' && target.classList.contains('code-item')) {
+        const code = target.innerText;
+        navigator.clipboard.writeText(code).then(() => {
+            alert('클립보드에 복사되었습니다.');
+        });
+    }
+};
+
+functionList.addEventListener('click', (e) => {
+    copyToClipboard(e.target);
+});
+
+variableList.addEventListener('click', (e) => {
+    copyToClipboard(e.target);
+});

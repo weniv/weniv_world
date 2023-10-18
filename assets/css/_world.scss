@@ -253,6 +253,12 @@
         background: var(--ColorBackground)
             url('../../assets/img/item/apple.png') no-repeat center / 3rem auto;
     }
+
+    input#goldbar + label {
+        background: var(--ColorBackground)
+            url('../../assets/img/item/goldbar.png') no-repeat center / 3rem
+            auto;
+    }
 }
 
 /* map */
@@ -262,6 +268,7 @@
     padding: 3.2rem 2.8rem 3.2rem 3.4rem;
     height: fit-content;
     overflow: auto;
+    box-sizing: border-box;
     @include scrollbar;
 }
 
@@ -453,8 +460,10 @@
     }
 
     .output-result {
+        height: 100%;
         padding: 1.9rem 0;
         overflow: auto;
+        box-sizing: border-box;
         @include scrollbar($track-color: var(--ColorGrayLv1), $padding: 0.6rem);
     }
 

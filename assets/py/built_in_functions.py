@@ -1,41 +1,49 @@
 import js
 
+from pyodide.ffi import create_once_callable
 from coordinate import character_data, map_data
 from item import Item
 
+command_count = 0.1 # move, turn_left에서 1초를 대기하기 위한 변수
 
-# 이전 코드
-# def print(*args):
-#     '''
-#     html 문서 내 출력
-#     '''
-#     output = js.document.getElementById('output')
-#     result = ''
-#     for arg in args:
-#         result += str(arg) + '\n'
-#     result = output.value + result
-#     output.value = result
 
+def mission_end():
+    """
+    미션 클리어
+    """
+    global command_count
+    command_count = 0.1
+
+def mission_start():
+    """
+    미션 시작
+    """
+    global command_count
+    command_count = 0.1
 
 def print(*texts, type="normal"):
     """
     html 문서 내 출력
     """
-    output = js.document.getElementById("output")
-    result = ""
+    def main():
+        output = js.document.getElementById("output")
+        result = ""
 
-    for text in texts:
-        result += str(text)
+        for text in texts:
+            result += str(text)
 
-    if output:
-        paragraph = js.document.createElement("p")
-        paragraph.innerHTML = result
-        paragraph.classList.add("output-item")
-        if type == "error":
-            paragraph.setAttribute("data-error", "true")
-        output.appendChild(paragraph)
-    else:
-        js.console.log(result)
+        if output:
+            paragraph = js.document.createElement("p")
+            paragraph.innerHTML = result
+            paragraph.classList.add("output-item")
+            if type == "error":
+                paragraph.setAttribute("data-error", "true")
+            output.appendChild(paragraph)
+        else:
+            js.console.log(result)
+
+    wait_time = 1000 * command_count
+    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
 
 
 def say(text="", character=None, speech_time=5000):
@@ -55,6 +63,8 @@ def directions(character=None):
     """
     character의 방향을 right, left, top, bottom으로 반환
     """
+    global command_count
+    command_count += 1
     d = {0: "right", 1: "top", 2: "left", 3: "bottom"}
     if character != None:
         # TODO: 0번째가 아니라 순회 돌면서 self.name으로 찾아서 directions 반환
@@ -105,6 +115,8 @@ def set_item(x, y, name, count=1, description={}, character=None):
 
 
 def move(character=None):
+    global command_count
+    command_count += 1
     if character != None:
         character.move()
     else:
@@ -115,6 +127,8 @@ def move(character=None):
 
 
 def turn_left(character=None):
+    global command_count
+    command_count += 1
     if character != None:
         character.turn_left()
     else:
@@ -125,6 +139,8 @@ def turn_left(character=None):
 
 
 def pick(character=None):
+    global command_count
+    command_count += 1
     if character != None:
         character.pick()
     else:
@@ -135,6 +151,8 @@ def pick(character=None):
 
 
 def put(item_name, character=None):
+    global command_count
+    command_count += 1
     if character != None:
         character.put(item_name)
     else:
@@ -223,3 +241,10 @@ def typeof_wall(character=None):
         else:
             print("캐릭터가 없습니다.")
             return None
+
+def wait():
+    '''
+    1초를 대기하는 함수
+    '''
+    global command_count
+    command_count += 1

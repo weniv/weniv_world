@@ -254,6 +254,12 @@
                             <h4 class="title">함수 리스트</h4>
                             <ul>
                                 <li>
+                                    <button type="button" class="code-item show-tooltip" name="임무 시작">mission_start()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="임무 끝">mission_end()</button>
+                                </li>
+                                <li>
                                     <button type="button" class="code-item show-tooltip" name="터미널에 결과를 출력">print()</button>
                                 </li>
                                 <li>
@@ -405,7 +411,7 @@
         from character import Character
         from item import Item
         from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type,story_wall
-        from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open, typeof_wall, mission_start, wait
+        from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open, typeof_wall, mission_start, mission_end, wait
         from pyscript import when
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable

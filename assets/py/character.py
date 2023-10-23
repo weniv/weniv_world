@@ -449,12 +449,12 @@ class Character:
     def init_time(self):
         self.running_time = 0
 
-    def open(self):
+    def open_door(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._open())), self.running_time)
+        setTimeout(create_once_callable(lambda: (self._open_door())), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
-    def _open(self):
+    def _open_door(self):
         if self.typeof_wall() == "door":
             self._set_wall(self._front_wall(), "")
         elif self.typeof_wall() == "":

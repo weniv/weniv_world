@@ -222,12 +222,12 @@ def attack(character=None):
             print("캐릭터가 없습니다.")
 
 
-def open(character=None):
+def open_door(character=None):
     if character != None:
-        character.open()
+        character.open_door()
     else:
         if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].open()
+            character_data[0]["character_obj"].open_door()
         else:
             print("캐릭터가 없습니다.")
 

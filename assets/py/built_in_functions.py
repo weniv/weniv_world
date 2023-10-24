@@ -4,7 +4,7 @@ from pyodide.ffi import create_once_callable
 from coordinate import character_data, map_data,running_speed
 from item import Item
 
-command_count = 0.1 # move, turn_left에서 1초를 대기하기 위한 변수
+command_count = 1.5 # move, turn_left에서 1초를 대기하기 위한 변수
 
 
 def set_delay_command_count():
@@ -16,14 +16,14 @@ def mission_end():
     미션 클리어
     """
     global command_count
-    command_count = 0.1
+    command_count = 1.2
 
 def mission_start():
     """
     미션 시작
     """
     global command_count
-    command_count = 0.1
+    command_count = 1.2
 
 def print(*texts, type="normal"):
     """
@@ -83,24 +83,26 @@ def directions(character=None):
             return None
 
 
-def show_item(character=None):
+def item(character=None):
     """
     character가 가지고 있는 아이템을 보여주는 함수
     """
-    if character != None:
-        # TODO: 0번째가 아니라 순회 돌면서 self.name으로 찾아서 items 반환
-        # return character_data[0]["items"]
-        print(character_data[0]["items"])
-        return character_data[0]["items"]
-    else:
-        if character_data[0]["character_obj"] != None:
-            # return d[character_data[0]['character_obj'].directions] # self.directions가 제대로 반영 안되어 있음
+    def main():
+        if character != None:
+            # TODO: 0번째가 아니라 순회 돌면서 self.name으로 찾아서 items 반환
             # return character_data[0]["items"]
-            print(character_data[0]["items"])
             return character_data[0]["items"]
         else:
-            print("캐릭터가 없습니다.")
-            return None
+            if character_data[0]["character_obj"] != None:
+                # return d[character_data[0]['character_obj'].directions] # self.directions가 제대로 반영 안되어 있음
+                # return character_data[0]["items"]
+                return character_data[0]["items"]
+            else:
+                print("캐릭터가 없습니다.")
+                return None
+    wait_time = 1000 * command_count
+    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
+
 
 
 def set_item(x, y, name, count=1, description={}, character=None):
@@ -176,44 +178,72 @@ def repeat(count, f):
 
 
 def front_is_clear(character=None):
-    if character != None:
-        print(f"character not none")
-        return character.front_is_clear()
-    else:
-        if character_data[0]["character_obj"] != None:
-            return character_data[0]["character_obj"].front_is_clear()
+    '''
+    캐릭터의 앞이 비어있는지 확인하는 함수
+    동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
+    '''
+    def main():
+        if character != None:
+            print(f"character not none")
+            return character.front_is_clear()
         else:
-            print("캐릭터가 없습니다.")
+            if character_data[0]["character_obj"] != None:
+                return character_data[0]["character_obj"].front_is_clear()
+            else:
+                print("캐릭터가 없습니다.")
+    wait_time = 1000 * command_count
+    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
 
 
 def left_is_clear(character=None):
-    if character != None:
-        character.left_is_clear()
-    else:
-        if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].left_is_clear()
+    '''
+    캐릭터의 왼쪽이 비어있는지 확인하는 함수
+    동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
+    '''
+    def main():
+        if character != None:
+            character.left_is_clear()
         else:
-            print("캐릭터가 없습니다.")
+            if character_data[0]["character_obj"] != None:
+                character_data[0]["character_obj"].left_is_clear()
+            else:
+                print("캐릭터가 없습니다.")
+    wait_time = 1000 * command_count
+    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
 
 
 def right_is_clear(character=None):
-    if character != None:
-        character.right_is_clear()
-    else:
-        if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].right_is_clear()
+    '''
+    캐릭터의 오른쪽이 비어있는지 확인하는 함수
+    동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
+    '''
+    def main():
+        if character != None:
+            character.right_is_clear()
         else:
-            print("캐릭터가 없습니다.")
+            if character_data[0]["character_obj"] != None:
+                character_data[0]["character_obj"].right_is_clear()
+            else:
+                print("캐릭터가 없습니다.")
+    wait_time = 1000 * command_count
+    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
 
 
 def back_is_clear(character=None):
-    if character != None:
-        character.back_is_clear()
-    else:
-        if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].back_is_clear()
+    '''
+    캐릭터의 뒤가 비어있는지 확인하는 함수
+    동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
+    '''
+    def main():
+        if character != None:
+            character.back_is_clear()
         else:
-            print("캐릭터가 없습니다.")
+            if character_data[0]["character_obj"] != None:
+                character_data[0]["character_obj"].back_is_clear()
+            else:
+                print("캐릭터가 없습니다.")
+    wait_time = 1000 * command_count
+    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
 
 
 def attack(character=None):
@@ -227,24 +257,30 @@ def attack(character=None):
 
 
 def open_door(character=None):
-    if character != None:
-        character.open_door()
-    else:
-        if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].open_door()
+    def main():
+        if character != None:
+            character.open_door()
         else:
-            print("캐릭터가 없습니다.")
+            if character_data[0]["character_obj"] != None:
+                character_data[0]["character_obj"].open_door()
+            else:
+                print("캐릭터가 없습니다.")
+    wait_time = 1000 * command_count
+    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
 
 
 def typeof_wall(character=None):
-    if character != None:
-        return character.typeof_wall()
-    else:
-        if character_data[0]["character_obj"] != None:
-            return character_data[0]["character_obj"].typeof_wall()
+    def main():
+        if character != None:
+            return character.typeof_wall()
         else:
-            print("캐릭터가 없습니다.")
-            return None
+            if character_data[0]["character_obj"] != None:
+                return character_data[0]["character_obj"].typeof_wall()
+            else:
+                print("캐릭터가 없습니다.")
+                return None
+    wait_time = 1000 * command_count
+    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
 
 def wait():
     '''

@@ -411,6 +411,7 @@ class Character:
         # target_direction = self.directions
         global wall_data
         target_direction = character_data[0]["directions"]
+        js.console.log('실행!')
 
         if target == "front":
             pass

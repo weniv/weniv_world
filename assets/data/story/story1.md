@@ -44,4 +44,5 @@ turn_left()
 repeat(2, move)
 pick()
 say('hello world!')
+open_door()
 ```

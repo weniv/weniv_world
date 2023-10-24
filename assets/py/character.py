@@ -260,7 +260,7 @@ class Character:
         item = item_data.get((x, y))
         if item:
             item_count = item.get("count", 0)
-            # item_count -= 1
+            item_count -= 1
             item["count"] = item_count
             item_data[(x, y)] = item
             # TODO: 0번째에서 꺼내는 것이 아니라 자신의 아이템에서 꺼내야 함.
@@ -269,7 +269,7 @@ class Character:
             else:
                 character_data[0]["items"][item["item"]] = 1
 
-            if item_count == 1:
+            if item_count == 0:
                 map_items = js.document.querySelectorAll(".map-item")
                 index = map_data["width"] * x + y
                 target = map_items[index]

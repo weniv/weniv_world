@@ -1,10 +1,14 @@
 import js
 
 from pyodide.ffi import create_once_callable
-from coordinate import character_data, map_data
+from coordinate import character_data, map_data,running_speed
 from item import Item
 
 command_count = 0.1 # move, turn_left에서 1초를 대기하기 위한 변수
+
+
+def set_delay_command_count():
+    global command_count,running_speed
 
 
 def mission_end():
@@ -87,13 +91,13 @@ def show_item(character=None):
         # TODO: 0번째가 아니라 순회 돌면서 self.name으로 찾아서 items 반환
         # return character_data[0]["items"]
         print(character_data[0]["items"])
-        return None
+        return character_data[0]["items"]
     else:
         if character_data[0]["character_obj"] != None:
             # return d[character_data[0]['character_obj'].directions] # self.directions가 제대로 반영 안되어 있음
             # return character_data[0]["items"]
             print(character_data[0]["items"])
-            return None
+            return character_data[0]["items"]
         else:
             print("캐릭터가 없습니다.")
             return None

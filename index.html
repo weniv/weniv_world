@@ -266,7 +266,7 @@
                                     <button type="button" class="code-item show-tooltip" name="캐릭터의 말풍선에 출력">say()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item show-tooltip" name="캐릭터가 가진 아이템을 출력">show_item()</button>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터가 가진 아이템 반환">item()</button>
                                 </li>
                                 <li>
                                     <button type="button" class="code-item show-tooltip" name="캐릭터의 방향을 반환">directions()</button>
@@ -290,7 +290,7 @@
                                     <button type="button" class="code-item show-tooltip" name="캐릭터 이동 방향에 door이 있는 경우 벽을 삭제">open()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item show-tooltip" name="맵에 아이템을 추가">set_item(x,y,item,count)</button>
+                                    <button type="button" class="code-item show-tooltip" name="맵에 아이템(fish, fish-1, fish-2, fish-3, diamond, apple, goldbar) 추가">set_item(x,y,item,count)</button>
                                 </li> 
                                 <li>
                                     <button type="button" class="code-item show-tooltip" name="캐릭터의 [앞|좌|우|뒤]에 벽이 있는지 판단">[front|left|right|back]_is_clear()</button>
@@ -411,7 +411,7 @@
         from character import Character
         from item import Item
         from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type,story_wall
-        from built_in_functions import print, say, directions, show_item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, wait
+        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, wait
         from pyscript import when
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable

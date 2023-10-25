@@ -1667,7 +1667,7 @@ code {
     padding: 0;
     border-radius: 0;
     background: transparent;
-    color: initial; }
+    color: var(--ColorSurface); }
 
 ol.md-list {
   list-style-type: decimal;

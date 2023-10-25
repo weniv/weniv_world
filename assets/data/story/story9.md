@@ -21,7 +21,7 @@ d = {'골드바': 0, '물고기': 0}
 ## 사용 코드
 
 ```python
-d['골드바'] = d['골드바'] + 1
+show_item()['goldbar'] += 1
 move()
 turn_left()
 repeat(2, move)

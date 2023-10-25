@@ -26,7 +26,7 @@
 ```python
 max(1, 2, 3)
 min(1, 2, 3)
-sum(1, 2, 3)
+sum([1, 2, 3])
 move()
 repeat(2, move)
 pick()

@@ -224,10 +224,10 @@ def left_is_clear(character=None):
     동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
     '''
     if character != None:
-        character.left_is_clear()
+        return character.left_is_clear()
     else:
         if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].left_is_clear()
+            return character_data[0]["character_obj"].left_is_clear()
         else:
             print("캐릭터가 없습니다.")
     wait_time = 1000 * command_count
@@ -240,10 +240,10 @@ def right_is_clear(character=None):
     동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
     '''
     if character != None:
-        character.right_is_clear()
+        return character.right_is_clear()
     else:
         if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].right_is_clear()
+            return character_data[0]["character_obj"].right_is_clear()
         else:
             print("캐릭터가 없습니다.")
     wait_time = 1000 * command_count
@@ -256,10 +256,10 @@ def back_is_clear(character=None):
     동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
     '''
     if character != None:
-        character.back_is_clear()
+        return character.back_is_clear()
     else:
         if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].back_is_clear()
+            return character_data[0]["character_obj"].back_is_clear()
         else:
             print("캐릭터가 없습니다.")
     wait_time = 1000 * command_count

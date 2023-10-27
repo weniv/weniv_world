@@ -332,19 +332,22 @@ class Character:
         # 발 아래 아이템이 없을 경우,
         if not item:
             if find_item_from_character > 0:
-                item = Item(x, y, item_name, 1)
-                item.draw()
+                
                 character_data[0]["items"][item_name] -= 1
                 if character_data[0]["items"][item_name] == 0:
                     character_data[0]["items"].pop(item_name)
+                
+                setTimeout(create_once_callable(lambda: (self._put_animation(item, x,y,item_name,1))), self.running_time)
+                
             else:
-                print("가진 아이템이 없습니다.")
+                setTimeout(create_once_callable(lambda: (self._alert_error('NoItem'))), self.running_time)
         else:
             # 발 아래 아이템이 있다면
             bottom_item_name = item_data[(x, y)]["item"]
 
             if bottom_item_name != item_name and find_item_from_character > 0:
-                print("다른 종류의 아이템이 있습니다!")
+                setTimeout(create_once_callable(lambda: (self._alert_error('AnotherItemInBottom'))), self.running_time)
+                
 
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
             elif find_item_from_character > 0 and bottom_item_name == item_name:
@@ -353,10 +356,16 @@ class Character:
                 if character_data[0]["items"][item_name] == 0:
                     character_data[0]["items"].pop(item_name)
                     item_data[(x, y)]["count"] += 1
-                    js.document.querySelector(f".count{x}{y}").innerHTML = item_data[
-                        (x, y)
-                    ]["count"]
-
+                setTimeout(create_once_callable(lambda: (self._put_animation(item,x,y,item_name,item_data[(x, y)]["count"]))), self.running_time)
+                    
+    def _put_animation(self,bottom_item, x, y, item_name,count=1):
+        if not bottom_item:
+            item = Item(x, y, item_name, count)
+            item.draw()
+        else:
+            js.document.querySelector(f".count{x}{y}").innerHTML = count
+            
+        pass
     def check_bottom(self):
         """
         주인공 발 아래 아이템이 있는지 확인하는 함수

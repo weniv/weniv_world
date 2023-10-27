@@ -103,11 +103,8 @@ class Character:
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
         self.running_time += 1000 * running_speed
-        (x, y )= character_data[0]['x'], character_data[0]['y']
+        x, y= character_data[0]['x'], character_data[0]['y']
         directions = character_data[0]["directions"]
-        
-        setTimeout(create_once_callable(lambda: (self._move(x, y,directions))), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
         self._move_logic()
         
         
@@ -134,6 +131,9 @@ class Character:
             self._movable(x + 1, y, x, y)
             character_data[0]["x"] += 1
             self.x = character_data[0]["x"]
+        
+        setTimeout(create_once_callable(lambda: (self._move(x, y,directions))), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _move(self, x, y, directions):
         c = js.document.querySelector(f".{self.name}")
@@ -141,7 +141,6 @@ class Character:
 
         # x = character_data[0]["x"]
         # y = character_data[0]["y"]
-    
         if directions == 0:
             c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x, y + 1,directions)
@@ -370,12 +369,12 @@ class Character:
         """
         return None
 
-    def draw_move_line(self, x, y, next_x, next_y):
+    def draw_move_line(self, x, y, next_x, next_y,directions):
         """
         주인공이 이동할 경로를 그려주는 함수
         """
         line = js.document.createElement("div")
-        directions = character_data[0]["directions"]
+        # directions = character_data[0]["directions"]
 
         line.className = "line"
         line.style.position = "absolute"

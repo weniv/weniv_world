@@ -12,7 +12,7 @@ from coordinate import (
     running_speed,
 )
 from item import Item
-from error import OutOfWorld, WallIsExist
+from error import OutOfWorld, WallIsExist, CannotOpenWall
 
 
 class Character:
@@ -133,7 +133,6 @@ class Character:
             self.x = character_data[0]["x"]
         
         if error_check:
-            pass
             setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
         else:
             setTimeout(create_once_callable(lambda: (self._move_animation(x, y,directions))), self.running_time)
@@ -463,7 +462,7 @@ class Character:
         elif target_direction == 3:  # 남
             posX, posY = (self.x + 0.5, self.y)
 
-        if not (0 <= posX < map_data["height"] and 0 <= posY < map_data["width"]):
+        if (posX, posY) not in wall_data["world"].keys():
             return False
 
         if wall_data["world"][(posX, posY)]:
@@ -478,16 +477,23 @@ class Character:
 
     def open_door(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._open_door())), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        self._open_door()
+        # setTimeout(create_once_callable(lambda: (self._open_door())), self.running_time)
+        # setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _open_door(self):
+        wall_pos = self._front_wall()
         if self.typeof_wall() == "door":
-            self._set_wall(self._front_wall(), "")
-        elif self.typeof_wall() == "":
-            say("벽이 없어!")
-        else:
-            say("문이 아니면 열 수 없어!")
+            
+            self._set_wall_data(wall_pos, "")
+            setTimeout(create_once_callable(lambda: (self._open_door_animation(wall_pos))), self.running_time)
+
+        elif self.typeof_wall() != "":
+            setTimeout(create_once_callable(lambda: self._alert_error('CannotOpenDoor')), self.running_time)
+            
+
+    def _open_door_animation(self,wall_pos):
+        self._set_wall_screen(wall_pos,"")
 
     def typeof_wall(self):
         global wall_data
@@ -509,13 +515,14 @@ class Character:
 
         return (posX, posY)
 
-    def _set_wall(self, pos, type):
+    def _set_wall_data(self, pos, type):
         wall_data["world"][pos] = type
+
+    def _set_wall_screen(self, pos, type):
         js.document.querySelector(
             f'.wall[data-x="{pos[0]}"][data-y="{pos[1]}"]'
         ).dataset.type = type
-
-
+        
     def _alert_error(self, error_type):
         if(error_type=='OutOfWorld'):
             js.alert("맵을 벗어납니다.")
@@ -523,5 +530,7 @@ class Character:
         elif(error_type=='WallIsExist'):
             js.alert("이런! 벽에 부딪혔습니다.")
             raise WallIsExist
-        
+        elif (error_type=='CannotOpenDoor'):
+            js.alert('문이 아닌 벽은 열 수 없습니다.')
+            raise CannotOpenWall        
        

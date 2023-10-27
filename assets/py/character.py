@@ -105,37 +105,42 @@ class Character:
         self.running_time += 1000 * running_speed
         x, y= character_data[0]['x'], character_data[0]['y']
         directions = character_data[0]["directions"]
-        self._move_logic()
+        self._move()
         
         
-    def _move_logic(self):
-        directions = character_data[0]["directions"]
-
+    def _move(self):
         x = character_data[0]["x"]
         y = character_data[0]["y"]
+        directions = character_data[0]["directions"]
+        error_check = ''
         # js.alert(f"현재 x위치= {x} 현재 y위치 = {y} 방향 = {directions}")
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
-            self._movable(x, y, x, y + 1)
+            error_check = self._movable(x, y, x, y + 1)
             character_data[0]["y"] += 1
             self.y = character_data[0]["y"]
         elif directions == 1:
-            self._movable(x - 1, y, x, y)
+            error_check=self._movable(x - 1, y, x, y)
             character_data[0]["x"] -= 1
             self.x = character_data[0]["x"]
         elif directions == 2:
-            self._movable(x, y, x, y - 1)
+            error_check=self._movable(x, y, x, y - 1)
             character_data[0]["y"] -= 1
             self.y = character_data[0]["y"]
         elif directions == 3:
-            self._movable(x + 1, y, x, y)
+            error_check=self._movable(x + 1, y, x, y)
             character_data[0]["x"] += 1
             self.x = character_data[0]["x"]
         
-        setTimeout(create_once_callable(lambda: (self._move(x, y,directions))), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        if error_check:
+            pass
+            setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
+        else:
+            setTimeout(create_once_callable(lambda: (self._move_animation(x, y,directions))), self.running_time)
+            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
-    def _move(self, x, y, directions):
+        
+    def _move_animation(self, x, y, directions):
         c = js.document.querySelector(f".{self.name}")
         # directions = character_data[0]["directions"]
 
@@ -143,35 +148,41 @@ class Character:
         # y = character_data[0]["y"]
         if directions == 0:
             c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x, y + 1,directions)
+            self.draw_move_line(x, y, x, y + 1, directions)
         elif directions == 1:
             c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x-1, y,directions)
+            self.draw_move_line(x, y, x-1, y, directions)
         elif directions == 2:
             c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x, y - 1,directions)
+            self.draw_move_line(x, y, x, y - 1, directions)
         elif directions == 3:
             c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x + 1, y,directions)
+            self.draw_move_line(x, y, x + 1, y, directions)
 
-
+    def _alert_error(self, error_type):
+        if(error_type=='OutOfWorld'):
+            js.alert("맵을 벗어납니다.")
+            raise OutOfWorld
+        elif(error_type=='WallIsExist'):
+            js.alert("이런! 벽에 부딪혔습니다.")
+            raise WallIsExist
+        
+        
+        
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
         global wall_data
         if not (0 <= nx < map_data["height"] and 0 <= ny < map_data["width"]):
-            js.alert("맵을 벗어납니다.")
-            raise OutOfWorld
+            return 'OutOfWorld'
 
         # 이동 경로에 벽이 있는지 확인
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
 
         if wall_data["world"][(wall_x, wall_y)] in blockingWallType:
-            js.alert("이런! 벽에 부딪혔습니다.")
-            raise WallIsExist
+            return 'WallIsExist'
         if wall_data["world"][(wall_x, wall_y)] == "door":
-            js.alert("이런! 문이 닫혀있습니다.\n(*문을 열면 이동할 수 있어요)")
-            raise WallIsExist
+            return 'WallIsExist'
 
     def _pos_to_wall(self, x, y):
         # position 좌표계를 벽을 놓을 수 있는 좌표계로 변환

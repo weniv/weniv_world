@@ -270,8 +270,9 @@ class Character:
 
     def pick(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._pick())), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        self._pick()
+        # setTimeout(create_once_callable(lambda: (self._pick())), self.running_time)
+        # setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _pick(self):
         """
@@ -280,9 +281,13 @@ class Character:
 
         모든 아이템이 다 감소되면 document에서 해당 아이템을 삭제한다.
         """
+        
         x = character_data[0]["x"]
         y = character_data[0]["y"]
         item = item_data.get((x, y))
+        js.console.log('pick 실행')
+        js.console.log(item_data[(x,y)])
+        
         if item:
             item_count = item.get("count", 0)
             item_count -= 1
@@ -293,19 +298,25 @@ class Character:
                 character_data[0]["items"][item["item"]] += 1
             else:
                 character_data[0]["items"][item["item"]] = 1
+            
+            if item_count == 0:
+                item_data.pop((x, y))
+                
+            setTimeout(create_once_callable(lambda: (self._pick_animation(x, y ,item_count))), self.running_time)
 
+        else:
+            setTimeout(create_once_callable(lambda: (self._alert_error('NoItem'))), self.running_time)
+            
+
+    def _pick_animation(self, x, y, item_count):
             if item_count == 0:
                 map_items = js.document.querySelectorAll(".map-item")
                 index = map_data["width"] * x + y
                 target = map_items[index]
                 target.removeChild(target.querySelector(".item-container"))
-                item_data.pop((x, y))
             else:
                 js.document.querySelector(f".count{x}{y}").innerHTML = item_count
-            return item_count
-        else:
-            return "발 아래 아이템이 없습니다!"
-
+        
     def put(self, item_name):
         self.running_time += 1000 * running_speed
         setTimeout(
@@ -533,4 +544,6 @@ class Character:
         elif (error_type=='CannotOpenDoor'):
             js.alert('문이 아닌 벽은 열 수 없습니다.')
             raise CannotOpenWall        
-       
+        else:
+            js.alert('new error',error_type)
+            raise Exception('new error',error_type)

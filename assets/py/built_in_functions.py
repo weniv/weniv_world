@@ -182,17 +182,17 @@ def front_is_clear(character=None):
     캐릭터의 앞이 비어있는지 확인하는 함수
     동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
     '''
-    def main():
-        if character != None:
-            print(f"character not none")
-            return character.front_is_clear()
+    if character != None:
+        print(f"character not none")
+        return character.front_is_clear()
+    else:
+        if character_data[0]["character_obj"] != None:
+            return character_data[0]["character_obj"].front_is_clear()
         else:
-            if character_data[0]["character_obj"] != None:
-                return character_data[0]["character_obj"].front_is_clear()
-            else:
-                print("캐릭터가 없습니다.")
+            print("캐릭터가 없습니다.")
     wait_time = 1000 * command_count
-    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
+    # main()
+    # js.setTimeout(create_once_callable(lambda: (main())), wait_time)
 
 
 def left_is_clear(character=None):

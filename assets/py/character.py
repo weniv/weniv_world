@@ -99,14 +99,19 @@ class Character:
         global running_speed
         running_speed = speed
 
+    
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._move())), self.running_time)
+        (x, y )= character_data[0]['x'], character_data[0]['y']
+        directions = character_data[0]["directions"]
+        
+        setTimeout(create_once_callable(lambda: (self._move(x, y,directions))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-
-    def _move(self):
-        c = js.document.querySelector(f".{self.name}")
+        self._move_logic()
+        
+        
+    def _move_logic(self):
         directions = character_data[0]["directions"]
 
         x = character_data[0]["x"]
@@ -115,32 +120,41 @@ class Character:
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
             self._movable(x, y, x, y + 1)
-            c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x, y + 1)
-            # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
             character_data[0]["y"] += 1
             self.y = character_data[0]["y"]
         elif directions == 1:
             self._movable(x - 1, y, x, y)
-            c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x - 1, y)
-            # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
             character_data[0]["x"] -= 1
             self.x = character_data[0]["x"]
         elif directions == 2:
             self._movable(x, y, x, y - 1)
-            c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x, y - 1)
-            # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
             character_data[0]["y"] -= 1
             self.y = character_data[0]["y"]
         elif directions == 3:
             self._movable(x + 1, y, x, y)
-            c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x + 1, y)
-            # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
             character_data[0]["x"] += 1
             self.x = character_data[0]["x"]
+
+    def _move(self, x, y, directions):
+        c = js.document.querySelector(f".{self.name}")
+        # directions = character_data[0]["directions"]
+
+        # x = character_data[0]["x"]
+        # y = character_data[0]["y"]
+    
+        if directions == 0:
+            c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32)}px"
+            self.draw_move_line(x, y, x, y + 1,directions)
+        elif directions == 1:
+            c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32)}px"
+            self.draw_move_line(x, y, x-1, y,directions)
+        elif directions == 2:
+            c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32)}px"
+            self.draw_move_line(x, y, x, y - 1,directions)
+        elif directions == 3:
+            c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32)}px"
+            self.draw_move_line(x, y, x + 1, y,directions)
+
 
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
@@ -166,34 +180,40 @@ class Character:
 
     def turn_left(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._turn_left())), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-
-    def _turn_left(self):
-        c = js.document.querySelector(f".{self.name}")
         directions = character_data[0]["directions"]
+        setTimeout(create_once_callable(lambda: (self._turn_left(directions))), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        self._turn_left_logic()
+        
+    def _turn_left_logic(self):
+        directions = character_data[0]["directions"]
+        if directions == 0:
+            character_data[0]["directions"] += 1
+        elif directions == 1:
+            character_data[0]["directions"] += 1
+        elif directions == 2:
+            character_data[0]["directions"] += 1
+        elif directions == 3:
+            character_data[0]["directions"] = 0
+
+    def _turn_left(self, directions):
+        c = js.document.querySelector(f".{self.name}")
         c.style.transformOrigin = "center center"
-        # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
-        # data = c.style.transform[7:].replace(")", "")
 
         if directions == 0:
             c.style.backgroundImage = (
                 f'url("assets/img/characters/{self.name}-{directions+1}.png")'
             )
-            character_data[0]["directions"] += 1
         elif directions == 1:
             c.style.backgroundImage = (
                 f'url("assets/img/characters/{self.name}-{directions+1}.png")'
             )
-            character_data[0]["directions"] += 1
         elif directions == 2:
             c.style.backgroundImage = (
                 f'url("assets/img/characters/{self.name}-{directions+1}.png")'
             )
-            character_data[0]["directions"] += 1
         elif directions == 3:
             c.style.backgroundImage = f'url("assets/img/characters/{self.name}-0.png")'
-            character_data[0]["directions"] = 0
 
     def attack(self):
         self.running_time += 1000 * running_speed

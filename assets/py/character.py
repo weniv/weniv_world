@@ -120,7 +120,7 @@ class Character:
             character_data[0]["y"] += 1
             self.y = character_data[0]["y"]
         elif directions == 1:
-            error_check=self._movable(x - 1, y, x, y)
+            error_check=self._movable(x, y, x - 1, y)
             character_data[0]["x"] -= 1
             self.x = character_data[0]["x"]
         elif directions == 2:
@@ -128,7 +128,7 @@ class Character:
             character_data[0]["y"] -= 1
             self.y = character_data[0]["y"]
         elif directions == 3:
-            error_check=self._movable(x + 1, y, x, y)
+            error_check=self._movable(x, y, x + 1, y)
             character_data[0]["x"] += 1
             self.x = character_data[0]["x"]
         
@@ -158,26 +158,20 @@ class Character:
         elif directions == 3:
             c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x + 1, y, directions)
-
-    def _alert_error(self, error_type):
-        if(error_type=='OutOfWorld'):
-            js.alert("맵을 벗어납니다.")
-            raise OutOfWorld
-        elif(error_type=='WallIsExist'):
-            js.alert("이런! 벽에 부딪혔습니다.")
-            raise WallIsExist
-        
-        
+ 
         
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
         global wall_data
+        js.console.log('movable',x, y ,nx ,ny)
         if not (0 <= nx < map_data["height"] and 0 <= ny < map_data["width"]):
             return 'OutOfWorld'
 
         # 이동 경로에 벽이 있는지 확인
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
+        
+            
 
         if wall_data["world"][(wall_x, wall_y)] in blockingWallType:
             return 'WallIsExist'
@@ -191,11 +185,10 @@ class Character:
     def turn_left(self):
         self.running_time += 1000 * running_speed
         directions = character_data[0]["directions"]
-        setTimeout(create_once_callable(lambda: (self._turn_left(directions))), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        self._turn_left_logic()
         
-    def _turn_left_logic(self):
+        self._turn_left()
+        
+    def _turn_left(self):
         directions = character_data[0]["directions"]
         if directions == 0:
             character_data[0]["directions"] += 1
@@ -205,8 +198,11 @@ class Character:
             character_data[0]["directions"] += 1
         elif directions == 3:
             character_data[0]["directions"] = 0
+            
+        setTimeout(create_once_callable(lambda: (self._turn_left_animation(directions))), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
-    def _turn_left(self, directions):
+    def _turn_left_animation(self, directions):
         c = js.document.querySelector(f".{self.name}")
         c.style.transformOrigin = "center center"
 
@@ -518,3 +514,14 @@ class Character:
         js.document.querySelector(
             f'.wall[data-x="{pos[0]}"][data-y="{pos[1]}"]'
         ).dataset.type = type
+
+
+    def _alert_error(self, error_type):
+        if(error_type=='OutOfWorld'):
+            js.alert("맵을 벗어납니다.")
+            raise OutOfWorld
+        elif(error_type=='WallIsExist'):
+            js.alert("이런! 벽에 부딪혔습니다.")
+            raise WallIsExist
+        
+       

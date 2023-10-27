@@ -24,6 +24,8 @@ def mission_start():
     """
     global command_count
     command_count = 1.2
+    global command_line
+    command_line = 1
 
 def print(*texts, type="normal"):
     """
@@ -163,6 +165,7 @@ def pick(character=None):
     
     global command_line
     command_line += 1
+    
     if character != None:
         character.pick()
     else:
@@ -178,6 +181,7 @@ def put(item_name, character=None):
     
     global command_line
     command_line += 1
+    
     if character != None:
         character.put(item_name)
     else:

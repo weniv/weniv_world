@@ -162,7 +162,6 @@ class Character:
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
         global wall_data
-        js.console.log('movable',x, y ,nx ,ny)
         if not (0 <= nx < map_data["height"] and 0 <= ny < map_data["width"]):
             return 'OutOfWorld'
 
@@ -285,8 +284,6 @@ class Character:
         x = character_data[0]["x"]
         y = character_data[0]["y"]
         item = item_data.get((x, y))
-        js.console.log('pick 실행')
-        js.console.log(item_data[(x,y)])
         
         if item:
             item_count = item.get("count", 0)
@@ -447,7 +444,6 @@ class Character:
         # target_direction = self.directions
         global wall_data
         target_direction = character_data[0]["directions"]
-        js.console.log('실행!')
 
         if target == "front":
             pass

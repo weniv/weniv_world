@@ -24,7 +24,7 @@ def move_to_wall():
 
 def turn_left_until_clear():
     for i in range(4):
-        if not left_is_clear():
+        if not front_is_clear():
             turn_left()
 
 

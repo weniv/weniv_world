@@ -12,7 +12,7 @@ from coordinate import (
     running_speed,
 )
 from item import Item
-from error import OutOfWorld, WallIsExist
+from error import OutOfWorld, WallIsExist, CannotOpenWall
 
 
 class Character:
@@ -99,66 +99,82 @@ class Character:
         global running_speed
         running_speed = speed
 
+    
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._move())), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-
-    def _move(self):
-        c = js.document.querySelector(f".{self.name}")
+        x, y= character_data[0]['x'], character_data[0]['y']
         directions = character_data[0]["directions"]
-
+        self._move()
+        
+        
+    def _move(self):
         x = character_data[0]["x"]
         y = character_data[0]["y"]
+        directions = character_data[0]["directions"]
+        error_check = ''
         # js.alert(f"현재 x위치= {x} 현재 y위치 = {y} 방향 = {directions}")
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
-            self._movable(x, y, x, y + 1)
-            c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x, y + 1)
-            # c.style.transform = f'translateX({character_data[0]["x"] * 100 + 125}px)'
+            error_check = self._movable(x, y, x, y + 1)
             character_data[0]["y"] += 1
             self.y = character_data[0]["y"]
         elif directions == 1:
-            self._movable(x - 1, y, x, y)
-            c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x - 1, y)
-            # c.style.transform = f'translateY({character_data[0]["y"] * 100 - 125}px)'
+            error_check=self._movable(x, y, x - 1, y)
             character_data[0]["x"] -= 1
             self.x = character_data[0]["x"]
         elif directions == 2:
-            self._movable(x, y, x, y - 1)
-            c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x, y - 1)
-            # c.style.transform = f'translateX({character_data[0]["x"] * 100 - 125}px)'
+            error_check=self._movable(x, y, x, y - 1)
             character_data[0]["y"] -= 1
             self.y = character_data[0]["y"]
         elif directions == 3:
-            self._movable(x + 1, y, x, y)
-            c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x + 1, y)
-            # c.style.transform = f'translateY({character_data[0]["y"] * 100 + 125}px)'
+            error_check=self._movable(x, y, x + 1, y)
             character_data[0]["x"] += 1
             self.x = character_data[0]["x"]
+        
+        if error_check:
+            setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
+        else:
+            setTimeout(create_once_callable(lambda: (self._move_animation(x, y,directions))), self.running_time)
+            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
+        
+    def _move_animation(self, x, y, directions):
+        c = js.document.querySelector(f".{self.name}")
+        # directions = character_data[0]["directions"]
+
+        # x = character_data[0]["x"]
+        # y = character_data[0]["y"]
+        if directions == 0:
+            c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32)}px"
+            self.draw_move_line(x, y, x, y + 1, directions)
+        elif directions == 1:
+            c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32)}px"
+            self.draw_move_line(x, y, x-1, y, directions)
+        elif directions == 2:
+            c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32)}px"
+            self.draw_move_line(x, y, x, y - 1, directions)
+        elif directions == 3:
+            c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32)}px"
+            self.draw_move_line(x, y, x + 1, y, directions)
+ 
+        
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
         global wall_data
         if not (0 <= nx < map_data["height"] and 0 <= ny < map_data["width"]):
-            js.alert("맵을 벗어납니다.")
-            raise OutOfWorld
+            return 'OutOfWorld'
 
         # 이동 경로에 벽이 있는지 확인
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
+        
+            
 
         if wall_data["world"][(wall_x, wall_y)] in blockingWallType:
-            js.alert("이런! 벽에 부딪혔습니다.")
-            raise WallIsExist
+            return 'WallIsExist'
         if wall_data["world"][(wall_x, wall_y)] == "door":
-            js.alert("이런! 문이 닫혀있습니다.\n(*문을 열면 이동할 수 있어요)")
-            raise WallIsExist
+            return 'WallIsExist'
 
     def _pos_to_wall(self, x, y):
         # position 좌표계를 벽을 놓을 수 있는 좌표계로 변환
@@ -166,34 +182,42 @@ class Character:
 
     def turn_left(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._turn_left())), self.running_time)
+        directions = character_data[0]["directions"]
+        
+        self._turn_left()
+        
+    def _turn_left(self):
+        directions = character_data[0]["directions"]
+        if directions == 0:
+            character_data[0]["directions"] += 1
+        elif directions == 1:
+            character_data[0]["directions"] += 1
+        elif directions == 2:
+            character_data[0]["directions"] += 1
+        elif directions == 3:
+            character_data[0]["directions"] = 0
+            
+        setTimeout(create_once_callable(lambda: (self._turn_left_animation(directions))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
-    def _turn_left(self):
+    def _turn_left_animation(self, directions):
         c = js.document.querySelector(f".{self.name}")
-        directions = character_data[0]["directions"]
         c.style.transformOrigin = "center center"
-        # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
-        # data = c.style.transform[7:].replace(")", "")
 
         if directions == 0:
             c.style.backgroundImage = (
                 f'url("assets/img/characters/{self.name}-{directions+1}.png")'
             )
-            character_data[0]["directions"] += 1
         elif directions == 1:
             c.style.backgroundImage = (
                 f'url("assets/img/characters/{self.name}-{directions+1}.png")'
             )
-            character_data[0]["directions"] += 1
         elif directions == 2:
             c.style.backgroundImage = (
                 f'url("assets/img/characters/{self.name}-{directions+1}.png")'
             )
-            character_data[0]["directions"] += 1
         elif directions == 3:
             c.style.backgroundImage = f'url("assets/img/characters/{self.name}-0.png")'
-            character_data[0]["directions"] = 0
 
     def attack(self):
         self.running_time += 1000 * running_speed
@@ -245,8 +269,9 @@ class Character:
 
     def pick(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._pick())), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        self._pick()
+        # setTimeout(create_once_callable(lambda: (self._pick())), self.running_time)
+        # setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _pick(self):
         """
@@ -255,9 +280,11 @@ class Character:
 
         모든 아이템이 다 감소되면 document에서 해당 아이템을 삭제한다.
         """
+        
         x = character_data[0]["x"]
         y = character_data[0]["y"]
         item = item_data.get((x, y))
+        
         if item:
             item_count = item.get("count", 0)
             item_count -= 1
@@ -268,19 +295,25 @@ class Character:
                 character_data[0]["items"][item["item"]] += 1
             else:
                 character_data[0]["items"][item["item"]] = 1
+            
+            if item_count == 0:
+                item_data.pop((x, y))
+                
+            setTimeout(create_once_callable(lambda: (self._pick_animation(x, y ,item_count))), self.running_time)
 
+        else:
+            setTimeout(create_once_callable(lambda: (self._alert_error('NoItem'))), self.running_time)
+            
+
+    def _pick_animation(self, x, y, item_count):
             if item_count == 0:
                 map_items = js.document.querySelectorAll(".map-item")
                 index = map_data["width"] * x + y
                 target = map_items[index]
                 target.removeChild(target.querySelector(".item-container"))
-                item_data.pop((x, y))
             else:
                 js.document.querySelector(f".count{x}{y}").innerHTML = item_count
-            return item_count
-        else:
-            return "발 아래 아이템이 없습니다!"
-
+        
     def put(self, item_name):
         self.running_time += 1000 * running_speed
         setTimeout(
@@ -299,19 +332,22 @@ class Character:
         # 발 아래 아이템이 없을 경우,
         if not item:
             if find_item_from_character > 0:
-                item = Item(x, y, item_name, 1)
-                item.draw()
+                
                 character_data[0]["items"][item_name] -= 1
                 if character_data[0]["items"][item_name] == 0:
                     character_data[0]["items"].pop(item_name)
+                
+                setTimeout(create_once_callable(lambda: (self._put_animation(item, x,y,item_name,1))), self.running_time)
+                
             else:
-                print("가진 아이템이 없습니다.")
+                setTimeout(create_once_callable(lambda: (self._alert_error('NoItem'))), self.running_time)
         else:
             # 발 아래 아이템이 있다면
             bottom_item_name = item_data[(x, y)]["item"]
 
             if bottom_item_name != item_name and find_item_from_character > 0:
-                print("다른 종류의 아이템이 있습니다!")
+                setTimeout(create_once_callable(lambda: (self._alert_error('AnotherItemInBottom'))), self.running_time)
+                
 
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
             elif find_item_from_character > 0 and bottom_item_name == item_name:
@@ -320,10 +356,16 @@ class Character:
                 if character_data[0]["items"][item_name] == 0:
                     character_data[0]["items"].pop(item_name)
                     item_data[(x, y)]["count"] += 1
-                    js.document.querySelector(f".count{x}{y}").innerHTML = item_data[
-                        (x, y)
-                    ]["count"]
-
+                setTimeout(create_once_callable(lambda: (self._put_animation(item,x,y,item_name,item_data[(x, y)]["count"]))), self.running_time)
+                    
+    def _put_animation(self,bottom_item, x, y, item_name,count=1):
+        if not bottom_item:
+            item = Item(x, y, item_name, count)
+            item.draw()
+        else:
+            js.document.querySelector(f".count{x}{y}").innerHTML = count
+            
+        pass
     def check_bottom(self):
         """
         주인공 발 아래 아이템이 있는지 확인하는 함수
@@ -350,12 +392,12 @@ class Character:
         """
         return None
 
-    def draw_move_line(self, x, y, next_x, next_y):
+    def draw_move_line(self, x, y, next_x, next_y,directions):
         """
         주인공이 이동할 경로를 그려주는 함수
         """
         line = js.document.createElement("div")
-        directions = character_data[0]["directions"]
+        # directions = character_data[0]["directions"]
 
         line.className = "line"
         line.style.position = "absolute"
@@ -411,7 +453,6 @@ class Character:
         # target_direction = self.directions
         global wall_data
         target_direction = character_data[0]["directions"]
-        js.console.log('실행!')
 
         if target == "front":
             pass
@@ -437,7 +478,7 @@ class Character:
         elif target_direction == 3:  # 남
             posX, posY = (self.x + 0.5, self.y)
 
-        if not (0 <= posX < map_data["height"] and 0 <= posY < map_data["width"]):
+        if (posX, posY) not in wall_data["world"].keys():
             return False
 
         if wall_data["world"][(posX, posY)]:
@@ -452,16 +493,23 @@ class Character:
 
     def open_door(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._open_door())), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        self._open_door()
+        # setTimeout(create_once_callable(lambda: (self._open_door())), self.running_time)
+        # setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _open_door(self):
+        wall_pos = self._front_wall()
         if self.typeof_wall() == "door":
-            self._set_wall(self._front_wall(), "")
-        elif self.typeof_wall() == "":
-            say("벽이 없어!")
-        else:
-            say("문이 아니면 열 수 없어!")
+            
+            self._set_wall_data(wall_pos, "")
+            setTimeout(create_once_callable(lambda: (self._open_door_animation(wall_pos))), self.running_time)
+
+        elif self.typeof_wall() != "":
+            setTimeout(create_once_callable(lambda: self._alert_error('CannotOpenDoor')), self.running_time)
+            
+
+    def _open_door_animation(self,wall_pos):
+        self._set_wall_screen(wall_pos,"")
 
     def typeof_wall(self):
         global wall_data
@@ -483,8 +531,24 @@ class Character:
 
         return (posX, posY)
 
-    def _set_wall(self, pos, type):
+    def _set_wall_data(self, pos, type):
         wall_data["world"][pos] = type
+
+    def _set_wall_screen(self, pos, type):
         js.document.querySelector(
             f'.wall[data-x="{pos[0]}"][data-y="{pos[1]}"]'
         ).dataset.type = type
+        
+    def _alert_error(self, error_type):
+        if(error_type=='OutOfWorld'):
+            js.alert("맵을 벗어납니다.")
+            raise OutOfWorld
+        elif(error_type=='WallIsExist'):
+            js.alert("이런! 벽에 부딪혔습니다.")
+            raise WallIsExist
+        elif (error_type=='CannotOpenDoor'):
+            js.alert('문이 아닌 벽은 열 수 없습니다.')
+            raise CannotOpenWall        
+        else:
+            js.alert('new error',error_type)
+            raise Exception('new error',error_type)

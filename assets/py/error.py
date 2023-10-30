@@ -61,3 +61,12 @@ class WallIsExist(Exception):
     def __init__(self):
         print("error.WallIsExist: wall is exist", type="error")
         super().__init__("wall is exist")
+
+class CannotOpenWall(Exception):
+    """
+    door가 아닌 벽에 open_door 메서드 사용 시 발생하는 오류
+    """
+
+    def __init__(self):
+        print("error.CannotOpenWall: you cannot open wall", type="error")
+        super().__init__("cannot open wall")

@@ -515,6 +515,9 @@ class Character:
         global wall_data
 
         pos = self._front_wall()
+        if pos not in wall_data['world'].keys():
+            return 'OutOfWorld'
+            
         return wall_data["world"][pos]
 
     def _front_wall(self):

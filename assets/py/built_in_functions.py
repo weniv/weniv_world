@@ -7,6 +7,19 @@ from item import Item
 command_count = 1.5 # move, turn_left에서 1초를 대기하기 위한 변수
 command_line = 1 # 명령어 줄 수
 
+def get_running_speed():
+    # spped value
+    a = 0.00020004
+    b = -0.0408163393
+    c = 2.5411162993
+
+    # speed slide bar
+    slider = js.document.getElementById("speed-range")
+    slider_output = js.document.getElementById("speed-text")
+    slider_output.innerHTML = slider.value
+    running_speed = a * int(slider.value)**2 + b * int(slider.value) + c
+    return running_speed
+
 def set_delay_command_count():
     global command_count,running_speed
 
@@ -50,9 +63,8 @@ def print(*texts, type="normal"):
             output.appendChild(paragraph)
         else:
             js.console.log(result)
-
-    wait_time = 1000 * command_count
-    wait_time = command_line*1000
+    running_speed = get_running_speed()
+    wait_time = command_line*1000*running_speed
     js.console.log('print command',command_line)
     
     js.setTimeout(create_once_callable(lambda: (main())), wait_time)
@@ -71,9 +83,9 @@ def say(text="", character=None, speech_time=5000):
             else:
                 print("캐릭터가 없습니다.")
 
-    wait_time = 1000 * command_count
-    wait_time = command_line*1000
-    js.console.log('say command',command_line)
+    running_speed = get_running_speed()
+    wait_time = command_line*1000*running_speed
+    js.console.log('say speed',running_speed)
     js.setTimeout(create_once_callable(lambda: (main())), wait_time)
     
 def directions(character=None):

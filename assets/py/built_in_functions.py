@@ -4,8 +4,7 @@ from pyodide.ffi import create_once_callable
 from coordinate import character_data, map_data,running_speed
 from item import Item
 
-command_count = 1.5 # move, turn_left에서 1초를 대기하기 위한 변수
-command_line = 1 # 명령어 줄 수
+command_count = 1 # 명령어 줄 수
 
 def get_running_speed():
     # spped value
@@ -20,28 +19,19 @@ def get_running_speed():
     running_speed = a * int(slider.value)**2 + b * int(slider.value) + c
     return running_speed
 
-def set_delay_command_count():
-    global command_count,running_speed
-
-
 def mission_end():
     """
     미션 클리어
     """
     global command_count
-    command_count = 1.2
-    
-    global command_line
-    command_line = 1
+    command_count = 1
 
 def mission_start():
     """
     미션 시작
     """
     global command_count
-    command_count = 1.2
-    global command_line
-    command_line = 1
+    command_count = 1
 
 def print(*texts, type="normal"):
     """
@@ -64,9 +54,7 @@ def print(*texts, type="normal"):
         else:
             js.console.log(result)
     running_speed = get_running_speed()
-    wait_time = command_line*1000*running_speed
-    js.console.log('print command',command_line)
-    
+    wait_time = command_count*1000*running_speed
     js.setTimeout(create_once_callable(lambda: (main())), wait_time)
 
 
@@ -84,7 +72,7 @@ def say(text="", character=None, speech_time=5000):
                 print("캐릭터가 없습니다.")
 
     running_speed = get_running_speed()
-    wait_time = command_line*1000*running_speed
+    wait_time = command_count*1000*running_speed
     js.console.log('say speed',running_speed)
     js.setTimeout(create_once_callable(lambda: (main())), wait_time)
     
@@ -148,8 +136,7 @@ def set_item(x, y, name, count=1, description={}, character=None):
 def move(character=None):
     global command_count
     command_count += 1
-    global command_line
-    command_line += 1
+   
     if character != None:
         character.move()
     else:
@@ -162,9 +149,7 @@ def move(character=None):
 def turn_left(character=None):
     global command_count
     command_count += 1
-    
-    global command_line
-    command_line += 1
+
     if character != None:
         character.turn_left()
     else:
@@ -178,9 +163,6 @@ def pick(character=None):
     global command_count
     command_count += 1
     
-    global command_line
-    command_line += 1
-    
     if character != None:
         character.pick()
     else:
@@ -193,9 +175,6 @@ def pick(character=None):
 def put(item_name, character=None):
     global command_count
     command_count += 1
-    
-    global command_line
-    command_line += 1
     
     if character != None:
         character.put(item_name)
@@ -228,10 +207,6 @@ def front_is_clear(character=None):
             return character_data[0]["character_obj"].front_is_clear()
         else:
             print("캐릭터가 없습니다.")
-    wait_time = 1000 * command_count
-    # main()
-    # js.setTimeout(create_once_callable(lambda: (main())), wait_time)
-
 
 def left_is_clear(character=None):
     '''
@@ -245,9 +220,6 @@ def left_is_clear(character=None):
             return character_data[0]["character_obj"].left_is_clear()
         else:
             print("캐릭터가 없습니다.")
-    wait_time = 1000 * command_count
-    # js.setTimeout(create_once_callable(lambda: (main())), wait_time)
-
 
 def right_is_clear(character=None):
     '''
@@ -261,10 +233,7 @@ def right_is_clear(character=None):
             return character_data[0]["character_obj"].right_is_clear()
         else:
             print("캐릭터가 없습니다.")
-    wait_time = 1000 * command_count
-    # js.setTimeout(create_once_callable(lambda: (main())), wait_time)
-
-
+  
 def back_is_clear(character=None):
     '''
     캐릭터의 뒤가 비어있는지 확인하는 함수
@@ -277,10 +246,7 @@ def back_is_clear(character=None):
             return character_data[0]["character_obj"].back_is_clear()
         else:
             print("캐릭터가 없습니다.")
-    wait_time = 1000 * command_count
-    # js.setTimeout(create_once_callable(lambda: (main())), wait_time)
-
-
+  
 def attack(character=None):
     if character != None:
         character.attack()
@@ -293,8 +259,8 @@ def attack(character=None):
 
 def open_door(character=None):
     
-    global command_line
-    command_line += 1
+    global command_count
+    command_count += 1
     
     if character != None:
         character.open_door()
@@ -303,9 +269,6 @@ def open_door(character=None):
             character_data[0]["character_obj"].open_door()
         else:
             print("캐릭터가 없습니다.")
-    wait_time = 1000 * command_count
-    # js.setTimeout(create_once_callable(lambda: (main())), wait_time)
-
 
 def typeof_wall(character=None):
     if character != None:
@@ -316,13 +279,3 @@ def typeof_wall(character=None):
         else:
             print("캐릭터가 없습니다.")
             return None
-    wait_time = 1000 * command_count
-    # js.setTimeout(create_once_callable(lambda: (main())), wait_time)
-
-
-def wait():
-    '''
-    1초를 대기하는 함수
-    '''
-    global command_count
-    command_count += 1

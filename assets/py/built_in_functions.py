@@ -17,6 +17,9 @@ def mission_end():
     """
     global command_count
     command_count = 1.2
+    
+    global command_line
+    command_line = 1
 
 def mission_start():
     """

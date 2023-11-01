@@ -1,52 +1,57 @@
 [
     {
         "id": 1,
-        "title": "라이캣의 탄생",
+        "title": "캣의 결심",
         "url": "./assets/data/story/story1.md"
     },
     {
         "id": 2,
-        "title": "해골섬으로 향하는 라이캣",
+        "title": "라이캣의 탄생",
         "url": "./assets/data/story/story2.md"
     },
     {
         "id": 3,
-        "title": "지금까지 이런 맛은 없었다",
+        "title": "해골섬으로 향하는 라이캣",
         "url": "./assets/data/story/story3.md"
     },
     {
         "id": 4,
-        "title": "직원의 승진",
+        "title": "지금까지 이런 맛은 없었다",
         "url": "./assets/data/story/story4.md"
     },
     {
         "id": 5,
-        "title": "여기는 은행인가 생선가게인가",
+        "title": "직원의 승진",
         "url": "./assets/data/story/story5.md"
     },
     {
         "id": 6,
-        "title": "무료 밥차",
+        "title": "여기는 은행인가 생선가게인가",
         "url": "./assets/data/story/story6.md"
     },
     {
         "id": 7,
-        "title": "창고 통합",
+        "title": "무료 밥차",
         "url": "./assets/data/story/story7.md"
     },
     {
         "id": 8,
-        "title": "자동화하자!",
+        "title": "창고 통합",
         "url": "./assets/data/story/story8.md"
     },
     {
         "id": 9,
-        "title": "청소하고 정리합시다!",
+        "title": "자동화하자!",
         "url": "./assets/data/story/story9.md"
     },
     {
         "id": 10,
-        "title": "병원 설립!",
+        "title": "청소하고 정리합시다!",
         "url": "./assets/data/story/story10.md"
+    },
+    {
+        "id": 11,
+        "title": "병원 설립!",
+        "url": "./assets/data/story/story11.md"
     }
 ]

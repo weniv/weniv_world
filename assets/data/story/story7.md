@@ -25,6 +25,8 @@ else:
 ## 사용 코드
 
 ```python
+mission_start()
+mission_end()
 True and False
 True or False
 10 > 5 and False

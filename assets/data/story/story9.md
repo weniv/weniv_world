@@ -35,6 +35,8 @@ repeat(4, delivery)
 ## 사용 코드
 
 ```python
+mission_start()
+mission_end()
 move()
 turn_left()
 repeat(2, move)

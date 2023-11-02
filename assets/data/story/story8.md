@@ -22,6 +22,8 @@ l = [0, 0, 0, 0] # [천의_자리, 백의_자리, 십의_자리, 일의_자리]
 ## 사용 코드
 
 ```python
+mission_start()
+mission_end()
 move()
 repeat(2, move)
 pick()

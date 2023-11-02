@@ -10,9 +10,11 @@
 
 > "이제 출항이다냥!"
 
+
 ## 임무
 
 미로를 피해 모든 `물고기`를 잡고, 잡은 물고기의 수를 **라이켓은 물고기 3마리를 잡았다!**와 같이 터미널에 출력해야 합니다!
+
 
 ## 사용 코드
 
@@ -26,9 +28,10 @@ pick()
 print('hello world!')
 print('hello', 'world')
 print(f'hello world')
-show_item()
-show_item()['fish-1']
+item()
+item()['fish-1']
 ```
+
 
 ## 중급자의 사용 코드
 

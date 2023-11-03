@@ -124,6 +124,7 @@
                 <py-repl id="my-repl" auto-generate="true">
                     # shift + enter를 눌러 실행해보세요.
                     # 변수, 함수 목록은 World에 있습니다.
+                    mission_start()
                     set_item(2, 2, 'fish-1')
                     move()
                     move()
@@ -132,6 +133,7 @@
                     turn_left()
                     repeat(2, move)
                     # pick()
+                    mission_end()
                 </py-repl>
             </section>
         </section>

@@ -44,6 +44,7 @@ pick()
 say('hello world!')
 item()
 item()['fish-1']
+open_door()
 10 > 20
 30 < 10
 10 >= 5

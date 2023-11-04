@@ -41,8 +41,8 @@ move()
 repeat(2, move)
 pick()
 print('hello world!')
-show_item()
-show_item()['fish-1']
+item()
+item()['fish-1']
 10 + 10
 10 * 3
 10 // 3

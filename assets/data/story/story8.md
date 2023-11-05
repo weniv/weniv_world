@@ -37,6 +37,7 @@ for i in l:
 int(10.3)
 mission_start()
 mission_end()
+on_item()
 move()
 repeat(2, move)
 pick()

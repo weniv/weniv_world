@@ -28,6 +28,7 @@ mission_end()
 item()['goldbar'] += 1
 item().get('goldbar', 0)
 move()
+on_item()
 turn_left()
 repeat(2, move)
 pick()

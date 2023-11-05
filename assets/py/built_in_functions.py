@@ -3,6 +3,8 @@ import js
 from pyodide.ffi import create_once_callable
 from coordinate import character_data, map_data,running_speed
 from item import Item
+from coordinate import item_data
+
 
 command_count = 1 # 명령어 줄 수
 
@@ -279,3 +281,12 @@ def typeof_wall(character=None):
         else:
             print("캐릭터가 없습니다.")
             return None
+        
+def on_item():
+    if character_data[0]["character_obj"] != None:
+        if (character_data[0]['x'], character_data[0]['y']) in item_data:
+            return True
+        return False
+    else:
+        print("캐릭터가 없습니다.")
+        return None

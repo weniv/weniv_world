@@ -283,6 +283,9 @@ def typeof_wall(character=None):
             return None
         
 def on_item():
+    '''
+    발 아래 아이템이 있는지 확인하는 함수
+    '''
     if character_data[0]["character_obj"] != None:
         if (character_data[0]['x'], character_data[0]['y']) in item_data:
             return True
@@ -290,3 +293,11 @@ def on_item():
     else:
         print("캐릭터가 없습니다.")
         return None
+
+# 작동하지만 시기상조로 인해 주석처리  
+# def change_img():
+#     '''
+#     주인공 캐릭터의 이미지를 바꾸는 함수
+#     '''
+#     character = js.document.querySelector(".character")
+#     character.style.backgroundImage = f'url("assets/img/characters/lion.png")'

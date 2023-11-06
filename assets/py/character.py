@@ -555,6 +555,9 @@ class Character:
         elif(error_type=='NoItem'):
             js.alert('아이템이 없습니다.')
             raise Exception('NoItem')
+        elif(error_type=='AnotherItemInBottom'):
+            js.alert('다른 아이템이 있습니다.')
+            raise Exception('AnotherItemInBottom')
         else:
             js.alert('new error',error_type)
             raise Exception('new error',error_type)

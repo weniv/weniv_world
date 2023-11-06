@@ -316,10 +316,8 @@ class Character:
         
     def put(self, item_name):
         self.running_time += 1000 * running_speed
-        setTimeout(
-            create_once_callable(lambda: (self._put(item_name))), self.running_time
-        )
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        self._put(item_name)
+        
 
     def _put(self, item_name):
         """
@@ -329,6 +327,7 @@ class Character:
         y = character_data[0]["y"]
         item = self.check_bottom()
         find_item_from_character = character_data[0]["items"].get(item_name, 0)
+        
         # 발 아래 아이템이 없을 경우,
         if not item:
             if find_item_from_character > 0:
@@ -337,6 +336,7 @@ class Character:
                 if character_data[0]["items"][item_name] == 0:
                     character_data[0]["items"].pop(item_name)
                 
+                item_data[(x,y)]= {"item":item_name,"count":1}
                 setTimeout(create_once_callable(lambda: (self._put_animation(item, x,y,item_name,1))), self.running_time)
                 
             else:
@@ -551,7 +551,13 @@ class Character:
             raise WallIsExist
         elif (error_type=='CannotOpenDoor'):
             js.alert('문이 아닌 벽은 열 수 없습니다.')
-            raise CannotOpenWall        
+            raise CannotOpenWall   
+        elif(error_type=='NoItem'):
+            js.alert('아이템이 없습니다.')
+            raise Exception('NoItem')
+        elif(error_type=='AnotherItemInBottom'):
+            js.alert('다른 아이템이 있습니다.')
+            raise Exception('AnotherItemInBottom')
         else:
             js.alert('new error',error_type)
             raise Exception('new error',error_type)

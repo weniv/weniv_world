@@ -316,10 +316,11 @@ class Character:
         
     def put(self, item_name):
         self.running_time += 1000 * running_speed
-        setTimeout(
-            create_once_callable(lambda: (self._put(item_name))), self.running_time
-        )
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        self._put(item_name)
+        # setTimeout(
+        #     create_once_callable(lambda: (self._put(item_name))), self.running_time
+        # )
+        # setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _put(self, item_name):
         """
@@ -329,6 +330,7 @@ class Character:
         y = character_data[0]["y"]
         item = self.check_bottom()
         find_item_from_character = character_data[0]["items"].get(item_name, 0)
+        
         # 발 아래 아이템이 없을 경우,
         if not item:
             if find_item_from_character > 0:

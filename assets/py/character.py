@@ -336,6 +336,7 @@ class Character:
                 if character_data[0]["items"][item_name] == 0:
                     character_data[0]["items"].pop(item_name)
                 
+                item_data[(x,y)]= {"item":item_name,"count":1}
                 setTimeout(create_once_callable(lambda: (self._put_animation(item, x,y,item_name,1))), self.running_time)
                 
             else:

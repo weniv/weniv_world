@@ -42,9 +42,9 @@ def print(*texts, type="normal"):
     def main():
         output = js.document.getElementById("output")
         result = ""
-
+        js.console.log('texts',texts)
         for text in texts:
-            result += str(text)
+            result += str(text).replace("<", "&lt;").replace(">", "&gt;")
 
         if output:
             paragraph = js.document.createElement("p")

@@ -317,10 +317,7 @@ class Character:
     def put(self, item_name):
         self.running_time += 1000 * running_speed
         self._put(item_name)
-        # setTimeout(
-        #     create_once_callable(lambda: (self._put(item_name))), self.running_time
-        # )
-        # setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        
 
     def _put(self, item_name):
         """
@@ -553,7 +550,10 @@ class Character:
             raise WallIsExist
         elif (error_type=='CannotOpenDoor'):
             js.alert('문이 아닌 벽은 열 수 없습니다.')
-            raise CannotOpenWall        
+            raise CannotOpenWall   
+        elif(error_type=='NoItem'):
+            js.alert('아이템이 없습니다.')
+            raise Exception('NoItem')
         else:
             js.alert('new error',error_type)
             raise Exception('new error',error_type)

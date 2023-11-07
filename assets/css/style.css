@@ -573,7 +573,7 @@ button {
   width: max-content;
   max-width: 26rem;
   word-break: break-word;
-  z-index: 20;
+  z-index: 100;
   animation: fadeIn 0.6s; }
   .tooltip::before {
     content: '';
@@ -1664,19 +1664,29 @@ button {
   border-top: 1px solid var(--ColorGrayLv2); }
 
 .btn-guide {
-  display: block;
-  width: 2.4rem;
-  height: 2.4rem;
-  margin-left: auto;
-  background: var(--ColorError);
-  -webkit-mask-image: url("../../assets/img/icon/icon-youtube.svg");
-  -webkit-mask-size: 100%;
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center center;
-  mask-image: url("../../assets/img/icon/icon-youtube.svg");
-  mask-size: 100%;
-  mask-repeat: no-repeat;
-  mask-position: center center; }
+  margin-left: auto; }
+  .btn-guide::before {
+    content: '';
+    display: block;
+    width: 2.4rem;
+    height: 2.4rem;
+    background: var(--ColorError);
+    -webkit-mask-image: url("../../assets/img/icon/icon-youtube.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-youtube.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .btn-guide .tooltip {
+    left: -4.1rem;
+    transform: none; }
+    .btn-guide .tooltip::before {
+      content: '';
+      position: absolute;
+      left: 4.9rem;
+      transform: translateX(0) rotate(135deg); }
 
 .md-tit1,
 .md-tit2,

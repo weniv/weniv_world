@@ -377,12 +377,14 @@ button {
     background: var(--ColorSurface); }
 
 .button-before {
+  display: block;
   width: 4.2rem;
   height: 4.2rem;
   border-radius: 1rem;
   padding: 0.7rem;
   box-sizing: border-box;
   /* 스토리보기 버튼 */
+  /* 콘텐츠 더보기 버튼(케밥 메뉴) */
   /* 벽 만들기 버튼 */
   /* 에셋 추가 버튼 */
   /* 월드 크기 조정 버튼 */
@@ -411,6 +413,22 @@ button {
     mask-position: center center; }
   .button-before.btn-story.active::before {
     background: var(--ColorPrimary); }
+  .button-before.btn-kebab {
+    padding: 0; }
+    .button-before.btn-kebab::before {
+      width: 100%;
+      height: 100%;
+      background: var(--ColorGrayLv3);
+      -webkit-mask-image: url("../../assets/img/icon/icon-kebab.svg");
+      -webkit-mask-size: 100%;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-image: url("../../assets/img/icon/icon-kebab.svg");
+      mask-size: 100%;
+      mask-repeat: no-repeat;
+      mask-position: center center; }
+    .button-before.btn-kebab.active::before {
+      background: var(--ColorPrimary); }
   .button-before.btn-wall::before {
     background: var(--ColorGrayLv3);
     -webkit-mask-image: url("../../assets/img/icon/icon-wall-import.svg");
@@ -688,9 +706,11 @@ button {
 .menu-list {
   display: flex;
   align-items: center;
-  gap: 1.6rem; }
-  .menu-list li:last-child {
-    margin-left: 0.4rem; }
+  gap: 2rem; }
+  .menu-list li {
+    position: relative; }
+  .menu-list .btn-story {
+    margin-right: -0.4rem; }
 
 /* 메인 */
 .main {
@@ -725,6 +745,64 @@ button {
       height: 3px; }
   .resizer.story-resizer {
     display: none; }
+
+/* 케밥 메뉴 */
+.menu .btn-kebab.active + .kebab-menu {
+  display: block; }
+
+.kebab-menu {
+  display: none;
+  position: absolute;
+  top: 4.8rem;
+  right: 0;
+  width: 24rem;
+  padding: 0.8rem 0;
+  border-radius: 1rem;
+  border: 1px solid var(--ColorGrayLv1);
+  background: var(--ColorBackground);
+  box-shadow: var(--EffectShadow);
+  z-index: 20; }
+  .kebab-menu li {
+    padding: 0; }
+  .kebab-menu .kebab-item:not(:last-child) {
+    border-bottom: 1px solid var(--ColorGrayLv2);
+    padding-bottom: 0.8rem;
+    margin-bottom: 0.8rem; }
+  .kebab-menu .kebab-item li > a,
+  .kebab-menu .kebab-item li > button {
+    display: block;
+    padding: 1rem 2rem;
+    box-sizing: border-box;
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem; }
+    .kebab-menu .kebab-item li > a:hover,
+    .kebab-menu .kebab-item li > button:hover {
+      background: var(--ColorActivation); }
+  .kebab-menu .menu-title {
+    display: flex;
+    padding: 0.4rem 0 0.4rem 1.6rem;
+    margin-bottom: 0.4rem;
+    color: var(--ColorGrayLv3);
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.6rem; }
+  .kebab-menu .btn-download::before {
+    display: inline-block;
+    content: '';
+    width: 2rem;
+    height: 2rem;
+    vertical-align: bottom;
+    margin-right: 0.8rem;
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../../assets/img/icon/icon-code-download.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-code-download.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
 
 .notebook {
   width: 50rem;

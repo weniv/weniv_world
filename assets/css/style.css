@@ -1663,6 +1663,21 @@ button {
   padding: 2.8rem;
   border-top: 1px solid var(--ColorGrayLv2); }
 
+.btn-guide {
+  display: block;
+  width: 2.4rem;
+  height: 2.4rem;
+  margin-left: auto;
+  background: var(--ColorError);
+  -webkit-mask-image: url("../../assets/img/icon/icon-youtube.svg");
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-image: url("../../assets/img/icon/icon-youtube.svg");
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center center; }
+
 .md-tit1,
 .md-tit2,
 .md-tit3,

@@ -328,3 +328,17 @@ functionList.addEventListener('click', (e) => {
 variableList.addEventListener('click', (e) => {
     copyToClipboard(e.target);
 });
+
+// 케밥 메뉴 - 버튼 이벤트 추가
+const kebabMenu = document.querySelector('.btn-kebab');
+
+kebabMenu.addEventListener('click', () => {
+    kebabMenu.classList.toggle('active');
+});
+
+window.addEventListener('click', (e) => {
+    if (!kebabMenu.contains(e.target)) {
+        kebabMenu.classList.contains('active') &&
+            kebabMenu.classList.remove('active');
+    }
+});

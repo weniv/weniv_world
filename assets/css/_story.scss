@@ -142,3 +142,30 @@
     padding: 2.8rem;
     border-top: 1px solid var(--ColorGrayLv2);
 }
+
+.btn-guide {
+    margin-left: auto;
+
+    &::before {
+        content: '';
+        display: block;
+        width: 2.4rem;
+        height: 2.4rem;
+        @include mask-image(
+            var(--ColorError),
+            '../../assets/img/icon/icon-youtube.svg'
+        );
+    }
+
+    .tooltip {
+        left: -4.1rem;
+        transform: none;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 4.9rem;
+            transform: translateX(0) rotate(135deg);
+        }
+    }
+}

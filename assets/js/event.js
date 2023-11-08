@@ -342,3 +342,18 @@ window.addEventListener('click', (e) => {
             kebabMenu.classList.remove('active');
     }
 });
+
+// 이미지 프리로드
+const preloadImage = (imgList) => {
+    imgList.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+    });
+};
+// 라이캣 이미지 프리로드
+preloadImage([
+    './assets/img/characters/licat-0.png',
+    './assets/img/characters/licat-1.png',
+    './assets/img/characters/licat-2.png',
+    './assets/img/characters/licat-3.png',
+]);

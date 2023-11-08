@@ -5028,13 +5028,18 @@ var pyscript = (() => {
         'The use of top-level "await", "async for", and "async with" has been removed.\nPlease write a coroutine containing your code and schedule it using asyncio.ensure_future() or similar.\nSee https://docs.pyscript.net/latest/guides/asyncio.html for more information.'
       );
       displayPyException(err, outElem);
+      !outElem.classList.contains("error") && outElem.classList.add("error");
       return { result: void 0 };
+    } else {
+      outElem.classList.contains("error") && outElem.classList.remove("error");
     }
     try {
+      outElem.classList.contains("error") && outElem.classList.remove("error");
       return await interpreter2.run(pysrc, outElem.id);
     } catch (e) {
       const err = e;
       displayPyException(err, outElem);
+      !outElem.classList.contains("error") && outElem.classList.add("error");
       return { result: void 0 };
     }
   }

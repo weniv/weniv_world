@@ -1012,10 +1012,30 @@ button {
   cursor: pointer; }
 
 .py-repl-output {
+  margin-top: 1.2rem;
+  padding: 1.6rem;
+  border-radius: 8px;
+  border: 1px solid var(--ColorGrayLv2);
+  background: var(--ColorGrayLv1);
+  font-family: Pretendard;
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 2.2rem;
   overflow: hidden; }
+  .py-repl-output:empty {
+    margin: 0;
+    padding: 0;
+    border: none; }
+  .py-repl-output.error {
+    border: 2px solid var(--ColorError);
+    color: var(--ColorError); }
 
 .py-error {
-  overflow-x: auto; }
+  overflow-x: auto;
+  border: none;
+  background: transparent;
+  color: var(--ColorError); }
 
 .py-repl-btn-wrap {
   position: relative;
@@ -1047,19 +1067,6 @@ button {
     background: var(--ColorGrayLv2); }
     .py-repl-btn-wrap:hover .btn-add-code {
       display: flex; }
-
-.py-error {
-  margin-top: 1.2rem;
-  padding: 1.6rem;
-  border-radius: 8px;
-  border: 2px solid var(--ColorError);
-  background: var(--ColorGrayLv1);
-  color: var(--ColorError);
-  font-family: Pretendard;
-  font-size: 1.6rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 2.2rem; }
 
 .world {
   position: relative;

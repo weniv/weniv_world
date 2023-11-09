@@ -67,6 +67,10 @@ module.exports = {
                     from: 'assets/js',
                     to: 'assets/js',
                 },
+                {
+                    from: 'assets/documents',
+                    to: 'assets/documents',
+                },
             ],
         }),
     ],

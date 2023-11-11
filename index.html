@@ -1074,6 +1074,75 @@
             story_select['status'] = False
             init()
 
+        def add_ch(name=None, x=4, y=4):
+            '''
+            캐릭터를 추가하는 함수
+            순환 참조로 인해 이 함수만 index.html에 있음
+            
+            테스트 코드:
+            add_ch('lion', 4, 4)
+            add_ch('mob1', 3, 3)
+            add_ch('mob2', 3, 2)
+            add_ch('mob3', 2, 3)
+            '''
+            if name:
+                if name == 'lion':
+                    lion = Character(x=x, y=y, name='lion', width=32, height=40)
+                    character_data.append(
+                        {
+                            'character': 'lion',
+                            'character_obj': lion,
+                            'x': x,
+                            'y': y,
+                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+                            'items': {}
+                        }
+                    )
+                    draw_ch = lion.draw()
+
+                    draw_ch.style.animationName = 'lion'
+                    draw_ch.style.animationDuration = '1s'
+                    draw_ch.style.animationIterationCount = 'infinite'
+                    draw_ch.style.animationTimingFunction = 'steps(6)'
+                    draw_ch.style.width = '48px'
+                    draw_ch.style.height = '64px'
+                    draw_ch.style.backgroundSize = '288px 64px'
+                    draw_ch.style.top = str(int(draw_ch.style.top[:-2]) + 8) + 'px'
+                    draw_ch.style.left = str(int(draw_ch.style.left[:-2]) + 13) + 'px'
+                    draw_ch.style.scale = '1.3'
+
+                    draw_map.appendChild(draw_ch)
+                    
+                elif name[:3] == 'mob':
+                    mob = Character(x=x, y=y, name=f'mob{name[-1]}', width=32, height=40)
+                    character_data.append(
+                        {
+                            'character': f'mob{name[-1]}',
+                            'character_obj': mob,
+                            'x': x,
+                            'y': y,
+                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+                            'items': {}
+                        }
+                    )
+                    draw_ch = mob.draw()
+
+                    draw_ch.style.animationName = 'mob'
+                    draw_ch.style.animationDuration = '1s'
+                    draw_ch.style.animationIterationCount = 'infinite'
+                    draw_ch.style.animationTimingFunction = 'steps(6)'
+                    draw_ch.style.width = '28px'
+                    draw_ch.style.height = '28px'
+                    draw_ch.style.backgroundSize = '168px 28px'
+                    draw_ch.style.top = str(int(draw_ch.style.top[:-2]) + 23) + 'px'
+                    draw_ch.style.left = str(int(draw_ch.style.left[:-2]) + 21) + 'px'
+                    draw_ch.style.scale = '1.3'
+
+                    draw_map.appendChild(draw_ch)
+
+            else:
+                return None
+
     </py-script>
     <script>
     const dateFormat = ()=>{

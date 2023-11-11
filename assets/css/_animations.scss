@@ -4,6 +4,18 @@
     }
 }
 
+@keyframes lion {
+    to {
+        background-position: -288px, 0;
+    }
+}
+
+@keyframes mob {
+    to {
+        background-position: -168px, 0;
+    }
+  }
+
 @keyframes attack-claw-white {
     from {
         background-position: -0px, -0px;

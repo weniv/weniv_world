@@ -301,3 +301,10 @@ def on_item():
 #     '''
 #     character = js.document.querySelector(".character")
 #     character.style.backgroundImage = f'url("assets/img/characters/lion.png")'
+
+# def add_ch():
+#     '''
+#     캐릭터를 추가하는 함수
+#     순환 참조로 인해 이 함수만 index.html에 있음
+#     '''
+#     pass

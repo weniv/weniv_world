@@ -1112,6 +1112,8 @@
                     draw_ch.style.scale = '1.3'
 
                     draw_map.appendChild(draw_ch)
+
+                    return lion
                     
                 elif name[:3] == 'mob':
                     mob = Character(x=x, y=y, name=f'mob{name[-1]}', width=32, height=40)
@@ -1139,6 +1141,8 @@
                     draw_ch.style.scale = '1.3'
 
                     draw_map.appendChild(draw_ch)
+
+                    return mob
 
             else:
                 return None

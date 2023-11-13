@@ -1,7 +1,7 @@
 import js
 
 from pyodide.ffi import create_once_callable
-from coordinate import character_data, map_data,running_speed
+from coordinate import character_data, map_data,running_speed, mob_data
 from item import Item
 from coordinate import item_data
 

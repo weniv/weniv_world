@@ -10,6 +10,7 @@ character_data = [
         "items": {},
     }
 ]
+mob_data = []
 
 # 맵 전역에 있는 아이템 데이터
 # (x, y): {item: 'beeper', count: 1}

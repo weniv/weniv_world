@@ -65,7 +65,7 @@
 
         [[fetch]]
         from = "./assets/py/"
-        files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py"]
+        files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py","mob.py"]
     </py-config>
 </head>
 <body>
@@ -451,8 +451,9 @@
         from map import Map
         from wall import Wall
         from character import Character
+        from mob import Mob
         from item import Item
-        from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type,story_wall
+        from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type,story_wall, mob_data
         from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item
         from pyscript import when
         from js import alert, setTimeout
@@ -1090,28 +1091,27 @@
             story_select['status'] = False
             init()
 
-        def add_ch(name=None, x=4, y=4):
+        def add_mob(x=4, y=4, name=None):
             '''
-            캐릭터를 추가하는 함수
+            몬스터를 추가하는 함수
             순환 참조로 인해 이 함수만 index.html에 있음
             
             테스트 코드:
-            add_ch('lion', 4, 4)
-            add_ch('mob1', 3, 3)
-            add_ch('mob2', 3, 2)
-            add_ch('mob3', 2, 3)
+            add_mob('lion', 4, 4)
+            add_mob('mob1', 3, 3)
+            add_mob('mob2', 3, 2)
+            add_mob('mob3', 2, 3)
             '''
             if name:
                 if name == 'lion':
-                    lion = Character(x=x, y=y, name='lion', width=32, height=40)
-                    character_data.append(
+                    lion = Mob(x=x, y=y, name='lion', width=32, height=40)
+                    mob_data.append(
                         {
-                            'character': 'lion',
-                            'character_obj': lion,
+                            'mob': 'lion',
+                            'mop_obj': lion,
                             'x': x,
                             'y': y,
                             'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
-                            'items': {}
                         }
                     )
                     draw_ch = lion.draw()
@@ -1132,15 +1132,14 @@
                     return lion
                     
                 elif name[:3] == 'mob':
-                    mob = Character(x=x, y=y, name=f'mob{name[-1]}', width=32, height=40)
-                    character_data.append(
+                    mob = Mob(x=x, y=y, name=f'mob{name[-1]}', width=32, height=40)
+                    mob_data.append(
                         {
-                            'character': f'mob{name[-1]}',
-                            'character_obj': mob,
+                            'mob': f'mob{name[-1]}',
+                            'mob_obj': mob,
                             'x': x,
                             'y': y,
                             'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
-                            'items': {}
                         }
                     )
                     draw_ch = mob.draw()

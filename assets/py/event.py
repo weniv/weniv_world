@@ -584,7 +584,7 @@ def map_item_add(evt):
 
         item_select["status"] = False
         item_select["name"] = ""
-        js.document.querySelector(".map-container").style.cursor = "auto"
+        js.document.querySelector(".map-container").style.cursor = "default"
         js.document.querySelector(".wall-container").style.pointerEvents = ""
 
 

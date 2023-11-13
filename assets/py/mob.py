@@ -197,26 +197,25 @@ class Mob:
 
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
-            if x >= map_data["width"] - 1:
+            if y >= map_data["width"] - 1:
                 js.alert("공격이 맵을 벗어납니다.")
                 raise OutOfWorld
-            self.draw_attack(x, y, x + 1, y)
+            self.draw_attack(x, y, x , y+1)
         elif directions == 1:
+            if x <= 0:
+                js.alert("공격이 맵을 벗어납니다.")
+                raise OutOfWorld
+            self.draw_attack(x, y, x-1, y)
+        elif directions == 2:
             if y <= 0:
                 js.alert("공격이 맵을 벗어납니다.")
                 raise OutOfWorld
             self.draw_attack(x, y, x, y - 1)
-        elif directions == 2:
-            if x <= 0:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x - 1, y)
-            character_data[0]["x"] -= 1
         elif directions == 3:
-            if y >= map_data["height"] - 1:
+            if x >= map_data["height"] - 1:
                 js.alert("공격이 맵을 벗어납니다.")
                 raise OutOfWorld
-            self.draw_attack(x, y, x, y + 1)
+            self.draw_attack(x, y, x + 1, y)
 
     def draw_attack(self, x, y, x2, y2, name="claw-yellow"):
         attack = js.document.createElement("div")

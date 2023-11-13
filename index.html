@@ -505,8 +505,10 @@
         map_data['width'] = int(map_slider_y.value)
 
 
-        def change_map(e):
+        def change_map(evt=None):
             global wall_data
+            global item_data
+
             map_data['height'] = int(map_slider_x.value)
             map_data['width'] = int(map_slider_y.value)
             map_slider_output_x.innerHTML = map_slider_x.value
@@ -525,7 +527,7 @@
                 wall_container = wall.drawWall()
                 wall_data['world'] = wall.wall_data
                 draw_map.appendChild(wall_container)
-                
+
                 # map-item 이벤트 등록
                 for map_elem in draw_map.querySelectorAll('.map-item'):
                     add_event_listener(map_elem, 'click', map_item_add)
@@ -539,7 +541,7 @@
 
 
             # 범위를 벗어난 아이템 삭제
-            global item_data
+
             keys_to_remove = []  # 제거할 항목의 키를 저장할 리스트
 
             for (x, y) in item_data.keys():
@@ -992,24 +994,29 @@
                     if item == evt.target:
                         break
                     index += 1
+                    
                 # index를 통해 x, y 좌표 계산
                 x, y = divmod(index, map_data['width'])
                 evt.target.style.backgroundColor = ''
-                set_item(x, y, item_select['name'], 1)
-                pos = f"{x},{y}"
 
-                if item_data.get(pos):
-                    item_data[pos]['count'] += 1
+                count = 1
+                if item_data.get((x,y))==item_select['name']:
+                    item_data[(x,y)]['count'] += count
                 else:
-                    item_data[pos] = {
+                    item_data[(x,y)] = {
                         'item': item_select['name'],
-                        'count': 1
+                        'count': count
                     }
+
+              
 
                 item_select['status']=False
                 item_select['name']=''
                 js.document.querySelector('.map-container').style.cursor='auto'
                 js.document.querySelector('.wall-container').style.pointerEvents=''
+            change_map()
+
+
 
         @when("click", selector="#output-init")
         def init_output(evt=None):

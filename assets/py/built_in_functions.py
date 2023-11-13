@@ -42,7 +42,6 @@ def print(*texts, type="normal"):
     def main():
         output = js.document.getElementById("output")
         result = ""
-        js.console.log('texts',texts)
         for text in texts:
             result += str(text)
 
@@ -75,7 +74,6 @@ def say(text="", character=None, speech_time=5000):
 
     running_speed = get_running_speed()
     wait_time = command_count*1000*running_speed
-    js.console.log('say speed',running_speed)
     js.setTimeout(create_once_callable(lambda: (main())), wait_time)
     
 def directions(character=None):

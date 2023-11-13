@@ -524,7 +524,8 @@
                 wall.resizeWall(map_data['width'], map_data['height'])
                 wall_container = wall.drawWall()
                 wall_data['world'] = wall.wall_data
-
+                draw_map.appendChild(wall_container)
+                
                 # map-item 이벤트 등록
                 for map_elem in draw_map.querySelectorAll('.map-item'):
                     add_event_listener(map_elem, 'click', map_item_add)

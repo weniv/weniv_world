@@ -999,24 +999,32 @@
                 x, y = divmod(index, map_data['width'])
                 evt.target.style.backgroundColor = ''
 
-                count = 1
-                if item_data.get((x,y))==item_select['name']:
-                    item_data[(x,y)]['count'] += count
-                else:
-                    item_data[(x,y)] = {
-                        'item': item_select['name'],
-                        'count': count
-                    }
+                count = 0
+                input_count = js.prompt('추가할 아이템 개수를 입력하세요\n(* 추가할 위치에 다른 아이템이 있는 경우 사라집니다.)', '1')
 
-              
+                # 양의 정수이면 count에 저장 / 입력값이 없으면 None 반환 / 입력값이 유효하지 않으면 alert
+                if not input_count:
+                    pass
+                elif not input_count.isdigit() or int(input_count)<0:
+                    js.alert('자연수를 입력해주세요.')
+                    return None
+                else:
+                    count = int(input_count)
+                    on_item = item_data.get((x,y))
+                    
+                    if item_data.get((x,y),{}).get('item','')==item_select['name']:
+                        item_data[(x,y)]['count'] += count
+                    else:
+                        item_data[(x,y)] = {
+                            'item': item_select['name'],
+                            'count': count
+                        }
 
                 item_select['status']=False
                 item_select['name']=''
-                js.document.querySelector('.map-container').style.cursor='auto'
                 js.document.querySelector('.wall-container').style.pointerEvents=''
+                js.document.querySelector('.map-container').style.cursor='auto'
             change_map()
-
-
 
         @when("click", selector="#output-init")
         def init_output(evt=None):

@@ -5,6 +5,7 @@ from pyodide.ffi import create_once_callable
 from built_in_functions import print, say
 from coordinate import (
     character_data,
+    mob_data,
     map_data,
     item_data,
     blockingWallType,
@@ -103,8 +104,6 @@ class Character:
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
         self.running_time += 1000 * running_speed
-        x, y= character_data[0]['x'], character_data[0]['y']
-        directions = character_data[0]["directions"]
         self._move()
         
         
@@ -117,26 +116,35 @@ class Character:
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         if directions == 0:
             error_check = self._movable(x, y, x, y + 1)
+            if error_check:
+                setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
+                return None
             character_data[0]["y"] += 1
             self.y = character_data[0]["y"]
         elif directions == 1:
             error_check=self._movable(x, y, x - 1, y)
+            if error_check:
+                setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
+                return None
             character_data[0]["x"] -= 1
             self.x = character_data[0]["x"]
         elif directions == 2:
             error_check=self._movable(x, y, x, y - 1)
+            if error_check:
+                setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
+                return None
             character_data[0]["y"] -= 1
             self.y = character_data[0]["y"]
         elif directions == 3:
             error_check=self._movable(x, y, x + 1, y)
+            if error_check:
+                setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
+                return None
             character_data[0]["x"] += 1
             self.x = character_data[0]["x"]
-        
-        if error_check:
-            setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
-        else:
-            setTimeout(create_once_callable(lambda: (self._move_animation(x, y,directions))), self.running_time)
-            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+
+        setTimeout(create_once_callable(lambda: (self._move_animation(x, y,directions))), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
         
     def _move_animation(self, x, y, directions):
@@ -161,21 +169,38 @@ class Character:
         
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
-        global wall_data
-        if not (0 <= nx < map_data["height"] and 0 <= ny < map_data["width"]):
+        if self._out_of_world(nx, ny):
             return 'OutOfWorld'
 
         # 이동 경로에 벽이 있는지 확인
+        if self._wall_exist(x, y, nx, ny):
+            return 'WallIsExist'
+        
+        if self._character_exist(nx, ny):
+            return 'CharacterIsExist'
+
+    def _out_of_world(self, x, y):
+        if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
+            return True
+        return False
+    
+    def _wall_exist(self, x, y, nx, ny):
+        global wall_data
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
         
-            
-
-        if wall_data["world"][(wall_x, wall_y)] in blockingWallType:
-            return 'WallIsExist'
-        if wall_data["world"][(wall_x, wall_y)] == "door":
-            return 'WallIsExist'
-
+        if wall_data['world'].get((wall_x, wall_y), None) in (blockingWallType+['door']):
+            return True
+        return False
+    
+    def _character_exist(self, nx, ny):
+        global character_data
+        global mob_data
+        
+        if any(obj.get('x', None) == nx and obj.get('y', None) == ny for obj in character_data) or any(obj.get('x', None) == nx and obj.get('y', None) == ny for obj in mob_data):
+            return True
+        return False
+        
     def _pos_to_wall(self, x, y):
         # position 좌표계를 벽을 놓을 수 있는 좌표계로 변환
         return 2 * x + 1, 2 * map_data["height"] - 1 - 2 * y
@@ -558,6 +583,9 @@ class Character:
         elif(error_type=='AnotherItemInBottom'):
             js.alert('다른 아이템이 있습니다.')
             raise Exception('AnotherItemInBottom')
+        elif(error_type=='CharacterIsExist'):
+            js.alert('이동하려는 위치에 캐릭터가 있습니다.')
+            raise Exception('CharacterIsExist')
         else:
             js.alert('new error',error_type)
             raise Exception('new error',error_type)

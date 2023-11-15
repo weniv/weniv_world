@@ -303,6 +303,9 @@ class Mob:
         elif(error_type=='AnotherItemInBottom'):
             js.alert('다른 아이템이 있습니다.')
             raise Exception('AnotherItemInBottom')
+        elif(error_type=='CharacterIsExist'):
+            js.alert('다른 캐릭터 또는 몬스터가 있습니다.')
+            raise Exception('CharacterIsExist')
         else:
             js.alert('new error',error_type)
             raise Exception('new error',error_type)

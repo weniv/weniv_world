@@ -1102,7 +1102,7 @@
             add_mob('mob2', 3, 2)
             add_mob('mob3', 2, 3)
             '''
-            if name:
+            if name and not _character_exist(x, y):
                 if name == 'lion':
                     lion = Mob(x=x, y=y, name='lion', width=32, height=40)
                     mob_data.append(
@@ -1158,9 +1158,19 @@
                     draw_map.appendChild(draw_ch)
 
                     return mob
-
+            elif _character_exist(x,y):
+                js.alert('다른 캐릭터 또는 몬스터가 있습니다.')
+                raise Exception('CharacterIsExist')
             else:
                 return None
+
+        def _character_exist(x, y):
+            global character_data
+            global mob_data
+            
+            if any(obj.get('x', None) == x and obj.get('y', None) == y for obj in character_data) or any(obj.get('x', None) == x and obj.get('y', None) == y for obj in mob_data):
+                return True
+            return False
 
     </py-script>
     <script>

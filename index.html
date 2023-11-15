@@ -505,7 +505,6 @@
         map_data['height'] = int(map_slider_x.value)
         map_data['width'] = int(map_slider_y.value)
 
-
         def change_map(evt=None):
             global wall_data
             global item_data
@@ -528,11 +527,6 @@
                 wall_container = wall.drawWall()
                 wall_data['world'] = wall.wall_data
                 draw_map.appendChild(wall_container)
-                
-                # map-items 이벤트 등록
-                map_items = draw_map.querySelector('.map-items')
-                add_event_listener(map_items,'mousemove',show_tooltip)
-                add_event_listener(map_items,'mouseleave',remove_tooltip)
 
                 # map-item 이벤트 등록
                 for map_elem in draw_map.querySelectorAll('.map-item'):
@@ -972,7 +966,7 @@
                 js.document.querySelector('.wall-container').style.pointerEvents=''
 
                 item_select['name'] = ''
-                js.document.querySelector('.map-container').style.cursor='auto'
+                js.document.querySelector('.world-map').style.cursor='auto'
             else:
                 # 이전 선택 스타일 취소
                 if(item_select['name']):
@@ -984,7 +978,7 @@
                 js.document.querySelector('.wall-container').style.pointerEvents='none'
 
                 item_select['name'] = evt.target.id
-                js.document.querySelector('.map-container').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
+                js.document.querySelector('.world-map').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
 
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
                 label.classList.add('active')
@@ -1029,10 +1023,10 @@
                 item_select['status']=False
                 item_select['name']=''
                 js.document.querySelector('.wall-container').style.pointerEvents=''
-                js.document.querySelector('.map-container').style.cursor='auto'
+                js.document.querySelector('.world-map').style.cursor='auto'
             change_map()
 
-        @when('mousemove', selector='.map-items')
+        @when('mousemove', selector='.world-map')
         def show_tooltip(evt=None):
             if(item_select['status']):
                 map_items = js.document.querySelector('.map-items')
@@ -1049,13 +1043,28 @@
                 tooltip.style.top = f"{y+60}px"
                 tooltip.style.display = 'block'
                         
-        @when('mouseleave', selector='.map-items')
+        @when('mouseleave', selector='.world-map')
         def remove_tooltip(evt=None):
             tooltip = js.document.querySelector('.tooltip')
             if tooltip:
                 tooltip.remove()
                 
-            
+        @when('contextmenu', selector='.world-map')
+        def cancle_item_add(evt=None):
+            if(item_select['status']):
+                evt.preventDefault()
+                # active된 label이 있으면 active 해제
+                label = js.document.querySelector(f"label[for='{item_select['name']}']")
+                label.classList.remove('active')
+
+                item_select['status']=False
+                item_select['name']=''
+                js.document.querySelector('.wall-container').style.pointerEvents=''
+                js.document.querySelector('.world-map').style.cursor='auto'
+                tooltip = js.document.querySelector('.tooltip')
+                if tooltip:
+                    tooltip.remove()
+                    
         @when("click", selector="#output-init")
         def init_output(evt=None):
             for output_line in js.document.querySelectorAll('.output-item'):

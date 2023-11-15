@@ -528,6 +528,11 @@
                 wall_container = wall.drawWall()
                 wall_data['world'] = wall.wall_data
                 draw_map.appendChild(wall_container)
+                
+                # map-items 이벤트 등록
+                map_items = draw_map.querySelector('.map-items')
+                add_event_listener(map_items,'mousemove',show_tooltip)
+                add_event_listener(map_items,'mouseleave',remove_tooltip)
 
                 # map-item 이벤트 등록
                 for map_elem in draw_map.querySelectorAll('.map-item'):
@@ -1005,7 +1010,7 @@
 
                 # 양의 정수이면 count에 저장 / 입력값이 없으면 None 반환 / 입력값이 유효하지 않으면 alert
                 if not input_count:
-                    pass
+                    return None
                 elif not input_count.isdigit() or int(input_count)<0:
                     js.alert('자연수를 입력해주세요.')
                     return None
@@ -1027,6 +1032,30 @@
                 js.document.querySelector('.map-container').style.cursor='auto'
             change_map()
 
+        @when('mousemove', selector='.map-items')
+        def show_tooltip(evt=None):
+            if(item_select['status']):
+                map_items = js.document.querySelector('.map-items')
+                x = evt.clientX - map_items.getBoundingClientRect().left;
+                y = evt.clientY - map_items.getBoundingClientRect().top;
+                
+                tooltip = js.document.querySelector('.tooltip')
+                if not tooltip:
+                    tooltip = js.document.createElement('div')
+                    tooltip.setAttribute('class', 'tooltip')
+                    tooltip.innerHTML = f'우클릭으로 취소'
+                    js.document.querySelector('.map-container').appendChild(tooltip)    
+                tooltip.style.left = f"{x+20}px"
+                tooltip.style.top = f"{y+60}px"
+                tooltip.style.display = 'block'
+                        
+        @when('mouseleave', selector='.map-items')
+        def remove_tooltip(evt=None):
+            tooltip = js.document.querySelector('.tooltip')
+            if tooltip:
+                tooltip.remove()
+                
+            
         @when("click", selector="#output-init")
         def init_output(evt=None):
             for output_line in js.document.querySelectorAll('.output-item'):

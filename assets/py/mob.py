@@ -94,24 +94,28 @@ class Mob:
         error_check = ''
         # js.alert(f"현재 x위치= {x} 현재 y위치 = {y} 방향 = {directions}")
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+        nx, ny = x, y
         if directions == 0:
-            error_check = self._movable(x, y, x, y + 1)
-            self.y += 1
+            ny = y + 1
         elif directions == 1:
-            error_check=self._movable(x, y, x - 1, y)
-            self.x -= 1
+            nx = x - 1
         elif directions == 2:
-            error_check=self._movable(x, y, x, y - 1)
-            self.y -= 1
+            ny = y - 1
         elif directions == 3:
-            error_check=self._movable(x, y, x + 1, y)
-            self.x += 1
-        
+            nx = x + 1
+            
+        error_check = self._movable(x, y, nx, ny)
         if error_check:
             setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
-        else:
-            setTimeout(create_once_callable(lambda: (self._move_animation(x, y, directions))), self.running_time)
-            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+            return None
+        
+        self.x = nx
+        self.y = ny
+        self._update_mob_data('x', self.x)
+        self._update_mob_data('y', self.y)
+       
+        setTimeout(create_once_callable(lambda: (self._move_animation(x, y, directions))), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
         
     def _move_animation(self, x, y, directions):
@@ -129,22 +133,40 @@ class Mob:
             c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x + 1, y, directions)
  
-        
     def _movable(self, x, y, nx, ny):
         # 맵을 벗어나는지 확인
-        global wall_data
-        if not (0 <= nx < map_data["height"] and 0 <= ny < map_data["width"]):
+        if self._out_of_world(nx, ny):
             return 'OutOfWorld'
 
         # 이동 경로에 벽이 있는지 확인
+        if self._wall_exist(x, y, nx, ny):
+            return 'WallIsExist'
+        
+        if self._character_exist(nx, ny):
+            return 'CharacterIsExist'
+
+    def _out_of_world(self, x, y):
+        if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
+            return True
+        return False
+    
+    def _wall_exist(self, x, y, nx, ny):
+        global wall_data
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
         
-        if wall_data["world"][(wall_x, wall_y)] in blockingWallType:
-            return 'WallIsExist'
-        if wall_data["world"][(wall_x, wall_y)] == "door":
-            return 'WallIsExist'
-
+        if wall_data['world'].get((wall_x, wall_y), None) in (blockingWallType+['door']):
+            return True
+        return False
+    
+    def _character_exist(self, nx, ny):
+        global character_data
+        global mob_data
+        
+        if any(obj.get('x', None) == nx and obj.get('y', None) == ny for obj in character_data) or any(obj.get('x', None) == nx and obj.get('y', None) == ny for obj in mob_data):
+            return True
+        return False
+        
     def _pos_to_wall(self, x, y):
         # position 좌표계를 벽을 놓을 수 있는 좌표계로 변환
         return 2 * x + 1, 2 * map_data["height"] - 1 - 2 * y
@@ -159,7 +181,8 @@ class Mob:
         self.directions += 1
         if(self.directions >= 4):
             self.directions = 0
-            
+        self._update_mob_data('directions', self.directions)
+        
         setTimeout(create_once_callable(lambda: (self._turn_left_animation(directions))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
@@ -283,4 +306,10 @@ class Mob:
         else:
             js.alert('new error',error_type)
             raise Exception('new error',error_type)
-        
+    
+    def _update_mob_data(self, key, value):
+        global mob_data
+        for m in mob_data:
+            if m['mob'] == self.name:
+                m[key] = value
+                break

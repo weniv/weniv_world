@@ -1033,19 +1033,23 @@
                 x = evt.clientX - map_items.getBoundingClientRect().left;
                 y = evt.clientY - map_items.getBoundingClientRect().top;
                 
-                tooltip = js.document.querySelector('.tooltip')
+                tooltip = js.document.querySelector('.mouse-tooltip')
                 if not tooltip:
                     tooltip = js.document.createElement('div')
-                    tooltip.setAttribute('class', 'tooltip')
-                    tooltip.innerHTML = f'우클릭으로 취소'
+                    tooltip.setAttribute('class', 'mouse-tooltip')
+                    img = js.document.createElement('img')
+                    img.setAttribute('src','assets/img/icon/icon-mouse-click.svg')
+                    text = js.document.createElement('p')
+                    text.innerHTML = f'우클릭으로 취소'
+                    tooltip.appendChild(img)
+                    tooltip.appendChild(text)
                     js.document.querySelector('.map-container').appendChild(tooltip)    
-                tooltip.style.left = f"{x+20}px"
-                tooltip.style.top = f"{y+60}px"
-                tooltip.style.display = 'block'
+                tooltip.style.left = f"{x+50}px"
+                tooltip.style.top = f"{y+20}px"
                         
         @when('mouseleave', selector='.world-map')
         def remove_tooltip(evt=None):
-            tooltip = js.document.querySelector('.tooltip')
+            tooltip = js.document.querySelector('.mouse-tooltip')
             if tooltip:
                 tooltip.remove()
                 
@@ -1061,7 +1065,7 @@
                 item_select['name']=''
                 js.document.querySelector('.wall-container').style.pointerEvents=''
                 js.document.querySelector('.world-map').style.cursor='auto'
-                tooltip = js.document.querySelector('.tooltip')
+                tooltip = js.document.querySelector('.mouse-tooltip')
                 if tooltip:
                     tooltip.remove()
                     

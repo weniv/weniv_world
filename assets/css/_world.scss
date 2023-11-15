@@ -270,6 +270,38 @@
     overflow: auto;
     box-sizing: border-box;
     @include scrollbar;
+
+    .mouse-tooltip {
+        color: var(--ColorPrimary);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        position: absolute;
+        left: 50%;
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1.4rem;
+        flex-wrap: nowrap;
+
+        &::before {
+            content: '';
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background-color: var(--ColorPrimary);
+            position: absolute;
+            top: 50%;
+            left: -1rem;
+            transform: translate(0, -50%);
+        }
+
+        img {
+            height: 1.6rem;
+        }
+        p {
+            white-space: nowrap;
+        }
+    }
 }
 
 #app {

@@ -114,36 +114,28 @@ class Character:
         error_check = ''
         # js.alert(f"현재 x위치= {x} 현재 y위치 = {y} 방향 = {directions}")
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+        nx, ny = x, y
         if directions == 0:
-            error_check = self._movable(x, y, x, y + 1)
-            if error_check:
-                setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
-                return None
-            character_data[0]["y"] += 1
-            self.y = character_data[0]["y"]
+            ny = y + 1
         elif directions == 1:
+            nx = x - 1
             error_check=self._movable(x, y, x - 1, y)
-            if error_check:
-                setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
-                return None
-            character_data[0]["x"] -= 1
-            self.x = character_data[0]["x"]
         elif directions == 2:
-            error_check=self._movable(x, y, x, y - 1)
-            if error_check:
-                setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
-                return None
-            character_data[0]["y"] -= 1
-            self.y = character_data[0]["y"]
+            ny = y - 1
         elif directions == 3:
-            error_check=self._movable(x, y, x + 1, y)
-            if error_check:
-                setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
-                return None
-            character_data[0]["x"] += 1
-            self.x = character_data[0]["x"]
+            nx = x + 1
 
-        setTimeout(create_once_callable(lambda: (self._move_animation(x, y,directions))), self.running_time)
+        error_check=self._movable(x, y, nx, ny)
+        if error_check:
+            setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
+            return None
+        
+        character_data[0]["x"] = nx
+        self.x = character_data[0]["x"]
+        character_data[0]["y"] = ny
+        self.y = character_data[0]["y"]
+        
+        setTimeout(create_once_callable(lambda: (self._move_animation(x, y, directions))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
         

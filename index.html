@@ -1164,11 +1164,11 @@
             else:
                 return None
 
-        def _character_exist(x, y):
+        def _character_exist(nx, ny):
             global character_data
             global mob_data
             
-            if any(obj.get('x', None) == x and obj.get('y', None) == y for obj in character_data) or any(obj.get('x', None) == x and obj.get('y', None) == y for obj in mob_data):
+            if any(obj.get('x', None) == nx and obj.get('y', None) == ny for obj in character_data) or any(obj.get('x', None) == nx and obj.get('y', None) == ny for obj in mob_data):
                 return True
             return False
 

@@ -199,15 +199,11 @@ img {
 
 @keyframes lion {
   to {
-      background-position: -288px, 0;
-  }
-}
+    background-position: -288px, 0; } }
 
 @keyframes mob {
   to {
-      background-position: -168px, 0;
-  }
-}
+    background-position: -168px, 0; } }
 
 @keyframes attack-claw-white {
   from {
@@ -1309,6 +1305,31 @@ button {
     border-radius: 1rem; }
   .world-map::-webkit-scrollbar-corner {
     background: var(--ColorBackground); }
+  .world-map .mouse-tooltip {
+    color: var(--ColorPrimary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    position: absolute;
+    left: 50%;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4rem;
+    flex-wrap: nowrap; }
+    .world-map .mouse-tooltip::before {
+      content: '';
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background-color: var(--ColorPrimary);
+      position: absolute;
+      top: 50%;
+      left: -1rem;
+      transform: translate(0, -50%); }
+    .world-map .mouse-tooltip img {
+      height: 1.6rem; }
+    .world-map .mouse-tooltip p {
+      white-space: nowrap; }
 
 #app {
   margin: auto; }

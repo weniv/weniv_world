@@ -1133,7 +1133,7 @@
             story_select['status'] = False
             init()
 
-        def add_mob(x=4, y=4, name=None):
+        def add_mob(x=4, y=4, mob_type=None, name=None):
             '''
             몬스터를 추가하는 함수
             순환 참조로 인해 이 함수만 index.html에 있음
@@ -1144,11 +1144,20 @@
             add_mob('mob2', 3, 2)
             add_mob('mob3', 2, 3)
             '''
-            if name and not _character_exist(x, y):
-                if name == 'lion':
-                    lion = Mob(x=x, y=y, name='lion', width=32, height=40)
+            # type, name이 있을 때
+            # name이 유니크하면
+            if name and mob_type and not _character_exist(x, y):
+                for m in mob_data:
+                    if m['name'] == name:
+                        js.alert('이미 존재하는 이름입니다.')
+                        raise Exception('MobIsExist')
+                        return None
+                        
+                if mob_type == 'lion':
+                    lion = Mob(x=x, y=y, mob='lion', name = name, width=32, height=40)
                     mob_data.append(
                         {
+                            'name': name,
                             'mob': 'lion',
                             'mop_obj': lion,
                             'x': x,
@@ -1173,11 +1182,12 @@
 
                     return lion
                     
-                elif name[:3] == 'mob':
-                    mob = Mob(x=x, y=y, name=f'mob{name[-1]}', width=32, height=40)
+                elif mob_type[:3] == 'mob':
+                    mob = Mob(x=x, y=y, mob=f'mob{mob_type[-1]}',name=name, width=32, height=40)
                     mob_data.append(
                         {
-                            'mob': f'mob{name[-1]}',
+                            'name': name,
+                            'mob': f'mob{mob_type[-1]}',
                             'mob_obj': mob,
                             'x': x,
                             'y': y,

@@ -193,7 +193,7 @@ class Mob:
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _turn_left_animation(self, directions):
-        c = js.document.querySelector(f".{self.name}")
+        c = js.document.getElementById(f"mob-{self.name}")
         c.style.transformOrigin = "center center"
 
         if directions == 0:

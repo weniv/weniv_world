@@ -127,16 +127,16 @@ class Mob:
         c = js.document.getElementById(f"mob-{self.name}")
         
         if directions == 0:
-            c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32)}px"
+            c.style.left = f"{(y + 1) * 102 + 2 + (50 - 28)}px"
             self.draw_move_line(x, y, x, y + 1, directions)
         elif directions == 1:
-            c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32)}px"
+            c.style.top = f"{(x - 1) * 102 + 2 + (50 - 28)}px"
             self.draw_move_line(x, y, x-1, y, directions)
         elif directions == 2:
-            c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32)}px"
+            c.style.left = f"{(y - 1) * 102 + 2 + (50 - 28)}px"
             self.draw_move_line(x, y, x, y - 1, directions)
         elif directions == 3:
-            c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32)}px"
+            c.style.top = f"{(x + 1) * 102 + 2 + (50 - 28)}px"
             self.draw_move_line(x, y, x + 1, y, directions)
  
     def _movable(self, x, y, nx, ny):

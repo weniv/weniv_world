@@ -21,6 +21,7 @@ class Mob:
         self,
         x,
         y,
+        mob,
         name,
         directions=0,
         width=100,
@@ -32,6 +33,7 @@ class Mob:
     ):
         self.x = x
         self.y = y
+        self.mob = mob
         self.name = name
         self.directions = directions
         self.width = width
@@ -40,7 +42,7 @@ class Mob:
         self.dropRate = dropRate
         self.power = power
         self.hp = initHp
-        self.img = f"assets/img/characters/{name}-0.png"
+        self.img = f"assets/img/characters/{mob}-0.png"
         self.running_time = 0
         self.rotate = rotate
 
@@ -50,6 +52,7 @@ class Mob:
         """
         mob = js.document.createElement("div")
         mob.setAttribute("class", "character mob")
+        mob.classList.add(f"{self.mob}")
         mob.classList.add(f"{self.name}")
         mob.style.backgroundImage = f'url("{self.img}")'
         mob.style.transition = f"all {running_speed}s"
@@ -59,7 +62,8 @@ class Mob:
     
         # mob_data = [{"mob":"lion","x":4,"y":4,"directions":0}]
         for m in mob_data:
-            if m["mob"] == self.name:
+            if m["name"] == self.name:
+                m["mob"]=self.mob
                 m["x"] = self.x
                 m["y"] = self.y
                 m["directions"] = self.directions
@@ -67,7 +71,8 @@ class Mob:
         if not finder:
             mob_data.append(
                 {
-                    "mob": self.name,
+                    "name": self.name,
+                    "mob": self.mob,
                     "x": self.x,
                     "y": self.y,
                     "directions": self.directions,
@@ -192,18 +197,18 @@ class Mob:
 
         if directions == 0:
             c.style.backgroundImage = (
-                f'url("assets/img/characters/{self.name}-{directions+1}.png")'
+                f'url("assets/img/characters/{self.mob}-{directions+1}.png")'
             )
         elif directions == 1:
             c.style.backgroundImage = (
-                f'url("assets/img/characters/{self.name}-{directions+1}.png")'
+                f'url("assets/img/characters/{self.mob}-{directions+1}.png")'
             )
         elif directions == 2:
             c.style.backgroundImage = (
-                f'url("assets/img/characters/{self.name}-{directions+1}.png")'
+                f'url("assets/img/characters/{self.mob}-{directions+1}.png")'
             )
         elif directions == 3:
-            c.style.backgroundImage = f'url("assets/img/characters/{self.name}-0.png")'
+            c.style.backgroundImage = f'url("assets/img/characters/{self.mob}-0.png")'
 
     def init_time(self):
         self.running_time = 0

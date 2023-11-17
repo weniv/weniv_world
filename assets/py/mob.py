@@ -53,7 +53,7 @@ class Mob:
         mob = js.document.createElement("div")
         mob.setAttribute("class", "character mob")
         mob.classList.add(f"{self.mob}")
-        mob.classList.add(f"{self.name}")
+        mob.setAttribute('id', f"mob-{self.name}")
         mob.style.backgroundImage = f'url("{self.img}")'
         mob.style.transition = f"all {running_speed}s"
         mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
@@ -81,7 +81,7 @@ class Mob:
         return mob
 
     def set_speed(self, speed):
-        m = js.document.querySelector(f".{self.name}")
+        m = js.document.getElementById(f"mob-{self.name}")
         m.style.transition = f"all {speed}s"
         global running_speed
         running_speed = speed
@@ -124,7 +124,8 @@ class Mob:
 
         
     def _move_animation(self, x, y, directions):
-        c = js.document.querySelector(f".{self.name}")
+        c = js.document.getElementById(f"mob-{self.name}")
+        
         if directions == 0:
             c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x, y + 1, directions)

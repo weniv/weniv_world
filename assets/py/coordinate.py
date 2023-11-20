@@ -16,6 +16,9 @@ mob_data = []
 # (x, y): {item: 'beeper', count: 1}
 item_data = {}
 
+# 이용 가능한 아이템 종류
+_available_items = ['fish-1','fish-2','fish-3','diamond','apple','goldbar']
+
 # 맵 크기
 map_data = {"height": 5, "width": 5}
 

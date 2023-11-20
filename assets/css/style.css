@@ -1570,6 +1570,22 @@ button {
   .world-output .tooltip {
     font-family: Pretendard; }
 
+.mob {
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: steps(6);
+  scale: 1.3; }
+  .mob.lion {
+    animation-name: lion;
+    width: 48px;
+    height: 64px;
+    background-size: 288px 64px; }
+  .mob.mob1, .mob.mob2, .mob.mob3 {
+    animation-name: mob;
+    width: 28px;
+    height: 28px;
+    background-size: 168px 28px; }
+
 .story {
   display: none;
   flex-direction: column;

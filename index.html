@@ -560,34 +560,7 @@
 
             for m in mob_data:
                 draw_ch = m['mob_obj'].draw()
-                if m['mob'] == 'lion':
-                    draw_ch.style.animationName = 'lion'
-                    draw_ch.style.animationDuration = '1s'
-                    draw_ch.style.animationIterationCount = 'infinite'
-                    draw_ch.style.animationTimingFunction = 'steps(6)'
-                    draw_ch.style.width = '48px'
-                    draw_ch.style.height = '64px'
-                    draw_ch.style.backgroundSize = '288px 64px'
-                    draw_ch.style.top = str(int(draw_ch.style.top[:-2]) + 8) + 'px'
-                    draw_ch.style.left = str(int(draw_ch.style.left[:-2]) + 13) + 'px'
-                    draw_ch.style.scale = '1.3'
-
-                    draw_map.appendChild(draw_ch)
-
-                    
-                elif m['mob'][:3] == 'mob':
-                    draw_ch.style.animationName = 'mob'
-                    draw_ch.style.animationDuration = '1s'
-                    draw_ch.style.animationIterationCount = 'infinite'
-                    draw_ch.style.animationTimingFunction = 'steps(6)'
-                    draw_ch.style.width = '28px'
-                    draw_ch.style.height = '28px'
-                    draw_ch.style.backgroundSize = '168px 28px'
-                    draw_ch.style.top = str(int(draw_ch.style.top[:-2]) + 23) + 'px'
-                    draw_ch.style.left = str(int(draw_ch.style.left[:-2]) + 21) + 'px'
-                    draw_ch.style.scale = '1.3'
-
-                    draw_map.appendChild(draw_ch)
+                draw_map.appendChild(draw_ch)
 
         map_slider_x.oninput = change_map
         map_slider_y.oninput = change_map
@@ -1205,18 +1178,6 @@
                         }
                     )
                     draw_ch = lion.draw()
-
-                    draw_ch.style.animationName = 'lion'
-                    draw_ch.style.animationDuration = '1s'
-                    draw_ch.style.animationIterationCount = 'infinite'
-                    draw_ch.style.animationTimingFunction = 'steps(6)'
-                    draw_ch.style.width = '48px'
-                    draw_ch.style.height = '64px'
-                    draw_ch.style.backgroundSize = '288px 64px'
-                    draw_ch.style.top = str(int(draw_ch.style.top[:-2]) + 8) + 'px'
-                    draw_ch.style.left = str(int(draw_ch.style.left[:-2]) + 13) + 'px'
-                    draw_ch.style.scale = '1.3'
-
                     draw_map.appendChild(draw_ch)
 
                     return lion
@@ -1234,18 +1195,6 @@
                         }
                     )
                     draw_ch = mob.draw()
-
-                    draw_ch.style.animationName = 'mob'
-                    draw_ch.style.animationDuration = '1s'
-                    draw_ch.style.animationIterationCount = 'infinite'
-                    draw_ch.style.animationTimingFunction = 'steps(6)'
-                    draw_ch.style.width = '28px'
-                    draw_ch.style.height = '28px'
-                    draw_ch.style.backgroundSize = '168px 28px'
-                    draw_ch.style.top = str(int(draw_ch.style.top[:-2]) + 23) + 'px'
-                    draw_ch.style.left = str(int(draw_ch.style.left[:-2]) + 21) + 'px'
-                    draw_ch.style.scale = '1.3'
-
                     draw_map.appendChild(draw_ch)
                     return mob
             elif _character_exist(x,y):

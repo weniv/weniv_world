@@ -56,8 +56,17 @@ class Mob:
         mob.setAttribute('id', f"mob-{self.name}")
         mob.style.backgroundImage = f'url("{self.img}")'
         mob.style.transition = f"all {running_speed}s"
-        mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
-        mob.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
+        # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
+        # mob.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
+        
+        if self.mob == 'lion':
+            mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"
+            mob.style.left = f"{self.y * 100 + 2 + (50 - 32) + 13}px"
+        elif self.mob[:3]=='mob':
+            mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 23}px"
+            mob.style.left = f"{self.y * 100 + 2 + (50 - 32) + 21}px"
+            pass
+            
         finder = False
     
         # mob_data = [{"mob":"lion","x":4,"y":4,"directions":0}]

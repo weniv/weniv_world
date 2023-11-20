@@ -588,3 +588,25 @@
         font-family: Pretendard;
     }
 }
+
+.mob {
+    &.lion {
+        animation-name: lion;
+        width: 48px;
+        height: 64px;
+        background-size: 288px 64px;
+    }
+    &.mob1,
+    &.mob2,
+    &.mob3 {
+        animation-name: mob;
+        width: 28px;
+        height: 28px;
+        background-size: 168px 28px;
+    }
+
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: steps(6);
+    scale: 1.3;
+}

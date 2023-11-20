@@ -1585,6 +1585,9 @@ button {
     width: 28px;
     height: 28px;
     background-size: 168px 28px; }
+  .mob .hp-container {
+    scale: 0.7692;
+    transform: translate(-63%, -113%); }
 
 .hp-container {
   width: 6.4rem;
@@ -1599,7 +1602,7 @@ button {
   .hp-container .hp {
     height: 100%;
     background-color: var(--ColorError);
-    transition: all 0.2s; }
+    transition: all 1s; }
   .hp-container .hp-text {
     position: absolute;
     top: 50%;

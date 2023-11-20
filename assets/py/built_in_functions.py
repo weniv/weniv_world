@@ -253,6 +253,9 @@ def back_is_clear(character=None):
             print("캐릭터가 없습니다.")
   
 def attack(character=None):
+    global command_count
+    command_count += 1
+    
     if character != None:
         character.attack()
     else:
@@ -318,3 +321,9 @@ def submit():
     캐릭터의 위치, 프린트된 결과, 말한 결과 등을 수집하여 정답 여부 확인
     '''
     pass
+
+def mob_exist(x, y):
+    for m in mob_data:
+        if m['x'] == x and m['y'] == y:
+            return True
+    return False

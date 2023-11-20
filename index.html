@@ -455,7 +455,7 @@
         from item import Item
         from error import OutOfWorld
         from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type,story_wall, mob_data
-        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item
+        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist
         from pyscript import when
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable
@@ -1175,7 +1175,7 @@
                         return None
                         
                 if mob_type == 'lion':
-                    lion = Mob(x=x, y=y, mob='lion', name = name, width=32, height=40)
+                    lion = Mob(x=x, y=y, mob='lion', name = name, width=32, height=40, initHp = 250)
                     mob_data.append(
                         {
                             'name': name,
@@ -1192,7 +1192,7 @@
                     return lion
                     
                 elif mob_type[:3] == 'mob':
-                    mob = Mob(x=x, y=y, mob=f'mob{mob_type[-1]}',name=name, width=32, height=40)
+                    mob = Mob(x=x, y=y, mob=f'mob{mob_type[-1]}',name=name, width=32, height=40, initHp = 50)
                     mob_data.append(
                         {
                             'name': name,
@@ -1220,6 +1220,7 @@
                 return True
             return False
 
+        _lion = add_mob(0,1,'lion','lion1') # test
     
     </py-script>
     <script>

@@ -58,6 +58,8 @@ class Mob:
         mob.style.transition = f"all {running_speed}s"
         # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         # mob.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
+        hp = self.draw_hp()
+        mob.appendChild(hp)
         
         if self.mob == 'lion':
             mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"
@@ -68,13 +70,14 @@ class Mob:
             
         finder = False
     
-        # mob_data = [{"mob":"lion","x":4,"y":4,"directions":0}]
+        # mob_data = [{"name":"라이언킹", "mob":"lion","x":4,"y":4,"directions":0}]
         for m in mob_data:
             if m["name"] == self.name:
                 m["mob"]=self.mob
                 m["x"] = self.x
                 m["y"] = self.y
                 m["directions"] = self.directions
+                m["hp"] = self.hp
                 finder = True
         if not finder:
             mob_data.append(
@@ -84,9 +87,36 @@ class Mob:
                     "x": self.x,
                     "y": self.y,
                     "directions": self.directions,
+                    "hp":self.hp
                 }
             )
         return mob
+    
+    def draw_hp(self):
+        hp_container = js.document.getElementById(f'hp-{self.name}')
+        if not hp_container:
+            hp_container = js.document.createElement("div")
+            hp_container.setAttribute('class','hp-container')
+            hp_container.setAttribute('id',f'hp-{self.name}')
+        
+        hp = hp_container.querySelector('.hp')
+        if not hp:
+            hp = js.document.createElement("div")
+            hp.setAttribute('class','hp')
+            hp_container.appendChild(hp)
+            
+        hp.style.width = f"{self.hp/self.initHp*100}%"
+        
+        text = hp_container.querySelector('.hp-text')
+        if not text:
+            text = js.document.createElement('span')
+            text.setAttribute('class','hp-text')
+            hp_container.appendChild(text)
+            
+        text.innerText = f"{self.hp}/{self.initHp}"
+        js.console.log('mob hp draw')
+        return hp_container      
+    
 
     def set_speed(self, speed):
         m = js.document.getElementById(f"mob-{self.name}")

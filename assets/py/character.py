@@ -89,7 +89,7 @@ class Character:
         hp_container.setAttribute('class','hp-container')
         hp = js.document.createElement("div")
         hp.setAttribute('class','hp')
-        hp.style.width = f"{self.hp}%"
+        hp.style.width = f"{self.hp/self.initHp*100}%"
         hp_container.appendChild(hp)
         text = js.document.createElement('span')
         text.setAttribute('class','hp-text')
@@ -258,9 +258,8 @@ class Character:
 
     def attack(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._attack())), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-
+        self._attack()
+        
     def _attack(self):
         directions = character_data[0]["directions"]
 
@@ -268,26 +267,46 @@ class Character:
         y = character_data[0]["y"]
 
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+        
+        nx, ny = x, y
         if directions == 0:
-            if y >= map_data["width"] - 1:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x , y+1)
+            ny = y + 1
         elif directions == 1:
-            if x <= 0:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x-1, y)
+            nx = x - 1
         elif directions == 2:
-            if y <= 0:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x, y - 1)
+            ny = y - 1
         elif directions == 3:
-            if x >= map_data["height"] - 1:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x + 1, y)
+            nx = x + 1
+            
+        if not 0<=nx<map_data["height"] or not 0<=ny<map_data["width"]:
+            js.alert('공격이 맵을 벗어납니다.')
+            raise OutOfWorld
+        
+            
+        for m in mob_data:
+            if (m['x'],m['y'])==(nx,ny):
+                m_obj = m['mob_obj']
+                m['hp']-=self.power
+                m_obj.hp -= self.power
+                if(m['hp']<=0):
+                    mob_data.remove(m)
+                    break
+            
+        setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny))), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        setTimeout(create_once_callable(lambda: self._attack_hp_animation(m_obj,m['name'])), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        
+
+    def _attack_hp_animation(self, mob_obj, name):
+        js.console.log(mob_obj.hp)
+        mob = js.document.getElementById(f'mob-{name}')
+        if mob_obj and mob:
+            mob_obj.draw_hp()
+            if(mob_obj.hp<=0):
+                mob = js.document.getElementById(f'mob-{name}')
+                mob.parentNode.removeChild(mob)
+                del mob_obj
 
     def draw_attack(self, x, y, x2, y2, name="claw-yellow"):
         attack = js.document.createElement("div")

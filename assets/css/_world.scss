@@ -609,6 +609,11 @@
     animation-iteration-count: infinite;
     animation-timing-function: steps(6);
     scale: 1.3;
+
+    & .hp-container {
+        scale: 0.7692;
+        transform: translate(-63%, -113%);
+    }
 }
 
 .hp-container {
@@ -625,7 +630,7 @@
     .hp {
         height: 100%;
         background-color: var(--ColorError);
-        transition: all 0.2s;
+        transition: all 1s;
     }
 
     .hp-text {

@@ -114,7 +114,6 @@ class Mob:
             hp_container.appendChild(text)
             
         text.innerText = f"{self.hp}/{self.initHp}"
-        js.console.log('mob hp draw')
         return hp_container      
     
 

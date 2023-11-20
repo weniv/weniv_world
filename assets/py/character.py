@@ -287,7 +287,6 @@ class Character:
             if (m['x'],m['y'])==(nx,ny):
                 m_obj = m['mob_obj']
                 m['hp']-=self.power
-                m_obj.hp -= self.power
                 if(m['hp']<=0):
                     mob_data.remove(m)
                     break
@@ -299,9 +298,9 @@ class Character:
         
 
     def _attack_hp_animation(self, mob_obj, name):
-        js.console.log(mob_obj.hp)
         mob = js.document.getElementById(f'mob-{name}')
         if mob_obj and mob:
+            mob_obj.hp -= self.power
             mob_obj.draw_hp()
             if(mob_obj.hp<=0):
                 mob = js.document.getElementById(f'mob-{name}')

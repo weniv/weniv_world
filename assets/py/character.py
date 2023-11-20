@@ -85,16 +85,26 @@ class Character:
         return character
     
     def draw_hp(self):
-        hp_container = js.document.createElement("div")
-        hp_container.setAttribute('class','hp-container')
-        hp = js.document.createElement("div")
-        hp.setAttribute('class','hp')
+        character = js.document.querySelector(f'.character.{self.name}')
+        
+        hp_container = character.querySelector(".hp-container")
+        if not hp_container:
+            hp_container = js.document.createElement("div")
+            hp_container.setAttribute('class','hp-container')
+        hp = hp_container.querySelector(".hp")
+        if not hp:
+            hp = js.document.createElement("div")
+            hp.setAttribute('class','hp')
+            hp_container.appendChild(hp)
         hp.style.width = f"{self.hp/self.initHp*100}%"
-        hp_container.appendChild(hp)
-        text = js.document.createElement('span')
-        text.setAttribute('class','hp-text')
+        
+        text = hp_container.querySelector('.hp-text')
+        if not text:
+            text = js.document.createElement('span')
+            text.setAttribute('class','hp-text')
+            hp_container.appendChild(text)
         text.innerText = f"{self.hp}/{self.initHp}"
-        hp_container.appendChild(text)
+        
         return hp_container      
         
 

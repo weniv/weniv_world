@@ -1586,6 +1586,31 @@ button {
     height: 28px;
     background-size: 168px 28px; }
 
+.hp-container {
+  width: 6.4rem;
+  height: 1rem;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  background-color: var(--ColorGrayLv2);
+  border-radius: 3rem;
+  overflow: hidden; }
+  .hp-container .hp {
+    height: 100%;
+    background-color: var(--ColorError);
+    transition: all 0.2s; }
+  .hp-container .hp-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ColorSurface);
+    box-shadow: var(--EffectShadow); }
+
 .story {
   display: none;
   flex-direction: column;

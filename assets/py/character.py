@@ -39,7 +39,7 @@ class Character:
         self.initHp = initHp
         self.dropRate = dropRate
         self.power = power
-        self.hp = initHp
+        self.hp = 60
         self.initHp=initHp
         self.img = f"assets/img/characters/{name}-0.png"
         self.running_time = 0
@@ -55,6 +55,8 @@ class Character:
         # character.style.width = f"{self.width}px"
         # character.style.height = f"{self.height}px"
         character.style.backgroundImage = f'url("{self.img}")'
+        hp = self.draw_hp()
+        character.appendChild(hp)
         # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
         character.style.transition = f"all {running_speed}s"
         character.style.top = f"{self.y * 100 + 2 + (50 - 32)}px"
@@ -81,6 +83,20 @@ class Character:
                 }
             )
         return character
+    
+    def draw_hp(self):
+        hp_container = js.document.createElement("div")
+        hp_container.setAttribute('class','hp-container')
+        hp = js.document.createElement("div")
+        hp.setAttribute('class','hp')
+        hp.style.width = f"{self.hp}%"
+        hp_container.appendChild(hp)
+        text = js.document.createElement('span')
+        text.setAttribute('class','hp-text')
+        text.innerText = f"{self.hp}/{self.initHp}"
+        hp_container.appendChild(text)
+        return hp_container      
+        
 
     def say(self, text="", speech_time=5000):
         """

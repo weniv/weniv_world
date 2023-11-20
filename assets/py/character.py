@@ -40,6 +40,7 @@ class Character:
         self.dropRate = dropRate
         self.power = power
         self.hp = initHp
+        self.initHp=initHp
         self.img = f"assets/img/characters/{name}-0.png"
         self.running_time = 0
         self.rotate = rotate
@@ -65,6 +66,8 @@ class Character:
                 c["y"] = self.y
                 c["directions"] = self.directions
                 c["items"] = {}
+                c["hp"]=self.hp
+                
                 finder = True
         if not finder:
             character_data.append(
@@ -74,6 +77,7 @@ class Character:
                     "y": self.y,
                     "directions": self.directions,
                     "items": {},
+                    "hp":f"{self.hp}"
                 }
             )
         return character

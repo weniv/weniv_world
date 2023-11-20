@@ -54,7 +54,7 @@ class Mob:
         mob.setAttribute("class", "character mob")
         mob.classList.add(f"{self.mob}")
         mob.setAttribute('id', f"mob-{self.name}")
-        mob.style.backgroundImage = f'url("{self.img}")'
+        mob.style.backgroundImage = f'url("assets/img/characters/{self.mob}-{self.directions}.png")'
         mob.style.transition = f"all {running_speed}s"
         # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         # mob.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"

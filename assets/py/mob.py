@@ -319,6 +319,6 @@ class Mob:
     def _update_mob_data(self, key, value):
         global mob_data
         for m in mob_data:
-            if m['mob'] == self.name:
+            if m['name'] == self.name:
                 m[key] = value
                 break

@@ -3,7 +3,7 @@ import js
 from pyodide.ffi import create_once_callable
 from coordinate import character_data, map_data,running_speed, mob_data
 from item import Item
-from coordinate import item_data
+from coordinate import item_data, _available_items
 
 
 command_count = 1 # 명령어 줄 수
@@ -127,6 +127,11 @@ def set_item(x, y, name, count=1, description={}, character=None):
     if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
         js.alert("월드를 벗어나서 아이템을 추가할 수 없습니다.")
         print("error.OutOfWorld: out of world", type="error")
+        return None
+    
+    if name not in _available_items:
+        js.alert("존재하지 않는 아이템입니다.")
+        print("error.ItemIsNotExist: item is not exist", type="error")
         return None
 
     item = Item(x, y, name, count, description)

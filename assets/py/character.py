@@ -39,7 +39,7 @@ class Character:
         self.initHp = initHp
         self.dropRate = dropRate
         self.power = power
-        self.hp = 60
+        self.hp = initHp
         self.initHp=initHp
         self.img = f"assets/img/characters/{name}-0.png"
         self.running_time = 0
@@ -85,12 +85,11 @@ class Character:
         return character
     
     def draw_hp(self):
-        character = js.document.querySelector(f'.character.{self.name}')
-        
-        hp_container = character.querySelector(".hp-container")
+        hp_container = js.document.getElementById(f'hp-{self.name}')
         if not hp_container:
             hp_container = js.document.createElement("div")
             hp_container.setAttribute('class','hp-container')
+            hp_container.setAttribute('id',f'hp-{self.name}')
         hp = hp_container.querySelector(".hp")
         if not hp:
             hp = js.document.createElement("div")
@@ -277,7 +276,6 @@ class Character:
         y = character_data[0]["y"]
 
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
-        
         nx, ny = x, y
         if directions == 0:
             ny = y + 1
@@ -291,7 +289,6 @@ class Character:
         if not 0<=nx<map_data["height"] or not 0<=ny<map_data["width"]:
             js.alert('공격이 맵을 벗어납니다.')
             raise OutOfWorld
-        
             
         for m in mob_data:
             if (m['x'],m['y'])==(nx,ny):
@@ -307,13 +304,12 @@ class Character:
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
         
 
-    def _attack_hp_animation(self, mob_obj, name):
-        mob = js.document.getElementById(f'mob-{name}')
+    def _attack_hp_animation(self, mob_obj, mob_name):
+        mob = js.document.getElementById(f'mob-{mob_name}')
         if mob_obj and mob:
             mob_obj.hp -= self.power
             mob_obj.draw_hp()
             if(mob_obj.hp<=0):
-                mob = js.document.getElementById(f'mob-{name}')
                 mob.parentNode.removeChild(mob)
                 del mob_obj
 

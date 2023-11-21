@@ -540,10 +540,8 @@
                     add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
 
 
-            # 범위를 벗어난 아이템 삭제
-
-            keys_to_remove = []  # 제거할 항목의 키를 저장할 리스트
-
+            # 아이템 갱신
+            keys_to_remove = []  
             for (x, y) in item_data.keys():
                 if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
                     keys_to_remove.append((x, y))
@@ -556,6 +554,7 @@
                 count = value['count']
                 set_item(x, y, name, count)
             
+            # 캐릭터 갱신
             for c in character_data:
                 if not (0 <= c['x'] < map_data['height'] and 0 <= c['y'] < map_data['width']):
                     character_data.remove(c)
@@ -563,6 +562,7 @@
                     draw_ch = c['character_obj'].draw()
                     draw_map.appendChild(draw_ch)
 
+            # 몹 갱신
             for m in mob_data:
                 if not (0 <= m['x'] < map_data['height'] and 0 <= m['y'] < map_data['width']):
                     mob_data.remove(m)
@@ -1222,6 +1222,11 @@
 
         def add_character(x, y, name):
             global character_data
+            
+            if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
+                js.alert('맵을 벗어납니다.')
+                raise OutOfWorld
+            
             if character_exist(x, y) or mob_exist(x,y):
                 js.alert('다른 캐릭터 또는 몬스터가 있습니다.')
                 raise Exception('CharacterIsExist')

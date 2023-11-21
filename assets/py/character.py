@@ -52,16 +52,18 @@ class Character:
         character = js.document.createElement("div")
         character.setAttribute("class", "character")
         character.classList.add(f"{self.name}")
+        character.style.backgroundImage = f'url("assets/img/characters/{self.name}-{self.directions}.png")'
+        character.style.transition = f"all {running_speed}s"
         # character.style.width = f"{self.width}px"
         # character.style.height = f"{self.height}px"
-        character.style.backgroundImage = f'url("{self.img}")'
         hp = self.draw_hp()
         character.appendChild(hp)
         # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
-        character.style.transition = f"all {running_speed}s"
         character.style.top = f"{self.y * 100 + 2 + (50 - 32)}px"
         character.style.left = f"{self.x * 100 + 2 + (50 - 32)}px"
+        
         finder = False
+        
         for c in character_data:
             if c["character"] == self.name:
                 c["x"] = self.x

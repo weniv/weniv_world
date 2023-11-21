@@ -1,10 +1,8 @@
 import js
 
 from pyodide.ffi import create_once_callable
-from coordinate import character_data, map_data,running_speed, mob_data
+from coordinate import character_data, map_data,running_speed, mob_data, item_data, _available_items
 from item import Item
-from coordinate import item_data, _available_items
-
 
 command_count = 1 # 명령어 줄 수
 
@@ -327,3 +325,10 @@ def mob_exist(x, y):
         if m['x'] == x and m['y'] == y:
             return True
     return False
+
+def character_exist(x, y):
+    for c in character_data:
+        if c['x'] == x and c['y'] == y:
+            return True
+    return False
+

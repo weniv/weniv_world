@@ -455,7 +455,7 @@
         from item import Item
         from error import OutOfWorld
         from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type,story_wall, mob_data
-        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist
+        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist
         from pyscript import when
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable
@@ -673,7 +673,9 @@
                 'x': 0,
                 'y': 0,
                 'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
-                'items': {}
+                'items': {},
+                'hp':100,
+                'power':10
             }
             licat = Character(x=0, y=0, name='licat', width=32, height=40,rotate=0)
             for line in js.document.querySelectorAll('.line'):
@@ -1167,7 +1169,12 @@
             if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
                 js.alert("맵을 벗어납니다.")
                 raise OutOfWorld
-            if name and mob_type and not _character_exist(x, y):
+
+            if character_exist(x, y) or mob_exist(x, y):
+                js.alert('다른 캐릭터 또는 몬스터가 있습니다.')
+                raise Exception('CharacterIsExist')
+
+            elif name and mob_type:
                 for m in mob_data:
                     if m['name'] == name:
                         js.alert('이미 존재하는 이름입니다.')
@@ -1183,7 +1190,9 @@
                             'mob_obj': lion,
                             'x': x,
                             'y': y,
-                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
+                            'hp':250,
+                            'power':50
                         }
                     )
                     draw_ch = lion.draw()
@@ -1200,27 +1209,44 @@
                             'mob_obj': mob,
                             'x': x,
                             'y': y,
-                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
+                            'hp':50,
+                            'power':5
                         }
                     )
                     draw_ch = mob.draw()
                     draw_map.appendChild(draw_ch)
                     return mob
-            elif _character_exist(x,y):
-                js.alert('다른 캐릭터 또는 몬스터가 있습니다.')
-                raise Exception('CharacterIsExist')
             else:
                 return None
 
-        def _character_exist(nx, ny):
-            global character_data
-            global mob_data
+        def add_character(x, y, name):
+            if character_exist(x, y) or mob_exist:
+                js.alert('다른 캐릭터 또는 몬스터가 있습니다.')
+                raise Exception('CharacterIsExist')
             
-            if any(obj.get('x', None) == nx and obj.get('y', None) == ny for obj in character_data) or any(obj.get('x', None) == nx and obj.get('y', None) == ny for obj in mob_data):
-                return True
-            return False
-
-        _lion = add_mob(0,1,'lion','lion1') # test
+            # character는 중복 미허용
+            for c in character_data:
+                if c['character'] == name:
+                    js.alert('이미 존재하는 이름입니다.')
+                    raise Exception('CharacterIsExist')
+                    return None
+            char = Character(x=x, y=y, name=name, width=32, height=40)
+            character_data.append(
+                {
+                    'character': name,
+                    'character_obj': char,
+                    'x': x,
+                    'y': y,
+                    'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+                    'items': {},
+                    'hp':100,
+                    'power':10,
+                }
+            )
+            draw_ch=character.draw()
+            draw_map.appendChild(draw_ch)
+            return char
     
     </py-script>
     <script>

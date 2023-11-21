@@ -305,7 +305,7 @@ class Character:
         
 
     def _attack_hp_animation(self, mob_obj, mob_name):
-        mob = js.document.getElementById(f'mob-{mob_name}')
+        mob = js.document.querySelector(f'#{self.name}.mob')
         if mob_obj and mob:
             mob_obj.hp -= self.power
             mob_obj.draw_hp()

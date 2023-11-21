@@ -51,9 +51,9 @@ class Mob:
         x좌표, y좌표에 character를 생성하는 함수
         """
         mob = js.document.createElement("div")
-        mob.setAttribute("class", "character mob")
+        mob.setAttribute("class", "mob")
         mob.classList.add(f"{self.mob}")
-        mob.setAttribute('id', f"mob-{self.name}")
+        mob.setAttribute('id', self.name)
         mob.style.backgroundImage = f'url("assets/img/characters/{self.mob}-{self.directions}.png")'
         mob.style.transition = f"all {running_speed}s"
         # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
@@ -161,7 +161,7 @@ class Mob:
 
         
     def _move_animation(self, x, y, directions):
-        c = js.document.getElementById(f"mob-{self.name}")
+        c = js.document.querySelector(f"#{self.name}.mob")
        
         if self.mob =='lion':
         #     mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"
@@ -249,7 +249,9 @@ class Mob:
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _turn_left_animation(self, directions):
-        c = js.document.getElementById(f"mob-{self.name}")
+        mob = js.document.querySelector(f'#{self.name}.mob')
+        js.console.log(mob)
+        print(mob)
         c.style.transformOrigin = "center center"
 
         if directions == 0:

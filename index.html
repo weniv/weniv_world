@@ -507,10 +507,7 @@
         map_data['width'] = int(map_slider_y.value)
 
         def change_map(evt=None):
-            global wall_data
-            global item_data
-            global draw_map
-            global mob_data
+            global wall_data, item_data, draw_map, mob_data, character_data
 
             map_data['height'] = int(map_slider_x.value)
             map_data['width'] = int(map_slider_y.value)
@@ -522,7 +519,7 @@
                 js.document.querySelector('.map-container').remove()
                 map = Map(map_data['height'], map_data['width'])
                 draw_map = map.drawMap()
-                draw_map.appendChild(draw_character)
+                # draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
 
@@ -558,6 +555,13 @@
                 name = value['item']
                 count = value['count']
                 set_item(x, y, name, count)
+            
+            for c in character_data:
+                if not (0 <= c['x'] < map_data['height'] and 0 <= c['y'] < map_data['width']):
+                    character_data.remove(c)
+                else:
+                    draw_ch = c['character_obj'].draw()
+                    draw_map.appendChild(draw_ch)
 
             for m in mob_data:
                 if not (0 <= m['x'] < map_data['height'] and 0 <= m['y'] < map_data['width']):
@@ -593,10 +597,7 @@
 
         @when("click", selector="#init")
         def init(evt=None):
-            global wall_data
-            global wall_container
-            global mob_data
-            global draw_map
+            global wall_data, wall_container, mob_data, draw_map
             js.console.log('월드 초기화')
             map_data['height'] = 5
             map_data['width'] = 5
@@ -836,7 +837,6 @@
             json_data = json.loads(evt.target.result)
             check_json_data(json_data)
 
-            global wall_data
             global character_data
             character_data = json_data["character_data"]
 
@@ -1221,7 +1221,8 @@
                 return None
 
         def add_character(x, y, name):
-            if character_exist(x, y) or mob_exist:
+            global character_data
+            if character_exist(x, y) or mob_exist(x,y):
                 js.alert('다른 캐릭터 또는 몬스터가 있습니다.')
                 raise Exception('CharacterIsExist')
             
@@ -1244,7 +1245,7 @@
                     'power':10,
                 }
             )
-            draw_ch=character.draw()
+            draw_ch=char.draw()
             draw_map.appendChild(draw_ch)
             return char
     

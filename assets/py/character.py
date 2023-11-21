@@ -69,7 +69,7 @@ class Character:
                 c["directions"] = self.directions
                 c["items"] = {}
                 c["hp"]=self.hp
-                
+                c["power"]=self.power
                 finder = True
         if not finder:
             character_data.append(
@@ -79,7 +79,8 @@ class Character:
                     "y": self.y,
                     "directions": self.directions,
                     "items": {},
-                    "hp":f"{self.hp}"
+                    "hp":f"{self.hp}",
+                    "power":f"{self.power}"
                 }
             )
         return character

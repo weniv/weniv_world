@@ -78,6 +78,7 @@ class Mob:
                 m["y"] = self.y
                 m["directions"] = self.directions
                 m["hp"] = self.hp
+                m["power"] = self.power
                 finder = True
         if not finder:
             mob_data.append(
@@ -87,7 +88,8 @@ class Mob:
                     "x": self.x,
                     "y": self.y,
                     "directions": self.directions,
-                    "hp":self.hp
+                    "hp":self.hp,
+                    "power":self.power,
                 }
             )
         return mob

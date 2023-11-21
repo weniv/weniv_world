@@ -1220,7 +1220,7 @@
             else:
                 return None
 
-        def add_character(x, y, name):
+        def add_ch(x, y, name):
             global character_data
             
             if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
@@ -1234,9 +1234,10 @@
             # character는 중복 미허용
             for c in character_data:
                 if c['character'] == name:
-                    js.alert('이미 존재하는 이름입니다.')
+                    js.alert('이미 존재하는 캐릭터입니다.')
                     raise Exception('CharacterIsExist')
                     return None
+                    
             char = Character(x=x, y=y, name=name, width=32, height=40)
             character_data.append(
                 {

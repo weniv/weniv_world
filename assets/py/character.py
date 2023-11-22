@@ -40,6 +40,7 @@ class Character:
         self.dropRate = dropRate
         self.power = power
         self.hp = initHp
+        self.initHp=initHp
         self.img = f"assets/img/characters/{name}-0.png"
         self.running_time = 0
         self.rotate = rotate
@@ -51,20 +52,26 @@ class Character:
         character = js.document.createElement("div")
         character.setAttribute("class", "character")
         character.classList.add(f"{self.name}")
+        character.style.backgroundImage = f'url("assets/img/characters/{self.name}-{self.directions}.png")'
+        character.style.transition = f"all {running_speed}s"
         # character.style.width = f"{self.width}px"
         # character.style.height = f"{self.height}px"
-        character.style.backgroundImage = f'url("{self.img}")'
+        # hp = self.draw_hp()
+        # character.appendChild(hp)
         # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
-        character.style.transition = f"all {running_speed}s"
         character.style.top = f"{self.y * 100 + 2 + (50 - 32)}px"
         character.style.left = f"{self.x * 100 + 2 + (50 - 32)}px"
+        
         finder = False
+        
         for c in character_data:
             if c["character"] == self.name:
                 c["x"] = self.x
                 c["y"] = self.y
                 c["directions"] = self.directions
                 c["items"] = {}
+                c["hp"]=self.hp
+                c["power"]=self.power
                 finder = True
         if not finder:
             character_data.append(
@@ -74,9 +81,34 @@ class Character:
                     "y": self.y,
                     "directions": self.directions,
                     "items": {},
+                    "hp":f"{self.hp}",
+                    "power":f"{self.power}"
                 }
             )
         return character
+    
+    def draw_hp(self):
+        hp_container = js.document.getElementById(f'hp-{self.name}')
+        if not hp_container:
+            hp_container = js.document.createElement("div")
+            hp_container.setAttribute('class','hp-container')
+            hp_container.setAttribute('id',f'hp-{self.name}')
+        hp = hp_container.querySelector(".hp")
+        if not hp:
+            hp = js.document.createElement("div")
+            hp.setAttribute('class','hp')
+            hp_container.appendChild(hp)
+        hp.style.width = f"{self.hp/self.initHp*100}%"
+        
+        text = hp_container.querySelector('.hp-text')
+        if not text:
+            text = js.document.createElement('span')
+            text.setAttribute('class','hp-text')
+            hp_container.appendChild(text)
+        text.innerText = f"{self.hp}/{self.initHp}"
+        
+        return hp_container      
+        
 
     def say(self, text="", speech_time=5000):
         """
@@ -238,9 +270,8 @@ class Character:
 
     def attack(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._attack())), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-
+        self._attack()
+        
     def _attack(self):
         directions = character_data[0]["directions"]
 
@@ -248,27 +279,34 @@ class Character:
         y = character_data[0]["y"]
 
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+        nx, ny = x, y
         if directions == 0:
-            if y >= map_data["width"] - 1:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x , y+1)
+            ny = y + 1
         elif directions == 1:
-            if x <= 0:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x-1, y)
+            nx = x - 1
         elif directions == 2:
-            if y <= 0:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x, y - 1)
+            ny = y - 1
         elif directions == 3:
-            if x >= map_data["height"] - 1:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x + 1, y)
-
+            nx = x + 1
+            
+        if not 0<=nx<map_data["height"] or not 0<=ny<map_data["width"]:
+            js.alert('공격이 맵을 벗어납니다.')
+            raise OutOfWorld
+            
+        m_obj=None
+        for m in mob_data:
+            if (m['x'],m['y'])==(nx,ny):
+                m_obj = m['mob_obj']
+                m['hp']-=self.power
+                if(m['hp']<=0):
+                    mob_data.remove(m)
+                    break
+            
+        setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny))), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        setTimeout(create_once_callable(lambda: self._attack_hp_animation(m_obj,m['name'])), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        
     def draw_attack(self, x, y, x2, y2, name="claw-yellow"):
         attack = js.document.createElement("div")
         attack.className = "attack"
@@ -282,6 +320,20 @@ class Character:
         map = js.document.querySelector(".map-container")
         map.appendChild(attack)
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
+
+
+    def _attack_hp_animation(self, mob_obj, mob_name):
+        mob = js.document.querySelector(f'#{mob_name}.mob')
+        if mob_obj and mob:
+            mob_obj.hp -= self.power
+            # mob_obj.draw_hp()
+            if(mob_obj.hp<=0):
+                setTimeout(create_once_callable(lambda: self._remove_mob(mob_obj,mob)), 1000)
+                
+    def _remove_mob(self, mob_obj, mob):
+        if mob:
+            mob.parentNode.removeChild(mob)
+        del mob_obj
 
 
     def pick(self):

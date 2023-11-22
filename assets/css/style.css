@@ -1571,20 +1571,54 @@ button {
     font-family: Pretendard; }
 
 .mob {
+  position: absolute;
+  width: 6.4rem;
+  height: 6.2rem;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  z-index: 5;
   animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-timing-function: steps(6);
   scale: 1.3; }
   .mob.lion {
     animation-name: lion;
-    width: 48px;
-    height: 64px;
+    width: 4.8rem;
+    height: 6.4rem;
     background-size: 288px 64px; }
-  .mob.mob1, .mob.mob2, .mob.mob3 {
+  .mob.mob1, .mob.mob2, .mob.mob3, .mob.mob4 {
     animation-name: mob;
-    width: 28px;
-    height: 28px;
+    width: 2.8rem;
+    height: 2.8rem;
     background-size: 168px 28px; }
+  .mob .hp-container {
+    scale: 0.7692;
+    transform: translate(-63%, -113%); }
+
+.hp-container {
+  width: 6.4rem;
+  height: 1rem;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  background-color: var(--ColorGrayLv2);
+  border-radius: 3rem;
+  overflow: hidden; }
+  .hp-container .hp {
+    height: 100%;
+    background-color: var(--ColorError);
+    transition: all 1s; }
+  .hp-container .hp-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--ColorSurface);
+    box-shadow: var(--EffectShadow); }
 
 .story {
   display: none;

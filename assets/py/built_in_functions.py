@@ -1,10 +1,8 @@
 import js
 
 from pyodide.ffi import create_once_callable
-from coordinate import character_data, map_data,running_speed, mob_data
+from coordinate import character_data, map_data,running_speed, mob_data, item_data, _available_items
 from item import Item
-from coordinate import item_data, _available_items
-
 
 command_count = 1 # 명령어 줄 수
 
@@ -253,6 +251,9 @@ def back_is_clear(character=None):
             print("캐릭터가 없습니다.")
   
 def attack(character=None):
+    global command_count
+    command_count += 1
+    
     if character != None:
         character.attack()
     else:
@@ -318,3 +319,16 @@ def submit():
     캐릭터의 위치, 프린트된 결과, 말한 결과 등을 수집하여 정답 여부 확인
     '''
     pass
+
+def mob_exist(x, y):
+    for m in mob_data:
+        if m['x'] == x and m['y'] == y:
+            return True
+    return False
+
+def character_exist(x, y):
+    for c in character_data:
+        if c['x'] == x and c['y'] == y:
+            return True
+    return False
+

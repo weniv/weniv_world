@@ -51,13 +51,15 @@ class Mob:
         x좌표, y좌표에 character를 생성하는 함수
         """
         mob = js.document.createElement("div")
-        mob.setAttribute("class", "character mob")
+        mob.setAttribute("class", "mob")
         mob.classList.add(f"{self.mob}")
-        mob.setAttribute('id', f"mob-{self.name}")
+        mob.setAttribute('id', self.name)
         mob.style.backgroundImage = f'url("assets/img/characters/{self.mob}-{self.directions}.png")'
         mob.style.transition = f"all {running_speed}s"
         # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         # mob.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
+        # hp = self.draw_hp()
+        # mob.appendChild(hp)
         
         if self.mob == 'lion':
             mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"
@@ -68,13 +70,15 @@ class Mob:
             
         finder = False
     
-        # mob_data = [{"mob":"lion","x":4,"y":4,"directions":0}]
+        # mob_data = [{"name":"라이언킹", "mob":"lion","x":4,"y":4,"directions":0}]
         for m in mob_data:
             if m["name"] == self.name:
                 m["mob"]=self.mob
                 m["x"] = self.x
                 m["y"] = self.y
                 m["directions"] = self.directions
+                m["hp"] = self.hp
+                m["power"] = self.power
                 finder = True
         if not finder:
             mob_data.append(
@@ -84,9 +88,36 @@ class Mob:
                     "x": self.x,
                     "y": self.y,
                     "directions": self.directions,
+                    "hp":self.hp,
+                    "power":self.power,
                 }
             )
         return mob
+    
+    def draw_hp(self):
+        hp_container = js.document.getElementById(f'hp-{self.name}')
+        if not hp_container:
+            hp_container = js.document.createElement("div")
+            hp_container.setAttribute('class','hp-container')
+            hp_container.setAttribute('id',f'hp-{self.name}')
+        
+        hp = hp_container.querySelector('.hp')
+        if not hp:
+            hp = js.document.createElement("div")
+            hp.setAttribute('class','hp')
+            hp_container.appendChild(hp)
+            
+        hp.style.width = f"{self.hp/self.initHp*100}%"
+        
+        text = hp_container.querySelector('.hp-text')
+        if not text:
+            text = js.document.createElement('span')
+            text.setAttribute('class','hp-text')
+            hp_container.appendChild(text)
+            
+        text.innerText = f"{self.hp}/{self.initHp}"
+        return hp_container      
+    
 
     def set_speed(self, speed):
         m = js.document.getElementById(f"mob-{self.name}")
@@ -132,7 +163,7 @@ class Mob:
 
         
     def _move_animation(self, x, y, directions):
-        c = js.document.getElementById(f"mob-{self.name}")
+        c = js.document.querySelector(f"#{self.name}.mob")
        
         if self.mob =='lion':
         #     mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"
@@ -149,10 +180,10 @@ class Mob:
             elif directions == 3:
                 c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32) + 8}px"
                 self.draw_move_line(x, y, x + 1, y, directions)
+        
         elif self.mob[:3]=='mob':
             # top = (x+1)*100 + 2 + (50-32) + 23
             # left = (y+1)*100 + 2 + (50-32) + 21
-                
             if directions == 0:
                 c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32) + 21}px"
                 self.draw_move_line(x, y, x, y + 1, directions)
@@ -220,7 +251,7 @@ class Mob:
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _turn_left_animation(self, directions):
-        c = js.document.getElementById(f"mob-{self.name}")
+        c = js.document.querySelector(f'#{self.name}.mob')
         c.style.transformOrigin = "center center"
 
         if directions == 0:
@@ -243,8 +274,7 @@ class Mob:
         
     def attack(self):
         self.running_time += 1000 * running_speed
-        setTimeout(create_once_callable(lambda: (self._attack())), self.running_time)
-        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        self._attack()
 
     def _attack(self):
         directions = self.directions
@@ -252,27 +282,34 @@ class Mob:
         y = self.y
 
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+        nx , ny = x , y
         if directions == 0:
-            if y >= map_data["width"] - 1:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x , y+1)
+            ny = y + 1
         elif directions == 1:
-            if x <= 0:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x-1, y)
+            nx = x - 1
         elif directions == 2:
-            if y <= 0:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x, y - 1)
+            ny = y - 1
         elif directions == 3:
-            if x >= map_data["height"] - 1:
-                js.alert("공격이 맵을 벗어납니다.")
-                raise OutOfWorld
-            self.draw_attack(x, y, x + 1, y)
+            nx = x + 1
+        
+        if not 0<=nx<map_data["height"] or not 0<=ny<map_data["width"]:
+            js.alert('공격이 맵을 벗어납니다.')
+            raise OutOfWorld
 
+        c_obj=None
+        for c in character_data:
+            if (c['x'],c['y'])==(nx,ny):
+                c_obj = c['character_obj']
+                c['hp']-=self.power
+                if(c['hp']<=0):
+                    character_data.remove(c)
+                    break
+            
+        setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny))), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        setTimeout(create_once_callable(lambda: self._attack_hp_animation(c_obj, c['character'])), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+    
     def draw_attack(self, x, y, x2, y2, name="claw-yellow"):
         attack = js.document.createElement("div")
         attack.className = "attack"
@@ -287,6 +324,20 @@ class Mob:
         map.appendChild(attack)
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
 
+
+    def _attack_hp_animation(self,char_obj,char_name):
+        char = js.document.querySelector(f'.{char_name}')
+        if char_obj and char:
+            char_obj.hp -= self.power
+            # char_obj.draw_hp()
+            if char_obj.hp <= 0:
+                setTimeout(create_once_callable(lambda: self._remove_char(char_obj, char)), 1000)
+                
+    def _remove_char(self, char_obj, char):
+        if char:
+            char.parentNode.removeChild(char)
+        del char_obj
+                
     def draw_move_line(self, x, y, next_x, next_y,directions):
         """
         주인공이 이동할 경로를 그려주는 함수

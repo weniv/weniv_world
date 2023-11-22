@@ -295,6 +295,10 @@ def show_character_info(evt=None):
                 <dt class="bubble-body-item-title">아이템</dt>
                 <dd class="bubble-body-item-content">{character_data[0]['items']}</dd>
             </div>
+             <div class="info-item">
+                <dt class="bubble-body-item-title">체력</dt>
+                <dd class="bubble-body-item-content">{character_data[0]['hp']}</dd>
+            </div>
         </dl>
         <button type="button" id="init_character" class="btn-reset">
             <span class="sr-only">캐릭터 초기화</span>

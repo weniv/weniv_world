@@ -555,7 +555,7 @@
                 set_item(x, y, name, count)
             
             # 캐릭터 갱신
-            for c in character_data:
+            for c in character_data[:]:
                 if not (0 <= c['x'] < map_data['height'] and 0 <= c['y'] < map_data['width']):
                     character_data.remove(c)
                 else:
@@ -563,7 +563,7 @@
                     draw_map.appendChild(draw_ch)
 
             # 몹 갱신
-            for m in mob_data:
+            for m in mob_data[:]:
                 if not (0 <= m['x'] < map_data['height'] and 0 <= m['y'] < map_data['width']):
                     mob_data.remove(m)
                 else:

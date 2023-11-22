@@ -306,16 +306,6 @@ class Character:
         setTimeout(create_once_callable(lambda: self._attack_hp_animation(m_obj,m['name'])), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
         
-
-    def _attack_hp_animation(self, mob_obj, mob_name):
-        mob = js.document.querySelector(f'#{self.name}.mob')
-        if mob_obj and mob:
-            mob_obj.hp -= self.power
-            mob_obj.draw_hp()
-            if(mob_obj.hp<=0):
-                mob.parentNode.removeChild(mob)
-                del mob_obj
-
     def draw_attack(self, x, y, x2, y2, name="claw-yellow"):
         attack = js.document.createElement("div")
         attack.className = "attack"
@@ -329,6 +319,20 @@ class Character:
         map = js.document.querySelector(".map-container")
         map.appendChild(attack)
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
+
+
+    def _attack_hp_animation(self, mob_obj, mob_name):
+        mob = js.document.querySelector(f'#{mob_name}.mob')
+        if mob_obj and mob:
+            mob_obj.hp -= self.power
+            mob_obj.draw_hp()
+            if(mob_obj.hp<=0):
+                setTimeout(create_once_callable(lambda: self._remove_mob(mob_obj,mob)), 1000)
+                
+    def _remove_mob(self, mob_obj, mob):
+        if mob:
+            mob.parentNode.removeChild(mob)
+        del mob_obj
 
 
     def pick(self):

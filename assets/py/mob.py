@@ -333,8 +333,8 @@ class Mob:
                 setTimeout(create_once_callable(lambda: self._remove_char(char_obj, char)), 1000)
                 
     def _remove_char(self, char_obj, char):
-        js.console.log('remove char called')
-        char.parentNode.removeChild(char)
+        if char:
+            char.parentNode.removeChild(char)
         del char_obj
                 
     def draw_move_line(self, x, y, next_x, next_y,directions):

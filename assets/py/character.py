@@ -56,8 +56,8 @@ class Character:
         character.style.transition = f"all {running_speed}s"
         # character.style.width = f"{self.width}px"
         # character.style.height = f"{self.height}px"
-        hp = self.draw_hp()
-        character.appendChild(hp)
+        # hp = self.draw_hp()
+        # character.appendChild(hp)
         # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
         character.style.top = f"{self.y * 100 + 2 + (50 - 32)}px"
         character.style.left = f"{self.x * 100 + 2 + (50 - 32)}px"
@@ -293,6 +293,7 @@ class Character:
             js.alert('공격이 맵을 벗어납니다.')
             raise OutOfWorld
             
+        m_obj=None
         for m in mob_data:
             if (m['x'],m['y'])==(nx,ny):
                 m_obj = m['mob_obj']
@@ -325,7 +326,7 @@ class Character:
         mob = js.document.querySelector(f'#{mob_name}.mob')
         if mob_obj and mob:
             mob_obj.hp -= self.power
-            mob_obj.draw_hp()
+            # mob_obj.draw_hp()
             if(mob_obj.hp<=0):
                 setTimeout(create_once_callable(lambda: self._remove_mob(mob_obj,mob)), 1000)
                 

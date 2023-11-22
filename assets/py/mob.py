@@ -58,8 +58,8 @@ class Mob:
         mob.style.transition = f"all {running_speed}s"
         # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         # mob.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
-        hp = self.draw_hp()
-        mob.appendChild(hp)
+        # hp = self.draw_hp()
+        # mob.appendChild(hp)
         
         if self.mob == 'lion':
             mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"
@@ -296,6 +296,7 @@ class Mob:
             js.alert('공격이 맵을 벗어납니다.')
             raise OutOfWorld
 
+        c_obj=None
         for c in character_data:
             if (c['x'],c['y'])==(nx,ny):
                 c_obj = c['character_obj']
@@ -328,7 +329,7 @@ class Mob:
         char = js.document.querySelector(f'.{char_name}')
         if char_obj and char:
             char_obj.hp -= self.power
-            char_obj.draw_hp()
+            # char_obj.draw_hp()
             if char_obj.hp <= 0:
                 setTimeout(create_once_callable(lambda: self._remove_char(char_obj, char)), 1000)
                 

@@ -1586,7 +1586,7 @@ button {
     width: 4.8rem;
     height: 6.4rem;
     background-size: 288px 64px; }
-  .mob.mob1, .mob.mob2, .mob.mob3 {
+  .mob.mob1, .mob.mob2, .mob.mob3, .mob.mob4 {
     animation-name: mob;
     width: 2.8rem;
     height: 2.8rem;

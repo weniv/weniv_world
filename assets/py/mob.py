@@ -180,10 +180,10 @@ class Mob:
             elif directions == 3:
                 c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32) + 8}px"
                 self.draw_move_line(x, y, x + 1, y, directions)
+        
         elif self.mob[:3]=='mob':
             # top = (x+1)*100 + 2 + (50-32) + 23
             # left = (y+1)*100 + 2 + (50-32) + 21
-                
             if directions == 0:
                 c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32) + 21}px"
                 self.draw_move_line(x, y, x, y + 1, directions)

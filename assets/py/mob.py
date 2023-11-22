@@ -251,9 +251,7 @@ class Mob:
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _turn_left_animation(self, directions):
-        mob = js.document.querySelector(f'#{self.name}.mob')
-        js.console.log(mob)
-        print(mob)
+        c = js.document.querySelector(f'#{self.name}.mob')
         c.style.transformOrigin = "center center"
 
         if directions == 0:
@@ -311,15 +309,6 @@ class Mob:
         setTimeout(create_once_callable(lambda: self._attack_hp_animation(c_obj, c['character'])), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
     
-    def _attack_hp_animation(self,char_obj,char_name):
-        char = js.document.querySelector(f'.{char_name}')
-        if char_obj and char:
-            char_obj.hp -= self.power
-            char_obj.draw_hp()
-            if(char_obj.hp<=0):
-                char.parentNode.removeChild(char)
-                del char_obj
-                
     def draw_attack(self, x, y, x2, y2, name="claw-yellow"):
         attack = js.document.createElement("div")
         attack.className = "attack"
@@ -334,6 +323,20 @@ class Mob:
         map.appendChild(attack)
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
 
+
+    def _attack_hp_animation(self,char_obj,char_name):
+        char = js.document.querySelector(f'.{char_name}')
+        if char_obj and char:
+            char_obj.hp -= self.power
+            char_obj.draw_hp()
+            if char_obj.hp <= 0:
+                setTimeout(create_once_callable(lambda: self._remove_char(char_obj, char)), 1000)
+                
+    def _remove_char(self, char_obj, char):
+        js.console.log('remove char called')
+        char.parentNode.removeChild(char)
+        del char_obj
+                
     def draw_move_line(self, x, y, next_x, next_y,directions):
         """
         주인공이 이동할 경로를 그려주는 함수

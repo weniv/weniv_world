@@ -531,7 +531,7 @@
                 js.document.querySelector('.map-container').remove()
                 map = Map(map_data['height'], map_data['width'])
                 draw_map = map.drawMap()
-                draw_map.appendChild(draw_character)
+                # draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
 
@@ -551,6 +551,14 @@
                     add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
                     add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
 
+            
+            # 캐릭터 갱신
+            for c in character_data[:]:
+                if not (0 <= c['x'] < map_data['height'] and 0 <= c['y'] < map_data['width']):
+                    character_data.remove(c)
+                else:
+                    draw_ch = c['character_obj'].draw()
+                    draw_map.appendChild(draw_ch)
 
             # 아이템 갱신
             keys_to_remove = []  
@@ -566,13 +574,6 @@
                 count = value['count']
                 set_item(x, y, name, count)
             
-            # 캐릭터 갱신
-            # for c in character_data[:]:
-            #     if not (0 <= c['x'] < map_data['height'] and 0 <= c['y'] < map_data['width']):
-            #         character_data.remove(c)
-            #     else:
-            #         draw_ch = c['character_obj'].draw()
-            #         draw_map.appendChild(draw_ch)
 
             # 몹 갱신
             for m in mob_data[:]:

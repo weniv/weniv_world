@@ -59,8 +59,8 @@ class Character:
         # hp = self.draw_hp()
         # character.appendChild(hp)
         # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
-        character.style.top = f"{self.y * 100 + 2 + (50 - 32)}px"
-        character.style.left = f"{self.x * 100 + 2 + (50 - 32)}px"
+        character.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
+        character.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
         
         finder = False
         

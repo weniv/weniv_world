@@ -248,8 +248,8 @@ story_wall = {
     },
     # 5번 스토리
     5: {
-        "map_width": 5,
-        "map_height": 5,
+        "map_width": 1,
+        "map_height": 1,
         "wall": {  # (x, y): 'wall', 'fence', 'door'
             (0, 0.5): "",
             (0, 1.5): "",

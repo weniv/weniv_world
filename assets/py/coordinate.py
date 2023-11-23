@@ -10,6 +10,7 @@ character_data = [
         "items": {},
     }
 ]
+default_character = "licat"
 mob_data = []
 
 # 맵 전역에 있는 아이템 데이터

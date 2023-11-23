@@ -59,8 +59,8 @@ class Character:
         # hp = self.draw_hp()
         # character.appendChild(hp)
         # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
-        character.style.top = f"{self.y * 100 + 2 + (50 - 32)}px"
-        character.style.left = f"{self.x * 100 + 2 + (50 - 32)}px"
+        character.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
+        character.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
         
         finder = False
         
@@ -140,9 +140,12 @@ class Character:
         
         
     def _move(self):
-        x = character_data[0]["x"]
-        y = character_data[0]["y"]
-        directions = character_data[0]["directions"]
+        # x = character_data[0]["x"]
+        # y = character_data[0]["y"]
+        # directions = character_data[0]["directions"]
+        x = self.x
+        y = self.y
+        directions = self.directions
         error_check = ''
         # js.alert(f"현재 x위치= {x} 현재 y위치 = {y} 방향 = {directions}")
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
@@ -162,10 +165,15 @@ class Character:
             setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
             return None
         
-        character_data[0]["x"] = nx
-        self.x = character_data[0]["x"]
-        character_data[0]["y"] = ny
-        self.y = character_data[0]["y"]
+        # character_data[0]["x"] = nx
+        # self.x = character_data[0]["x"]
+        # character_data[0]["y"] = ny
+        # self.y = character_data[0]["y"]
+        
+        self.x = nx
+        self.y = ny
+        self._set_character_data("x",nx)
+        self._set_character_data("y",ny)
         
         setTimeout(create_once_callable(lambda: (self._move_animation(x, y, directions))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
@@ -231,21 +239,19 @@ class Character:
 
     def turn_left(self):
         self.running_time += 1000 * running_speed
-        directions = character_data[0]["directions"]
-        
         self._turn_left()
         
     def _turn_left(self):
-        directions = character_data[0]["directions"]
-        if directions == 0:
-            character_data[0]["directions"] += 1
-        elif directions == 1:
-            character_data[0]["directions"] += 1
-        elif directions == 2:
-            character_data[0]["directions"] += 1
-        elif directions == 3:
-            character_data[0]["directions"] = 0
-            
+        # directions = character_data[0]["directions"]
+        directions = self.directions
+        
+        nd = directions + 1
+        if nd > 3:
+            nd = 0
+        
+        self.directions=nd
+        self._set_character_data("directions",nd)
+       
         setTimeout(create_once_callable(lambda: (self._turn_left_animation(directions))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
@@ -273,10 +279,13 @@ class Character:
         self._attack()
         
     def _attack(self):
-        directions = character_data[0]["directions"]
+        # directions = character_data[0]["directions"]
 
-        x = character_data[0]["x"]
-        y = character_data[0]["y"]
+        # x = character_data[0]["x"]
+        # y = character_data[0]["y"]
+        x = self.x
+        y = self.y
+        directions = self.directions
 
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         nx, ny = x, y
@@ -335,7 +344,6 @@ class Character:
             mob.parentNode.removeChild(mob)
         del mob_obj
 
-
     def pick(self):
         self.running_time += 1000 * running_speed
         self._pick()
@@ -350,8 +358,10 @@ class Character:
         모든 아이템이 다 감소되면 document에서 해당 아이템을 삭제한다.
         """
         
-        x = character_data[0]["x"]
-        y = character_data[0]["y"]
+        # x = character_data[0]["x"]
+        # y = character_data[0]["y"]
+        x = self.x
+        y = self.y
         item = item_data.get((x, y))
         
         if item:
@@ -359,11 +369,12 @@ class Character:
             item_count -= 1
             item["count"] = item_count
             item_data[(x, y)] = item
+            item_list = self._get_character_data("items")
             # TODO: 0번째에서 꺼내는 것이 아니라 자신의 아이템에서 꺼내야 함.
-            if item["item"] in character_data[0]["items"].keys():
-                character_data[0]["items"][item["item"]] += 1
+            if item["item"] in item_list.keys():
+                item_list[item["item"]] += 1
             else:
-                character_data[0]["items"][item["item"]] = 1
+                item_list[item["item"]] = 1
             
             if item_count == 0:
                 item_data.pop((x, y))
@@ -392,18 +403,21 @@ class Character:
         """
         주인공 발 아래 동일한 아이템을 내려놓는 함수
         """
-        x = character_data[0]["x"]
-        y = character_data[0]["y"]
+        # x = character_data[0]["x"]
+        # y = character_data[0]["y"]
+        x = self.x
+        y = self.y
         item = self.check_bottom()
-        find_item_from_character = character_data[0]["items"].get(item_name, 0)
+        item_list = self._get_character_data("items")
+        find_item_from_character =item_list.get(item_name, 0)
         
         # 발 아래 아이템이 없을 경우,
         if not item:
             if find_item_from_character > 0:
                 
-                character_data[0]["items"][item_name] -= 1
-                if character_data[0]["items"][item_name] == 0:
-                    character_data[0]["items"].pop(item_name)
+                item_list[item_name] -= 1
+                if item_list[item_name] == 0:
+                    item_list.pop(item_name)
                 
                 item_data[(x,y)]= {"item":item_name,"count":1}
                 setTimeout(create_once_callable(lambda: (self._put_animation(item, x,y,item_name,1))), self.running_time)
@@ -420,10 +434,10 @@ class Character:
 
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
             elif find_item_from_character > 0 and bottom_item_name == item_name:
-                character_data[0]["items"][item_name] -= 1
+                item_list[item_name] -= 1
 
-                if character_data[0]["items"][item_name] == 0:
-                    character_data[0]["items"].pop(item_name)
+                if item_list[item_name] == 0:
+                    item_list.pop(item_name)
                     item_data[(x, y)]["count"] += 1
                 setTimeout(create_once_callable(lambda: (self._put_animation(item,x,y,item_name,item_data[(x, y)]["count"]))), self.running_time)
                     
@@ -439,9 +453,10 @@ class Character:
         """
         주인공 발 아래 아이템이 있는지 확인하는 함수
         """
-        x = character_data[0]["x"]
-        y = character_data[0]["y"]
-
+        # x = character_data[0]["x"]
+        # y = character_data[0]["y"]
+        x = self.x
+        y = self.y
         item = item_data.get((x, y))
 
         return True if item else False
@@ -521,7 +536,8 @@ class Character:
     def _is_clear(self, target="front"):
         # target_direction = self.directions
         global wall_data
-        target_direction = character_data[0]["directions"]
+        # target_direction = character_data[0]["directions"]
+        target_direction = self.directions
 
         if target == "front":
             pass
@@ -590,7 +606,8 @@ class Character:
         return wall_data["world"][pos]
 
     def _front_wall(self):
-        directions = character_data[0]["directions"]
+        # directions = character_data[0]["directions"]
+        directions = self.directions
 
         if directions == 0:  # 동
             posX, posY = (self.x, self.y + 0.5)
@@ -633,3 +650,17 @@ class Character:
         else:
             js.alert('new error',error_type)
             raise Exception('new error',error_type)
+        
+    def _set_character_data(self, key, value):
+        global character_data
+        for c in character_data:
+            if c['character']==self.name:
+                c[key] = value
+                break
+    
+    def _get_character_data(self, key):
+        global character_data
+        for c in character_data:
+            if c['character']==self.name:
+                return c[key]
+        return None

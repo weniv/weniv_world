@@ -5,6 +5,7 @@ from pyodide.ffi import create_once_callable
 from built_in_functions import print, say
 from coordinate import (
     character_data,
+    default_character,
     mob_data,
     map_data,
     item_data,
@@ -301,7 +302,8 @@ class Mob:
             if (c['x'],c['y'])==(nx,ny):
                 c_obj = c['character_obj']
                 c['hp']-=self.power
-                if(c['hp']<=0):
+                if(c['hp']<=0 and c['character'] != default_character):
+                    print('die')
                     character_data.remove(c)
                     break
             
@@ -326,12 +328,22 @@ class Mob:
 
 
     def _attack_hp_animation(self,char_obj,char_name):
+        global _character_data
         char = js.document.querySelector(f'.{char_name}')
         if char_obj and char:
             char_obj.hp -= self.power
             # char_obj.draw_hp()
             if char_obj.hp <= 0:
-                setTimeout(create_once_callable(lambda: self._remove_char(char_obj, char)), 1000)
+                if char_name == default_character:
+                   life = js.confirm('기본 캐릭터의 체력이 0이 되었습니다. 캐릭터를 부활시키겠습니까?')
+                   if life:
+                       full_hp = character_data[0]['character_obj'].initHp
+                       character_data[0]['hp'] = full_hp
+                       character_data[0]['character_obj'].hp = full_hp
+                   else:
+                        setTimeout(create_once_callable(lambda: self._remove_char(char_obj, char)), 1000)
+                        character_data[0] = {}
+                        return
                 
     def _remove_char(self, char_obj, char):
         if char:

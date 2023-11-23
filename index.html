@@ -508,6 +508,18 @@
 
         def change_map(evt=None):
             global wall_data, item_data, draw_map, mob_data, character_data
+            
+            # 기본 캐릭터가 맵을 벗어나는 경우 변경 불가
+            main_ch = character_data[0]
+            initX = map_data['height']
+            initY = map_data['width']
+            if main_ch['x'] > int(map_slider_x.value) - 1 or main_ch['y'] > int(map_slider_y.value) - 1:
+                js.alert(f"기본 캐릭터의 위치보다 작게 맵을 설정할 수 없습니다.")
+                map_slider_x.value = initX
+                map_slider_y.value = initY
+                map_slider_output_x.innerHTML = initX
+                map_slider_output_y.innerHTML = initY
+                return
 
             map_data['height'] = int(map_slider_x.value)
             map_data['width'] = int(map_slider_y.value)
@@ -667,7 +679,8 @@
             js.console.log('캐릭터 초기화')
             global running_speed
             js.document.querySelector('.character').remove()
-            character_data[0] = {
+            character_data.clear()
+            character_data.append({
                 'character': 'licat',
                 'character_obj': None,
                 'x': 0,
@@ -676,7 +689,7 @@
                 'items': {},
                 'hp':100,
                 'power':10
-            }
+            })
             licat = Character(x=0, y=0, name='licat', width=32, height=40,rotate=0)
             for line in js.document.querySelectorAll('.line'):
                 line.remove()

@@ -1292,7 +1292,8 @@ button {
   padding: 3.2rem 2.8rem 3.2rem 3.4rem;
   height: fit-content;
   overflow: auto;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  position: relative; }
   .world-map::-webkit-scrollbar {
     width: 0.6rem;
     height: 0.6rem; }
@@ -1619,6 +1620,28 @@ button {
     line-height: 1;
     color: var(--ColorSurface);
     box-shadow: var(--EffectShadow); }
+
+.toast {
+  display: none;
+  font-size: 1.6rem;
+  font-weight: 500;
+  line-height: 2.4rem;
+  background-color: var(--ColorBackground);
+  color: var(--ColorSurface);
+  border: 2px solid var(--ColorError);
+  border-radius: 1rem;
+  z-index: 999;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2.8rem 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  box-sizing: border-box; }
 
 .story {
   display: none;

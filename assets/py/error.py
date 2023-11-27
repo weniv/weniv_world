@@ -70,3 +70,4 @@ class CannotOpenWall(Exception):
     def __init__(self):
         print("error.CannotOpenWall: you cannot open wall", type="error")
         super().__init__("cannot open wall")
+

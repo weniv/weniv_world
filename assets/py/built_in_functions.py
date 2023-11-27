@@ -335,9 +335,6 @@ def character_exist(x, y):
 
 
 def _show_modal(message):
-    # 토스트 ui 
-    # <div class="toast show"><img src="./assets/img/icon/icon-alert-circle.svg" alt=""><p>좌표는 정수로 입력해야 합니다.</p></div>
-
     target = js.document.querySelector('.world-map')
     toast = js.document.createElement("div")
     toast.classList.add("toast")
@@ -351,7 +348,7 @@ def _show_modal(message):
     text.innerText = message
     toast.appendChild(text)
    
-    
     target.appendChild(toast)
     js.setTimeout(create_once_callable(lambda: (target.removeChild(toast))), 2000)
+    
 

@@ -2,7 +2,7 @@ import js
 from js import setTimeout
 from pyodide.ffi import create_once_callable
 
-from built_in_functions import print, say
+from built_in_functions import print, say, _show_modal
 from coordinate import (
     character_data,
     mob_data,
@@ -299,7 +299,8 @@ class Character:
             nx = x + 1
             
         if not 0<=nx<map_data["height"] or not 0<=ny<map_data["width"]:
-            js.alert('공격이 맵을 벗어납니다.')
+            # js.alert('공격이 맵을 벗어납니다.')
+            _show_modal("공격이 맵을 벗어납니다.")
             raise OutOfWorld
             
         m_obj=None
@@ -630,25 +631,32 @@ class Character:
         
     def _alert_error(self, error_type):
         if(error_type=='OutOfWorld'):
-            js.alert("맵을 벗어납니다.")
+            # js.alert("맵을 벗어납니다.")
+            _show_modal("맵을 벗어납니다.")
             raise OutOfWorld
         elif(error_type=='WallIsExist'):
-            js.alert("이런! 벽에 부딪혔습니다.")
+            # js.alert("이런! 벽에 부딪혔습니다.")
+            _show_modal("이런! 벽에 부딪혔습니다.")
             raise WallIsExist
         elif (error_type=='CannotOpenDoor'):
-            js.alert('문이 아닌 벽은 열 수 없습니다.')
+            # js.alert('문이 아닌 벽은 열 수 없습니다.')
+            _show_modal("문이 아닌 벽은 열 수 없습니다.")
             raise CannotOpenWall   
         elif(error_type=='NoItem'):
-            js.alert('아이템이 없습니다.')
+            # js.alert('아이템이 없습니다.')
+            _show_modal("아이템이 없습니다.")
             raise Exception('NoItem')
         elif(error_type=='AnotherItemInBottom'):
-            js.alert('다른 아이템이 있습니다.')
+            # js.alert('다른 아이템이 있습니다.')
+            _show_modal("다른 아이템이 있습니다.")
             raise Exception('AnotherItemInBottom')
         elif(error_type=='CharacterIsExist'):
-            js.alert('이동하려는 위치에 캐릭터가 있습니다.')
+            # js.alert('이동하려는 위치에 캐릭터가 있습니다.')
+            _show_modal("이동하려는 위치에 캐릭터가 있습니다.")
             raise Exception('CharacterIsExist')
         else:
             js.alert('new error',error_type)
+            _show_modal("새로운 오류",error_type)
             raise Exception('new error',error_type)
         
     def _set_character_data(self, key, value):

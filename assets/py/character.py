@@ -163,7 +163,7 @@ class Character:
         error_check=self._movable(x, y, nx, ny)
         if error_check:
             setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
-            return None
+            raise
         
         # character_data[0]["x"] = nx
         # self.x = character_data[0]["x"]
@@ -384,6 +384,7 @@ class Character:
 
         else:
             setTimeout(create_once_callable(lambda: (self._alert_error('NoItem'))), self.running_time)
+            raise
             
 
     def _pick_animation(self, x, y, item_count):
@@ -431,6 +432,7 @@ class Character:
 
             if bottom_item_name != item_name and find_item_from_character > 0:
                 setTimeout(create_once_callable(lambda: (self._alert_error('AnotherItemInBottom'))), self.running_time)
+                raise
                 
 
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
@@ -592,6 +594,7 @@ class Character:
 
         elif self.typeof_wall() != "":
             setTimeout(create_once_callable(lambda: self._alert_error('CannotOpenDoor')), self.running_time)
+            raise
             
 
     def _open_door_animation(self,wall_pos):

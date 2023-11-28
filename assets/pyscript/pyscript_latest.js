@@ -27770,7 +27770,9 @@ ${mountName} = Element("${el.id}")`;
        *  display() the last evaluated expression
        */
       async execute() {
-        const pySrc = this.getPySrc();
+        // const pySrc = this.getPySrc();
+        const pySrc = this.convertPySrc(this.getPySrc());
+        console.log('converted pySrc\n', pySrc)
         const outEl = this.outDiv;
         await app.plugins.beforePyReplExec({ interpreter: interpreter2, src: pySrc, outEl, pyReplTag: this });
         const { result } = await pyExec(interpreter2, pySrc, outEl);
@@ -27783,6 +27785,17 @@ ${mountName} = Element("${el.id}")`;
         });
         await interpreter2._remote.destroyIfProxy(result);
         this.autogenerateMaybe();
+      }
+      // *************** [customed] utility functions *****************
+      // 사용자가 입력한 코드에 try-except 구문과 mission_start 함수를 추가하여 반환
+      convertPySrc(pySrc){
+        let convertedCode = '';
+        const lines = pySrc.split('\n');
+        for(let i = 0; i < lines.length; i++){
+            convertedCode += '    ' + lines[i] + '\n';
+        }
+        const newCode = 'mission_start()\ntry:\n'+ convertedCode + 'except Exception as e:\n    pass\n';
+        return newCode;
       }
       getPySrc() {
         return this.editor.state.doc.toString();

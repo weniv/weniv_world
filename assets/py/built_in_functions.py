@@ -4,7 +4,7 @@ from pyodide.ffi import create_once_callable
 from coordinate import character_data, map_data,running_speed, mob_data, item_data, _available_items
 from item import Item
 
-command_count = 1 # 명령어 줄 수
+command_count = 0 # 명령어 줄 수
 
 def get_running_speed():
     # spped value
@@ -55,7 +55,6 @@ def print(*texts, type="normal"):
     running_speed = get_running_speed()
     wait_time = command_count*1000*running_speed
     js.setTimeout(create_once_callable(lambda: (main())), wait_time)
-
 
 def say(text="", character=None, speech_time=5000):
     """
@@ -115,20 +114,22 @@ def item(character=None):
     # js.setTimeout(create_once_callable(lambda: (main())), wait_time)
 
 
-
 def set_item(x, y, name, count=1, description={}, character=None):
     if not (isinstance(x, int) and isinstance(y, int)):
-        js.alert("좌표는 정수로 입력해야 합니다.")
+        # js.alert("좌표는 정수로 입력해야 합니다.")
+        _show_modal("좌표는 정수로 입력해야 합니다.")
         print(f"{x}, {y} error.TypeError: Position must be integer", type="error")
         return None
 
     if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
-        js.alert("월드를 벗어나서 아이템을 추가할 수 없습니다.")
+        # js.alert("월드를 벗어나서 아이템을 추가할 수 없습니다.")
+        _show_modal("월드를 벗어나서 아이템을 추가할 수 없습니다.")
         print("error.OutOfWorld: out of world", type="error")
         return None
     
     if name not in _available_items:
-        js.alert("존재하지 않는 아이템입니다.")
+        # js.alert("존재하지 않는 아이템입니다.")
+        _show_modal("존재하지 않는 아이템입니다.")
         print("error.ItemIsNotExist: item is not exist", type="error")
         return None
 
@@ -139,7 +140,7 @@ def set_item(x, y, name, count=1, description={}, character=None):
 def move(character=None):
     global command_count
     command_count += 1
-   
+    js.console.log('command_count', command_count)
     if character != None:
         character.move()
     else:
@@ -331,4 +332,33 @@ def character_exist(x, y):
         if c['x'] == x and c['y'] == y:
             return True
     return False
+
+
+def _show_modal(message):
+    target = js.document.querySelector('.world-map')
+    toast = js.document.createElement("div")
+    toast.classList.add("toast")
+     
+    img = js.document.createElement("img")
+    img.setAttribute("src", "./assets/img/icon/icon-alert-circle.svg")
+    img.setAttribute("alt", "")
+    toast.appendChild(img)
+    
+    text = js.document.createElement('p')
+    text.classList.add('text')
+    text.innerText = message
+    toast.appendChild(text)
+    
+    button = js.document.createElement('button')
+    button.classList.add('confirm')
+    button.innerText = '확인'
+    button.addEventListener('click', create_once_callable( lambda e:target.removeChild(toast)))
+    toast.appendChild(button)   
+    # button에 가상요소 추가
+    
+    target.appendChild(toast)
+    js.setTimeout(create_once_callable(lambda: (target.removeChild(toast))), 2000)
+    
+    
+    
 

@@ -140,7 +140,6 @@ def set_item(x, y, name, count=1, description={}, character=None):
 def move(character=None):
     global command_count
     command_count += 1
-    js.console.log('command_count', command_count)
     if character != None:
         character.move()
     else:

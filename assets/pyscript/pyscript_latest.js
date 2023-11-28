@@ -27772,7 +27772,6 @@ ${mountName} = Element("${el.id}")`;
       async execute() {
         // const pySrc = this.getPySrc();
         const pySrc = this.convertPySrc(this.getPySrc());
-        console.log('converted pySrc\n', pySrc)
         const outEl = this.outDiv;
         await app.plugins.beforePyReplExec({ interpreter: interpreter2, src: pySrc, outEl, pyReplTag: this });
         const { result } = await pyExec(interpreter2, pySrc, outEl);

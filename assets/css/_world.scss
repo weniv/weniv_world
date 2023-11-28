@@ -269,7 +269,6 @@
     height: fit-content;
     overflow: auto;
     box-sizing: border-box;
-    position: relative;
     @include scrollbar;
 
     .mouse-tooltip {
@@ -655,7 +654,13 @@
 }
 
 .toast {
-    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 30rem;
+    transform: translate(-50%, -50%);
+    padding: 2.8rem 8rem;
+    z-index: 999;
 
     font-size: 1.6rem;
     font-weight: 500;
@@ -664,17 +669,19 @@
     color: var(--ColorSurface);
     border: 2px solid var(--ColorError);
     border-radius: 1rem;
-    z-index: 999;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 2.8rem 8rem;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.2rem;
     box-sizing: border-box;
+
+    p.text {
+        margin: 1.2rem auto 2rem;
+    }
+    button.confirm {
+        padding: 1.1rem 2rem;
+        border: 1px solid var(--ColorGrayLv2);
+        border-radius: 1rem;
+    }
 }

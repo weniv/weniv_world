@@ -345,10 +345,20 @@ def _show_modal(message):
     toast.appendChild(img)
     
     text = js.document.createElement('p')
+    text.classList.add('text')
     text.innerText = message
     toast.appendChild(text)
-   
+    
+    button = js.document.createElement('button')
+    button.classList.add('confirm')
+    button.innerText = '확인'
+    button.addEventListener('click', create_once_callable( lambda e:target.removeChild(toast)))
+    toast.appendChild(button)   
+    # button에 가상요소 추가
+    
     target.appendChild(toast)
     js.setTimeout(create_once_callable(lambda: (target.removeChild(toast))), 2000)
+    
+    
     
 

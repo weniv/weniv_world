@@ -27794,7 +27794,7 @@ ${mountName} = Element("${el.id}")`;
         for(let i = 0; i < lines.length; i++){
             convertedCode += '    ' + lines[i] + '\n';
         }
-        const newCode = 'try:\n'+ convertedCode + 'except Exception as e:\n    pass\n';
+        const newCode = 'mission_start()\ntry:\n'+ convertedCode + 'except Exception as e:\n    pass\n';
         return newCode;
       }
       getPySrc() {

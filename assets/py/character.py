@@ -654,7 +654,7 @@ class Character:
             raise Exception('CharacterIsExist')
         else:
             js.alert('new error',error_type)
-            _show_modal("새로운 오류",error_type)
+            _show_modal("새로운 오류")
             raise Exception('new error',error_type)
         
     def _set_character_data(self, key, value):

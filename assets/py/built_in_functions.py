@@ -4,7 +4,7 @@ from pyodide.ffi import create_once_callable
 from coordinate import character_data, map_data,running_speed, mob_data, item_data, _available_items
 from item import Item
 
-command_count = 1 # 명령어 줄 수
+command_count = 0 # 명령어 줄 수
 
 def get_running_speed():
     # spped value
@@ -140,7 +140,7 @@ def set_item(x, y, name, count=1, description={}, character=None):
 def move(character=None):
     global command_count
     command_count += 1
-   
+    js.console.log('command_count', command_count)
     if character != None:
         character.move()
     else:

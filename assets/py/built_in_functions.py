@@ -24,14 +24,14 @@ def mission_end():
     미션 클리어
     """
     global command_count
-    command_count = 1
+    command_count = 0
 
 def mission_start():
     """
     미션 시작
     """
     global command_count
-    command_count = 1
+    command_count = 0
 
 def print(*texts, type="normal"):
     """
@@ -82,12 +82,9 @@ def directions(character=None):
     
     d = {0: "right", 1: "top", 2: "left", 3: "bottom"}
     if character != None:
-        # TODO: 0번째가 아니라 순회 돌면서 self.name으로 찾아서 directions 반환
-        # return d[character.directions] # self.directions가 제대로 반영 안되어 있음
-        return d[character_data[0]["directions"]]
+        return d[character._get_character_data("directions")]
     else:
         if character_data[0]["character_obj"] != None:
-            # return d[character_data[0]['character_obj'].directions] # self.directions가 제대로 반영 안되어 있음
             return d[character_data[0]["directions"]]
         else:
             print("캐릭터가 없습니다.")
@@ -99,36 +96,27 @@ def item(character=None):
     character가 가지고 있는 아이템을 보여주는 함수
     """
     if character != None:
-        # TODO: 0번째가 아니라 순회 돌면서 self.name으로 찾아서 items 반환
-        # return character_data[0]["items"]
-        return character_data[0]["items"]
+        return character._get_character_data("items")
     else:
         if character_data[0]["character_obj"] != None:
-            # return d[character_data[0]['character_obj'].directions] # self.directions가 제대로 반영 안되어 있음
-            # return character_data[0]["items"]
             return character_data[0]["items"]
         else:
             print("캐릭터가 없습니다.")
             return None
     wait_time = 1000 * command_count
-    # js.setTimeout(create_once_callable(lambda: (main())), wait_time)
-
 
 def set_item(x, y, name, count=1, description={}, character=None):
     if not (isinstance(x, int) and isinstance(y, int)):
-        # js.alert("좌표는 정수로 입력해야 합니다.")
         _show_modal("좌표는 정수로 입력해야 합니다.")
         print(f"{x}, {y} error.TypeError: Position must be integer", type="error")
         return None
 
     if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
-        # js.alert("월드를 벗어나서 아이템을 추가할 수 없습니다.")
         _show_modal("월드를 벗어나서 아이템을 추가할 수 없습니다.")
         print("error.OutOfWorld: out of world", type="error")
         return None
     
     if name not in _available_items:
-        # js.alert("존재하지 않는 아이템입니다.")
         _show_modal("존재하지 않는 아이템입니다.")
         print("error.ItemIsNotExist: item is not exist", type="error")
         return None
@@ -286,17 +274,23 @@ def typeof_wall(character=None):
             print("캐릭터가 없습니다.")
             return None
         
-def on_item():
+def on_item(character=None):
     '''
     발 아래 아이템이 있는지 확인하는 함수
     '''
-    if character_data[0]["character_obj"] != None:
-        if (character_data[0]['x'], character_data[0]['y']) in item_data:
+    if character != None:
+        x, y = character._get_character_data("x"), character._get_character_data("y")
+        if (x, y) in item_data:
             return True
         return False
-    else:
-        print("캐릭터가 없습니다.")
-        return None
+    else: 
+        if character_data[0]["character_obj"] != None:
+            if (character_data[0]['x'], character_data[0]['y']) in item_data:
+                return True
+            return False
+        else:
+            print("캐릭터가 없습니다.")
+            return None
 
 # 작동하지만 시기상조로 인해 주석처리  
 # def change_img():

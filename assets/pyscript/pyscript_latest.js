@@ -27772,6 +27772,7 @@ ${mountName} = Element("${el.id}")`;
       async execute() {
         // const pySrc = this.getPySrc();
         const pySrc = this.convertPySrc(this.getPySrc());
+        console.log(pySrc)
         const outEl = this.outDiv;
         await app.plugins.beforePyReplExec({ interpreter: interpreter2, src: pySrc, outEl, pyReplTag: this });
         const { result } = await pyExec(interpreter2, pySrc, outEl);
@@ -27790,10 +27791,14 @@ ${mountName} = Element("${el.id}")`;
       convertPySrc(pySrc){
         let convertedCode = '';
         const lines = pySrc.split('\n');
+        // const indent = '    '
+        const indent = ''
         for(let i = 0; i < lines.length; i++){
-            convertedCode += '    ' + lines[i] + '\n';
+            convertedCode += indent + lines[i] + '\n';
         }
-        const newCode = 'mission_start()\ntry:\n'+ convertedCode + 'except Exception as e:\n    pass\n';
+
+        // const newCode = 'mission_start()\ntry:\n'+ convertedCode + '    pass\nexcept Exception as e:\n    raise\n'+lines[lines.length-1];
+        const newCode = 'mission_start()\n'+convertedCode;
         return newCode;
       }
       getPySrc() {

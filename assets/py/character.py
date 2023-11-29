@@ -142,14 +142,11 @@ class Character:
         
         
     def _move(self):
-        # x = character_data[0]["x"]
-        # y = character_data[0]["y"]
-        # directions = character_data[0]["directions"]
         x = self.x
         y = self.y
         directions = self.directions
         error_check = ''
-        # js.alert(f"현재 x위치= {x} 현재 y위치 = {y} 방향 = {directions}")
+
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         nx, ny = x, y
         if directions == 0:
@@ -167,11 +164,6 @@ class Character:
             setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
             raise 
         
-        # character_data[0]["x"] = nx
-        # self.x = character_data[0]["x"]
-        # character_data[0]["y"] = ny
-        # self.y = character_data[0]["y"]
-        
         self.x = nx
         self.y = ny
         self._set_character_data("x",nx)
@@ -183,10 +175,6 @@ class Character:
         
     def _move_animation(self, x, y, directions):
         c = js.document.querySelector(f".{self.name}")
-        # directions = character_data[0]["directions"]
-
-        # x = character_data[0]["x"]
-        # y = character_data[0]["y"]
         if directions == 0:
             c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x, y + 1, directions)
@@ -202,11 +190,9 @@ class Character:
  
         
     def _movable(self, x, y, nx, ny):
-        # 맵을 벗어나는지 확인
         if self._out_of_world(nx, ny):
             return 'OutOfWorld'
 
-        # 이동 경로에 벽이 있는지 확인
         if self._wall_exist(x, y, nx, ny):
             return 'WallIsExist'
         
@@ -244,7 +230,6 @@ class Character:
         self._turn_left()
         
     def _turn_left(self):
-        # directions = character_data[0]["directions"]
         directions = self.directions
         
         nd = directions + 1
@@ -281,10 +266,6 @@ class Character:
         self._attack()
         
     def _attack(self):
-        # directions = character_data[0]["directions"]
-
-        # x = character_data[0]["x"]
-        # y = character_data[0]["y"]
         x = self.x
         y = self.y
         directions = self.directions
@@ -301,7 +282,6 @@ class Character:
             nx = x + 1
             
         if not 0<=nx<map_data["height"] or not 0<=ny<map_data["width"]:
-            # js.alert('공격이 맵을 벗어납니다.')
             _show_modal("공격이 맵을 벗어납니다.")
             raise OutOfWorld
             
@@ -350,9 +330,7 @@ class Character:
     def pick(self):
         self.running_time += 1000 * running_speed
         self._pick()
-        # setTimeout(create_once_callable(lambda: (self._pick())), self.running_time)
-        # setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-
+     
     def _pick(self):
         """
         발 아래 아이템을 주워서 아이템을 가지고 있는지 확인하고,
@@ -360,9 +338,6 @@ class Character:
 
         모든 아이템이 다 감소되면 document에서 해당 아이템을 삭제한다.
         """
-        
-        # x = character_data[0]["x"]
-        # y = character_data[0]["y"]
         x = self.x
         y = self.y
         item = item_data.get((x, y))
@@ -372,8 +347,8 @@ class Character:
             item_count -= 1
             item["count"] = item_count
             item_data[(x, y)] = item
+          
             item_list = self._get_character_data("items")
-            # TODO: 0번째에서 꺼내는 것이 아니라 자신의 아이템에서 꺼내야 함.
             if item["item"] in item_list.keys():
                 item_list[item["item"]] += 1
             else:
@@ -407,15 +382,13 @@ class Character:
         """
         주인공 발 아래 동일한 아이템을 내려놓는 함수
         """
-        # x = character_data[0]["x"]
-        # y = character_data[0]["y"]
         x = self.x
         y = self.y
         item = self.check_bottom()
         item_list = self._get_character_data("items")
         find_item_from_character =item_list.get(item_name, 0)
         
-        # 발 아래 아이템이 없을 경우,
+        # 발 아래 아이템이 없을 경우
         if not item:
             if find_item_from_character > 0:
                 
@@ -436,7 +409,6 @@ class Character:
             if bottom_item_name != item_name and find_item_from_character > 0:
                 setTimeout(create_once_callable(lambda: (self._alert_error('AnotherItemInBottom'))), self.running_time)
                 raise 
-                
 
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
             elif find_item_from_character > 0 and bottom_item_name == item_name:
@@ -459,8 +431,7 @@ class Character:
         """
         주인공 발 아래 아이템이 있는지 확인하는 함수
         """
-        # x = character_data[0]["x"]
-        # y = character_data[0]["y"]
+
         x = self.x
         y = self.y
         item = item_data.get((x, y))
@@ -482,12 +453,11 @@ class Character:
         """
         return None
 
-    def draw_move_line(self, x, y, next_x, next_y,directions):
+    def draw_move_line(self, x, y, next_x, next_y, directions):
         """
         주인공이 이동할 경로를 그려주는 함수
         """
         line = js.document.createElement("div")
-        # directions = character_data[0]["directions"]
 
         line.className = "line"
         line.style.position = "absolute"
@@ -539,19 +509,18 @@ class Character:
         """
         return self._is_clear("back")
 
-    def _is_clear(self, target="front"):
-        # target_direction = self.directions
+    def _is_clear(self, input_dir="front"):
         global wall_data
-        # target_direction = character_data[0]["directions"]
+
         target_direction = self.directions
 
-        if target == "front":
+        if input_dir == "front":
             pass
-        elif target == "left":
+        elif input_dir == "left":
             target_direction += 1
-        elif target == "back":
+        elif input_dir == "back":
             target_direction += 2
-        elif target == "right":
+        elif input_dir == "right":
             target_direction += 3
 
         if target_direction > 3:
@@ -585,8 +554,6 @@ class Character:
     def open_door(self):
         self.running_time += 1000 * running_speed
         self._open_door()
-        # setTimeout(create_once_callable(lambda: (self._open_door())), self.running_time)
-        # setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _open_door(self):
         wall_pos = self._front_wall()
@@ -613,7 +580,6 @@ class Character:
         return wall_data["world"][pos]
 
     def _front_wall(self):
-        # directions = character_data[0]["directions"]
         directions = self.directions
 
         if directions == 0:  # 동

@@ -5,7 +5,6 @@ class OutOfWorld(Exception):
     """
     밖으로 나갔을 때 출력하는 애러
     """
-
     def __init__(self):
         print("error.OutOfWorld: out of world", type="error")
         super().__init__("out of world")

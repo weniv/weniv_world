@@ -356,4 +356,5 @@ preloadImage([
     './assets/img/characters/licat-1.png',
     './assets/img/characters/licat-2.png',
     './assets/img/characters/licat-3.png',
+    './assets/img/icon/icon-alert-circle.svg'
 ]);

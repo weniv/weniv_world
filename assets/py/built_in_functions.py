@@ -140,7 +140,6 @@ def set_item(x, y, name, count=1, description={}, character=None):
 def move(character=None):
     global command_count
     command_count += 1
-    js.console.log('command_count', command_count)
     if character != None:
         character.move()
     else:
@@ -334,6 +333,20 @@ def character_exist(x, y):
     return False
 
 
+def eat(item, character=None):
+    global command_count
+    command_count += 1
+    
+    if character != None:
+        character.eat(item)
+    else:
+        if character_data[0]["character_obj"] != None:
+            character_data[0]["character_obj"].eat(item)
+        else:
+            print("캐릭터가 없습니다.")
+            
+            
+# utility function
 def _show_modal(message):
     target = js.document.querySelector('.world-map')
     toast = js.document.createElement("div")
@@ -352,13 +365,16 @@ def _show_modal(message):
     button = js.document.createElement('button')
     button.classList.add('confirm')
     button.innerText = '확인'
-    button.addEventListener('click', create_once_callable( lambda e:target.removeChild(toast)))
+    button.addEventListener('click', create_once_callable( lambda e:removeToast()))
     toast.appendChild(button)   
     # button에 가상요소 추가
     
     target.appendChild(toast)
-    js.setTimeout(create_once_callable(lambda: (target.removeChild(toast))), 2000)
+    js.setTimeout(create_once_callable(lambda: (removeToast())), 2000)
     
+def removeToast():
+    if js.document.querySelector('.toast') != None:
+        target = js.document.querySelector('.world-map')
+        toast = js.document.querySelector('.toast')
+        target.removeChild(toast)
     
-    
-

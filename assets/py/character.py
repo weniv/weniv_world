@@ -8,13 +8,13 @@ from coordinate import (
     mob_data,
     map_data,
     item_data,
+    _eatable_items,
     blockingWallType,
     wall_data,
     running_speed,
 )
 from item import Item
-from error import OutOfWorld, WallIsExist, CannotOpenWall
-
+from error import *
 
 class Character:
     def __init__(
@@ -39,7 +39,7 @@ class Character:
         self.initHp = initHp
         self.dropRate = dropRate
         self.power = power
-        self.hp = initHp
+        self.hp = 50 #test
         self.initHp=initHp
         self.img = f"assets/img/characters/{name}-0.png"
         self.running_time = 0
@@ -136,6 +136,8 @@ class Character:
     # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
         self.running_time += 1000 * running_speed
+        js.console.log(self.running_time)
+        
         self._move()
         
         
@@ -653,7 +655,6 @@ class Character:
             _show_modal("이동하려는 위치에 캐릭터가 있습니다.")
             raise Exception('CharacterIsExist')
         else:
-            js.alert('new error',error_type)
             _show_modal("새로운 오류")
             raise Exception('new error',error_type)
         
@@ -670,3 +671,30 @@ class Character:
             if c['character']==self.name:
                 return c[key]
         return None
+    
+    def eat(self, item_name):
+        self.running_time += 1000 * running_speed
+        if item_name not in _eatable_items.keys():
+            setTimeout(create_once_callable(lambda: self._alert_error('CannotEat')), self.running_time)
+            raise
+        
+        item_data = self._get_character_data('items')
+        if item_name not in item_data.keys():
+            js.console.log('no item')
+            setTimeout(create_once_callable(lambda: self._alert_error('NoItem')), self.running_time)
+            raise
+
+        print(f"{item_name}을(를) 먹었습니다.")
+        if item_data[item_name]==1:
+            del item_data[item_name]
+        else:
+            item_data[item_name]-=1
+        
+        item_hp = _eatable_items[item_name].get('hp',0)
+        item_power = _eatable_items[item_name].get('power',0)
+        if self.hp + item_hp > self.initHp:
+            self.hp = initHp
+        else: 
+            self.hp += item_hp
+        self._set_character_data("hp",self.hp)
+       

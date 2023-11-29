@@ -162,7 +162,7 @@ class Character:
         error_check=self._movable(x, y, nx, ny)
         if error_check:
             setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
-            raise 
+            raise OutOfWorld
         
         self.x = nx
         self.y = ny
@@ -361,7 +361,7 @@ class Character:
 
         else:
             setTimeout(create_once_callable(lambda: (self._alert_error('NoItem'))), self.running_time)
-            raise 
+            raise Exception('NoItem')
             
 
     def _pick_animation(self, x, y, item_count):
@@ -408,7 +408,7 @@ class Character:
 
             if bottom_item_name != item_name and find_item_from_character > 0:
                 setTimeout(create_once_callable(lambda: (self._alert_error('AnotherItemInBottom'))), self.running_time)
-                raise 
+                raise Exception('AnotherItemInBottom')
 
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
             elif find_item_from_character > 0 and bottom_item_name == item_name:

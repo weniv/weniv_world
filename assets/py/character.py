@@ -10,6 +10,7 @@ from coordinate import (
     item_data,
     _available_items,
     _eatable_items,
+    skills,
     blockingWallType,
     wall_data,
     running_speed,
@@ -29,6 +30,7 @@ class Character:
         initHp=100,
         dropRate=0.1,
         power=10,
+        initMp=100,
         rotate=0,
     ):
         self.x = x
@@ -40,8 +42,10 @@ class Character:
         self.initHp = initHp
         self.dropRate = dropRate
         self.power = power
-        self.hp = 50 #test
+        self.hp = initHp
         self.initHp=initHp
+        self.mp = initMp
+        self.initMp = initMp
         self.img = f"assets/img/characters/{name}-0.png"
         self.running_time = 0
         self.rotate = rotate
@@ -73,6 +77,7 @@ class Character:
                 c["items"] = {}
                 c["hp"]=self.hp
                 c["power"]=self.power
+                c["mp"]=self.mp
                 finder = True
         if not finder:
             character_data.append(
@@ -83,7 +88,8 @@ class Character:
                     "directions": self.directions,
                     "items": {},
                     "hp":f"{self.hp}",
-                    "power":f"{self.power}"
+                    "power":f"{self.power}",
+                    "mp":f"{self.mp}"
                 }
             )
         return character
@@ -298,16 +304,18 @@ class Character:
         for m in mob_data:
             if (m['x'],m['y'])==(nx,ny):
                 m_obj = m['mob_obj']
-                m['hp']-=self.power
                 mob_name = m['name']
-                
+                m['hp'] -= skills[skill]['power']
                 if(m['hp']<=0):
                     mob_data.remove(m)
                     break
+        
+        self.mp -= skills[skill]['mana']
+        self._set_character_data("mp",self.mp)
             
         setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny, skill))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        setTimeout(create_once_callable(lambda: self._attack_hp_animation(m_obj, mob_name)), self.running_time)
+        setTimeout(create_once_callable(lambda: self._attack_hp_animation(m_obj, mob_name, skill)), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
         
     def draw_attack(self, x, y, x2, y2, skill):
@@ -325,11 +333,11 @@ class Character:
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
 
 
-    def _attack_hp_animation(self, mob_obj, mob_name):
+    def _attack_hp_animation(self, mob_obj, mob_name, skill):
         if mob_name:
             mob = js.document.querySelector(f'#{mob_name}.mob')
         if mob_obj and mob:
-            mob_obj.hp -= self.power
+            mob_obj.hp -= skills[skill]["power"]
             # mob_obj.draw_hp()
             if(mob_obj.hp<=0):
                 setTimeout(create_once_callable(lambda: self._remove_mob(mob_obj,mob)), 1000)

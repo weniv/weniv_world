@@ -21,6 +21,12 @@ item_data = {}
 _available_items = ['fish-1','fish-2','fish-3','diamond','apple','goldbar']
 _eatable_items = {'fish-1':{'hp':10},'fish-2':{'hp':10},'fish-3':{'hp':10},'apple':{'power':10}}
 
+# 스킬 정보
+skills={
+    'claw-yellow':{'mana':10, 'power':10},
+    'claw-white':{'mana':10, 'power':10},
+    'beam':{'mana':5, 'power':5},
+    'explosion':{'mana':20, 'power':20}}
 # 맵 크기
 map_data = {"height": 5, "width": 5}
 

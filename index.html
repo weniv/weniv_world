@@ -1191,7 +1191,7 @@
                 raise OutOfWorld
 
             if character_exist(x, y) or mob_exist(x, y):
-                alert_error('ObstalceExist')
+                alert_error('ObstacleExist')
                 raise ObstacleExist
 
             elif name and mob_type:
@@ -1247,8 +1247,8 @@
                 raise OutOfWorld
             
             if character_exist(x, y) or mob_exist(x,y):
-                alert_error('ObstalceExist')
-                raise ObstalceExist
+                alert_error('ObstacleExist')
+                raise ObstacleExist
 
             # character는 중복 미허용
             for c in character_data:

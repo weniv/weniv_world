@@ -325,7 +325,7 @@
         width: 22rem;
         padding: 2rem 2rem 2.4rem;
         font-weight: 600;
-        z-index: 20;
+        z-index: 100;
     }
 
     .info-title {
@@ -380,7 +380,7 @@
 
 .attack {
     animation: attack-claw-white 0.5s steps(4) 2;
-    z-index: 999;
+    z-index: 50;
 }
 
 .map-container {

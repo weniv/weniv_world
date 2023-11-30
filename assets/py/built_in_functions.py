@@ -238,15 +238,15 @@ def back_is_clear(character=None):
         else:
             print("캐릭터가 없습니다.")
   
-def attack(character=None):
+def attack(skill='claw-yellow', character=None):
     global command_count
     command_count += 1
     
     if character != None:
-        character.attack()
+        character.attack(skill)
     else:
         if character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].attack()
+            character_data[0]["character_obj"].attack(skill)
         else:
             print("캐릭터가 없습니다.")
 

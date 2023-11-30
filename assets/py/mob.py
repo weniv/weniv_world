@@ -279,11 +279,11 @@ class Mob:
     def init_time(self):
         self.running_time = 0
         
-    def attack(self):
+    def attack(self, skill):
         self.running_time += 1000 * running_speed
-        self._attack()
+        self._attack(skill)
 
-    def _attack(self):
+    def _attack(self, skill):
         directions = self.directions
         x = self.x
         y = self.y
@@ -304,18 +304,20 @@ class Mob:
             raise OutOfWorld
 
         c_obj=None
+        ch_name=''
         for c in character_data:
             if (c['x'],c['y'])==(nx,ny):
                 c_obj = c['character_obj']
                 c['hp']-=self.power
+                ch_name = c['character']
+                
                 if(c['hp']<=0 and c['character'] != default_character):
-                    print('die')
                     character_data.remove(c)
                     break
             
         setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        setTimeout(create_once_callable(lambda: self._attack_hp_animation(c_obj, c['character'])), self.running_time)
+        setTimeout(create_once_callable(lambda: self._attack_hp_animation(c_obj, ch_name)), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
     
     def draw_attack(self, x, y, x2, y2, name="claw-yellow"):
@@ -333,14 +335,15 @@ class Mob:
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
 
 
-    def _attack_hp_animation(self,char_obj,char_name):
+    def _attack_hp_animation(self,char_obj,ch_name):
         global _character_data
-        char = js.document.querySelector(f'.{char_name}')
+        if ch_name:
+            char = js.document.querySelector(f'.{ch_name}')
         if char_obj and char:
             char_obj.hp -= self.power
             # char_obj.draw_hp()
             if char_obj.hp <= 0:
-                if char_name == default_character:
+                if ch_name == default_character:
                    life = js.confirm('기본 캐릭터의 체력이 0이 되었습니다. 캐릭터를 부활시키겠습니까?')
                    if life:
                        full_hp = character_data[0]['character_obj'].initHp

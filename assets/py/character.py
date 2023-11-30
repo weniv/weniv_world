@@ -269,11 +269,11 @@ class Character:
         elif directions == 3:
             c.style.backgroundImage = f'url("assets/img/characters/{self.name}-0.png")'
 
-    def attack(self):
+    def attack(self, skill):
         self.running_time += 1000 * running_speed
-        self._attack()
+        self._attack(skill)
         
-    def _attack(self):
+    def _attack(self, skill):
         x = self.x
         y = self.y
         directions = self.directions
@@ -294,20 +294,23 @@ class Character:
             raise OutOfWorld
             
         m_obj=None
+        mob_name=''
         for m in mob_data:
             if (m['x'],m['y'])==(nx,ny):
                 m_obj = m['mob_obj']
                 m['hp']-=self.power
+                mob_name = m['name']
+                
                 if(m['hp']<=0):
                     mob_data.remove(m)
                     break
             
-        setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny))), self.running_time)
+        setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny, skill))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        setTimeout(create_once_callable(lambda: self._attack_hp_animation(m_obj,m['name'])), self.running_time)
+        setTimeout(create_once_callable(lambda: self._attack_hp_animation(m_obj, mob_name)), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
         
-    def draw_attack(self, x, y, x2, y2, name="claw-yellow"):
+    def draw_attack(self, x, y, x2, y2, skill):
         attack = js.document.createElement("div")
         attack.className = "attack"
         attack.style.position = "absolute"
@@ -315,7 +318,7 @@ class Character:
         attack.style.height = "36px"
         attack.style.left = f"{y2 * 100 + 40}px"
         attack.style.top = f"{x2 * 100 + 40}px"
-        attack.style.backgroundImage = f'url("assets/img/weapon/{name}.png")'
+        attack.style.backgroundImage = f'url("assets/img/weapon/{skill}.png")'
         attack.style.backgroundRepeat = "no-repeat"
         map = js.document.querySelector(".map-container")
         map.appendChild(attack)
@@ -323,7 +326,8 @@ class Character:
 
 
     def _attack_hp_animation(self, mob_obj, mob_name):
-        mob = js.document.querySelector(f'#{mob_name}.mob')
+        if mob_name:
+            mob = js.document.querySelector(f'#{mob_name}.mob')
         if mob_obj and mob:
             mob_obj.hp -= self.power
             # mob_obj.draw_hp()

@@ -282,6 +282,11 @@ class Mob:
         
     def attack(self, skill='claw-yellow'):
         self.running_time += 1000 * running_speed
+        
+        if skill not in skills.keys():
+            alert_error('InvalidSkill')
+            raise InvalidSkill
+        
         self._attack(skill)
 
     def _attack(self, skill):

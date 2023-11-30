@@ -60,6 +60,7 @@ error_message = {'OutOfWorld': '맵을 벗어납니다.',
                  'CharacterIsExist': '해당 캐릭터는 이미 맵에 존재합니다.' ,
                  'ArgumentsError':'인수 값이 유효하지 않습니다.',
                  'NotEnoughMana':'마나가 부족합니다.',
+                 'InvalidSkill':'유효한 스킬이 아닙니다.'
                  }
 
 story_wall = {

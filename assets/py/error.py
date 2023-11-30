@@ -150,3 +150,12 @@ class NotEnoughMana(Exception):
     def __init__(self):
         print("error.NotEnoughMana: not enough mana" , type="error")
         super().__init__("not enough mana")
+        
+class InvalidSkill(Exception):
+    """
+    스킬이 아닌 다른 것을 사용하려고 할 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.InvalidSkill: Invalid skill", type="error")
+        super().__init__("Invalid skill")

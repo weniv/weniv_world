@@ -43,7 +43,24 @@ blockingWallType = ["wall", "fence"]  # 이동 불가한 벽 종류
 wall_type = "wall"  # 현재 선택되어 있는 벽 종류
 
 # 오류 정보
-error_message = {'OutOfWorld': '맵을 벗어납니다.', 'FrontIsNotClear': '캐릭터 이동 경로에 장애물이 있습니다.', 'CharacterIsNotExist': '캐릭터가 존재하지 않습니다.', 'CharacterIsNotSelected': '캐릭터가 선택되지 않았습니다.', 'CharacterIsNotMovable': '캐릭터가 이동 불가합니다.', 'CharacterIsNotAttackable': '캐릭터를 공격할 수 없습니다.', 'ItemIsNotExist': '아이템이 존재하지 않습니다.', 'AnotherItemIsExist': '다른 아이템이 존재합니다.', 'InvalidItem': '유효한 아이템이 아닙니다.', 'InedibleItem': '먹을 수 있는 아이템이 아닙니다.', 'WallIsExist': '벽이 존재합니다.', 'CannotOpenWall': '문(door)이 아닌 벽은 열 수 없습니다.', 'ObstacleExist': '다른 캐릭터 또는 몹이 존재합니다.', 'MobIsExist': '해당 이름을 갖는 몹이 이미 맵에 존재합니다.', 'CharacterIsExist': '해당 캐릭터는 이미 맵에 존재합니다.' , 'ArgumentsError':'인수 값이 유효하지 않습니다.'}
+error_message = {'OutOfWorld': '맵을 벗어납니다.',
+                 'FrontIsNotClear': '캐릭터 이동 경로에 장애물이 있습니다.',
+                 'CharacterIsNotExist': '캐릭터가 존재하지 않습니다.', 
+                 'CharacterIsNotSelected': '캐릭터가 선택되지 않았습니다.', 
+                 'CharacterIsNotMovable': '캐릭터가 이동 불가합니다.',
+                 'CharacterIsNotAttackable': '캐릭터를 공격할 수 없습니다.',
+                 'ItemIsNotExist': '아이템이 존재하지 않습니다.',
+                 'AnotherItemIsExist': '다른 아이템이 존재합니다.',
+                 'InvalidItem': '유효한 아이템이 아닙니다.',
+                 'InedibleItem': '먹을 수 있는 아이템이 아닙니다.',
+                 'WallIsExist': '벽이 존재합니다.',
+                 'CannotOpenWall': '문(door)이 아닌 벽은 열 수 없습니다.',
+                 'ObstacleExist': '다른 캐릭터 또는 몹이 존재합니다.', 
+                 'MobIsExist': '해당 이름을 갖는 몹이 이미 맵에 존재합니다.',
+                 'CharacterIsExist': '해당 캐릭터는 이미 맵에 존재합니다.' ,
+                 'ArgumentsError':'인수 값이 유효하지 않습니다.',
+                 'NotEnoughMana':'마나가 부족합니다.',
+                 }
 
 story_wall = {
     # 1번 스토리

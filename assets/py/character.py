@@ -283,7 +283,11 @@ class Character:
         x = self.x
         y = self.y
         directions = self.directions
-
+        
+        if skills[skill]['mana'] > self.mp:
+            alert_error('NotEnoughMana')
+            raise NotEnoughMana
+        
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         nx, ny = x, y
         if directions == 0:

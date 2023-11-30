@@ -142,4 +142,11 @@ def alert_error(error_type):
         raise Exception(error_type)
     _show_modal(error_message[error_type])
     
-  
+class NotEnoughMana(Exception):
+    """
+    마나가 부족한 경우에 발생하는 오류
+    """
+
+    def __init__(self):
+        print("error.NotEnoughMana: not enough mana" , type="error")
+        super().__init__("not enough mana")

@@ -151,8 +151,13 @@ class Mob:
             
         error_check = self._movable(x, y, nx, ny)
         if error_check:
-            setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
-            return None
+            setTimeout(create_once_callable(lambda: alert_error(error_check)), self.running_time)
+            if error_check == 'OutOfWorld':
+                raise OutOfWorld
+            elif error_check == 'WallIsExist':
+                raise WallIsExist
+            elif error_check == 'CannotMoveForward':
+                raise CannotMoveForward
         
         self.x = nx
         self.y = ny
@@ -199,16 +204,14 @@ class Mob:
                 self.draw_move_line(x, y, x + 1, y, directions)
  
     def _movable(self, x, y, nx, ny):
-        # 맵을 벗어나는지 확인
         if self._out_of_world(nx, ny):
             return 'OutOfWorld'
 
-        # 이동 경로에 벽이 있는지 확인
         if self._wall_exist(x, y, nx, ny):
             return 'WallIsExist'
         
         if self._character_exist(nx, ny):
-            return 'CharacterIsExist'
+            return 'CannotMoveForward'
 
     def _out_of_world(self, x, y):
         if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):

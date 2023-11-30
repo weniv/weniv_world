@@ -161,8 +161,13 @@ class Character:
 
         error_check=self._movable(x, y, nx, ny)
         if error_check:
-            setTimeout(create_once_callable(lambda: self._alert_error(error_check)), self.running_time)
-            raise OutOfWorld
+            setTimeout(create_once_callable(lambda: alert_error(error_check)), self.running_time)
+            if error_check == 'OutOfWorld':
+                raise OutOfWorld
+            elif error_check == 'WallIsExist':
+                raise WallIsExist
+            elif error_check == 'CannotMoveForward':
+                raise CannotMoveForward
         
         self.x = nx
         self.y = ny
@@ -197,7 +202,7 @@ class Character:
             return 'WallIsExist'
         
         if self._character_exist(nx, ny):
-            return 'CharacterIsExist'
+            return 'CannotMoveForward'
 
     def _out_of_world(self, x, y):
         if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
@@ -360,8 +365,8 @@ class Character:
             setTimeout(create_once_callable(lambda: (self._pick_animation(x, y ,item_count))), self.running_time)
 
         else:
-            setTimeout(create_once_callable(lambda: (self._alert_error('NoItem'))), self.running_time)
-            raise Exception('NoItem')
+            setTimeout(create_once_callable(lambda: alert('ItemIsNotExist')), self.running_time)
+            raise ItemIsNotExist
             
 
     def _pick_animation(self, x, y, item_count):
@@ -400,15 +405,15 @@ class Character:
                 setTimeout(create_once_callable(lambda: (self._put_animation(item, x,y,item_name,1))), self.running_time)
                 
             else:
-                setTimeout(create_once_callable(lambda: (self._alert_error('NoItem'))), self.running_time)
-                raise
+                setTimeout(create_once_callable(lambda: alert_error('ItemIsNotExist')), self.running_time)
+                raise ItemIsNotExist
         else:
             # 발 아래 아이템이 있다면
             bottom_item_name = item_data[(x, y)]["item"]
 
             if bottom_item_name != item_name and find_item_from_character > 0:
-                setTimeout(create_once_callable(lambda: (self._alert_error('AnotherItemInBottom'))), self.running_time)
-                raise Exception('AnotherItemInBottom')
+                setTimeout(create_once_callable(lambda: alert('AnotherItemIsExist')), self.running_time)
+                raise AnotherItemIsExist
 
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
             elif find_item_from_character > 0 and bottom_item_name == item_name:
@@ -563,8 +568,8 @@ class Character:
             setTimeout(create_once_callable(lambda: (self._open_door_animation(wall_pos))), self.running_time)
 
         elif self.typeof_wall() != "":
-            setTimeout(create_once_callable(lambda: self._alert_error('CannotOpenDoor')), self.running_time)
-            raise
+            setTimeout(create_once_callable(lambda: alert_error('CannotOpenWall')), self.running_time)
+            raise CannotOpenWall
             
 
     def _open_door_animation(self,wall_pos):
@@ -604,7 +609,7 @@ class Character:
     def _alert_error(self, error_type):
         if(error_type=='OutOfWorld'):
             _show_modal("맵을 벗어납니다.")
-            raise OutOfWorld
+            # raise OutOfWorld
         elif(error_type=='WallIsExist'):
             _show_modal("이런! 벽에 부딪혔습니다.")
             raise WallIsExist
@@ -641,14 +646,14 @@ class Character:
     def eat(self, item_name):
         self.running_time += 1000 * running_speed
         if item_name not in _eatable_items.keys():
-            setTimeout(create_once_callable(lambda: self._alert_error('CannotEat')), self.running_time)
-            raise
+            setTimeout(create_once_callable(lambda: alert_error('InedibleItem')), self.running_time)
+            raise InedibleItem
         
         item_data = self._get_character_data('items')
         if item_name not in item_data.keys():
             js.console.log('no item')
-            setTimeout(create_once_callable(lambda: self._alert_error('NoItem')), self.running_time)
-            raise
+            setTimeout(create_once_callable(lambda: alert_error('ItemIsNotExist')), self.running_time)
+            raise ItemIsNotExist
 
         print(f"{item_name}을(를) 먹었습니다.")
         if item_data[item_name]==1:

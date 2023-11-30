@@ -1,5 +1,4 @@
-from built_in_functions import print
-
+from built_in_functions import print, _show_modal
 
 class OutOfWorld(Exception):
     """
@@ -42,15 +41,43 @@ class CharacterIsNotAttackable(Exception):
         super().__init__("character is not attackable")
 
 
-class BottomIsClear(Exception):
+class ItemIsNotExist(Exception):
     """
-    물건 집을 때 바닥에 물건이 없을 때 출력하는 애러
+    아이템이 없을 때 발생하는 에러
     """
 
     def __init__(self):
-        print("error.BottomIsClear: bottom is clear", type="error")
-        super().__init__("bottom is clear")
+        print("error.ItemISNotExist: Item is not exist", type="error")
+        super().__init__("Item is not exist")
 
+
+class AnotherItemIsExist(Exception):
+    """
+    다른 아이템이 이미 있을 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.AnotherItemIsExist: Another item is exist", type="error")
+        super().__init__("Another item is exist")
+        
+class InvalidItem(Exception):
+    """
+    아이템이 아닌 다른 것을 사용하려고 할 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.InvalidItem: Invalid item", type="error")
+        super().__init__("Invalid item")
+        
+class InedibleItem(Exception):
+    """
+    먹을 수 없는 아이템을 먹을 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.InedibleItem: Inedible item", type="error")
+        super().__init__("Inedible item")
+        
 
 class WallIsExist(Exception):
     """
@@ -70,3 +97,36 @@ class CannotOpenWall(Exception):
         print("error.CannotOpenWall: you cannot open wall", type="error")
         super().__init__("cannot open wall")
 
+
+class CannotMoveForward(Exception):
+    """
+    이동 경로에 캐릭터 또는 몬스터가 있어 이동이 불가능한 경우에 발생하는 오류
+    """
+
+    def __init__(self):
+        print("error.CannotMoveForward: another character or monster is exist", type="error")
+        super().__init__("cannot move forward")
+        
+class MobIsExist(Exception):
+    """
+    몬스터 이름이 중복되는 경우에 발생하는 오류
+    """
+
+    def __init__(self):
+        print("error.MobIsExist: mob is aleready exist. use another name", type="error")
+        super().__init__("cannot move forward")
+    
+class CharacterIsExist(Exception):
+    """
+    캐릭터 이름이 중복되는 경우에 발생하는 오류
+    """
+
+    def __init__(self):
+        print("error.CharacterIsExist: character is already exist." , type="error")
+        super().__init__("cannot move forward")
+        
+
+def alert_error(error_type):
+    _show_modal(error_message[error_type])
+    
+error_message = {'OutOfWorld': '맵을 벗어납니다.', 'FrontIsNotClear': '캐릭터 이동 경로에 장애물이 있습니다.', 'CharacterIsNotExist': '캐릭터가 존재하지 않습니다.', 'CharacterIsNotSelected': '캐릭터가 선택되지 않았습니다.', 'CharacterIsNotMovable': '캐릭터가 이동 불가합니다.', 'CharacterIsNotAttackable': '캐릭터를 공격할 수 없습니다.', 'ItemIsNotExist': '아이템이 존재하지 않습니다.', 'AnotherItemIsExist': '다른 아이템이 존재합니다.', 'InvalidItem': '유효한 아이템이 아닙니다.', 'InedibleItem': '먹을 수 있는 아이템이 아닙니다.', 'WallIsExist': '벽이 존재합니다.', 'CannotOpenWall': '문(door)이 아닌 벽은 열 수 없습니다.', 'CannotMoveForward': '다른 캐릭터 또는 몹이 있어 이동이 불가합니다.', 'MobIsExist': '해당 이름을 갖는 몹이 이미 맵에 존재합니다.', 'CharacterIsExist': '해당 캐릭터는 이미 맵에 존재합니다.'}

@@ -137,7 +137,6 @@ class ArgumentsError(Exception):
         super().__init__("arguments is wrong")
         
 def alert_error(error_type):
-    js.console.log('alert error 호출됨')
     if error_type not in error_message.keys():
         _show_modal("알 수 없는 에러가 발생했습니다.")
         raise Exception(error_type)

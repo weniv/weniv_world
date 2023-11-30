@@ -1,5 +1,6 @@
-from built_in_functions import print
-
+from built_in_functions import print, _show_modal
+from coordinate import error_message
+import js
 
 class OutOfWorld(Exception):
     """
@@ -42,15 +43,43 @@ class CharacterIsNotAttackable(Exception):
         super().__init__("character is not attackable")
 
 
-class BottomIsClear(Exception):
+class ItemIsNotExist(Exception):
     """
-    물건 집을 때 바닥에 물건이 없을 때 출력하는 애러
+    아이템이 없을 때 발생하는 에러
     """
 
     def __init__(self):
-        print("error.BottomIsClear: bottom is clear", type="error")
-        super().__init__("bottom is clear")
+        print("error.ItemISNotExist: Item is not exist", type="error")
+        super().__init__("Item is not exist")
 
+
+class AnotherItemIsExist(Exception):
+    """
+    다른 아이템이 이미 있을 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.AnotherItemIsExist: Another item is exist", type="error")
+        super().__init__("Another item is exist")
+        
+class InvalidItem(Exception):
+    """
+    아이템이 아닌 다른 것을 사용하려고 할 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.InvalidItem: Invalid item", type="error")
+        super().__init__("Invalid item")
+        
+class InedibleItem(Exception):
+    """
+    먹을 수 없는 아이템을 먹을 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.InedibleItem: Inedible item", type="error")
+        super().__init__("Inedible item")
+        
 
 class WallIsExist(Exception):
     """
@@ -70,3 +99,48 @@ class CannotOpenWall(Exception):
         print("error.CannotOpenWall: you cannot open wall", type="error")
         super().__init__("cannot open wall")
 
+class ObstacleExist(Exception):
+    """
+    해당 위치에 장애물이 존재하는 경우
+    """
+
+    def __init__(self):
+        print("error.Obstacle Exist: another character or mob is exist", type="error")
+        super().__init__("cannot add")
+
+        
+class MobIsExist(Exception):
+    """
+    몬스터 이름이 중복되는 경우에 발생하는 오류
+    """
+
+    def __init__(self):
+        print("error.MobIsExist: mob is aleready exist. use another name", type="error")
+        super().__init__("cannot move forward")
+    
+class CharacterIsExist(Exception):
+    """
+    캐릭터 이름이 중복되는 경우에 발생하는 오류
+    """
+
+    def __init__(self):
+        print("error.CharacterIsExist: character is already exist." , type="error")
+        super().__init__("cannot move forward")
+        
+class ArgumentsError(Exception):
+    """
+    함수의 인자가 잘못된 경우에 발생하는 오류
+    """
+
+    def __init__(self):
+        print("error.ArgumentsError: arguments is x`wrong." , type="error")
+        super().__init__("arguments is wrong")
+        
+def alert_error(error_type):
+    js.console.log('alert error 호출됨')
+    if error_type not in error_message.keys():
+        _show_modal("알 수 없는 에러가 발생했습니다.")
+        raise Exception(error_type)
+    _show_modal(error_message[error_type])
+    
+  

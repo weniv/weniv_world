@@ -342,36 +342,18 @@ def eat(item, character=None):
             
 # utility function
 def _show_modal(message):
-    target = js.document.querySelector('.world-map')
-    toast = js.document.createElement("div")
-    toast.classList.add("toast")
-     
-    img = js.document.createElement("img")
-    img.setAttribute("src", "./assets/img/icon/icon-alert-circle.svg")
-    img.setAttribute("alt", "")
-    toast.appendChild(img)
+    toast = js.document.querySelector('.toast')
     
-    text = js.document.createElement('p')
-    text.classList.add('text')
+    text = toast.querySelector('.text')
     text.innerText = message
-    toast.appendChild(text)
+    toast.classList.add('show')
     
-    button = js.document.createElement('button')
-    button.classList.add('confirm')
-    button.innerText = '확인'
-    button.addEventListener('click', create_once_callable( lambda e:removeToast()))
-    toast.appendChild(button)   
-    # button에 가상요소 추가
+    button = toast.querySelector('.confirm')
+    button.addEventListener('click', create_once_callable( lambda e:hiddenToast()))
+    js.setTimeout(create_once_callable(lambda: (hiddenToast())), 2000)
     
-    target.appendChild(toast)
-    js.setTimeout(create_once_callable(lambda: (removeToast())), 2000)
-    
-def removeToast():
-    if js.document.querySelector('.toast') != None:
-        target = js.document.querySelector('.world-map')
-        toast = js.document.querySelector('.toast')
-        target.removeChild(toast)
-    
+def hiddenToast():
+    js.document.querySelector('.toast').classList.remove('show')
 
 def alert_error(error_type):
     # 순환참조로 인하여 built_in_functions에서 발생하는 오류는 따로 관리

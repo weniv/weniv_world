@@ -152,6 +152,9 @@ class Mob:
         error_check = self._movable(x, y, nx, ny)
         if error_check:
             setTimeout(create_once_callable(lambda: alert_error(error_check)), self.running_time)
+            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
+        
+            
             if error_check == 'OutOfWorld':
                 raise OutOfWorld
             elif error_check == 'WallIsExist':

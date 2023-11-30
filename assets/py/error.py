@@ -1,5 +1,7 @@
 from built_in_functions import print, _show_modal
 from coordinate import error_message
+import js
+
 class OutOfWorld(Exception):
     """
     밖으로 나갔을 때 출력하는 애러
@@ -131,10 +133,11 @@ class ArgumentsError(Exception):
     """
 
     def __init__(self):
-        print("error.ArgumentsError: arguments is wrong." , type="error")
+        print("error.ArgumentsError: arguments is x`wrong." , type="error")
         super().__init__("arguments is wrong")
         
 def alert_error(error_type):
+    js.console.log('alert error 호출됨')
     if error_type not in error_message.keys():
         _show_modal("알 수 없는 에러가 발생했습니다.")
         raise Exception(error_type)

@@ -1595,21 +1595,25 @@ button {
     scale: 0.7692;
     transform: translate(-63%, -113%); }
 
-.hp-container {
+.state-container {
   width: 6.4rem;
   height: 1rem;
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 50%;
-  transform: translate(-50%, -100%);
+  transform: translate(-50%, 100%);
   background-color: var(--ColorGrayLv2);
   border-radius: 3rem;
   overflow: hidden; }
-  .hp-container .hp {
+  .state-container .bar {
     height: 100%;
     background-color: var(--ColorError);
     transition: all 1s; }
-  .hp-container .hp-text {
+  .state-container.mp {
+    transform: translate(-50%, 250%); }
+    .state-container.mp .bar {
+      background-color: var(--ColorWallBlue); }
+  .state-container .text {
     position: absolute;
     top: 50%;
     left: 50%;

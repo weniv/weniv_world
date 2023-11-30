@@ -61,8 +61,10 @@ class Character:
         character.style.transition = f"all {running_speed}s"
         # character.style.width = f"{self.width}px"
         # character.style.height = f"{self.height}px"
-        # hp = self.draw_hp()
-        # character.appendChild(hp)
+        hp = self.draw_hp()
+        character.appendChild(hp)
+        mp = self.draw_mp()
+        character.appendChild(mp)
         # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
         character.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         character.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
@@ -98,24 +100,44 @@ class Character:
         hp_container = js.document.getElementById(f'hp-{self.name}')
         if not hp_container:
             hp_container = js.document.createElement("div")
-            hp_container.setAttribute('class','hp-container')
+            hp_container.setAttribute('class','state-container hp')
             hp_container.setAttribute('id',f'hp-{self.name}')
-        hp = hp_container.querySelector(".hp")
+        hp = hp_container.querySelector(".bar")
         if not hp:
             hp = js.document.createElement("div")
-            hp.setAttribute('class','hp')
+            hp.setAttribute('class','bar')
             hp_container.appendChild(hp)
         hp.style.width = f"{self.hp/self.initHp*100}%"
         
-        text = hp_container.querySelector('.hp-text')
+        text = hp_container.querySelector('.text')
         if not text:
             text = js.document.createElement('span')
-            text.setAttribute('class','hp-text')
+            text.setAttribute('class','text')
             hp_container.appendChild(text)
         text.innerText = f"{self.hp}/{self.initHp}"
         
         return hp_container      
+    
+    def draw_mp(self):
+        mp_container = js.document.getElementById(f'mp-{self.name}')
+        if not mp_container:
+            mp_container = js.document.createElement("div")
+            mp_container.setAttribute('class','state-container mp')
+            mp_container.setAttribute('id',f'mp-{self.name}')
+        mp = mp_container.querySelector(".bar")
+        if not mp:
+            mp = js.document.createElement("div")
+            mp.setAttribute('class','bar')
+            mp_container.appendChild(mp)
+        mp.style.width = f"{self.mp/self.initMp*100}%"
         
+        text = mp_container.querySelector('.text')
+        if not text:
+            text = js.document.createElement('span')
+            text.setAttribute('class','text')
+            mp_container.appendChild(text)
+        text.innerText = f"{self.mp}/{self.initMp}"
+        return mp_container
 
     def say(self, text="", speech_time=5000):
         """

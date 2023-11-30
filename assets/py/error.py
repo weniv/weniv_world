@@ -142,4 +142,20 @@ def alert_error(error_type):
         raise Exception(error_type)
     _show_modal(error_message[error_type])
     
-  
+class NotEnoughMana(Exception):
+    """
+    마나가 부족한 경우에 발생하는 오류
+    """
+
+    def __init__(self):
+        print("error.NotEnoughMana: not enough mana" , type="error")
+        super().__init__("not enough mana")
+        
+class InvalidSkill(Exception):
+    """
+    스킬이 아닌 다른 것을 사용하려고 할 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.InvalidSkill: Invalid skill", type="error")
+        super().__init__("Invalid skill")

@@ -325,7 +325,7 @@
         width: 22rem;
         padding: 2rem 2rem 2.4rem;
         font-weight: 600;
-        z-index: 20;
+        z-index: 100;
     }
 
     .info-title {
@@ -380,7 +380,7 @@
 
 .attack {
     animation: attack-claw-white 0.5s steps(4) 2;
-    z-index: 999;
+    z-index: 50;
 }
 
 .map-container {
@@ -623,24 +623,33 @@
     }
 }
 
-.hp-container {
+.state-container {
     width: 6.4rem;
     height: 1rem;
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 50%;
-    transform: translate(-50%, -100%);
+    transform: translate(-50%, 100%);
     background-color: var(--ColorGrayLv2);
     border-radius: 3rem;
     overflow: hidden;
 
-    .hp {
-        height: 100%;
-        background-color: var(--ColorError);
+    .bar {
+        height:100%;
+        background-color:var(--ColorError);
         transition: all 1s;
     }
+ 
 
-    .hp-text {
+    &.mp {
+        transform: translate(-50%, 250%);
+
+        .bar {
+            background-color: var(--ColorWallBlue);
+        }
+    }
+
+    .text {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -688,5 +697,6 @@
         padding: 1.1rem 2rem;
         border: 1px solid var(--ColorGrayLv2);
         border-radius: 1rem;
+        color:var(--ColorSurface);
     }
 }

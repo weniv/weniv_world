@@ -10,6 +10,7 @@ from coordinate import (
     item_data,
     _available_items,
     _eatable_items,
+    skills,
     blockingWallType,
     wall_data,
     running_speed,
@@ -29,6 +30,7 @@ class Character:
         initHp=100,
         dropRate=0.1,
         power=10,
+        initMp=100,
         rotate=0,
     ):
         self.x = x
@@ -40,8 +42,10 @@ class Character:
         self.initHp = initHp
         self.dropRate = dropRate
         self.power = power
-        self.hp = 50 #test
+        self.hp = initHp
         self.initHp=initHp
+        self.mp = initMp
+        self.initMp = initMp
         self.img = f"assets/img/characters/{name}-0.png"
         self.running_time = 0
         self.rotate = rotate
@@ -59,6 +63,8 @@ class Character:
         # character.style.height = f"{self.height}px"
         # hp = self.draw_hp()
         # character.appendChild(hp)
+        # mp = self.draw_mp()
+        # character.appendChild(mp)
         # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
         character.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         character.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
@@ -73,6 +79,7 @@ class Character:
                 c["items"] = {}
                 c["hp"]=self.hp
                 c["power"]=self.power
+                c["mp"]=self.mp
                 finder = True
         if not finder:
             character_data.append(
@@ -83,7 +90,8 @@ class Character:
                     "directions": self.directions,
                     "items": {},
                     "hp":f"{self.hp}",
-                    "power":f"{self.power}"
+                    "power":f"{self.power}",
+                    "mp":f"{self.mp}"
                 }
             )
         return character
@@ -92,24 +100,44 @@ class Character:
         hp_container = js.document.getElementById(f'hp-{self.name}')
         if not hp_container:
             hp_container = js.document.createElement("div")
-            hp_container.setAttribute('class','hp-container')
+            hp_container.setAttribute('class','state-container hp')
             hp_container.setAttribute('id',f'hp-{self.name}')
-        hp = hp_container.querySelector(".hp")
+        hp = hp_container.querySelector(".bar")
         if not hp:
             hp = js.document.createElement("div")
-            hp.setAttribute('class','hp')
+            hp.setAttribute('class','bar')
             hp_container.appendChild(hp)
         hp.style.width = f"{self.hp/self.initHp*100}%"
         
-        text = hp_container.querySelector('.hp-text')
+        text = hp_container.querySelector('.text')
         if not text:
             text = js.document.createElement('span')
-            text.setAttribute('class','hp-text')
+            text.setAttribute('class','text')
             hp_container.appendChild(text)
         text.innerText = f"{self.hp}/{self.initHp}"
         
         return hp_container      
+    
+    def draw_mp(self):
+        mp_container = js.document.getElementById(f'mp-{self.name}')
+        if not mp_container:
+            mp_container = js.document.createElement("div")
+            mp_container.setAttribute('class','state-container mp')
+            mp_container.setAttribute('id',f'mp-{self.name}')
+        mp = mp_container.querySelector(".bar")
+        if not mp:
+            mp = js.document.createElement("div")
+            mp.setAttribute('class','bar')
+            mp_container.appendChild(mp)
+        mp.style.width = f"{self.mp/self.initMp*100}%"
         
+        text = mp_container.querySelector('.text')
+        if not text:
+            text = js.document.createElement('span')
+            text.setAttribute('class','text')
+            mp_container.appendChild(text)
+        text.innerText = f"{self.mp}/{self.initMp}"
+        return mp_container
 
     def say(self, text="", speech_time=5000):
         """
@@ -269,14 +297,23 @@ class Character:
         elif directions == 3:
             c.style.backgroundImage = f'url("assets/img/characters/{self.name}-0.png")'
 
-    def attack(self):
+    def attack(self, skill='claw-yellow'):
         self.running_time += 1000 * running_speed
-        self._attack()
         
-    def _attack(self):
+        if skill not in skills.keys():
+            alert_error('InvalidSkill')
+            raise InvalidSkill
+        
+        self._attack(skill)
+        
+    def _attack(self, skill):
         x = self.x
         y = self.y
         directions = self.directions
+        
+        if skills[skill]['mana'] > self.mp:
+            alert_error('NotEnoughMana')
+            raise NotEnoughMana
 
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         nx, ny = x, y
@@ -294,20 +331,25 @@ class Character:
             raise OutOfWorld
             
         m_obj=None
+        mob_name=''
         for m in mob_data:
             if (m['x'],m['y'])==(nx,ny):
                 m_obj = m['mob_obj']
-                m['hp']-=self.power
+                mob_name = m['name']
+                m['hp'] -= skills[skill]['power']
                 if(m['hp']<=0):
                     mob_data.remove(m)
                     break
+        
+        self.mp -= skills[skill]['mana']
+        self._set_character_data("mp",self.mp)
             
-        setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny))), self.running_time)
+        setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny, skill))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        setTimeout(create_once_callable(lambda: self._attack_hp_animation(m_obj,m['name'])), self.running_time)
+        setTimeout(create_once_callable(lambda: self._attack_hp_animation(m_obj, mob_name, skill)), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
         
-    def draw_attack(self, x, y, x2, y2, name="claw-yellow"):
+    def draw_attack(self, x, y, x2, y2, skill):
         attack = js.document.createElement("div")
         attack.className = "attack"
         attack.style.position = "absolute"
@@ -315,17 +357,18 @@ class Character:
         attack.style.height = "36px"
         attack.style.left = f"{y2 * 100 + 40}px"
         attack.style.top = f"{x2 * 100 + 40}px"
-        attack.style.backgroundImage = f'url("assets/img/weapon/{name}.png")'
+        attack.style.backgroundImage = f'url("assets/img/weapon/{skill}.png")'
         attack.style.backgroundRepeat = "no-repeat"
         map = js.document.querySelector(".map-container")
         map.appendChild(attack)
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
 
 
-    def _attack_hp_animation(self, mob_obj, mob_name):
-        mob = js.document.querySelector(f'#{mob_name}.mob')
+    def _attack_hp_animation(self, mob_obj, mob_name, skill):
+        if mob_name:
+            mob = js.document.querySelector(f'#{mob_name}.mob')
         if mob_obj and mob:
-            mob_obj.hp -= self.power
+            mob_obj.hp -= skills[skill]["power"]
             # mob_obj.draw_hp()
             if(mob_obj.hp<=0):
                 setTimeout(create_once_callable(lambda: self._remove_mob(mob_obj,mob)), 1000)

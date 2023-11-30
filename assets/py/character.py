@@ -287,7 +287,7 @@ class Character:
             nx = x + 1
             
         if not 0<=nx<map_data["height"] or not 0<=ny<map_data["width"]:
-            _show_modal("공격이 맵을 벗어납니다.")
+            alert_error('OutOfWorld')
             raise OutOfWorld
             
         m_obj=None

@@ -1,7 +1,7 @@
 import js
 
 from pyodide.ffi import create_once_callable
-from coordinate import character_data, map_data,running_speed, mob_data, item_data, _available_items
+from coordinate import character_data, map_data,running_speed, mob_data, item_data, _available_items, error_message
 from item import Item
 
 command_count = 0 # 명령어 줄 수
@@ -107,19 +107,19 @@ def item(character=None):
 
 def set_item(x, y, name, count=1, description={}, character=None):
     if not (isinstance(x, int) and isinstance(y, int)):
-        _show_modal("좌표는 정수로 입력해야 합니다.")
-        print(f"{x}, {y} error.TypeError: Position must be integer", type="error")
-        return None
+        alert_error('ArgumentsError')
+        print("error.ArgumentsError: arguments is wrong." , type="error")
+        raise Exception('ArgumentsError')
 
     if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
-        _show_modal("월드를 벗어나서 아이템을 추가할 수 없습니다.")
+        alert_error('OutOfWorld')
         print("error.OutOfWorld: out of world", type="error")
-        return None
+        raise Exception('OutOfWorld')
     
     if name not in _available_items:
-        _show_modal("존재하지 않는 아이템입니다.")
-        print("error.ItemIsNotExist: item is not exist", type="error")
-        return None
+        alert_error('InvalidItem')
+        print("error.InvalidItem: Invalid item", type="error")
+        raise Exception('InvalidItem')
 
     item = Item(x, y, name, count, description)
     item.draw()
@@ -372,3 +372,10 @@ def removeToast():
         toast = js.document.querySelector('.toast')
         target.removeChild(toast)
     
+
+def alert_error(error_type):
+    # 순환참조로 인하여 built_in_functions에서 발생하는 오류는 따로 관리
+    if error_type not in error_message.keys():
+        _show_modal("알 수 없는 에러가 발생했습니다.")
+    else:
+        _show_modal(error_message[error_type])

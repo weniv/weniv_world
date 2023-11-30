@@ -1,5 +1,5 @@
 from built_in_functions import print, _show_modal
-
+from coordinate import error_message
 class OutOfWorld(Exception):
     """
     밖으로 나갔을 때 출력하는 애러
@@ -125,12 +125,19 @@ class CharacterIsExist(Exception):
         print("error.CharacterIsExist: character is already exist." , type="error")
         super().__init__("cannot move forward")
         
+class ArgumentsError(Exception):
+    """
+    함수의 인자가 잘못된 경우에 발생하는 오류
+    """
 
+    def __init__(self):
+        print("error.ArgumentsError: arguments is wrong." , type="error")
+        super().__init__("arguments is wrong")
+        
 def alert_error(error_type):
     if error_type not in error_message.keys():
         _show_modal("알 수 없는 에러가 발생했습니다.")
         raise Exception(error_type)
     _show_modal(error_message[error_type])
     
-    
-error_message = {'OutOfWorld': '맵을 벗어납니다.', 'FrontIsNotClear': '캐릭터 이동 경로에 장애물이 있습니다.', 'CharacterIsNotExist': '캐릭터가 존재하지 않습니다.', 'CharacterIsNotSelected': '캐릭터가 선택되지 않았습니다.', 'CharacterIsNotMovable': '캐릭터가 이동 불가합니다.', 'CharacterIsNotAttackable': '캐릭터를 공격할 수 없습니다.', 'ItemIsNotExist': '아이템이 존재하지 않습니다.', 'AnotherItemIsExist': '다른 아이템이 존재합니다.', 'InvalidItem': '유효한 아이템이 아닙니다.', 'InedibleItem': '먹을 수 있는 아이템이 아닙니다.', 'WallIsExist': '벽이 존재합니다.', 'CannotOpenWall': '문(door)이 아닌 벽은 열 수 없습니다.', 'ObstacleExist': '다른 캐릭터 또는 몹이 존재합니다.', 'MobIsExist': '해당 이름을 갖는 몹이 이미 맵에 존재합니다.', 'CharacterIsExist': '해당 캐릭터는 이미 맵에 존재합니다.'}
+  

@@ -9,6 +9,7 @@ from coordinate import (
     mob_data,
     map_data,
     item_data,
+    skills,
     blockingWallType,
     wall_data,
     running_speed,
@@ -279,7 +280,7 @@ class Mob:
     def init_time(self):
         self.running_time = 0
         
-    def attack(self, skill):
+    def attack(self, skill='claw-yellow'):
         self.running_time += 1000 * running_speed
         self._attack(skill)
 
@@ -287,7 +288,7 @@ class Mob:
         directions = self.directions
         x = self.x
         y = self.y
-
+        
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         nx , ny = x , y
         if directions == 0:
@@ -308,19 +309,19 @@ class Mob:
         for c in character_data:
             if (c['x'],c['y'])==(nx,ny):
                 c_obj = c['character_obj']
-                c['hp']-=self.power
+                c['hp']-=skills[skill]['power']
                 ch_name = c['character']
                 
                 if(c['hp']<=0 and c['character'] != default_character):
                     character_data.remove(c)
                     break
             
-        setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny))), self.running_time)
+        setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny,skill))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        setTimeout(create_once_callable(lambda: self._attack_hp_animation(c_obj, ch_name)), self.running_time)
+        setTimeout(create_once_callable(lambda: self._attack_hp_animation(c_obj, ch_name,skill)), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
     
-    def draw_attack(self, x, y, x2, y2, name="claw-yellow"):
+    def draw_attack(self, x, y, x2, y2, skill):
         attack = js.document.createElement("div")
         attack.className = "attack"
         attack.style.position = "absolute"
@@ -328,19 +329,19 @@ class Mob:
         attack.style.height = "36px"
         attack.style.left = f"{y2 * 100 + 40}px"
         attack.style.top = f"{x2 * 100 + 40}px"
-        attack.style.backgroundImage = f'url("assets/img/weapon/{name}.png")'
+        attack.style.backgroundImage = f'url("assets/img/weapon/{skill}.png")'
         attack.style.backgroundRepeat = "no-repeat"
         map = js.document.querySelector(".map-container")
         map.appendChild(attack)
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
 
 
-    def _attack_hp_animation(self,char_obj,ch_name):
+    def _attack_hp_animation(self,char_obj,ch_name,skill):
         global _character_data
         if ch_name:
             char = js.document.querySelector(f'.{ch_name}')
         if char_obj and char:
-            char_obj.hp -= self.power
+            char_obj.hp -= skills[skill]['power']
             # char_obj.draw_hp()
             if char_obj.hp <= 0:
                 if ch_name == default_character:

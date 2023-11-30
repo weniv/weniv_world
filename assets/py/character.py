@@ -275,7 +275,7 @@ class Character:
         elif directions == 3:
             c.style.backgroundImage = f'url("assets/img/characters/{self.name}-0.png")'
 
-    def attack(self, skill):
+    def attack(self, skill='claw-yellow'):
         self.running_time += 1000 * running_speed
         self._attack(skill)
         
@@ -287,7 +287,7 @@ class Character:
         if skills[skill]['mana'] > self.mp:
             alert_error('NotEnoughMana')
             raise NotEnoughMana
-        
+
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         nx, ny = x, y
         if directions == 0:

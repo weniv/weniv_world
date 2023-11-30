@@ -156,8 +156,8 @@ class Mob:
                 raise OutOfWorld
             elif error_check == 'WallIsExist':
                 raise WallIsExist
-            elif error_check == 'CannotMoveForward':
-                raise CannotMoveForward
+            elif error_check == 'ObstacleExist':
+                raise ObstacleExist
         
         self.x = nx
         self.y = ny
@@ -210,8 +210,8 @@ class Mob:
         if self._wall_exist(x, y, nx, ny):
             return 'WallIsExist'
         
-        if self._character_exist(nx, ny):
-            return 'CannotMoveForward'
+        if self._obstacle_exist(nx, ny):
+            return 'ObstacleExist'
 
     def _out_of_world(self, x, y):
         if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
@@ -227,7 +227,7 @@ class Mob:
             return True
         return False
     
-    def _character_exist(self, nx, ny):
+    def _obstacle_exist(self, nx, ny):
         global character_data
         global mob_data
         
@@ -297,7 +297,7 @@ class Mob:
             nx = x + 1
         
         if not 0<=nx<map_data["height"] or not 0<=ny<map_data["width"]:
-            js.alert('공격이 맵을 벗어납니다.')
+            alert_error('OutOfWorld')
             raise OutOfWorld
 
         c_obj=None
@@ -386,29 +386,6 @@ class Mob:
 
         js.document.querySelector(".map-container").appendChild(line)
 
-    def _alert_error(self, error_type):
-        if(error_type=='OutOfWorld'):
-            js.alert("맵을 벗어납니다.")
-            raise OutOfWorld
-        elif(error_type=='WallIsExist'):
-            js.alert("이런! 벽에 부딪혔습니다.")
-            raise WallIsExist
-        elif (error_type=='CannotOpenDoor'):
-            js.alert('문이 아닌 벽은 열 수 없습니다.')
-            raise CannotOpenWall   
-        elif(error_type=='NoItem'):
-            js.alert('아이템이 없습니다.')
-            raise Exception('NoItem')
-        elif(error_type=='AnotherItemInBottom'):
-            js.alert('다른 아이템이 있습니다.')
-            raise Exception('AnotherItemInBottom')
-        elif(error_type=='CharacterIsExist'):
-            js.alert('다른 캐릭터 또는 몬스터가 있습니다.')
-            raise Exception('CharacterIsExist')
-        else:
-            js.alert('new error',error_type)
-            raise Exception('new error',error_type)
-    
     def _update_mob_data(self, key, value):
         global mob_data
         for m in mob_data:

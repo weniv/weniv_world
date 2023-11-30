@@ -166,8 +166,8 @@ class Character:
                 raise OutOfWorld
             elif error_check == 'WallIsExist':
                 raise WallIsExist
-            elif error_check == 'CannotMoveForward':
-                raise CannotMoveForward
+            elif error_check == 'ObstacleExist':
+                raise ObstacleExist
         
         self.x = nx
         self.y = ny
@@ -201,8 +201,8 @@ class Character:
         if self._wall_exist(x, y, nx, ny):
             return 'WallIsExist'
         
-        if self._character_exist(nx, ny):
-            return 'CannotMoveForward'
+        if self._obstacle_exist(nx, ny):
+            return 'ObstacleExist'
 
     def _out_of_world(self, x, y):
         if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
@@ -218,7 +218,7 @@ class Character:
             return True
         return False
     
-    def _character_exist(self, nx, ny):
+    def _obstacle_exist(self, nx, ny):
         global character_data
         global mob_data
         
@@ -365,7 +365,7 @@ class Character:
             setTimeout(create_once_callable(lambda: (self._pick_animation(x, y ,item_count))), self.running_time)
 
         else:
-            setTimeout(create_once_callable(lambda: alert('ItemIsNotExist')), self.running_time)
+            setTimeout(create_once_callable(lambda: alert_error('ItemIsNotExist')), self.running_time)
             raise ItemIsNotExist
             
 
@@ -412,7 +412,7 @@ class Character:
             bottom_item_name = item_data[(x, y)]["item"]
 
             if bottom_item_name != item_name and find_item_from_character > 0:
-                setTimeout(create_once_callable(lambda: alert('AnotherItemIsExist')), self.running_time)
+                setTimeout(create_once_callable(lambda: alert_error('AnotherItemIsExist')), self.running_time)
                 raise AnotherItemIsExist
 
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
@@ -605,29 +605,6 @@ class Character:
         js.document.querySelector(
             f'.wall[data-x="{pos[0]}"][data-y="{pos[1]}"]'
         ).dataset.type = type
-        
-    def _alert_error(self, error_type):
-        if(error_type=='OutOfWorld'):
-            _show_modal("맵을 벗어납니다.")
-            # raise OutOfWorld
-        elif(error_type=='WallIsExist'):
-            _show_modal("이런! 벽에 부딪혔습니다.")
-            raise WallIsExist
-        elif (error_type=='CannotOpenDoor'):
-            _show_modal("문이 아닌 벽은 열 수 없습니다.")
-            raise CannotOpenWall   
-        elif(error_type=='NoItem'):
-            _show_modal("아이템이 없습니다.")
-            raise Exception('NoItem')
-        elif(error_type=='AnotherItemInBottom'):
-            _show_modal("다른 아이템이 있습니다.")
-            raise Exception('AnotherItemInBottom')
-        elif(error_type=='CharacterIsExist'):
-            _show_modal("이동하려는 위치에 캐릭터가 있습니다.")
-            raise Exception('CharacterIsExist')
-        else:
-            _show_modal("새로운 오류")
-            raise Exception('new error',error_type)
         
     def _set_character_data(self, key, value):
         global character_data

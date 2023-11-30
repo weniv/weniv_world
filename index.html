@@ -1182,19 +1182,18 @@
             global mob_data
 
             if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
-                js.alert("맵을 벗어납니다.")
+                alert_error('OutOfWorld')
                 raise OutOfWorld
 
             if character_exist(x, y) or mob_exist(x, y):
-                js.alert('다른 캐릭터 또는 몬스터가 있습니다.')
-                raise Exception('CharacterIsExist')
+                alert_error('ObstalceExist')
+                raise ObstacleExist
 
             elif name and mob_type:
                 for m in mob_data:
                     if m['name'] == name:
-                        _show_modal('이미 존재하는 이름입니다.')
-                        raise Exception('MobIsExist')
-                        return None
+                        alert_error('MobIsExist')
+                        raise MobIsExist
                         
                 if mob_type == 'lion':
                     lion = Mob(x=x, y=y, mob='lion', name = name, width=32, height=40, initHp = 250, power=50)
@@ -1239,19 +1238,18 @@
             global character_data
             
             if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
-                js.alert('맵을 벗어납니다.')
+                alert_error('OutOfWorld')
                 raise OutOfWorld
             
             if character_exist(x, y) or mob_exist(x,y):
-                js.alert('다른 캐릭터 또는 몬스터가 있습니다.')
-                raise Exception('CharacterIsExist')
-            
+                alert_error('ObstalceExist')
+                raise ObstalceExist
+
             # character는 중복 미허용
             for c in character_data:
                 if c['character'] == name:
-                    js.alert('이미 존재하는 캐릭터입니다.')
-                    raise Exception('CharacterIsExist')
-                    return None
+                    alert_error('CharacterIsExist')
+                    raise CharacterIsExist
                     
             char = Character(x=x, y=y, name=name, width=32, height=40)
             character_data.append(

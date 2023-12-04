@@ -1267,9 +1267,11 @@ button {
     background: var(--ColorBackground) url("../../assets/img/item/fish-1.png") no-repeat center/3rem auto;
     box-sizing: border-box;
     cursor: pointer; }
-  .select-items label.active {
+  .select-items label.select {
     border: 2px solid var(--ColorPrimary);
     background-color: var(--ColorActivation) !important; }
+  .select-items label.active {
+    outline: 2px solid red; }
   .select-items input:checked,
   .select-items label:hover {
     outline: 2px solid var(--ColorPrimary);

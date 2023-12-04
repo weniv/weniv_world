@@ -1002,32 +1002,36 @@
 
         @when("click", selector="input[name='item']")
         def change_item_select(evt):
-            if(item_select['status'] and evt.target.id == item_select['name']):
-                # 선택 취소
+            if item_select['status'] and evt.target.id == item_select['name']:
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
-                label.classList.remove('active')
+                label.classList.remove('select')
 
                 item_select['status'] = False
                 js.document.querySelector('.wall-container').style.pointerEvents=''
 
                 item_select['name'] = ''
                 js.document.querySelector('.world-map').style.cursor='auto'
-            else:
+            elif item_select['status'] and evt.target.id != item_select['name']:
                 # 이전 선택 스타일 취소
                 if(item_select['name']):
                     label = js.document.querySelector(f"label[for='{item_select['name']}']")
-                    label.classList.remove('active')
-
-
-                item_select['status'] = True
+                    label.classList.remove('select')
+                    
                 js.document.querySelector('.wall-container').style.pointerEvents='none'
 
                 item_select['name'] = evt.target.id
                 js.document.querySelector('.world-map').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
 
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
-                label.classList.add('active')
+                label.classList.add('select')
+            else: 
+                item_select['status'] = True
+                item_select['name'] = evt.target.id
+                js.document.querySelector('.wall-container').style.pointerEvents='none'
+                js.document.querySelector('.world-map').style.cursor=f"url(assets/img/item/{evt.target.id}.png), auto"
 
+                label = js.document.querySelector(f"label[for='{evt.target.id}']")
+                label.classList.add('select')
 
         @when("click",selector=".map-item")
         def map_item_add(evt):
@@ -1104,7 +1108,7 @@
                 evt.preventDefault()
                 # active된 label이 있으면 active 해제
                 label = js.document.querySelector(f"label[for='{item_select['name']}']")
-                label.classList.remove('active')
+                label.classList.remove('select')
 
                 item_select['status']=False
                 item_select['name']=''
@@ -1278,6 +1282,15 @@
             draw_map.appendChild(draw_ch)
             return char
         
+
+        @when("click", selector=".btn-assets")
+        def item_active(evt=None):
+            if 'active' not in evt.currentTarget.classList:
+                if item_select['status']:
+                    label = js.document.querySelector(f"label[for={item_select['name']}]")
+                    label.classList.add('select')
+
+                
     </py-script>
     <script>
     const dateFormat = ()=>{

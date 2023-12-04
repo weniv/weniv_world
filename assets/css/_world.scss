@@ -222,9 +222,12 @@
         box-sizing: border-box;
         cursor: pointer;
     }
-    label.active {
+    label.select {
         border: 2px solid var(--ColorPrimary);
         background-color: var(--ColorActivation) !important;
+    }
+    label.active {
+        outline: 2px solid red;
     }
 
     input:checked,
@@ -635,11 +638,10 @@
     overflow: hidden;
 
     .bar {
-        height:100%;
-        background-color:var(--ColorError);
+        height: 100%;
+        background-color: var(--ColorError);
         transition: all 1s;
     }
- 
 
     &.mp {
         transform: translate(-50%, 250%);
@@ -663,7 +665,7 @@
 }
 
 .toast {
-    display:none;
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
@@ -687,7 +689,6 @@
 
     &.show {
         display: flex;
-
     }
 
     p.text {
@@ -697,6 +698,6 @@
         padding: 1.1rem 2rem;
         border: 1px solid var(--ColorGrayLv2);
         border-radius: 1rem;
-        color:var(--ColorSurface);
+        color: var(--ColorSurface);
     }
 }

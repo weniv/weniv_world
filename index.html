@@ -946,18 +946,23 @@
             posY= float(evt.target.dataset.y)
             currentType = evt.target.dataset.type
 
-            # 벽 추가: type이 없는 항목에서만 동작
+            # 벽 변경: type이 없는 항목에서만 동작
             if(wall_type != 'delete'):
-                if not currentType:
+                if not currentType: # data-type==''
                     wall_data['world'][(posX, posY)]=wall_type
+                    wall_data['world']=dict(sorted(wall_data['world'].items(), key=lambda x: (x[0][0], x[0][1])))
                     evt.target.dataset.type = wall_type
+                    wall.wall_data = wall_data['world']
 
             # 벽 삭제: type이 있는 항목에서만 동작
             else:
-                if currentType:
-                    wall_data['world'][(posX, posY)] = ''
+                if currentType != '':
+                    del wall_data['world'][(posX, posY)]
+                    wall.wall_data = wall_data['world']
+                    # wall_data['world'][(posX, posY)] = ''
                     evt.target.dataset.type = ''
                     evt.target.style.outline = ''
+
 
         @when('mouseover', selector='.wall')
         def wall_mouse_activation(evt):

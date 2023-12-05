@@ -605,7 +605,7 @@ class Character:
         if (posX, posY) not in wall_data["world"].keys():
             return False
 
-        if wall_data["world"][(posX, posY)]:
+        if wall_data["world"].get((posX, posY),None):
             return False
         return True
 
@@ -623,7 +623,8 @@ class Character:
         wall_pos = self._front_wall()
         if self.typeof_wall() == "door":
             
-            self._set_wall_data(wall_pos, "")
+            # self._set_wall_data(wall_pos, "")
+            del wall_data['world'][wall_pos]
             setTimeout(create_once_callable(lambda: (self._open_door_animation(wall_pos))), self.running_time)
             setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
             
@@ -642,7 +643,8 @@ class Character:
         global wall_data
 
         pos = self._front_wall()
-        if pos not in wall_data['world'].keys():
+        if not 0<=pos[0]<map_data["height"] or not 0<=pos[1]<map_data["width"]:
+        # if pos not in wall_data['world'].keys():
             return 'OutOfWorld'
             
         return wall_data["world"][pos]
@@ -661,8 +663,8 @@ class Character:
 
         return (posX, posY)
 
-    def _set_wall_data(self, pos, type):
-        wall_data["world"][pos] = type
+    # def _set_wall_data(self, pos, type):
+    #     wall_data["world"][pos] = type
 
     def _set_wall_screen(self, pos, type):
         js.document.querySelector(

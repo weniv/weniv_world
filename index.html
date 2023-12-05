@@ -1070,7 +1070,10 @@
                         }
 
                 item_select['status']=False
+                label = js.document.querySelector(f"label[for='{item_select['name']}']")
+                label.classList.remove('select')
                 item_select['name']=''
+
                 js.document.querySelector('.wall-container').style.pointerEvents=''
                 js.document.querySelector('.world-map').style.cursor='auto'
                 change_map()
@@ -1285,8 +1288,7 @@
 
         @when("click", selector=".btn-assets")
         def item_active(evt=None):
-            if 'active' not in evt.currentTarget.classList:
-                if item_select['status']:
+            if item_select['status'] and 'active' not in evt.currentTarget.classList:
                     label = js.document.querySelector(f"label[for={item_select['name']}]")
                     label.classList.add('select')
 

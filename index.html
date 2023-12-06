@@ -564,6 +564,9 @@
                 if not (0 <= c['x'] < map_data['height'] and 0 <= c['y'] < map_data['width']):
                     character_data.remove(c)
                 else:
+                    if not c['character_obj']:
+                        new_ch = Character(x=c['x'], y=c['y'], name=c['character'], width=32, height=40,rotate=c['directions'])
+                        c['character_obj'] = new_ch
                     draw_ch = c['character_obj'].draw()
                     draw_map.appendChild(draw_ch)
 
@@ -597,7 +600,6 @@
         wall = Wall()
         wall_container = wall.drawWall();
         wall_data['world'] = wall.wall_data
-
 
         # character 생성
         # TODO: 캐릭터 크기 수정
@@ -806,7 +808,8 @@
             character_info[0]['character_obj'] = None
             temp_wall_data = {}
             for key in wall_data['world'].keys():
-                temp_wall_data[f"{key[0]},{key[1]}"] = wall_data['world'][key]
+                # temp_wall_data[(key[0],key[1])] = wall_data['world'][key]
+                temp_wall_data[str(key)] = wall_data['world'][key]
             temp_item_data = {}
             for key in item_data.keys():
                 temp_item_data[str(key)] = item_data[key]
@@ -860,13 +863,11 @@
 
         def parsing_json(evt):
             json_data = json.loads(evt.target.result)
+            js.console.log(f"json_data: {json_data}")
             check_json_data(json_data)
 
             global character_data
             character_data = json_data["character_data"]
-
-            global item_data
-            item_data = json_data["item_data"]
 
             global map_data
             map_data = json_data["map_data"]
@@ -875,67 +876,34 @@
             temp_item_data = {}
 
             for key in json_data["wall_data"].keys():
-                temp_1,temp_2 = key.split(',')
-                temp_1 = float(temp_1)
-                temp_2 = float(temp_2)
-                temp_1 = int(temp_1) if float.is_integer(temp_1) else temp_1
-                temp_2 = int(temp_2) if float.is_integer(temp_2) else temp_2
-                temp_wall_data[(temp_1,temp_2)] = json_data["wall_data"][key]
+                temp_x,temp_y = key.strip('()').split(',')
+                temp_x = float(temp_x)
+                temp_y = float(temp_y)
 
+                temp_x = int(temp_x) if float.is_integer(temp_x) else temp_x
+                temp_y = int(temp_y) if float.is_integer(temp_y) else temp_y
+                temp_wall_data[(temp_x,temp_y)] = json_data["wall_data"][key]
+                
+                js.console.log(f"temp_wall_data: {temp_wall_data}")
+
+            global wall_data
+            wall_data = temp_wall_data
+            
             for key in json_data["item_data"].keys():
-                item_x,item_y = key.split(',')
-                tuple_item_pos = (int(item_x),int(item_y))
-                temp_item_data[tuple_item_pos] = json_data["item_data"][key]
-
-            global wall_container
-
-            map_slider_x.value = map_data['height']
-            map_slider_y.value = map_data['width']
-            map_slider_output_x.innerHTML = map_slider_x.value
-            map_slider_output_y.innerHTML = map_slider_y.value
-            map_exist = js.document.querySelector('.map-container')
-
-            if character_data[0]['character_obj'] is None:
-                licat = Character(x=0, y=0, name='licat', width=32, height=40,rotate=0)
-                character_data[0]['character_obj'] = licat
-            else:
-                licat = character_data[0]['character_obj']
-
-            draw_character = licat.draw()
-
-            if map_exist:
-                js.document.querySelector('.map-container').remove()
-                map = Map(map_data['height'], map_data['width'])
-                draw_map = map.drawMap()
-                draw_map.appendChild(draw_character)
-                app = js.document.querySelector("#app")
-                app.appendChild(draw_map)
-
-                wall.wall_data = temp_wall_data
-                wall_data['world'] = wall.wall_data
-                wall.resizeWall(map_data['width'], map_data['height'])
-                wall_container = wall.drawWall()
-
-                # map-item 이벤트 등록
-                for map_elem in draw_map.querySelectorAll('.map-item'):
-                    add_event_listener(map_elem, 'click', map_item_add)
-
-                # wall_container의 자식요소들에 이벤트 등록
-                for wall_elem in wall_container.querySelectorAll('.wall'):
-                    add_event_listener(wall_elem,'click',change_wall_type)
-                    add_event_listener(wall_elem,'mouseover',wall_mouse_activation)
-                    add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
-                    add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
-
-                draw_map.appendChild(wall_container)
-            # 아이템 추가
-            for key, value in temp_item_data.items():
-                x,y = key[0],key[1]
-                name = value['item']
-                count = value['count']
-                create_once_callable(set_item(x, y, name, count))
-
-            init_charcter(draw_character)
+                temp_x ,temp_y = key.strip('()').split(',')
+                temp_x = int(temp_x)
+                temp_y = int(temp_y)
+                temp_item_data[(temp_x,temp_y)] = json_data["item_data"][key]
+                
+                js.console.log(f"temp_x: {temp_x}({type(temp_x)}), temp_y: {temp_y}({type(temp_y)})")
+                js.console.log(f"temp_pos type: {type((temp_x,temp_y))}")
+                js.console.log(f"temp_item_data: {temp_item_data}")
+            
+            global item_data
+            item_data = temp_item_data
+            
+            change_map()
+            
 
         @when("click", selector=".wall")
         def change_wall_type(evt):

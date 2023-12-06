@@ -162,11 +162,8 @@ class Character:
         running_speed = speed
 
     
-    # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
         self.running_time += 1000 * running_speed
-        js.console.log(self.running_time)
-        
         self._move()
         
         
@@ -246,6 +243,7 @@ class Character:
         wall_y = float((y + ny) / 2)
         
         if wall_data['world'].get((wall_x, wall_y), None) in (blockingWallType+['door']):
+            print('wall exist',wall_x, wall_y)
             return True
         return False
     

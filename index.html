@@ -461,7 +461,7 @@
         from mob import Mob
         from item import Item
         from error import *
-        from coordinate import character_data, map_data, wall_data, item_data, running_speed, map_size, border_size, wall_type,story_wall, mob_data
+        from coordinate import map_data, map_size, border_size, running_speed, character_data, default_character, mob_data, item_data, wall_data, wall_type, story_wall, mob_info
         from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal, eat
         from pyscript import when
         from js import alert, setTimeout
@@ -469,6 +469,7 @@
         from pyodide.ffi.wrappers import add_event_listener
         import json
         import math
+        import copy
 
         # item select
         item_select = {
@@ -515,23 +516,27 @@
 
         def change_map(evt=None):
             global wall_data, item_data, draw_map, mob_data, character_data
-            
-            # 기본 캐릭터가 맵을 벗어나는 경우 변경 불가
             main_ch = character_data[0]
-            initX = map_data['height']
-            initY = map_data['width']
-            if main_ch['x'] > int(map_slider_x.value) - 1 or main_ch['y'] > int(map_slider_y.value) - 1:
-                js.alert(f"기본 캐릭터의 위치보다 작게 맵을 설정할 수 없습니다.")
-                map_slider_x.value = initX
-                map_slider_y.value = initY
-                map_slider_output_x.innerHTML = initX
-                map_slider_output_y.innerHTML = initY
-                return
-
-            map_data['height'] = int(map_slider_x.value)
-            map_data['width'] = int(map_slider_y.value)
-            map_slider_output_x.innerHTML = map_slider_x.value
-            map_slider_output_y.innerHTML = map_slider_y.value
+            
+            #슬라이더로 맵 크기 변경 
+            if evt: 
+                if main_ch['x'] > int(map_slider_x.value) - 1 or main_ch['y'] > int(map_slider_y.value) - 1:
+                    js.alert(f"기본 캐릭터의 위치보다 작게 맵을 설정할 수 없습니다.")
+                    map_slider_x.value = initX
+                    map_slider_y.value = initY
+                    map_slider_output_x.innerHTML = initX
+                    map_slider_output_y.innerHTML = initY
+                    return
+                map_data['height'] = int(map_slider_x.value)
+                map_data['width'] = int(map_slider_y.value)
+                map_slider_output_x.innerHTML = map_slider_x.value
+                map_slider_output_y.innerHTML = map_slider_y.value
+            else:
+                map_slider_output_x.innerHTML = map_data['height']
+                map_slider_x.value = map_data['height']
+                map_slider_output_y.innerHTML = map_data['width']
+                map_slider_y.value = map_data['width']
+                
             map_exist = js.document.querySelector('.map-container')
             # TODO: map object는 map_data에서 관리해야할 것으로 보임
             if map_exist:
@@ -564,22 +569,18 @@
                 if not (0 <= c['x'] < map_data['height'] and 0 <= c['y'] < map_data['width']):
                     character_data.remove(c)
                 else:
+                    new_ch = Character(x=c['x'], y=c['y'], name=c['character'], width=32, height=40,rotate=c['directions'])
+                    c['character_obj'] = new_ch
                     draw_ch = c['character_obj'].draw()
                     draw_map.appendChild(draw_ch)
 
             # 아이템 갱신
-            keys_to_remove = []  
-            for (x, y) in item_data.keys():
-                if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
-                    keys_to_remove.append((x, y))
-            for key in keys_to_remove:
-                del item_data[key]
-
-            for key, value in item_data.items():
-                x, y = key
-                name = value['item']
-                count = value['count']
-                set_item(x, y, name, count)
+            for i in copy.deepcopy(item_data).keys():
+                if not (0 <= i[0] < map_data['height'] and 0 <= i[1] < map_data['width']):
+                    del item_data[i]
+                else:
+                    new_item = Item(i[0], i[1], item_data[i]['item'], item_data[i]['count'])
+                    new_item.draw()
             
 
             # 몹 갱신
@@ -587,6 +588,8 @@
                 if not (0 <= m['x'] < map_data['height'] and 0 <= m['y'] < map_data['width']):
                     mob_data.remove(m)
                 else:
+                    new_mob = Mob(x=m['x'], y=m['y'],mob=m['mob'] ,name=m['name'], width=32, height=40,rotate=m['directions'], initHp=mob_info[m['mob']]['hp'])
+                    m['mob_obj'] = new_mob
                     draw_ch = m['mob_obj'].draw()
                     draw_map.appendChild(draw_ch)
 
@@ -597,7 +600,6 @@
         wall = Wall()
         wall_container = wall.drawWall();
         wall_data['world'] = wall.wall_data
-
 
         # character 생성
         # TODO: 캐릭터 크기 수정
@@ -802,19 +804,29 @@
             js.console.log('월드데이터 다운로드')
 
             # 월드데이터 다운로드
-            character_info = character_data.copy()
-            character_info[0]['character_obj'] = None
+            temp_character_data = character_data.copy()
+            for c in temp_character_data:
+                c['character_obj'] = None
+                
             temp_wall_data = {}
             for key in wall_data['world'].keys():
-                temp_wall_data[f"{key[0]},{key[1]}"] = wall_data['world'][key]
+                # temp_wall_data[(key[0],key[1])] = wall_data['world'][key]
+                temp_wall_data[str(key)] = wall_data['world'][key]
+            
             temp_item_data = {}
             for key in item_data.keys():
                 temp_item_data[str(key)] = item_data[key]
+            
+            temp_mob_data = mob_data.copy()
+            for m in temp_mob_data:
+                m['mob_obj'] = None
+                
             worlddata = {
-                "character_data": character_info,
+                "character_data": temp_character_data,
                 "item_data": temp_item_data,
                 "map_data": map_data,
-                "wall_data": temp_wall_data
+                "wall_data": temp_wall_data,
+                "mob_data": temp_mob_data
             }
 
             json_data = json.dumps(worlddata)
@@ -859,83 +871,53 @@
             add_event_listener(draw_character, 'click', show_character_info)
 
         def parsing_json(evt):
+            init()
             json_data = json.loads(evt.target.result)
             check_json_data(json_data)
 
             global character_data
-            character_data = json_data["character_data"]
-
-            global item_data
-            item_data = json_data["item_data"]
+            character_data.clear()
+            for c in json_data["character_data"]:
+                character_data.append(c)
 
             global map_data
             map_data = json_data["map_data"]
-
+            for key, value in json_data["map_data"].items():
+                map_data[key]=value
+                
             temp_wall_data = {}
             temp_item_data = {}
 
             for key in json_data["wall_data"].keys():
-                temp_1,temp_2 = key.split(',')
-                temp_1 = float(temp_1)
-                temp_2 = float(temp_2)
-                temp_1 = int(temp_1) if float.is_integer(temp_1) else temp_1
-                temp_2 = int(temp_2) if float.is_integer(temp_2) else temp_2
-                temp_wall_data[(temp_1,temp_2)] = json_data["wall_data"][key]
+                temp_x,temp_y = key.strip('()').split(',')
+                temp_x = float(temp_x)
+                temp_y = float(temp_y)
 
+                temp_x = int(temp_x) if float.is_integer(temp_x) else temp_x
+                temp_y = int(temp_y) if float.is_integer(temp_y) else temp_y
+                temp_wall_data[(temp_x,temp_y)] = json_data["wall_data"][key]
+                
+            global wall_data, wall
+            wall_data['world'] = temp_wall_data
+            wall.wall_data = temp_wall_data
+            
             for key in json_data["item_data"].keys():
-                item_x,item_y = key.split(',')
-                tuple_item_pos = (int(item_x),int(item_y))
-                temp_item_data[tuple_item_pos] = json_data["item_data"][key]
-
-            global wall_container
-
-            map_slider_x.value = map_data['height']
-            map_slider_y.value = map_data['width']
-            map_slider_output_x.innerHTML = map_slider_x.value
-            map_slider_output_y.innerHTML = map_slider_y.value
-            map_exist = js.document.querySelector('.map-container')
-
-            if character_data[0]['character_obj'] is None:
-                licat = Character(x=0, y=0, name='licat', width=32, height=40,rotate=0)
-                character_data[0]['character_obj'] = licat
-            else:
-                licat = character_data[0]['character_obj']
-
-            draw_character = licat.draw()
-
-            if map_exist:
-                js.document.querySelector('.map-container').remove()
-                map = Map(map_data['height'], map_data['width'])
-                draw_map = map.drawMap()
-                draw_map.appendChild(draw_character)
-                app = js.document.querySelector("#app")
-                app.appendChild(draw_map)
-
-                wall.wall_data = temp_wall_data
-                wall_data['world'] = wall.wall_data
-                wall.resizeWall(map_data['width'], map_data['height'])
-                wall_container = wall.drawWall()
-
-                # map-item 이벤트 등록
-                for map_elem in draw_map.querySelectorAll('.map-item'):
-                    add_event_listener(map_elem, 'click', map_item_add)
-
-                # wall_container의 자식요소들에 이벤트 등록
-                for wall_elem in wall_container.querySelectorAll('.wall'):
-                    add_event_listener(wall_elem,'click',change_wall_type)
-                    add_event_listener(wall_elem,'mouseover',wall_mouse_activation)
-                    add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
-                    add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
-
-                draw_map.appendChild(wall_container)
-            # 아이템 추가
-            for key, value in temp_item_data.items():
-                x,y = key[0],key[1]
-                name = value['item']
-                count = value['count']
-                create_once_callable(set_item(x, y, name, count))
-
-            init_charcter(draw_character)
+                temp_x ,temp_y = key.strip('()').split(',')
+                temp_x = int(temp_x)
+                temp_y = int(temp_y)
+                temp_item_data[(temp_x,temp_y)] = json_data["item_data"][key]
+            
+            global item_data
+            for i in temp_item_data:
+                item_data[i] = temp_item_data[i]
+                
+            global mob_data
+            mob_data.clear()
+            for m in json_data["mob_data"]:
+                mob_data.append(m)
+            
+            change_map()
+            
 
         @when("click", selector=".wall")
         def change_wall_type(evt):
@@ -946,18 +928,23 @@
             posY= float(evt.target.dataset.y)
             currentType = evt.target.dataset.type
 
-            # 벽 추가: type이 없는 항목에서만 동작
+            # 벽 변경: type이 없는 항목에서만 동작
             if(wall_type != 'delete'):
-                if not currentType:
+                if not currentType: # data-type==''
                     wall_data['world'][(posX, posY)]=wall_type
+                    wall_data['world']=dict(sorted(wall_data['world'].items(), key=lambda x: (x[0][0], x[0][1])))
                     evt.target.dataset.type = wall_type
+                    wall.wall_data = wall_data['world']
 
             # 벽 삭제: type이 있는 항목에서만 동작
             else:
-                if currentType:
-                    wall_data['world'][(posX, posY)] = ''
+                if currentType != '':
+                    del wall_data['world'][(posX, posY)]
+                    wall.wall_data = wall_data['world']
+                    # wall_data['world'][(posX, posY)] = ''
                     evt.target.dataset.type = ''
                     evt.target.style.outline = ''
+
 
         @when('mouseover', selector='.wall')
         def wall_mouse_activation(evt):
@@ -1063,11 +1050,15 @@
                     
                     if item_data.get((x,y),{}).get('item','')==item_select['name']:
                         item_data[(x,y)]['count'] += count
+                        new_item = Item(x, y, item_select['name'], count)
+                        new_item.draw()
                     else:
                         item_data[(x,y)] = {
                             'item': item_select['name'],
                             'count': count
                         }
+                        new_item = Item(x, y, item_select['name'], count)
+                        new_item.draw()
 
                 item_select['status']=False
                 label = js.document.querySelector(f"label[for='{item_select['name']}']")
@@ -1076,8 +1067,7 @@
 
                 js.document.querySelector('.wall-container').style.pointerEvents=''
                 js.document.querySelector('.world-map').style.cursor='auto'
-                change_map()
-
+                
         @when('mousemove', selector='.world-map')
         def show_tooltip(evt=None):
             if(item_select['status']):
@@ -1185,7 +1175,7 @@
             story_select['status'] = False
             init()
 
-        def add_mob(x=4, y=4, mob_type=None, name=None):
+        def add_mob(x, y, mob_type, name):
             '''
             몬스터를 추가하는 함수
             순환 참조로 인해 이 함수만 index.html에 있음
@@ -1197,7 +1187,15 @@
             add_mob('mob3', 2, 3)
             '''
             global mob_data
-
+            
+            # x와 y가 정수이고, mob_type이 mob_info에 포함되어 있으며, name의 값이 있을 때만 동작
+            # 위 조건으 충족하지 못하는 경우 오류를 발생하고 종료
+            # 즉, x가 정수가 아니거나 y가 정수가 아니거나, mob_type이 mob_info에 포함되지 않았거나, name이 입력되지 않았으면 오류 발생
+            
+            if int(x) != x or int(y) != y or mob_type not in mob_info.keys() or not name:
+                alert_error('InvalidSyntax')
+                raise InvalidSyntax
+            
             if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
                 alert_error('OutOfWorld')
                 raise OutOfWorld
@@ -1213,7 +1211,7 @@
                         raise MobIsExist
                         
                 if mob_type == 'lion':
-                    lion = Mob(x=x, y=y, mob='lion', name = name, width=32, height=40, initHp = 250, power=50)
+                    lion = Mob(x=x, y=y, mob='lion', name = name, width=32, height=40, initHp = 250)
                     mob_data.append(
                         {
                             'name': name,
@@ -1232,7 +1230,7 @@
                     return lion
                     
                 elif mob_type[:3] == 'mob':
-                    mob = Mob(x=x, y=y, mob=f'mob{mob_type[-1]}',name=name, width=32, height=40, initHp = 50, power=5)
+                    mob = Mob(x=x, y=y, mob=f'mob{mob_type[-1]}',name=name, width=32, height=40, initHp = 50)
                     mob_data.append(
                         {
                             'name': name,

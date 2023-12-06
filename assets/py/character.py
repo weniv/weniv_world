@@ -8,10 +8,10 @@ from coordinate import (
     mob_data,
     map_data,
     item_data,
-    _available_items,
-    _eatable_items,
+    valid_items,
+    edible_items,
     skills,
-    blockingWallType,
+    wall_blocked,
     wall_data,
     running_speed,
 )
@@ -162,11 +162,8 @@ class Character:
         running_speed = speed
 
     
-    # TODO: 경로를 dict에 저장해놓고, dict에 따라 keyframes animation을 만드는 작업 필요. 애니메이션이 한 번에 움직이기 때문.
     def move(self):
         self.running_time += 1000 * running_speed
-        js.console.log(self.running_time)
-        
         self._move()
         
         
@@ -245,7 +242,8 @@ class Character:
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
         
-        if wall_data['world'].get((wall_x, wall_y), None) in (blockingWallType+['door']):
+        if wall_data['world'].get((wall_x, wall_y), None) in (wall_blocked+['door']):
+            print('wall exist',wall_x, wall_y)
             return True
         return False
     
@@ -429,7 +427,7 @@ class Character:
     def put(self, item_name):
         self.running_time += 1000 * running_speed
         
-        if item_name not in _available_items:
+        if item_name not in valid_items:
             alert_error('InvalidItem')
             raise InvalidItem
         self._put(item_name)
@@ -605,7 +603,7 @@ class Character:
         if (posX, posY) not in wall_data["world"].keys():
             return False
 
-        if wall_data["world"][(posX, posY)]:
+        if wall_data["world"].get((posX, posY),None):
             return False
         return True
 
@@ -623,7 +621,8 @@ class Character:
         wall_pos = self._front_wall()
         if self.typeof_wall() == "door":
             
-            self._set_wall_data(wall_pos, "")
+            # self._set_wall_data(wall_pos, "")
+            del wall_data['world'][wall_pos]
             setTimeout(create_once_callable(lambda: (self._open_door_animation(wall_pos))), self.running_time)
             setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
             
@@ -642,7 +641,8 @@ class Character:
         global wall_data
 
         pos = self._front_wall()
-        if pos not in wall_data['world'].keys():
+        if not 0<=pos[0]<map_data["height"] or not 0<=pos[1]<map_data["width"]:
+        # if pos not in wall_data['world'].keys():
             return 'OutOfWorld'
             
         return wall_data["world"][pos]
@@ -661,8 +661,8 @@ class Character:
 
         return (posX, posY)
 
-    def _set_wall_data(self, pos, type):
-        wall_data["world"][pos] = type
+    # def _set_wall_data(self, pos, type):
+    #     wall_data["world"][pos] = type
 
     def _set_wall_screen(self, pos, type):
         js.document.querySelector(
@@ -686,14 +686,14 @@ class Character:
     def eat(self, item_name):
         self.running_time += 1000 * running_speed
         
-        if item_name not in _available_items:
+        if item_name not in valid_items:
             setTimeout(create_once_callable(lambda: alert_error('InvalidItem')), self.running_time)
             setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
             
             
             raise InvalidItem
         
-        if item_name not in _eatable_items.keys():
+        if item_name not in edible_items.keys():
             setTimeout(create_once_callable(lambda: alert_error('InedibleItem')), self.running_time)
             setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
             raise InedibleItem
@@ -710,8 +710,8 @@ class Character:
         else:
             item_data[item_name]-=1
         
-        item_hp = _eatable_items[item_name].get('hp',0)
-        item_power = _eatable_items[item_name].get('power',0)
+        item_hp = edible_items[item_name].get('hp',0)
+        item_power = edible_items[item_name].get('power',0)
         if self.hp + item_hp > self.initHp:
             self.hp = initHp
         else: 

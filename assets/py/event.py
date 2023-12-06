@@ -491,7 +491,8 @@ def change_wall_type(evt):
     # 벽 삭제: type이 있는 항목에서만 동작
     else:
         if currentType:
-            wall_data["world"][(posX, posY)] = ""
+            del wall_data['world'][(posX, posY)]
+            # wall_data["world"][(posX, posY)] = ""
             evt.target.dataset.type = ""
             evt.target.style.outline = ""
 

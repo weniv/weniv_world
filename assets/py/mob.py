@@ -10,7 +10,8 @@ from coordinate import (
     map_data,
     item_data,
     skills,
-    blockingWallType,
+    wall_blocked,
+    wall_types,
     wall_data,
     running_speed,
 )
@@ -227,7 +228,7 @@ class Mob:
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
         
-        if wall_data['world'].get((wall_x, wall_y), None) in (blockingWallType+['door']):
+        if wall_data['world'].get((wall_x, wall_y), None) in (wall_types):
             return True
         return False
     

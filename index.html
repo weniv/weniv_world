@@ -469,6 +469,7 @@
         from pyodide.ffi.wrappers import add_event_listener
         import json
         import math
+        import copy
 
         # item select
         item_select = {
@@ -514,7 +515,6 @@
         map_data['width'] = int(map_slider_y.value)
 
         def change_map(evt=None):
-            js.console.log('change map evt',evt)
             global wall_data, item_data, draw_map, mob_data, character_data
             main_ch = character_data[0]
             
@@ -575,18 +575,12 @@
                     draw_map.appendChild(draw_ch)
 
             # 아이템 갱신
-            keys_to_remove = []  
-            for (x, y) in item_data.keys():
-                if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
-                    keys_to_remove.append((x, y))
-            for key in keys_to_remove:
-                del item_data[key]
-
-            for key, value in item_data.items():
-                x, y = key
-                name = value['item']
-                count = value['count']
-                set_item(x, y, name, count)
+            for i in copy.deepcopy(item_data).keys():
+                if not (0 <= i[0] < map_data['height'] and 0 <= i[1] < map_data['width']):
+                    del item_data[i]
+                else:
+                    new_item = Item(i[0], i[1], item_data[i]['item'], item_data[i]['count'])
+                    new_item.draw()
             
 
             # 몹 갱신
@@ -867,7 +861,6 @@
 
         def parsing_json(evt):
             json_data = json.loads(evt.target.result)
-            js.console.log(f"json_data: {json_data}")
             check_json_data(json_data)
 
             global character_data
@@ -892,22 +885,14 @@
                 temp_y = int(temp_y) if float.is_integer(temp_y) else temp_y
                 temp_wall_data[(temp_x,temp_y)] = json_data["wall_data"][key]
                 
-                js.console.log(f"temp_wall_data: {temp_wall_data}")
-
             global wall_data
             wall_data['world'] = temp_wall_data
-            js.console.log(f"wall_data['world']: {wall_data['world']}")
             
             for key in json_data["item_data"].keys():
                 temp_x ,temp_y = key.strip('()').split(',')
                 temp_x = int(temp_x)
                 temp_y = int(temp_y)
                 temp_item_data[(temp_x,temp_y)] = json_data["item_data"][key]
-                
-                js.console.log(f"temp_x: {temp_x}({type(temp_x)}), temp_y: {temp_y}({type(temp_y)})")
-                js.console.log(f"temp_pos type: {type((temp_x,temp_y))}")
-                js.console.log(f"temp_item_data: {temp_item_data}")
-            
             global item_data
             for i in temp_item_data:
                 item_data[i] = temp_item_data[i]
@@ -1046,11 +1031,15 @@
                     
                     if item_data.get((x,y),{}).get('item','')==item_select['name']:
                         item_data[(x,y)]['count'] += count
+                        new_item = Item(x, y, item_select['name'], count)
+                        new_item.draw()
                     else:
                         item_data[(x,y)] = {
                             'item': item_select['name'],
                             'count': count
                         }
+                        new_item = Item(x, y, item_select['name'], count)
+                        new_item.draw()
 
                 item_select['status']=False
                 label = js.document.querySelector(f"label[for='{item_select['name']}']")
@@ -1059,8 +1048,7 @@
 
                 js.document.querySelector('.wall-container').style.pointerEvents=''
                 js.document.querySelector('.world-map').style.cursor='auto'
-                change_map()
-
+                
         @when('mousemove', selector='.world-map')
         def show_tooltip(evt=None):
             if(item_select['status']):

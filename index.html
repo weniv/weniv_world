@@ -461,7 +461,7 @@
         from mob import Mob
         from item import Item
         from error import *
-        from coordinate import map_data, map_size, border_size, running_speed, character_data, default_character, mob_data, item_data, wall_data, wall_type, story_wall
+        from coordinate import map_data, map_size, border_size, running_speed, character_data, default_character, mob_data, item_data, wall_data, wall_type, story_wall, mob_info
         from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal, eat
         from pyscript import when
         from js import alert, setTimeout
@@ -588,6 +588,8 @@
                 if not (0 <= m['x'] < map_data['height'] and 0 <= m['y'] < map_data['width']):
                     mob_data.remove(m)
                 else:
+                    new_mob = Mob(x=m['x'], y=m['y'],mob=m['mob'] ,name=m['name'], width=32, height=40,rotate=m['directions'], initHp=mob_info[m['mob']]['hp'])
+                    m['mob_obj'] = new_mob
                     draw_ch = m['mob_obj'].draw()
                     draw_map.appendChild(draw_ch)
 
@@ -802,20 +804,29 @@
             js.console.log('월드데이터 다운로드')
 
             # 월드데이터 다운로드
-            character_info = character_data.copy()
-            character_info[0]['character_obj'] = None
+            temp_character_data = character_data.copy()
+            for c in temp_character_data:
+                c['character_obj'] = None
+                
             temp_wall_data = {}
             for key in wall_data['world'].keys():
                 # temp_wall_data[(key[0],key[1])] = wall_data['world'][key]
                 temp_wall_data[str(key)] = wall_data['world'][key]
+            
             temp_item_data = {}
             for key in item_data.keys():
                 temp_item_data[str(key)] = item_data[key]
+            
+            temp_mob_data = mob_data.copy()
+            for m in temp_mob_data:
+                m['mob_obj'] = None
+                
             worlddata = {
-                "character_data": character_info,
+                "character_data": temp_character_data,
                 "item_data": temp_item_data,
                 "map_data": map_data,
-                "wall_data": temp_wall_data
+                "wall_data": temp_wall_data,
+                "mob_data": temp_mob_data
             }
 
             json_data = json.dumps(worlddata)
@@ -895,9 +906,15 @@
                 temp_x = int(temp_x)
                 temp_y = int(temp_y)
                 temp_item_data[(temp_x,temp_y)] = json_data["item_data"][key]
+            
             global item_data
             for i in temp_item_data:
                 item_data[i] = temp_item_data[i]
+                
+            global mob_data
+            mob_data.clear()
+            for m in json_data["mob_data"]:
+                mob_data.append(m)
             
             change_map()
             
@@ -1194,7 +1211,7 @@
                         raise MobIsExist
                         
                 if mob_type == 'lion':
-                    lion = Mob(x=x, y=y, mob='lion', name = name, width=32, height=40, initHp = 250, power=50)
+                    lion = Mob(x=x, y=y, mob='lion', name = name, width=32, height=40, initHp = 250)
                     mob_data.append(
                         {
                             'name': name,
@@ -1213,7 +1230,7 @@
                     return lion
                     
                 elif mob_type[:3] == 'mob':
-                    mob = Mob(x=x, y=y, mob=f'mob{mob_type[-1]}',name=name, width=32, height=40, initHp = 50, power=5)
+                    mob = Mob(x=x, y=y, mob=f'mob{mob_type[-1]}',name=name, width=32, height=40, initHp = 50)
                     mob_data.append(
                         {
                             'name': name,

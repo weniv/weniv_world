@@ -860,6 +860,7 @@
             add_event_listener(draw_character, 'click', show_character_info)
 
         def parsing_json(evt):
+            init()
             json_data = json.loads(evt.target.result)
             check_json_data(json_data)
 
@@ -885,8 +886,9 @@
                 temp_y = int(temp_y) if float.is_integer(temp_y) else temp_y
                 temp_wall_data[(temp_x,temp_y)] = json_data["wall_data"][key]
                 
-            global wall_data
+            global wall_data, wall
             wall_data['world'] = temp_wall_data
+            wall.wall_data = temp_wall_data
             
             for key in json_data["item_data"].keys():
                 temp_x ,temp_y = key.strip('()').split(',')

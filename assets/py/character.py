@@ -8,10 +8,10 @@ from coordinate import (
     mob_data,
     map_data,
     item_data,
-    _available_items,
-    _eatable_items,
+    valid_items,
+    edible_items,
     skills,
-    blockingWallType,
+    wall_blocked,
     wall_data,
     running_speed,
 )
@@ -242,7 +242,7 @@ class Character:
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
         
-        if wall_data['world'].get((wall_x, wall_y), None) in (blockingWallType+['door']):
+        if wall_data['world'].get((wall_x, wall_y), None) in (wall_blocked+['door']):
             print('wall exist',wall_x, wall_y)
             return True
         return False
@@ -427,7 +427,7 @@ class Character:
     def put(self, item_name):
         self.running_time += 1000 * running_speed
         
-        if item_name not in _available_items:
+        if item_name not in valid_items:
             alert_error('InvalidItem')
             raise InvalidItem
         self._put(item_name)
@@ -686,14 +686,14 @@ class Character:
     def eat(self, item_name):
         self.running_time += 1000 * running_speed
         
-        if item_name not in _available_items:
+        if item_name not in valid_items:
             setTimeout(create_once_callable(lambda: alert_error('InvalidItem')), self.running_time)
             setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
             
             
             raise InvalidItem
         
-        if item_name not in _eatable_items.keys():
+        if item_name not in edible_items.keys():
             setTimeout(create_once_callable(lambda: alert_error('InedibleItem')), self.running_time)
             setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
             raise InedibleItem
@@ -710,8 +710,8 @@ class Character:
         else:
             item_data[item_name]-=1
         
-        item_hp = _eatable_items[item_name].get('hp',0)
-        item_power = _eatable_items[item_name].get('power',0)
+        item_hp = edible_items[item_name].get('hp',0)
+        item_power = edible_items[item_name].get('power',0)
         if self.hp + item_hp > self.initHp:
             self.hp = initHp
         else: 

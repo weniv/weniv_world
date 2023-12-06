@@ -159,3 +159,30 @@ class InvalidSkill(Exception):
     def __init__(self):
         print("error.InvalidSkill: Invalid skill", type="error")
         super().__init__("Invalid skill")
+        
+class InvalidCharacter(Exception):
+    """
+    캐릭터가 아닌 다른 것을 사용하려고 할 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.InvalidCharacter: Invalid character", type="error")
+        super().__init__("Invalid character")
+        
+class InvalidMob(Exception):
+    """
+    몬스터가 아닌 다른 것을 사용하려고 할 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.InvalidMob: Invalid mob", type="error")
+        super().__init__("Invalid mob")
+        
+class InvalidSyntax(Exception):
+    """
+    잘못된 문법을 사용하려고 할 때 발생하는 에러
+    """
+
+    def __init__(self):
+        print("error.InvalidSyntax: Invalid syntax", type="error")
+        super().__init__("Invalid syntax")

@@ -1,7 +1,7 @@
 import js
 
 from pyodide.ffi import create_once_callable
-from coordinate import character_data, map_data,running_speed, mob_data, item_data, _available_items, error_message
+from coordinate import character_data, map_data,running_speed, mob_data, item_data, valid_items, error_message
 from item import Item
 
 command_count = 0 # 명령어 줄 수
@@ -116,7 +116,7 @@ def set_item(x, y, name, count=1, description={}, character=None):
         print("error.OutOfWorld: out of world", type="error")
         raise Exception('OutOfWorld')
     
-    if name not in _available_items:
+    if name not in valid_items:
         alert_error('InvalidItem')
         print("error.InvalidItem: Invalid item", type="error")
         raise Exception('InvalidItem')

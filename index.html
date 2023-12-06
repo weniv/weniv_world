@@ -514,24 +514,29 @@
         map_data['width'] = int(map_slider_y.value)
 
         def change_map(evt=None):
+            js.console.log('change map evt',evt)
             global wall_data, item_data, draw_map, mob_data, character_data
-            
-            # 기본 캐릭터가 맵을 벗어나는 경우 변경 불가
             main_ch = character_data[0]
-            initX = map_data['height']
-            initY = map_data['width']
-            if main_ch['x'] > int(map_slider_x.value) - 1 or main_ch['y'] > int(map_slider_y.value) - 1:
-                js.alert(f"기본 캐릭터의 위치보다 작게 맵을 설정할 수 없습니다.")
-                map_slider_x.value = initX
-                map_slider_y.value = initY
-                map_slider_output_x.innerHTML = initX
-                map_slider_output_y.innerHTML = initY
-                return
-
-            map_data['height'] = int(map_slider_x.value)
-            map_data['width'] = int(map_slider_y.value)
-            map_slider_output_x.innerHTML = map_slider_x.value
-            map_slider_output_y.innerHTML = map_slider_y.value
+            
+            #슬라이더로 맵 크기 변경 
+            if evt: 
+                if main_ch['x'] > int(map_slider_x.value) - 1 or main_ch['y'] > int(map_slider_y.value) - 1:
+                    js.alert(f"기본 캐릭터의 위치보다 작게 맵을 설정할 수 없습니다.")
+                    map_slider_x.value = initX
+                    map_slider_y.value = initY
+                    map_slider_output_x.innerHTML = initX
+                    map_slider_output_y.innerHTML = initY
+                    return
+                map_data['height'] = int(map_slider_x.value)
+                map_data['width'] = int(map_slider_y.value)
+                map_slider_output_x.innerHTML = map_slider_x.value
+                map_slider_output_y.innerHTML = map_slider_y.value
+            else:
+                map_slider_output_x.innerHTML = map_data['height']
+                map_slider_x.value = map_data['height']
+                map_slider_output_y.innerHTML = map_data['width']
+                map_slider_y.value = map_data['width']
+                
             map_exist = js.document.querySelector('.map-container')
             # TODO: map object는 map_data에서 관리해야할 것으로 보임
             if map_exist:

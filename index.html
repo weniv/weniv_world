@@ -564,9 +564,8 @@
                 if not (0 <= c['x'] < map_data['height'] and 0 <= c['y'] < map_data['width']):
                     character_data.remove(c)
                 else:
-                    if not c['character_obj']:
-                        new_ch = Character(x=c['x'], y=c['y'], name=c['character'], width=32, height=40,rotate=c['directions'])
-                        c['character_obj'] = new_ch
+                    new_ch = Character(x=c['x'], y=c['y'], name=c['character'], width=32, height=40,rotate=c['directions'])
+                    c['character_obj'] = new_ch
                     draw_ch = c['character_obj'].draw()
                     draw_map.appendChild(draw_ch)
 
@@ -867,11 +866,15 @@
             check_json_data(json_data)
 
             global character_data
-            character_data = json_data["character_data"]
+            character_data.clear()
+            for c in json_data["character_data"]:
+                character_data.append(c)
 
             global map_data
             map_data = json_data["map_data"]
-
+            for key, value in json_data["map_data"].items():
+                map_data[key]=value
+                
             temp_wall_data = {}
             temp_item_data = {}
 
@@ -887,7 +890,8 @@
                 js.console.log(f"temp_wall_data: {temp_wall_data}")
 
             global wall_data
-            wall_data = temp_wall_data
+            wall_data['world'] = temp_wall_data
+            js.console.log(f"wall_data['world']: {wall_data['world']}")
             
             for key in json_data["item_data"].keys():
                 temp_x ,temp_y = key.strip('()').split(',')
@@ -900,7 +904,8 @@
                 js.console.log(f"temp_item_data: {temp_item_data}")
             
             global item_data
-            item_data = temp_item_data
+            for i in temp_item_data:
+                item_data[i] = temp_item_data[i]
             
             change_map()
             

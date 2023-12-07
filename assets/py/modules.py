@@ -30,6 +30,10 @@ def turn_left_until_clear():
     for i in range(4):
         if not front_is_clear():
             turn_left()
+        else:
+            return
+    alert_error("사방이 막혀있습니다.")
+    
 
 
 # jump 함수 관련 로직

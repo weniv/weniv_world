@@ -600,7 +600,7 @@ class Character:
         elif target_direction == 3:  # 남
             posX, posY = (self.x + 0.5, self.y)
 
-        if (posX, posY) not in wall_data["world"].keys():
+        if not 0 <= posX < map_data["height"]-0.5 or not 0 <= posY < map_data["width"]-0.5:
             return False
 
         if wall_data["world"].get((posX, posY),None):

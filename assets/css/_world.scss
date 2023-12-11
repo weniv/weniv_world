@@ -620,9 +620,10 @@
         background-size: 168px 28px;
     }
 
-    & .hp-container {
+    & .state-container {
         scale: 0.7692;
-        transform: translate(-63%, -113%);
+        bottom: 0;
+        transform: translate(-63%, 150%);
     }
 }
 

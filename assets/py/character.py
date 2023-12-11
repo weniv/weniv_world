@@ -243,7 +243,6 @@ class Character:
         wall_y = float((y + ny) / 2)
         
         if wall_data['world'].get((wall_x, wall_y), None) in (wall_blocked+['door']):
-            print('wall exist',wall_x, wall_y)
             return True
         return False
     
@@ -573,9 +572,10 @@ class Character:
 
     def _is_clear(self, input_dir="front"):
         global wall_data
-
         target_direction = self.directions
-
+        x = self.x
+        y = self.y
+        
         if input_dir == "front":
             pass
         elif input_dir == "left":
@@ -588,22 +588,19 @@ class Character:
         if target_direction > 3:
             target_direction -= 4
 
-        posX, posY = (0, 0)
-
-        # 캐릭터 기준 벽은 0.5만큼 떨어져있음
+        nx, ny = x, y
         if target_direction == 0:  # 동
-            posX, posY = (self.x, self.y + 0.5)
+            ny = y + 1
         elif target_direction == 1:  # 북
-            posX, posY = (self.x - 0.5, self.y)
+            nx = x - 1
         elif target_direction == 2:  # 서
-            posX, posY = (self.x, self.y - 0.5)
+            ny = y - 1
         elif target_direction == 3:  # 남
-            posX, posY = (self.x + 0.5, self.y)
-
-        if not 0 <= posX < map_data["height"]-0.5 or not 0 <= posY < map_data["width"]-0.5:
-            return False
-
-        if wall_data["world"].get((posX, posY),None):
+            nx = x + 1
+            
+        
+        
+        if self._out_of_world(nx, ny) or self._wall_exist(x, y, nx, ny) or self._obstacle_exist(nx, ny):
             return False
         return True
 

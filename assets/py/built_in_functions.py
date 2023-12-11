@@ -4,7 +4,7 @@ from pyodide.ffi import create_once_callable
 from coordinate import character_data, map_data,running_speed, mob_data, item_data, valid_items, error_message
 from item import Item
 
-command_count = 0 # 명령어 줄 수
+command_count = 1 # 명령어 줄 수
 
 def get_running_speed():
     # spped value
@@ -24,14 +24,14 @@ def mission_end():
     미션 클리어
     """
     global command_count
-    command_count = 0
+    command_count = 1
 
 def mission_start():
     """
     미션 시작
     """
     global command_count
-    command_count = 0
+    command_count = 1
 
 def print(*texts, type="normal"):
     """
@@ -186,10 +186,6 @@ def repeat(count, f):
 
 
 def front_is_clear(character=None):
-    '''
-    캐릭터의 앞이 비어있는지 확인하는 함수
-    동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
-    '''
     if character != None:
         print(f"character not none")
         return character.front_is_clear()
@@ -200,10 +196,6 @@ def front_is_clear(character=None):
             print("캐릭터가 없습니다.")
 
 def left_is_clear(character=None):
-    '''
-    캐릭터의 왼쪽이 비어있는지 확인하는 함수
-    동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
-    '''
     if character != None:
         return character.left_is_clear()
     else:
@@ -213,10 +205,6 @@ def left_is_clear(character=None):
             print("캐릭터가 없습니다.")
 
 def right_is_clear(character=None):
-    '''
-    캐릭터의 오른쪽이 비어있는지 확인하는 함수
-    동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
-    '''
     if character != None:
         return character.right_is_clear()
     else:
@@ -226,10 +214,6 @@ def right_is_clear(character=None):
             print("캐릭터가 없습니다.")
   
 def back_is_clear(character=None):
-    '''
-    캐릭터의 뒤가 비어있는지 확인하는 함수
-    동기로 실행되면 이 함수가 먼저 실행되어 앞에 벽을 체크하지 못합니다.
-    '''
     if character != None:
         return character.back_is_clear()
     else:

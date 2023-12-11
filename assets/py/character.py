@@ -340,10 +340,14 @@ class Character:
         
         self.mp -= skills[skill]['mana']
         self._set_character_data("mp",self.mp)
+        
             
         setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny, skill))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        setTimeout(create_once_callable(lambda: self._attack_hp_animation(m_obj, mob_name, skill)), self.running_time)
+        setTimeout(create_once_callable(lambda: self._mob_hp_animation(m_obj, mob_name, skill)), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        
+        setTimeout(create_once_callable(lambda: self._mp_animation()), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
         
     def draw_attack(self, x, y, x2, y2, skill):
@@ -361,7 +365,7 @@ class Character:
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
 
 
-    def _attack_hp_animation(self, mob_obj, mob_name, skill):
+    def _mob_hp_animation(self, mob_obj, mob_name, skill):
         if mob_name:
             mob = js.document.querySelector(f'#{mob_name}.mob')
         if mob_obj and mob:
@@ -369,6 +373,12 @@ class Character:
             mob_obj.draw_hp()
             if(mob_obj.hp<=0):
                 setTimeout(create_once_callable(lambda: self._remove_mob(mob_obj,mob)), 1000)
+              
+    def _hp_animation(self):
+        self.draw_hp()
+        
+    def _mp_animation(self):
+        self.draw_mp()
                 
     def _remove_mob(self, mob_obj, mob):
         if mob:
@@ -700,8 +710,8 @@ class Character:
             setTimeout(create_once_callable(lambda: alert_error('ItemIsNotExist')), self.running_time)
             setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
             raise ItemIsNotExist
+        
 
-        print(f"{item_name}을(를) 먹었습니다.")
         say("냠냠")
         if item_data[item_name]==1:
             del item_data[item_name]
@@ -709,10 +719,23 @@ class Character:
             item_data[item_name]-=1
         
         item_hp = edible_items[item_name].get('hp',0)
-        item_power = edible_items[item_name].get('power',0)
+        item_mp = edible_items[item_name].get('mp',0)
         if self.hp + item_hp > self.initHp:
             self.hp = self.initHp
         else: 
             self.hp += item_hp
+            
+        if self.mp + item_mp > self.initMp:
+            self.mp=self.initMp
+        else:
+            self.mp += item_mp
+            
         self._set_character_data("hp",self.hp)
+        self._set_character_data("mp",self.mp)
+        
+        setTimeout(create_once_callable(lambda: self._hp_animation()), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+        
+        setTimeout(create_once_callable(lambda: self._mp_animation()), self.running_time)
+        setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
        

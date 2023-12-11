@@ -104,14 +104,14 @@ class Mob:
             hp_container.setAttribute('class','state-container hp')
             hp_container.setAttribute('id',f'hp-{self.name}')
         
-        hp = hp_container.querySelector('.hp')
+        hp = hp_container.querySelector('.bar')
         if not hp:
             hp = js.document.createElement("div")
             hp.setAttribute('class','bar')
             hp_container.appendChild(hp)
         hp.style.width = f"{self.hp/self.initHp*100}%"
         
-        text = hp_container.querySelector('.hp-text')
+        text = hp_container.querySelector('.text')
         if not text:
             text = js.document.createElement('span')
             text.setAttribute('class','text')
@@ -323,7 +323,7 @@ class Mob:
             
         setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny,skill))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        setTimeout(create_once_callable(lambda: self._attack_hp_animation(c_obj, ch_name,skill)), self.running_time)
+        setTimeout(create_once_callable(lambda: self._hp_animation(c_obj, ch_name,skill)), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
     
     def draw_attack(self, x, y, x2, y2, skill):
@@ -341,7 +341,7 @@ class Mob:
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
 
 
-    def _attack_hp_animation(self,char_obj,ch_name,skill):
+    def _hp_animation(self,char_obj,ch_name,skill):
         global _character_data
         if ch_name:
             char = js.document.querySelector(f'.{ch_name}')

@@ -1593,9 +1593,10 @@ button {
     width: 2.8rem;
     height: 2.8rem;
     background-size: 168px 28px; }
-  .mob .hp-container {
+  .mob .state-container {
     scale: 0.7692;
-    transform: translate(-63%, -113%); }
+    bottom: 0;
+    transform: translate(-63%, 150%); }
 
 .state-container {
   width: 6.4rem;

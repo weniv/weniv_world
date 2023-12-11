@@ -61,7 +61,7 @@ class Mob:
         mob.style.transition = f"all {running_speed}s"
         # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         # mob.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
-        # hp = self.draw_hp()
+        hp = self.draw_hp()
         # mob.appendChild(hp)
         
         if self.mob == 'lion':
@@ -101,21 +101,20 @@ class Mob:
         hp_container = js.document.getElementById(f'hp-{self.name}')
         if not hp_container:
             hp_container = js.document.createElement("div")
-            hp_container.setAttribute('class','hp-container')
+            hp_container.setAttribute('class','state-container hp')
             hp_container.setAttribute('id',f'hp-{self.name}')
         
-        hp = hp_container.querySelector('.hp')
+        hp = hp_container.querySelector('.bar')
         if not hp:
             hp = js.document.createElement("div")
-            hp.setAttribute('class','hp')
+            hp.setAttribute('class','bar')
             hp_container.appendChild(hp)
-            
         hp.style.width = f"{self.hp/self.initHp*100}%"
         
-        text = hp_container.querySelector('.hp-text')
+        text = hp_container.querySelector('.text')
         if not text:
             text = js.document.createElement('span')
-            text.setAttribute('class','hp-text')
+            text.setAttribute('class','text')
             hp_container.appendChild(text)
             
         text.innerText = f"{self.hp}/{self.initHp}"
@@ -324,7 +323,7 @@ class Mob:
             
         setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny,skill))), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        setTimeout(create_once_callable(lambda: self._attack_hp_animation(c_obj, ch_name,skill)), self.running_time)
+        setTimeout(create_once_callable(lambda: self._hp_animation(c_obj, ch_name,skill)), self.running_time)
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
     
     def draw_attack(self, x, y, x2, y2, skill):
@@ -342,13 +341,13 @@ class Mob:
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
 
 
-    def _attack_hp_animation(self,char_obj,ch_name,skill):
+    def _hp_animation(self,char_obj,ch_name,skill):
         global _character_data
         if ch_name:
             char = js.document.querySelector(f'.{ch_name}')
         if char_obj and char:
             char_obj.hp -= skills[skill]['power']
-            # char_obj.draw_hp()
+            char_obj.draw_hp()
             if char_obj.hp <= 0:
                 if ch_name == default_character:
                    life = js.confirm('기본 캐릭터의 체력이 0이 되었습니다. 캐릭터를 부활시키겠습니까?')

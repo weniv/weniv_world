@@ -702,6 +702,7 @@ class Character:
             raise ItemIsNotExist
 
         print(f"{item_name}을(를) 먹었습니다.")
+        say("냠냠")
         if item_data[item_name]==1:
             del item_data[item_name]
         else:
@@ -710,7 +711,7 @@ class Character:
         item_hp = edible_items[item_name].get('hp',0)
         item_power = edible_items[item_name].get('power',0)
         if self.hp + item_hp > self.initHp:
-            self.hp = initHp
+            self.hp = self.initHp
         else: 
             self.hp += item_hp
         self._set_character_data("hp",self.hp)

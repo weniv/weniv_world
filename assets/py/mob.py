@@ -62,7 +62,7 @@ class Mob:
         # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         # mob.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
         hp = self.draw_hp()
-        mob.appendChild(hp)
+        # mob.appendChild(hp)
         
         if self.mob == 'lion':
             mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"

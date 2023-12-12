@@ -64,10 +64,11 @@ def say(text="", character=None, speech_time=5000):
         if character != None:
             character.say(text)
         else:
-            if character_data[0]["character_obj"] != None:
+            if len(character_data) and character_data[0]["character_obj"] != None:
                 character_data[0]["character_obj"].say(text, speech_time)
             else:
-                print("캐릭터가 없습니다.")
+                alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
 
     running_speed = get_running_speed()
     wait_time = command_count*1000*running_speed
@@ -84,10 +85,11 @@ def directions(character=None):
     if character != None:
         return d[character._get_character_data("directions")]
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             return d[character_data[0]["directions"]]
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
             return None
 
 
@@ -98,10 +100,11 @@ def item(character=None):
     if character != None:
         return character._get_character_data("items")
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             return character_data[0]["items"]
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
             return None
     wait_time = 1000 * command_count
 
@@ -131,10 +134,11 @@ def move(character=None):
     if character != None:
         character.move()
     else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
+        if len(character_data) and len(character_data) and character_data[0]["character_obj"] != None:
             character_data[0]["character_obj"].move()
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
 
 
 def turn_left(character=None):
@@ -144,10 +148,11 @@ def turn_left(character=None):
     if character != None:
         character.turn_left()
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and len(character_data) and character_data[0]["character_obj"] != None:
             character_data[0]["character_obj"].turn_left()
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
 
 
 def pick(character=None):
@@ -157,10 +162,11 @@ def pick(character=None):
     if character != None:
         character.pick()
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             character_data[0]["character_obj"].pick()
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
 
 
 def put(item_name, character=None):
@@ -170,10 +176,11 @@ def put(item_name, character=None):
     if character != None:
         character.put(item_name)
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             character_data[0]["character_obj"].put(item_name)
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
 
 
 def repeat(count, f):
@@ -190,37 +197,41 @@ def front_is_clear(character=None):
         print(f"character not none")
         return character.front_is_clear()
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             return character_data[0]["character_obj"].front_is_clear()
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
 
 def left_is_clear(character=None):
     if character != None:
         return character.left_is_clear()
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             return character_data[0]["character_obj"].left_is_clear()
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
 
 def right_is_clear(character=None):
     if character != None:
         return character.right_is_clear()
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             return character_data[0]["character_obj"].right_is_clear()
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
   
 def back_is_clear(character=None):
     if character != None:
         return character.back_is_clear()
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             return character_data[0]["character_obj"].back_is_clear()
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
   
 def attack(skill='claw-yellow', character=None):
     global command_count
@@ -229,10 +240,11 @@ def attack(skill='claw-yellow', character=None):
     if character != None:
         character.attack(skill)
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             character_data[0]["character_obj"].attack(skill)
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
 
 
 def open_door(character=None):
@@ -243,19 +255,21 @@ def open_door(character=None):
     if character != None:
         character.open_door()
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             character_data[0]["character_obj"].open_door()
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
 
 def typeof_wall(character=None):
     if character != None:
         return character.typeof_wall()
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             return character_data[0]["character_obj"].typeof_wall()
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
             return None
         
 def on_item(character=None):
@@ -268,12 +282,13 @@ def on_item(character=None):
             return True
         return False
     else: 
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             if (character_data[0]['x'], character_data[0]['y']) in item_data:
                 return True
             return False
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
             return None
 
 # 작동하지만 시기상조로 인해 주석처리  
@@ -318,10 +333,11 @@ def eat(item, character=None):
     if character != None:
         character.eat(item)
     else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
+        if len(character_data) and len(character_data) and character_data[0]["character_obj"] != None:
             character_data[0]["character_obj"].eat(item)
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
             
             
 # utility function

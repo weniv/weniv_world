@@ -357,7 +357,7 @@ class Mob:
                        character_data[0]['character_obj'].hp = full_hp
                    else:
                         setTimeout(create_once_callable(lambda: self._remove_char(char_obj, char)), 1000)
-                        character_data[0] = {}
+                        character_data.pop(0)
                         return
                 
     def _remove_char(self, char_obj, char):

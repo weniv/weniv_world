@@ -43,12 +43,13 @@ def jump(character=None):
         setTimeout(create_once_callable(lambda:character.init_time()), character.running_time)
         
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             character = character_data[0]["character_obj"]
             setTimeout(create_once_callable(lambda: _jump(character)), character.running_time)
             setTimeout(create_once_callable(lambda:character.init_time()), character.running_time)
         else:
-            print("캐릭터가 없습니다.")
+            alert_error('CharacterIsNotExist')
+            raise CharacterIsNotExist
 
 def _jump(ch):
     x, y = ch._get_character_data('x'), ch._get_character_data('y')

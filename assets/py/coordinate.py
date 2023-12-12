@@ -73,6 +73,7 @@ mob_info = {
 # 오류 정보
 error_message = {'OutOfWorld': '맵을 벗어납니다.',
     'FrontIsNotClear': '캐릭터 이동 경로에 장애물이 있습니다.',
+    'InvalidCharacter': '유효한 캐릭터가 아닙니다.',
     'CharacterIsNotExist': '캐릭터가 존재하지 않습니다.', 
     'CharacterIsNotSelected': '캐릭터가 선택되지 않았습니다.', 
     'CharacterIsNotMovable': '캐릭터가 이동 불가합니다.',

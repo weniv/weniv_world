@@ -461,7 +461,7 @@
         from mob import Mob
         from item import Item
         from error import *
-        from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_wall, mob_info, skills
+        from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_wall, mob_info, skills, character_info
         from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal, eat
         from pyscript import when
         from js import alert, setTimeout
@@ -1188,10 +1188,6 @@
             '''
             global mob_data
             
-            # x와 y가 정수이고, mob_type이 mob_info에 포함되어 있으며, name의 값이 있을 때만 동작
-            # 위 조건으 충족하지 못하는 경우 오류를 발생하고 종료
-            # 즉, x가 정수가 아니거나 y가 정수가 아니거나, mob_type이 mob_info에 포함되지 않았거나, name이 입력되지 않았으면 오류 발생
-            
             if int(x) != x or int(y) != y or mob_type not in mob_info.keys() or not name:
                 alert_error('InvalidSyntax')
                 raise InvalidSyntax
@@ -1252,6 +1248,14 @@
         def add_ch(x, y, name):
             global character_data
             
+            if int(x) != x or int(y) != y:
+                alert_error('InvalidSyntax')
+                raise InvalidSyntax
+
+            if name not in character_info.keys():
+                alert_error('InvalidCharacter')
+                raise InvalidCharacter
+            
             if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
                 alert_error('OutOfWorld')
                 raise OutOfWorld
@@ -1262,23 +1266,38 @@
 
             # character는 중복 미허용
             for c in character_data:
-                if c['character'] == name:
+                if c.get('character', '') == name:
                     alert_error('CharacterIsExist')
                     raise CharacterIsExist
                     
+            if name == default_character:
+                character_data.insert(0, 
+                    {
+                        'character': name,
+                        'character_obj': None,
+                        'x': x,
+                        'y': y,
+                        'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+                        'items': {},
+                        'hp':100,
+                        'power':10,
+                    }
+                )
+            else:
+                character_data.append(
+                    {
+                        'character': name,
+                        'character_obj': None,
+                        'x': x,
+                        'y': y,
+                        'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
+                        'items': {},
+                        'hp':100,
+                        'power':10,
+                    }
+                )
             char = Character(x=x, y=y, name=name, width=32, height=40)
-            character_data.append(
-                {
-                    'character': name,
-                    'character_obj': char,
-                    'x': x,
-                    'y': y,
-                    'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
-                    'items': {},
-                    'hp':100,
-                    'power':10,
-                }
-            )
+            char._set_character_data('character_obj',char)
             draw_ch=char.draw()
             draw_map.appendChild(draw_ch)
             return char

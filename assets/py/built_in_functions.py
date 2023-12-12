@@ -131,7 +131,7 @@ def move(character=None):
     if character != None:
         character.move()
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             character_data[0]["character_obj"].move()
         else:
             print("캐릭터가 없습니다.")
@@ -300,13 +300,13 @@ def submit():
 
 def mob_exist(x, y):
     for m in mob_data:
-        if m['x'] == x and m['y'] == y:
+        if m.get('x',-1) == x and m.get('y',-1) == y:
             return True
     return False
 
 def character_exist(x, y):
     for c in character_data:
-        if c['x'] == x and c['y'] == y:
+        if c.get('x',-1) == x and c.get('y',-1) == y:
             return True
     return False
 
@@ -318,7 +318,7 @@ def eat(item, character=None):
     if character != None:
         character.eat(item)
     else:
-        if character_data[0]["character_obj"] != None:
+        if len(character_data) and character_data[0]["character_obj"] != None:
             character_data[0]["character_obj"].eat(item)
         else:
             print("캐릭터가 없습니다.")

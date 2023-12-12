@@ -1266,15 +1266,14 @@
 
             # character는 중복 미허용
             for c in character_data:
-                if c['character'] == name:
+                if c.get('character', '') == name:
                     alert_error('CharacterIsExist')
                     raise CharacterIsExist
                     
-            char = Character(x=x, y=y, name=name, width=32, height=40)
             character_data.append(
                 {
                     'character': name,
-                    'character_obj': char,
+                    'character_obj': None,
                     'x': x,
                     'y': y,
                     'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
@@ -1283,6 +1282,8 @@
                     'power':10,
                 }
             )
+            char = Character(x=x, y=y, name=name, width=32, height=40)
+            char._set_character_data('character_obj',char)
             draw_ch=char.draw()
             draw_map.appendChild(draw_ch)
             return char

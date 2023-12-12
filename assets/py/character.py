@@ -72,7 +72,7 @@ class Character:
         finder = False
         
         for c in character_data:
-            if c["character"] == self.name:
+            if c.get('character', '') == self.name:
                 c["x"] = self.x
                 c["y"] = self.y
                 c["directions"] = self.directions

@@ -1,11 +1,11 @@
 import js
 
 from pyodide.ffi import create_once_callable
-from coordinate import character_data, map_data,running_speed, mob_data, item_data, valid_items, error_message
+from coordinate import character_data, map_data,running_speed, mob_data, item_data, valid_items, error_message, default_character
 from item import Item
 
 command_count = 1 # 명령어 줄 수
-
+    
 def get_running_speed():
     # spped value
     a = 0.00020004
@@ -68,7 +68,7 @@ def say(text="", character=None, speech_time=5000):
                 character_data[0]["character_obj"].say(text, speech_time)
             else:
                 alert_error('CharacterIsNotExist')
-            raise CharacterIsNotExist
+                raise CharacterIsNotExist
 
     running_speed = get_running_speed()
     wait_time = command_count*1000*running_speed
@@ -90,7 +90,6 @@ def directions(character=None):
         else:
             alert_error('CharacterIsNotExist')
             raise CharacterIsNotExist
-            return None
 
 
 def item(character=None):
@@ -105,7 +104,6 @@ def item(character=None):
         else:
             alert_error('CharacterIsNotExist')
             raise CharacterIsNotExist
-            return None
     wait_time = 1000 * command_count
 
 def set_item(x, y, name, count=1, description={}, character=None):
@@ -289,7 +287,6 @@ def on_item(character=None):
         else:
             alert_error('CharacterIsNotExist')
             raise CharacterIsNotExist
-            return None
 
 # 작동하지만 시기상조로 인해 주석처리  
 # def change_img():

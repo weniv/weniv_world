@@ -1757,6 +1757,16 @@ button {
     mask-size: 2rem 2rem;
     mask-repeat: no-repeat;
     mask-position: center center; }
+  .story-title.submit::before {
+    background: var(--ColorPrimary);
+    -webkit-mask-image: url("../../assets/img/icon/icon-book.svg");
+    -webkit-mask-size: 2rem 2rem;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-book.svg");
+    mask-size: 2rem 2rem;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
   .story-title h3 {
     display: flex;
     align-items: center;
@@ -1787,8 +1797,13 @@ button {
   display: none;
   flex-direction: column;
   gap: 2.4rem;
-  padding: 2.8rem;
-  border-top: 1px solid var(--ColorGrayLv2); }
+  padding: 2.8rem; }
+  .story-contents .btn-submit {
+    padding: 1rem 0;
+    border: 1px solid var(--ColorGrayLv2);
+    border-radius: 1rem; }
+    .story-contents .btn-submit:hover {
+      background-color: var(--ColorActivation); }
 
 .btn-guide {
   margin-left: auto; }

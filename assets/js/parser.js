@@ -415,7 +415,7 @@ const renderContent = (markdownData) => {
     const $storyList = document.querySelector('.story-list');
 
     markdownData &&
-        markdownData.forEach((data) => {
+        markdownData.forEach((data, index) => {
             const li = document.createElement('li');
             const titleSection = document.createElement('section');
             titleSection.setAttribute('class', 'story-title');
@@ -429,11 +429,22 @@ const renderContent = (markdownData) => {
             button.setAttribute('class', 'btn-toggle');
             button.innerHTML = `<span class="sr-only">스토리 여닫기</span>`;
 
+            if (localStorage.getItem(index + 1) === 'true') {
+                // titleSection before의 배경색을 변환
+                titleSection.classList.add('submit');
+            }
+
             titleSection.append(heading, button);
 
             const contentSection = document.createElement('section');
             contentSection.setAttribute('class', 'story-contents');
             contentSection.innerHTML = data.content;
+
+            const submitButton = document.createElement('button');
+            submitButton.setAttribute('class', 'btn-submit');
+            submitButton.setAttribute('type', 'button');
+            submitButton.innerText = '제출하기';
+            contentSection.appendChild(submitButton);
 
             li.append(titleSection, contentSection);
             $storyList.appendChild(li);

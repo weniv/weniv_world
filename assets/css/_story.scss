@@ -106,6 +106,14 @@
         );
     }
 
+    &.submit::before {
+        @include mask-image(
+            var(--ColorPrimary),
+            '../../assets/img/icon/icon-book.svg',
+            2rem 2rem
+        );
+    }
+
     h3 {
         display: flex;
         align-items: center;
@@ -140,7 +148,16 @@
     flex-direction: column;
     gap: 2.4rem;
     padding: 2.8rem;
-    border-top: 1px solid var(--ColorGrayLv2);
+
+    .btn-submit {
+        padding: 1rem 0;
+        border: 1px solid var(--ColorGrayLv2);
+        border-radius: 1rem;
+
+        &:hover {
+            background-color: var(--ColorActivation);
+        }
+    }
 }
 
 .btn-guide {

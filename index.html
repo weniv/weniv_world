@@ -1391,13 +1391,21 @@
                 const content = readerEvent.target.result;
                 const notebook = JSON.parse(content);
                 const cells = notebook.cells;
-                for (let i = 0; i < cells.length; i++) {
-                    const cell = cells[i];
-                    const source = cell.source.join('');
+                const $notebookSection = document.querySelector('#notebookSection');
+                const autoGenerate = $notebookSection.querySelectorAll('py-repl[auto-generate="true"]');
+                autoGenerate.forEach(el=>el.removeAttribute('auto-generate'))
+                
+                for (const cell of cells){
                     const newRepl = document.createElement('py-repl');
-                    newRepl.textContent = source;
+                    
+                    //  마지막 코드블럭만 auto-generate
+                    if (cell === cells[cells.length-1]){
+                        newRepl.setAttribute('auto-generate', 'true')
+                    }
+                    newRepl.textContent = cell.source;
                     document.getElementById('notebookSection').appendChild(newRepl);
                 }
+                
             }
         }
         input.click();

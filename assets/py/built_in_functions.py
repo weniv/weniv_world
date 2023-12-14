@@ -354,6 +354,6 @@ def hiddenToast():
 def alert_error(error_type):
     # 순환참조로 인하여 built_in_functions에서 발생하는 오류는 따로 관리
     if error_type not in error_message.keys():
-        _show_modal("알 수 없는 에러가 발생했습니다.")
+        _show_modal(error_type)
     else:
         _show_modal(error_message[error_type])

@@ -138,7 +138,7 @@ class ArgumentsError(Exception):
         
 def alert_error(error_type):
     if error_type not in error_message.keys():
-        _show_modal("알 수 없는 에러가 발생했습니다.")
+        _show_modal(error_type)
         raise Exception(error_type)
     _show_modal(error_message[error_type])
     

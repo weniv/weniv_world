@@ -1144,6 +1144,7 @@
         
         @when("click", selector = ".story-list")
         def set_story(evt=None):
+            # 버튼 여닫기
             if(evt.target.tagName == 'BUTTON' and evt.target.classList.contains('btn-toggle')):
                 storyItems = js.document.querySelectorAll('.story-list>li')
                 liElem = evt.target.closest('li')
@@ -1158,6 +1159,15 @@
                 else:
                     story_select['index']=0
                 init()
+
+            if(evt.target.tagName == 'BUTTON' and evt.target.classList.contains('btn-submit')):
+                # js.console.log('selected submit ',story_select['index'])
+                
+                # TODO: submit 성공 조건문 추가
+                js.localStorage.setItem(f"{story_select['index']}_check", "통과")
+                secElem = evt.target.closest('section')
+                secElem.classList.add('submit')
+                
         
         @when("click", selector=".btn-story")
         def change_storymode(evt=None):
@@ -1309,6 +1319,19 @@
                     label = js.document.querySelector(f"label[for={item_select['name']}]")
                     label.classList.add('select')
 
+        
+        @when("click", selector=".btn-submit")
+        def submit(evt=None):
+            submit_data = {
+                'item_data':item_data,
+                'character_x': character_data[0]['x'],
+                'character_y': character_data[0]['y'],
+                'character_item':character_data[0]['items'],
+            }
+            print(submit_data)
+
+
+            js.localStorage.setItem(f"{story_select['index']}_check", "통과")
                 
     </py-script>
     <script>

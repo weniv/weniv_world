@@ -1736,6 +1736,16 @@ button {
       mask-image: url("../../assets/img/icon/icon-arrow-top.svg"); }
     .story-list > li.active .story-contents {
       display: flex; }
+    .story-list > li.submit .story-title::before {
+      background: var(--ColorPrimary);
+      -webkit-mask-image: url("../../assets/img/icon/icon-book.svg");
+      -webkit-mask-size: 2rem 2rem;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-image: url("../../assets/img/icon/icon-book.svg");
+      mask-size: 2rem 2rem;
+      mask-repeat: no-repeat;
+      mask-position: center center; }
 
 .story-title {
   display: flex;
@@ -1749,16 +1759,6 @@ button {
     width: 4rem;
     height: 4rem;
     background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("../../assets/img/icon/icon-book.svg");
-    -webkit-mask-size: 2rem 2rem;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center center;
-    mask-image: url("../../assets/img/icon/icon-book.svg");
-    mask-size: 2rem 2rem;
-    mask-repeat: no-repeat;
-    mask-position: center center; }
-  .story-title.submit::before {
-    background: var(--ColorPrimary);
     -webkit-mask-image: url("../../assets/img/icon/icon-book.svg");
     -webkit-mask-size: 2rem 2rem;
     -webkit-mask-repeat: no-repeat;

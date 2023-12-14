@@ -296,19 +296,18 @@ def on_item(character=None):
 #     character = js.document.querySelector(".character")
 #     character.style.backgroundImage = f'url("assets/img/characters/lion.png")'
 
-# def add_ch():
+# 이벤트 처리를 위해 index.html에 추가 
+# def submit():
 #     '''
-#     캐릭터를 추가하는 함수
-#     순환 참조로 인해 이 함수만 index.html에 있음
+#     통계보고서 처리를 위한 정답 확인용 함수
+#     캐릭터의 위치, 프린트된 결과, 말한 결과 등을 수집하여 정답 여부 확인
 #     '''
-#     pass
-
-def submit():
-    '''
-    통계보고서 처리를 위한 정답 확인용 함수
-    캐릭터의 위치, 프린트된 결과, 말한 결과 등을 수집하여 정답 여부 확인
-    '''
-    pass
+#     answer[1]={
+#         character_position: (0, 0),
+#         character_item:{'fish-1':4},
+#         print_result: ['hello World!'],
+        
+#     }
 
 def mob_exist(x, y):
     for m in mob_data:

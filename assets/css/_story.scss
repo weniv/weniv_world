@@ -84,6 +84,16 @@
                 display: flex;
             }
         }
+
+        &.submit {
+            .story-title::before {
+                @include mask-image(
+                    var(--ColorPrimary),
+                    '../../assets/img/icon/icon-book.svg',
+                    2rem 2rem
+                );
+            }
+        }
     }
 }
 
@@ -101,14 +111,6 @@
         height: 4rem;
         @include mask-image(
             var(--ColorGrayLv3),
-            '../../assets/img/icon/icon-book.svg',
-            2rem 2rem
-        );
-    }
-
-    &.submit::before {
-        @include mask-image(
-            var(--ColorPrimary),
             '../../assets/img/icon/icon-book.svg',
             2rem 2rem
         );

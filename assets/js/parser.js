@@ -431,7 +431,7 @@ const renderContent = (markdownData) => {
 
             if (localStorage.getItem(`${index + 1}_check`) === '통과') {
                 // titleSection before의 배경색을 변환
-                titleSection.classList.add('submit');
+                li.classList.add('submit');
             }
 
             titleSection.append(heading, button);

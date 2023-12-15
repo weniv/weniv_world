@@ -646,9 +646,11 @@
     color: var(--ColorSurface);
 
     .bar {
+        width: 100%;
         height: 100%;
         background-color: #dd3440;
         transition: all 1s;
+        transform-origin: center left;
     }
 
     &.mp {

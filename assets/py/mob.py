@@ -109,7 +109,7 @@ class Mob:
             hp = js.document.createElement("div")
             hp.setAttribute('class','bar')
             hp_container.appendChild(hp)
-        hp.style.width = f"{self.hp/self.initHp*100}%"
+        hp.style.transform=f"scaleX({self.hp/self.initHp})"
         
         text = hp_container.querySelector('.text')
         if not text:

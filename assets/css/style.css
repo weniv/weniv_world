@@ -1614,9 +1614,11 @@ button {
   overflow: hidden;
   color: var(--ColorSurface); }
   .state-container .bar {
+    width: 100%;
     height: 100%;
     background-color: #dd3440;
-    transition: all 1s; }
+    transition: all 1s;
+    transform-origin: center left; }
   .state-container.mp {
     transform: translate(-50%, 200%); }
     .state-container.mp .bar {

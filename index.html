@@ -1159,6 +1159,7 @@
                 else:
                     story_select['index']=0
                 init()
+                
                 localData = js.localStorage.getItem(f"{story_select['index']}_code")
                 code_list = json.loads(localData) if localData else []
                 notebookSection = js.document.getElementById('notebookSection')
@@ -1178,7 +1179,6 @@
 
             # story submit
             if(evt.target.tagName == 'BUTTON' and evt.target.classList.contains('btn-submit')):
-                # js.console.log('selected submit ',story_select['index'])
                 # 코드 저장
                 notebookSection = js.document.getElementById('notebookSection')
                 codeBlocks = notebookSection.querySelectorAll('py-repl')

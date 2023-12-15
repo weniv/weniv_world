@@ -1743,6 +1743,9 @@ button {
       mask-image: url("../../assets/img/icon/icon-arrow-top.svg"); }
     .story-list > li.active .story-contents {
       display: flex; }
+    .story-list > li.active .btn-submit {
+      pointer-events: all;
+      color: inherit; }
     .story-list > li.submit .story-title::before {
       background: var(--ColorPrimary);
       -webkit-mask-image: url("../../assets/img/icon/icon-book.svg");
@@ -1791,7 +1794,9 @@ button {
     border-radius: 0.8rem;
     padding: 0.5rem;
     font-size: 1.4rem;
-    box-shadow: var(--Shadow); }
+    box-shadow: var(--Shadow);
+    color: var(--ColorGrayLv2);
+    pointer-events: none; }
     .story-title .btn-submit:hover {
       background-color: var(--ColorActivation); }
   .story-title .btn-toggle {

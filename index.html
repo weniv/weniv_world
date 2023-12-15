@@ -1144,7 +1144,7 @@
         
         @when("click", selector = ".story-list")
         def set_story(evt=None):
-            # 버튼 여닫기
+            # story toggle
             if(evt.target.tagName == 'BUTTON' and evt.target.classList.contains('btn-toggle')):
                 storyItems = js.document.querySelectorAll('.story-list>li')
                 liElem = evt.target.closest('li')
@@ -1159,14 +1159,39 @@
                 else:
                     story_select['index']=0
                 init()
+                localData = js.localStorage.getItem(f"{story_select['index']}_code")
+                code_list = json.loads(localData) if localData else []
+                notebookSection = js.document.getElementById('notebookSection')
+                notebookSection.innerHTML = ''
+                if code_list:
+                    for code in code_list:
+                        newRepl = js.document.createElement('py-repl')
+                        newRepl.textContent = code
+                        notebookSection.appendChild(newRepl)
+                        if code == code_list[-1]:
+                            newRepl.setAttribute('auto-generate', 'true')
+                else:
+                    newRepl = js.document.createElement('py-repl')
+                    newRepl.textContent = ''
+                    notebookSection.appendChild(newRepl)
+                    newRepl.setAttribute('auto-generate', 'true')
 
+            # story submit
             if(evt.target.tagName == 'BUTTON' and evt.target.classList.contains('btn-submit')):
                 # js.console.log('selected submit ',story_select['index'])
+                # 코드 저장
+                notebookSection = js.document.getElementById('notebookSection')
+                codeBlocks = notebookSection.querySelectorAll('py-repl')
+                code_list = []
+                for codeBlock in codeBlocks:
+                    cms = codeBlock.querySelector('.cm-content')
+                    code_list.append(cms.innerText)
+                js.localStorage.setItem(f"{story_select['index']}_code", json.dumps(code_list))
                 
                 # TODO: submit 성공 조건문 추가
                 js.localStorage.setItem(f"{story_select['index']}_check", "통과")
-                secElem = evt.target.closest('section')
-                secElem.classList.add('submit')
+                liElem = evt.target.closest('li')
+                liElem.classList.add('submit')
                 
         
         @when("click", selector=".btn-story")
@@ -1320,19 +1345,6 @@
                     label.classList.add('select')
 
         
-        @when("click", selector=".btn-submit")
-        def submit(evt=None):
-            submit_data = {
-                'item_data':item_data,
-                'character_x': character_data[0]['x'],
-                'character_y': character_data[0]['y'],
-                'character_item':character_data[0]['items'],
-            }
-            print(submit_data)
-
-
-            js.localStorage.setItem(f"{story_select['index']}_check", "통과")
-                
     </py-script>
     <script>
     const dateFormat = ()=>{

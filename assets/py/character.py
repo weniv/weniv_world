@@ -107,8 +107,7 @@ class Character:
             hp = js.document.createElement("div")
             hp.setAttribute('class','bar')
             hp_container.appendChild(hp)
-        hp.style.width = f"{self.hp/self.initHp*100}%"
-        
+        hp.style.transform=f"scaleX({self.hp/self.initHp})"
         text = hp_container.querySelector('.text')
         if not text:
             text = js.document.createElement('span')
@@ -129,7 +128,7 @@ class Character:
             mp = js.document.createElement("div")
             mp.setAttribute('class','bar')
             mp_container.appendChild(mp)
-        mp.style.width = f"{self.mp/self.initMp*100}%"
+        mp.style.transform=f"scaleX({self.mp/self.initMp})"
         
         text = mp_container.querySelector('.text')
         if not text:

@@ -1587,35 +1587,42 @@ button {
     animation-name: lion;
     width: 4.8rem;
     height: 6.4rem;
-    background-size: 288px 64px; }
+    background-size: 288px 64px;
+    transform: translateY(-15%); }
   .mob.mob1, .mob.mob2, .mob.mob3, .mob.mob4 {
     animation-name: mob;
     width: 2.8rem;
     height: 2.8rem;
     background-size: 168px 28px; }
   .mob .state-container {
+    min-width: 6.4rem;
     scale: 0.7692;
     bottom: 0;
     transform: translate(-63%, 150%); }
+    .mob .state-container .text {
+      opacity: 1; }
 
 .state-container {
-  width: 6.4rem;
-  height: 1rem;
+  width: 100%;
+  height: 0.8rem;
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, 100%);
+  transform: translate(-50%, 80%);
   background-color: var(--ColorGrayLv2);
   border-radius: 3rem;
-  overflow: hidden; }
+  overflow: hidden;
+  color: var(--ColorSurface); }
   .state-container .bar {
+    width: 100%;
     height: 100%;
-    background-color: var(--ColorError);
-    transition: all 1s; }
+    background-color: #dd3440;
+    transition: all 1s;
+    transform-origin: center left; }
   .state-container.mp {
-    transform: translate(-50%, 250%); }
+    transform: translate(-50%, 200%); }
     .state-container.mp .bar {
-      background-color: var(--ColorWallBlue); }
+      background-color: #486fee; }
   .state-container .text {
     position: absolute;
     top: 50%;
@@ -1624,8 +1631,8 @@ button {
     font-size: 0.8rem;
     font-weight: 600;
     line-height: 1;
-    color: var(--ColorSurface);
-    box-shadow: var(--EffectShadow); }
+    box-shadow: var(--EffectShadow);
+    transition: all 0.2s; }
 
 .toast {
   display: none;

@@ -670,12 +670,11 @@
         font-weight: 600;
         line-height: 1;
         box-shadow: var(--EffectShadow);
-        opacity: 0;
         transition: all 0.2s;
     }
-    &:hover .text {
-        opacity: 1;
-    }
+    // &:hover .text {
+    //     opacity: 1;
+    // }
 }
 
 .toast {

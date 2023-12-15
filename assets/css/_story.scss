@@ -130,10 +130,22 @@
         }
     }
 
+    .btn-submit {
+        margin-left: auto;
+        border: 1px solid var(--ColorGrayLv2);
+        word-break: keep-all;
+        border-radius: 0.8rem;
+        padding: 0.5rem;
+        font-size: 1.4rem;
+        box-shadow: var(--Shadow);
+
+        &:hover {
+            background-color: var(--ColorActivation);
+        }
+    }
     .btn-toggle {
         width: 2.4rem;
         height: 2.4rem;
-        margin-left: auto;
         @include mask-image(
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-arrow-bottom.svg'

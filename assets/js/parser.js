@@ -433,18 +433,18 @@ const renderContent = (markdownData) => {
                 // titleSection before의 배경색을 변환
                 li.classList.add('submit');
             }
+            const submitButton = document.createElement('button');
+            submitButton.setAttribute('class', 'btn-submit');
+            submitButton.setAttribute('type', 'button');
+            submitButton.innerText = '제출하기';
 
-            titleSection.append(heading, button);
+            titleSection.append(heading, submitButton, button);
 
             const contentSection = document.createElement('section');
             contentSection.setAttribute('class', 'story-contents');
             contentSection.innerHTML = data.content;
 
-            const submitButton = document.createElement('button');
-            submitButton.setAttribute('class', 'btn-submit');
-            submitButton.setAttribute('type', 'button');
-            submitButton.innerText = '제출하기';
-            contentSection.appendChild(submitButton);
+            contentSection.appendChild(submitButton.cloneNode(true));
 
             li.append(titleSection, contentSection);
             $storyList.appendChild(li);

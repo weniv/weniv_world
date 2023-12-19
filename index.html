@@ -461,7 +461,7 @@
         from mob import Mob
         from item import Item
         from error import *
-        from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_wall, mob_info, skills, character_info
+        from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_wall, mob_info, skills, character_info, print_data, say_data
         from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal, eat
         from pyscript import when
         from js import alert, setTimeout
@@ -619,10 +619,12 @@
 
         @when("click", selector="#init")
         def init(evt=None):
-            global wall_data, wall_container, mob_data, draw_map
+            global wall_data, wall_container, mob_data, draw_map, say_data
             js.console.log('월드 초기화')
             map_data['height'] = 5
             map_data['width'] = 5
+            say_data.clear()
+
 
             idx = story_select['index']
 
@@ -1117,6 +1119,7 @@
                 output_line.remove()
             for liElement in js.document.querySelectorAll('.index-list li'):
                 liElement.remove()
+            print_data.clear()
 
         @when("click", selector="#output-download")
         def init_output(evt=None):

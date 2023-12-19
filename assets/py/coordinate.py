@@ -24,6 +24,9 @@ item_data = {}
 
 wall_data = {"world": {}}
 
+print_data = []
+say_data = []
+
 #-----------------------#
 ## 시스템 기본 데이터
 valid_items = ['fish-1','fish-2','fish-3','diamond','apple','goldbar']

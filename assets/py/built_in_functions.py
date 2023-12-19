@@ -1,7 +1,7 @@
 import js
 
 from pyodide.ffi import create_once_callable
-from coordinate import character_data, map_data,running_speed, mob_data, item_data, valid_items, error_message, default_character
+from coordinate import character_data, map_data,running_speed, mob_data, item_data, valid_items, error_message, default_character, print_data, say_data
 from item import Item
 
 command_count = 1 # 명령어 줄 수
@@ -50,6 +50,7 @@ def print(*texts, type="normal"):
             if type == "error":
                 paragraph.setAttribute("data-error", "true")
             output.appendChild(paragraph)
+            print_data.append(result)
         else:
             js.console.log(result)
     running_speed = get_running_speed()
@@ -66,6 +67,7 @@ def say(text="", character=None, speech_time=5000):
         else:
             if len(character_data) and character_data[0]["character_obj"] != None:
                 character_data[0]["character_obj"].say(text, speech_time)
+                say_data.append(text)
             else:
                 alert_error('CharacterIsNotExist')
                 raise CharacterIsNotExist

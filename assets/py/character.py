@@ -311,6 +311,10 @@ class Character:
             alert_error('NotEnoughMana')
             raise NotEnoughMana
 
+        if self.typeof_wall():
+            alert_error('WallIsExist')
+            raise WallIsExist
+            
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         nx, ny = x, y
         if directions == 0:
@@ -651,7 +655,7 @@ class Character:
         # if pos not in wall_data['world'].keys():
             return 'OutOfWorld'
             
-        return wall_data["world"][pos]
+        return wall_data["world"].get(pos, None)
 
     def _front_wall(self):
         directions = self.directions

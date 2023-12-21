@@ -1196,7 +1196,8 @@
                     'print_data': print_data,
                     'say_data': say_data,
                     'item_data': item_data,
-                    'character_data': character_data,
+                    'character_data': character_data[0],
+                    'item':character_data[0]['items'],
                     'mob_data': mob_data,
                 }
 
@@ -1209,14 +1210,33 @@
                     if key not in solution.keys():
                         continue
                     
-                    # 배열
+                    # 배열이면
                     if key=='print_data' or key=='say_data':
                         if all(elem in check_data[key] for elem in solution[key]):
                             js.console.log('출력 통과')
                         else:
                             js.console.log('실패')
 
+                    # 캐릭터 정보
+                    elif key=='character_data':
+                        ch_solution = solution[key]
+                        ch_check = check_data[key]
+                        # ch_solution에 있는 프로퍼티 쌍이 ch_check에 포함되어 있으면 통과
+                        # ch_solution과 ch_check는 객체
+                        if all(ch_solution.get(prop, None) == ch_check.get(prop, None) for prop in ch_solution.keys()):
+                            js.console.log('캐릭터 통과')
+                        else:
+                            js.console.log('실패')
 
+                    # 캐릭터 아이템
+                    elif key=='item':
+                        # solution[key]가 ch_check에 포함되어 있으면 통과
+                        # solution[key]는 객체
+                        if all(solution[key].get(prop, None) == check_data[key].get(prop, None) for prop in solution[key].keys()):
+                            js.console.log('아이템 통과')
+                        else:
+                            js.console.log('실패')
+        
                 js.localStorage.setItem(f"{story_select['index']}_check", "통과")
                 liElem = evt.target.closest('li')
                 liElem.classList.add('submit')

@@ -1203,6 +1203,7 @@
 
                 # TODO: submit 성공 조건문 추가
                 # check_data의 key값을 순회
+                solution_flag = True
                 solution = story_solution[story_select['index']]
 
                 for key in check_data.keys():
@@ -1215,7 +1216,8 @@
                         if all(elem in check_data[key] for elem in solution[key]):
                             js.console.log('출력 통과')
                         else:
-                            js.console.log('실패')
+                            js.console.log('출력 실패')
+                            solution_flag = False
 
                     # 캐릭터 정보
                     elif key=='character_data':
@@ -1226,7 +1228,9 @@
                         if all(ch_solution.get(prop, None) == ch_check.get(prop, None) for prop in ch_solution.keys()):
                             js.console.log('캐릭터 통과')
                         else:
-                            js.console.log('실패')
+                            js.console.log('캐릭터 실패')
+                            solution_flag = False
+
 
                     # 캐릭터 아이템
                     elif key=='item':
@@ -1235,13 +1239,24 @@
                         if all(solution[key].get(prop, None) == check_data[key].get(prop, None) for prop in solution[key].keys()):
                             js.console.log('아이템 통과')
                         else:
-                            js.console.log('실패')
-        
-                js.localStorage.setItem(f"{story_select['index']}_check", "통과")
-                liElem = evt.target.closest('li')
-                liElem.classList.add('submit')
+                            js.console.log('아이템 실패')
+                            solution_flag = False
+
+                    elif key=='item_data':
+                        print('>> check_data: ', check_data[key])
+                        print('>> solution: ', check_data[key])
+                        if solution[key] == check_data[key]:
+                            js.console.log('월드 아이템 통과')
+                        else:
+                            js.console.log('월드 아이템 실패')
+                            solution_flag = False
+
+                js.console.log('>> Flag: ', solution_flag)
+                if solution_flag:
+                    js.localStorage.setItem(f"{story_select['index']}_check", "통과")
+                    liElem = evt.target.closest('li')
+                    liElem.classList.add('submit')
                 
-        
         @when("click", selector=".btn-story")
         def change_storymode(evt=None):
             if(evt.target.classList.contains('active')):

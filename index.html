@@ -65,7 +65,7 @@
 
         [[fetch]]
         from = "./assets/py/"
-        files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py","mob.py"]
+        files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py", "mob.py", "solution.py"]
     </py-config>
 </head>
 <body>
@@ -463,6 +463,7 @@
         from error import *
         from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_wall, mob_info, skills, character_info, print_data, say_data
         from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal, eat
+        from solution import story_solution
         from pyscript import when
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable
@@ -619,12 +620,12 @@
 
         @when("click", selector="#init")
         def init(evt=None):
-            global wall_data, wall_container, mob_data, draw_map, say_data
+            global wall_data, wall_container, mob_data, draw_map, print_data, say_data
             js.console.log('월드 초기화')
             map_data['height'] = 5
             map_data['width'] = 5
+            print_data.clear()
             say_data.clear()
-
 
             idx = story_select['index']
 
@@ -1191,7 +1192,31 @@
                     code_list.append(cms.innerText)
                 js.localStorage.setItem(f"{story_select['index']}_code", json.dumps(code_list))
                 
+                check_data = {
+                    'print_data': print_data,
+                    'say_data': say_data,
+                    'item_data': item_data,
+                    'character_data': character_data,
+                    'mob_data': mob_data,
+                }
+
                 # TODO: submit 성공 조건문 추가
+                # check_data의 key값을 순회
+                solution = story_solution[story_select['index']]
+
+                for key in check_data.keys():
+                    # 정답에 해당 key가 없으면 정답조건이 아니므로 continue
+                    if key not in solution.keys():
+                        continue
+                    
+                    # 배열
+                    if key=='print_data' or key=='say_data':
+                        if all(elem in check_data[key] for elem in solution[key]):
+                            js.console.log('출력 통과')
+                        else:
+                            js.console.log('실패')
+
+
                 js.localStorage.setItem(f"{story_select['index']}_check", "통과")
                 liElem = evt.target.closest('li')
                 liElem.classList.add('submit')

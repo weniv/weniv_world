@@ -108,10 +108,10 @@ story_wall = {
         "wall": {  # (x, y): 'wall', 'fence', 'door'
         },
         "item": {
-            (0, 1): {"item": "fish", "count": 1},
-            (0, 2): {"item": "fish", "count": 1},
-            (0, 3): {"item": "fish", "count": 1},
-            (0, 4): {"item": "fish", "count": 1},
+            (0, 1): {"item": "fish-1", "count": 1},
+            (0, 2): {"item": "fish-1", "count": 1},
+            (0, 3): {"item": "fish-1", "count": 1},
+            (0, 4): {"item": "fish-1", "count": 1},
         },
     },
     # 2번 스토리

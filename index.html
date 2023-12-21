@@ -1207,52 +1207,43 @@
                 solution = story_solution[story_select['index']]
 
                 for key in check_data.keys():
-                    # 정답에 해당 key가 없으면 정답조건이 아니므로 continue
                     if key not in solution.keys():
                         continue
                     
                     # 배열이면
                     if key=='print_data' or key=='say_data':
                         if all(elem in check_data[key] for elem in solution[key]):
-                            js.console.log('출력 통과')
+                            # js.console.log('출력 통과')
                         else:
-                            js.console.log('출력 실패')
+                            # js.console.log('출력 실패')
                             solution_flag = False
 
                     # 캐릭터 정보
                     elif key=='character_data':
                         ch_solution = solution[key]
                         ch_check = check_data[key]
-                        # ch_solution에 있는 프로퍼티 쌍이 ch_check에 포함되어 있으면 통과
-                        # ch_solution과 ch_check는 객체
                         if all(ch_solution.get(prop, None) == ch_check.get(prop, None) for prop in ch_solution.keys()):
-                            js.console.log('캐릭터 통과')
+                            # js.console.log('캐릭터 통과')
                         else:
-                            js.console.log('캐릭터 실패')
+                            # js.console.log('캐릭터 실패')
                             solution_flag = False
-
 
                     # 캐릭터 아이템
                     elif key=='item':
-                        # solution[key]가 ch_check에 포함되어 있으면 통과
-                        # solution[key]는 객체
-                        if all(solution[key].get(prop, None) == check_data[key].get(prop, None) for prop in solution[key].keys()):
-                            js.console.log('아이템 통과')
+                        if solution[key]==check_data[key]:
+                            # js.console.log('아이템 통과')
                         else:
-                            js.console.log('아이템 실패')
+                            # js.console.log('아이템 실패')
                             solution_flag = False
 
                     elif key=='item_data':
-                        print('>> check_data: ', check_data[key])
-                        print('>> solution: ', check_data[key])
                         if solution[key] == check_data[key]:
-                            js.console.log('월드 아이템 통과')
+                            # js.console.log('월드 아이템 통과')
                         else:
-                            js.console.log('월드 아이템 실패')
-                            solution_flag = False
+                            # js.console.log('월드 아이템 실패')
+                            solution_flag = False 
 
-                js.console.log('>> Flag: ', solution_flag)
-                if solution_flag:
+                if solution_flag==True:
                     js.localStorage.setItem(f"{story_select['index']}_check", "통과")
                     liElem = evt.target.closest('li')
                     liElem.classList.add('submit')

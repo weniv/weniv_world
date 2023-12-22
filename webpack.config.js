@@ -17,7 +17,7 @@ module.exports = {
     mode: 'development', // 'development' or 'production
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.[contenthash].js',
+        filename: 'bundle.js',
     },
     module: {
         rules: [

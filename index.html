@@ -1270,9 +1270,9 @@
                     js.localStorage.setItem(f"{story_select['index']}_check", "통과")
                     liElem = evt.target.closest('li')
                     liElem.classList.add('submit')
-                    alert_error('성공')
+                    _show_modal_alert('정답입니다.')
                 else:
-                    alert_error('실패')
+                    _show_modal_alert('오답입니다.')
         @when("click", selector=".btn-story")
         def change_storymode(evt=None):
             if(evt.target.classList.contains('active')):

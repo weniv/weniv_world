@@ -461,7 +461,7 @@
         from mob import Mob
         from item import Item
         from error import *
-        from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_wall, mob_info, skills, character_info, print_data, say_data
+        from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_data, mob_info, skills, character_info, print_data, say_data
         from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal, eat
         from solution import story_solution
         from pyscript import when
@@ -629,10 +629,10 @@
 
             idx = story_select['index']
 
-            if(story_select['status'] and story_wall.get(idx)):
+            if(story_select['status'] and story_data.get(idx)):
 
-                map_data['width']= story_wall[idx]['map_width']
-                map_data['height']= story_wall[idx]['map_height']
+                map_data['width']= story_data[idx]['map_width']
+                map_data['height']= story_data[idx]['map_height']
                 
             map_slider_x.value = 5
             map_slider_y.value = 5
@@ -651,13 +651,13 @@
                 app.appendChild(draw_map)
                 
                 wall.resetWall(map_data['width'], map_data['height'])
-                if(story_select['status'] and story_wall.get(idx)):
-                    wall_data['world']= story_wall[idx]['wall']
-                    wall.wall_data = story_wall[idx]['wall']
+                if(story_select['status'] and story_data.get(idx)):
+                    wall_data['world']= story_data[idx]['wall']
+                    wall.wall_data = story_data[idx]['wall']
                 
-                    wall.resizeWall(story_wall[idx]['map_width'],story_wall[idx]['map_height'])
+                    wall.resizeWall(story_data[idx]['map_width'],story_data[idx]['map_height'])
 
-                    items = story_wall[idx]['item']
+                    items = story_data[idx]['item']
 
                     for pos in items:
                         if ( 0 <= pos[0] < map_data['height'] and 0 <= pos[1] < map_data['width']):

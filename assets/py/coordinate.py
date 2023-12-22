@@ -100,7 +100,7 @@ error_message = {'OutOfWorld': '맵을 벗어납니다.',
 #-----------------------#
 ## 스토리 데이터
 
-story_wall = {
+story_data = {
     # 1번 스토리
     1: {
         "map_width": 5,

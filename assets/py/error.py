@@ -1,4 +1,4 @@
-from built_in_functions import print, _show_modal_alert
+from built_in_functions import print, _show_modal
 from coordinate import error_message
 import js
 
@@ -138,9 +138,9 @@ class ArgumentsError(Exception):
         
 def alert_error(error_type):
     if error_type not in error_message.keys():
-        _show_modal_alert(error_type)
+        _show_modal("알 수 없는 에러가 발생했습니다.")
         raise Exception(error_type)
-    _show_modal_alert(error_message[error_type])
+    _show_modal(error_message[error_type])
     
 class NotEnoughMana(Exception):
     """

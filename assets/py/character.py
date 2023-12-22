@@ -2,7 +2,7 @@ import js
 from js import setTimeout
 from pyodide.ffi import create_once_callable
 
-from built_in_functions import print, say, _show_modal_alert
+from built_in_functions import print, say, _show_modal
 from coordinate import (
     character_data,
     mob_data,

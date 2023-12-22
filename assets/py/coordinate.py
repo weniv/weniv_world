@@ -24,9 +24,6 @@ item_data = {}
 
 wall_data = {"world": {}}
 
-print_data = []
-say_data = []
-
 #-----------------------#
 ## 시스템 기본 데이터
 valid_items = ['fish-1','fish-2','fish-3','diamond','apple','goldbar']
@@ -100,7 +97,7 @@ error_message = {'OutOfWorld': '맵을 벗어납니다.',
 #-----------------------#
 ## 스토리 데이터
 
-story_data = {
+story_wall = {
     # 1번 스토리
     1: {
         "map_width": 5,
@@ -108,10 +105,10 @@ story_data = {
         "wall": {  # (x, y): 'wall', 'fence', 'door'
         },
         "item": {
-            (0, 1): {"item": "fish-1", "count": 1},
-            (0, 2): {"item": "fish-1", "count": 1},
-            (0, 3): {"item": "fish-1", "count": 1},
-            (0, 4): {"item": "fish-1", "count": 1},
+            (0, 1): {"item": "fish", "count": 1},
+            (0, 2): {"item": "fish", "count": 1},
+            (0, 3): {"item": "fish", "count": 1},
+            (0, 4): {"item": "fish", "count": 1},
         },
     },
     # 2번 스토리
@@ -178,7 +175,6 @@ story_data = {
         "wall": {  # (x, y): 'wall', 'fence', 'door'
         },
         "item": {},
-        "basic_code":"공지문 = '대표 라이캣, 팀장 뮤라, 팀 리더 하티'"
     },
     # 6번 스토리
     6: {

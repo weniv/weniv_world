@@ -1213,6 +1213,7 @@
                     # 배열이면
                     if key=='print_data' or key=='say_data':
                         if all(elem in check_data[key] for elem in solution[key]):
+                            pass
                             # js.console.log('출력 통과')
                         else:
                             # js.console.log('출력 실패')
@@ -1223,6 +1224,7 @@
                         ch_solution = solution[key]
                         ch_check = check_data[key]
                         if all(ch_solution.get(prop, None) == ch_check.get(prop, None) for prop in ch_solution.keys()):
+                            pass
                             # js.console.log('캐릭터 통과')
                         else:
                             # js.console.log('캐릭터 실패')
@@ -1231,6 +1233,7 @@
                     # 캐릭터 아이템
                     elif key=='item':
                         if solution[key]==check_data[key]:
+                            pass
                             # js.console.log('아이템 통과')
                         else:
                             # js.console.log('아이템 실패')
@@ -1238,16 +1241,20 @@
 
                     elif key=='item_data':
                         if solution[key] == check_data[key]:
+                            pass
                             # js.console.log('월드 아이템 통과')
                         else:
                             # js.console.log('월드 아이템 실패')
                             solution_flag = False 
 
                 if solution_flag==True:
+                    # TODO: 경고창을 안내창으로 변경
                     js.localStorage.setItem(f"{story_select['index']}_check", "통과")
                     liElem = evt.target.closest('li')
                     liElem.classList.add('submit')
-                
+                    alert_error('성공')
+                else:
+                    alert_error('실패')
         @when("click", selector=".btn-story")
         def change_storymode(evt=None):
             if(evt.target.classList.contains('active')):

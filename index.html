@@ -1179,7 +1179,6 @@
                     notebookSection = js.document.getElementById('notebookSection')
                     notebookSection.innerHTML = ''
                     if code_list:
-                        js.console.log('have code')
                         for code in code_list:
                             newRepl = js.document.createElement('py-repl')
                             newRepl.textContent = code
@@ -1187,7 +1186,6 @@
                             if code == code_list[-1]:
                                 newRepl.setAttribute('auto-generate', 'true')
                     else:
-                        js.console.log('don\'t have code')
                         newRepl = js.document.createElement('py-repl')
                         # 기본코드
                         basic_code = story_data[idx].get('basic_code','')

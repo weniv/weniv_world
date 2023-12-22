@@ -71,8 +71,6 @@ def _jump(ch):
         fx += 1
         nx += 2
         
-    js.console.log(f"nx: {nx}, ny: {ny}")
-    
     error_check = None
     if ch._out_of_world(nx, ny):
         error_check = "OutOfWorld"

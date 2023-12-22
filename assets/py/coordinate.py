@@ -178,6 +178,7 @@ story_data = {
         "wall": {  # (x, y): 'wall', 'fence', 'door'
         },
         "item": {},
+        "basic_code":"공지문 = '대표 라이캣, 팀장 뮤라, 팀 리더 하티'"
     },
     # 6번 스토리
     6: {

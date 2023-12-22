@@ -1164,23 +1164,36 @@
                     story_select['index']=0
                 init()
                 
-                localData = js.localStorage.getItem(f"{story_select['index']}_code")
-                code_list = json.loads(localData) if localData else []
-                notebookSection = js.document.getElementById('notebookSection')
-                notebookSection.innerHTML = ''
-                if code_list:
-                    for code in code_list:
+                idx = story_select['index']
+                if idx:
+                    localData = js.localStorage.getItem(f"{idx}_code")
+                    code_list = json.loads(localData) if localData else []
+                    notebookSection = js.document.getElementById('notebookSection')
+                    notebookSection.innerHTML = ''
+                    if code_list:
+                        js.console.log('have code')
+                        for code in code_list:
+                            newRepl = js.document.createElement('py-repl')
+                            newRepl.textContent = code
+                            notebookSection.appendChild(newRepl)
+                            if code == code_list[-1]:
+                                newRepl.setAttribute('auto-generate', 'true')
+                    else:
+                        js.console.log('don\'t have code')
                         newRepl = js.document.createElement('py-repl')
-                        newRepl.textContent = code
+                        # 기본코드
+                        basic_code = story_data[idx].get('basic_code','')
+                        js.console.log(basic_code)
+                        newRepl.textContent = basic_code
                         notebookSection.appendChild(newRepl)
-                        if code == code_list[-1]:
-                            newRepl.setAttribute('auto-generate', 'true')
-                else:
-                    newRepl = js.document.createElement('py-repl')
-                    newRepl.textContent = ''
-                    notebookSection.appendChild(newRepl)
-                    newRepl.setAttribute('auto-generate', 'true')
 
+                        cms = newRepl.querySelector('.cm-content')
+                        cm = js.document.createElement('div')
+                        cm.setAttribute('class', 'cm-activeLine cm-line')
+                        cm.innerHTML = '<br/>'
+                        cms.appendChild(cm)
+
+                        newRepl.setAttribute('auto-generate', 'true')
             # story submit
             if(evt.target.tagName == 'BUTTON' and evt.target.classList.contains('btn-submit')):
                 # 코드 저장
@@ -1202,7 +1215,7 @@
                 }
 
                 # TODO: submit 성공 조건문 추가
-                # check_data의 key값을 순회
+                # check_data의 key값을 순회 0
                 solution_flag = True
                 solution = story_solution[story_select['index']]
 
@@ -1210,7 +1223,6 @@
                     if key not in solution.keys():
                         continue
                     
-                    # 배열이면
                     if key=='print_data' or key=='say_data':
                         if all(elem in check_data[key] for elem in solution[key]):
                             pass
@@ -1219,7 +1231,6 @@
                             # js.console.log('출력 실패')
                             solution_flag = False
 
-                    # 캐릭터 정보
                     elif key=='character_data':
                         ch_solution = solution[key]
                         ch_check = check_data[key]
@@ -1230,7 +1241,6 @@
                             # js.console.log('캐릭터 실패')
                             solution_flag = False
 
-                    # 캐릭터 아이템
                     elif key=='item':
                         if solution[key]==check_data[key]:
                             pass

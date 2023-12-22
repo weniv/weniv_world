@@ -65,7 +65,7 @@
 
         [[fetch]]
         from = "./assets/py/"
-        files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py","mob.py"]
+        files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py", "mob.py", "solution.py"]
     </py-config>
 </head>
 <body>
@@ -395,10 +395,18 @@
             <section class="world-map">
                 <h3 class="sr-only">위니브월드 맵</h3>
                 <div id='app'></div>
-                <div class="toast">
-                    <img src="./assets/img/icon/icon-alert-circle.svg" alt="오류 발생">
+                <div class="modal alert">
+                    <img src="./assets/img/icon/icon-alert-circle.svg" alt="안내">
                     <p class="text"></p>
                     <button class="confirm">확인</button>
+                </div>
+                <div class="modal confirm">
+                    <img src="./assets/img/icon/icon-alert-circle.svg" alt="안내">
+                    <p class="text"></p>
+                    <div class="btns">
+                        <button class="cancel">취소</button>
+                        <button class="exit">나가기</button>
+                    </div>
                 </div>
             </section>
             <div class="resizer" data-direction="vertical"></div>
@@ -461,8 +469,9 @@
         from mob import Mob
         from item import Item
         from error import *
-        from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_wall, mob_info, skills, character_info
-        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal, eat
+        from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_data, mob_info, skills, character_info, print_data, say_data
+        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal_alert, eat
+        from solution import story_solution
         from pyscript import when
         from js import alert, setTimeout
         from pyodide.ffi import create_once_callable
@@ -619,17 +628,19 @@
 
         @when("click", selector="#init")
         def init(evt=None):
-            global wall_data, wall_container, mob_data, draw_map
+            global wall_data, wall_container, mob_data, draw_map, print_data, say_data
             js.console.log('월드 초기화')
             map_data['height'] = 5
             map_data['width'] = 5
+            print_data.clear()
+            say_data.clear()
 
             idx = story_select['index']
 
-            if(story_select['status'] and story_wall.get(idx)):
+            if(story_select['status'] and story_data.get(idx)):
 
-                map_data['width']= story_wall[idx]['map_width']
-                map_data['height']= story_wall[idx]['map_height']
+                map_data['width']= story_data[idx]['map_width']
+                map_data['height']= story_data[idx]['map_height']
                 
             map_slider_x.value = 5
             map_slider_y.value = 5
@@ -648,13 +659,13 @@
                 app.appendChild(draw_map)
                 
                 wall.resetWall(map_data['width'], map_data['height'])
-                if(story_select['status'] and story_wall.get(idx)):
-                    wall_data['world']= story_wall[idx]['wall']
-                    wall.wall_data = story_wall[idx]['wall']
+                if(story_select['status'] and story_data.get(idx)):
+                    wall_data['world']= story_data[idx]['wall']
+                    wall.wall_data = story_data[idx]['wall']
                 
-                    wall.resizeWall(story_wall[idx]['map_width'],story_wall[idx]['map_height'])
+                    wall.resizeWall(story_data[idx]['map_width'],story_data[idx]['map_height'])
 
-                    items = story_wall[idx]['item']
+                    items = story_data[idx]['item']
 
                     for pos in items:
                         if ( 0 <= pos[0] < map_data['height'] and 0 <= pos[1] < map_data['width']):
@@ -1117,6 +1128,7 @@
                 output_line.remove()
             for liElement in js.document.querySelectorAll('.index-list li'):
                 liElement.remove()
+            print_data.clear()
 
         @when("click", selector="#output-download")
         def init_output(evt=None):
@@ -1144,6 +1156,7 @@
         
         @when("click", selector = ".story-list")
         def set_story(evt=None):
+            # story toggle
             if(evt.target.tagName == 'BUTTON' and evt.target.classList.contains('btn-toggle')):
                 storyItems = js.document.querySelectorAll('.story-list>li')
                 liElem = evt.target.closest('li')
@@ -1158,7 +1171,108 @@
                 else:
                     story_select['index']=0
                 init()
-        
+                
+                idx = story_select['index']
+                if idx:
+                    localData = js.localStorage.getItem(f"{idx}_code")
+                    code_list = json.loads(localData) if localData else []
+                    notebookSection = js.document.getElementById('notebookSection')
+                    notebookSection.innerHTML = ''
+                    if code_list:
+                        js.console.log('have code')
+                        for code in code_list:
+                            newRepl = js.document.createElement('py-repl')
+                            newRepl.textContent = code
+                            notebookSection.appendChild(newRepl)
+                            if code == code_list[-1]:
+                                newRepl.setAttribute('auto-generate', 'true')
+                    else:
+                        js.console.log('don\'t have code')
+                        newRepl = js.document.createElement('py-repl')
+                        # 기본코드
+                        basic_code = story_data[idx].get('basic_code','')
+                        js.console.log(basic_code)
+                        newRepl.textContent = basic_code
+                        notebookSection.appendChild(newRepl)
+
+                        cms = newRepl.querySelector('.cm-content')
+                        cm = js.document.createElement('div')
+                        cm.setAttribute('class', 'cm-activeLine cm-line')
+                        cm.innerHTML = '<br/>'
+                        cms.appendChild(cm)
+
+                        newRepl.setAttribute('auto-generate', 'true')
+            # story submit
+            if(evt.target.tagName == 'BUTTON' and evt.target.classList.contains('btn-submit')):
+                # 코드 저장
+                notebookSection = js.document.getElementById('notebookSection')
+                codeBlocks = notebookSection.querySelectorAll('py-repl')
+                code_list = []
+                for codeBlock in codeBlocks:
+                    cms = codeBlock.querySelector('.cm-content')
+                    code_list.append(cms.innerText)
+                js.localStorage.setItem(f"{story_select['index']}_code", json.dumps(code_list))
+                
+                check_data = {
+                    'print_data': print_data,
+                    'say_data': say_data,
+                    'item_data': item_data,
+                    'character_data': character_data[0],
+                    'item':character_data[0]['items'],
+                    'mob_data': mob_data,
+                }
+
+                # TODO: submit 성공 조건문 추가
+                # check_data의 key값을 순회 0
+                solution_flag = True
+                solution = story_solution[story_select['index']]
+
+                for key in check_data.keys():
+                    if key not in solution.keys():
+                        continue
+                    
+                    if key=='print_data' or key=='say_data':
+                        if all(elem in check_data[key] for elem in solution[key]):
+                            pass
+                            # js.console.log('출력 통과')
+                        else:
+                            # js.console.log('출력 실패')
+                            solution_flag = False
+
+                    elif key=='character_data':
+                        ch_solution = solution[key]
+                        ch_check = check_data[key]
+                        if all(ch_solution.get(prop, None) == ch_check.get(prop, None) for prop in ch_solution.keys()):
+                            pass
+                            # js.console.log('캐릭터 통과')
+                        else:
+                            # js.console.log('캐릭터 실패')
+                            solution_flag = False
+
+                    elif key=='item':
+                        if solution[key]==check_data[key]:
+                            pass
+                            # js.console.log('아이템 통과')
+                        else:
+                            # js.console.log('아이템 실패')
+                            solution_flag = False
+
+                    elif key=='item_data':
+                        if solution[key] == check_data[key]:
+                            pass
+                            # js.console.log('월드 아이템 통과')
+                        else:
+                            # js.console.log('월드 아이템 실패')
+                            solution_flag = False 
+
+                if solution_flag==True:
+                    # TODO: 경고창을 안내창으로 변경
+                    js.localStorage.setItem(f"{story_select['index']}_check", "통과")
+                    liElem = evt.target.closest('li')
+                    liElem.classList.add('submit')
+                    _show_modal_alert('정답입니다.')
+                else:
+                    _show_modal_alert('오답입니다.')
         @when("click", selector=".btn-story")
         def change_storymode(evt=None):
             if(evt.target.classList.contains('active')):
@@ -1177,7 +1291,7 @@
 
         def add_mob(x, y, mob_type, name):
             '''
-            몬스터를 추가하는 함수
+            몹을 추가하는 함수
             순환 참조로 인해 이 함수만 index.html에 있음
             
             테스트 코드:
@@ -1188,14 +1302,17 @@
             '''
             global mob_data
             
-            if int(x) != x or int(y) != y or mob_type not in mob_info.keys() or not name:
+            if int(x) != x or int(y) != y or not name:
                 alert_error('InvalidSyntax')
                 raise InvalidSyntax
             
             if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
                 alert_error('OutOfWorld')
                 raise OutOfWorld
-
+            
+            if mob_type not in mob_info.keys():
+                alert_error('InvalidMob')
+                raise InvalidMob
             if character_exist(x, y) or mob_exist(x, y):
                 alert_error('ObstacleExist')
                 raise ObstacleExist
@@ -1309,7 +1426,7 @@
                     label = js.document.querySelector(f"label[for={item_select['name']}]")
                     label.classList.add('select')
 
-                
+        
     </py-script>
     <script>
     const dateFormat = ()=>{

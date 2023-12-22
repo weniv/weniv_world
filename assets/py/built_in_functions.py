@@ -1,7 +1,7 @@
 import js
 
 from pyodide.ffi import create_once_callable
-from coordinate import character_data, map_data,running_speed, mob_data, item_data, valid_items, error_message, default_character
+from coordinate import character_data, map_data,running_speed, mob_data, item_data, valid_items, error_message, default_character, print_data, say_data
 from item import Item
 
 command_count = 1 # 명령어 줄 수
@@ -50,6 +50,7 @@ def print(*texts, type="normal"):
             if type == "error":
                 paragraph.setAttribute("data-error", "true")
             output.appendChild(paragraph)
+            print_data.append(result)
         else:
             js.console.log(result)
     running_speed = get_running_speed()
@@ -66,6 +67,7 @@ def say(text="", character=None, speech_time=5000):
         else:
             if len(character_data) and character_data[0]["character_obj"] != None:
                 character_data[0]["character_obj"].say(text, speech_time)
+                say_data.append(text)
             else:
                 alert_error('CharacterIsNotExist')
                 raise CharacterIsNotExist
@@ -296,19 +298,18 @@ def on_item(character=None):
 #     character = js.document.querySelector(".character")
 #     character.style.backgroundImage = f'url("assets/img/characters/lion.png")'
 
-# def add_ch():
+# 이벤트 처리를 위해 index.html에 추가 
+# def submit():
 #     '''
-#     캐릭터를 추가하는 함수
-#     순환 참조로 인해 이 함수만 index.html에 있음
+#     통계보고서 처리를 위한 정답 확인용 함수
+#     캐릭터의 위치, 프린트된 결과, 말한 결과 등을 수집하여 정답 여부 확인
 #     '''
-#     pass
-
-def submit():
-    '''
-    통계보고서 처리를 위한 정답 확인용 함수
-    캐릭터의 위치, 프린트된 결과, 말한 결과 등을 수집하여 정답 여부 확인
-    '''
-    pass
+#     answer[1]={
+#         character_position: (0, 0),
+#         character_item:{'fish-1':4},
+#         print_result: ['hello World!'],
+        
+#     }
 
 def mob_exist(x, y):
     for m in mob_data:
@@ -338,8 +339,8 @@ def eat(item, character=None):
             
             
 # utility function
-def _show_modal(message):
-    toast = js.document.querySelector('.toast')
+def _show_modal_alert(message):
+    toast = js.document.querySelector('.modal.alert')
     
     text = toast.querySelector('.text')
     text.innerText = message
@@ -350,11 +351,11 @@ def _show_modal(message):
     js.setTimeout(create_once_callable(lambda: (hiddenToast())), 2000)
     
 def hiddenToast():
-    js.document.querySelector('.toast').classList.remove('show')
+    js.document.querySelector('.modal.alert').classList.remove('show')
 
 def alert_error(error_type):
     # 순환참조로 인하여 built_in_functions에서 발생하는 오류는 따로 관리
     if error_type not in error_message.keys():
-        _show_modal("알 수 없는 에러가 발생했습니다.")
+        _show_modal_alert(error_type)
     else:
-        _show_modal(error_message[error_type])
+        _show_modal_alert(error_message[error_type])

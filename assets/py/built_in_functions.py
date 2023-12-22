@@ -339,8 +339,8 @@ def eat(item, character=None):
             
             
 # utility function
-def _show_modal(message):
-    toast = js.document.querySelector('.toast')
+def _show_modal_alert(message):
+    toast = js.document.querySelector('.modal.alert')
     
     text = toast.querySelector('.text')
     text.innerText = message
@@ -351,11 +351,11 @@ def _show_modal(message):
     js.setTimeout(create_once_callable(lambda: (hiddenToast())), 2000)
     
 def hiddenToast():
-    js.document.querySelector('.toast').classList.remove('show')
+    js.document.querySelector('.modal.alert').classList.remove('show')
 
 def alert_error(error_type):
     # 순환참조로 인하여 built_in_functions에서 발생하는 오류는 따로 관리
     if error_type not in error_message.keys():
-        _show_modal(error_type)
+        _show_modal_alert(error_type)
     else:
-        _show_modal(error_message[error_type])
+        _show_modal_alert(error_message[error_type])

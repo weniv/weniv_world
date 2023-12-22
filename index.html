@@ -395,10 +395,18 @@
             <section class="world-map">
                 <h3 class="sr-only">위니브월드 맵</h3>
                 <div id='app'></div>
-                <div class="toast">
-                    <img src="./assets/img/icon/icon-alert-circle.svg" alt="오류 발생">
+                <div class="modal alert">
+                    <img src="./assets/img/icon/icon-alert-circle.svg" alt="안내">
                     <p class="text"></p>
                     <button class="confirm">확인</button>
+                </div>
+                <div class="modal confirm">
+                    <img src="./assets/img/icon/icon-alert-circle.svg" alt="안내">
+                    <p class="text"></p>
+                    <div class="btns">
+                        <button class="cancel">취소</button>
+                        <button class="exit">나가기</button>
+                    </div>
                 </div>
             </section>
             <div class="resizer" data-direction="vertical"></div>
@@ -462,7 +470,7 @@
         from item import Item
         from error import *
         from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_data, mob_info, skills, character_info, print_data, say_data
-        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal, eat
+        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal_alert, eat
         from solution import story_solution
         from pyscript import when
         from js import alert, setTimeout

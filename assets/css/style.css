@@ -1634,12 +1634,12 @@ button {
     box-shadow: var(--EffectShadow);
     transition: all 0.2s; }
 
-.toast {
-  display: none;
+.modal {
   position: fixed;
   top: 50%;
   left: 50%;
   min-width: 30rem;
+  min-height: 15.8rem;
   transform: translate(-50%, -50%);
   padding: 2.8rem 8rem;
   z-index: 999;
@@ -1650,19 +1650,28 @@ button {
   color: var(--ColorSurface);
   border: 2px solid var(--ColorError);
   border-radius: 1rem;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-sizing: border-box; }
-  .toast.show {
+  box-sizing: border-box;
+  display: none; }
+  .modal.show {
     display: flex; }
-  .toast p.text {
-    margin: 1.2rem auto 2rem; }
-  .toast button.confirm {
+  .modal p.text {
+    margin: 1.2rem auto 2rem;
+    text-align: center; }
+  .modal button {
     padding: 1.1rem 2rem;
     border: 1px solid var(--ColorGrayLv2);
     border-radius: 1rem;
     color: var(--ColorSurface); }
+    .modal button:hover {
+      background-color: var(--ColorGrayLv2); }
+
+.modal.confirm .btns {
+  display: flex;
+  gap: 1.2rem; }
 
 .story {
   display: none;

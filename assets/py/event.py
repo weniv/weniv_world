@@ -13,7 +13,7 @@ from coordinate import (
     map_size,
     border_size,
     wall_type,
-    story_wall,
+    story_data,
 )
 from built_in_functions import (
     print,
@@ -182,12 +182,12 @@ def init(evt=None):
 
         if story_select["status"]:
             idx = story_select["index"]
-            if story_wall.get(idx):
-                map_data["height"] = story_wall[idx]["map_height"]
-                wall_data["world"] = story_wall[idx]["wall"]
-                wall.wall_data = story_wall[idx]["wall"]
+            if story_data.get(idx):
+                map_data["height"] = story_data[idx]["map_height"]
+                wall_data["world"] = story_data[idx]["wall"]
+                wall.wall_data = story_data[idx]["wall"]
 
-                items = story_wall[idx]["item"]
+                items = story_data[idx]["item"]
 
                 for pos in items:
                     item = Item(pos[0], pos[1], items[pos]["item"], items[pos]["count"])

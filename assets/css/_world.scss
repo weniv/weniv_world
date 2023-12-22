@@ -677,12 +677,12 @@
     // }
 }
 
-.toast {
-    display: none;
+.modal {
     position: fixed;
     top: 50%;
     left: 50%;
     min-width: 30rem;
+    min-height: 15.8rem;
     transform: translate(-50%, -50%);
     padding: 2.8rem 8rem;
     z-index: 999;
@@ -695,10 +695,12 @@
     border: 2px solid var(--ColorError);
     border-radius: 1rem;
 
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
+    display: none;
 
     &.show {
         display: flex;
@@ -706,11 +708,24 @@
 
     p.text {
         margin: 1.2rem auto 2rem;
+        text-align: center;
     }
-    button.confirm {
+
+    button {
         padding: 1.1rem 2rem;
         border: 1px solid var(--ColorGrayLv2);
         border-radius: 1rem;
         color: var(--ColorSurface);
+
+        &:hover {
+            background-color: var(--ColorGrayLv2);
+        }
+    }
+}
+
+.modal.confirm {
+    .btns {
+        display: flex;
+        gap: 1.2rem;
     }
 }

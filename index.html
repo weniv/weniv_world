@@ -1291,7 +1291,7 @@
 
         def add_mob(x, y, mob_type, name):
             '''
-            몬스터를 추가하는 함수
+            몹을 추가하는 함수
             순환 참조로 인해 이 함수만 index.html에 있음
             
             테스트 코드:
@@ -1302,14 +1302,17 @@
             '''
             global mob_data
             
-            if int(x) != x or int(y) != y or mob_type not in mob_info.keys() or not name:
+            if int(x) != x or int(y) != y or not name:
                 alert_error('InvalidSyntax')
                 raise InvalidSyntax
             
             if not (0 <= x < map_data['height'] and 0 <= y < map_data['width']):
                 alert_error('OutOfWorld')
                 raise OutOfWorld
-
+            
+            if mob_type not in mob_info.keys():
+                alert_error('InvalidMob')
+                raise InvalidMob
             if character_exist(x, y) or mob_exist(x, y):
                 alert_error('ObstacleExist')
                 raise ObstacleExist

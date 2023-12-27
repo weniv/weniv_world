@@ -263,7 +263,7 @@ button {
         &:disabled::before {
             @include mask-image(
                 var(--ColorGrayLv2),
-                '../../assets/img/icon/icon-monster.svg'
+                '../../assets/img/icon/icon-asset-import.svg'
             );
         }
     }

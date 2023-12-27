@@ -107,6 +107,7 @@ storyShowButton.addEventListener('click', () => {
     } else {
         wallEditButton.removeAttribute('disabled');
         assetsSelectButton.removeAttribute('disabled');
+        mobSelectButton.removeAttribute('disabled');
         mapResizeButton.removeAttribute('disabled');
     }
 });

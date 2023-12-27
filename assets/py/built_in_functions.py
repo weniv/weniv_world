@@ -358,4 +358,5 @@ def alert_error(error_type):
     if error_type not in error_message.keys():
         _show_modal_alert(error_type)
     else:
-        _show_modal_alert(error_message[error_type])
+        _show_modal_alert(error_message[error_type]) 
+    

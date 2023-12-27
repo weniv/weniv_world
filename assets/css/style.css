@@ -490,11 +490,11 @@ button {
     mask-position: center center; }
   .button-before.btn-mob:disabled::before {
     background: var(--ColorGrayLv2);
-    -webkit-mask-image: url("../../assets/img/icon/icon-monster.svg");
+    -webkit-mask-image: url("../../assets/img/icon/icon-asset-import.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
-    mask-image: url("../../assets/img/icon/icon-monster.svg");
+    mask-image: url("../../assets/img/icon/icon-asset-import.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
@@ -1307,6 +1307,41 @@ button {
     background: var(--ColorBackground) url("../../assets/img/item/apple.png") no-repeat center/3rem auto; }
   .select-items input#goldbar + label {
     background: var(--ColorBackground) url("../../assets/img/item/goldbar.png") no-repeat center/3rem auto; }
+
+/* mob */
+.select-mobs {
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  width: 29.8rem;
+  padding: 1.9rem; }
+  .select-mobs label {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 10px;
+    border: 1px solid var(--ColorGrayLv2);
+    background: var(--ColorBackground) url("../../assets/img/characters/lion-1.png") no-repeat;
+    box-sizing: border-box;
+    cursor: pointer; }
+  .select-mobs label.select {
+    border: 2px solid var(--ColorPrimary);
+    background-color: var(--ColorActivation) !important; }
+  .select-mobs label.active {
+    outline: 2px solid red; }
+  .select-mobs input:checked,
+  .select-mobs label:hover {
+    outline: 2px solid var(--ColorPrimary);
+    border: transparent; }
+  .select-mobs input#mob1 + label {
+    background: var(--ColorBackground) url("../../assets/img/characters/mob1-1.png") no-repeat top 0.2rem left 0.9rem; }
+  .select-mobs input#mob2 + label {
+    background: var(--ColorBackground) url("../../assets/img/characters/mob2-1.png") no-repeat top 0.5rem left 0.5rem; }
+  .select-mobs input#mob3 + label {
+    background: var(--ColorBackground) url("../../assets/img/characters/mob3-1.png") no-repeat top 0.5rem left 0.5rem; }
+  .select-mobs input#mob4 + label {
+    background: var(--ColorBackground) url("../../assets/img/characters/mob4-1.png") no-repeat top 0.5rem left 0.5rem; }
 
 /* map */
 .world-map {

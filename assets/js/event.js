@@ -410,3 +410,25 @@ statusModeButton.addEventListener('click', () => {
     }
     setStatusVisiblity();
 });
+
+const APP = document.getElementById('app');
+
+const statusObserver = new MutationObserver((mutationsList) => {
+    mutationsList.forEach((mutation) => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            console.log('+++++++++ added ++++++++++');
+            for (const addedNode of mutation.addedNodes) {
+                console.log(addedNode);
+                const statusContainer =
+                    addedNode.querySelectorAll('.status-container');
+                if (getStatusMode() === 'hide') {
+                    statusContainer.forEach((container) => {
+                        container.classList.add('hide');
+                    });
+                }
+            }
+        }
+    });
+});
+
+statusObserver.observe(APP, { childList: true });

@@ -129,7 +129,6 @@ class Character:
         if not mp_container:
             mp_container = js.document.createElement("div")
             mp_container.setAttribute("class", "status-container mp")
-            js.console.log("status mode", status_mode)
             if status_mode == "hide":
                 mp_container.classList.add("hide")
             mp_container.setAttribute("id", f"mp-{self.name}")

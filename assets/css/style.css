@@ -1671,47 +1671,82 @@ button {
     width: 2.8rem;
     height: 2.8rem;
     background-size: 168px 28px; }
-  .mob .status-container {
-    min-width: 6.4rem;
-    scale: 0.7692;
-    bottom: 0;
-    transform: translate(-63%, 150%); }
-    .mob .status-container .text {
-      opacity: 1; }
+
+.mob .status-container {
+  scale: 0.7692;
+  transform: translate(-63%, 150%); }
 
 .status-container {
-  width: 100%;
-  height: 0.8rem;
+  z-index: 10;
+  width: fit-content;
+  height: fit-content;
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, 80%);
-  background-color: var(--ColorGrayLv2);
-  border-radius: 3rem;
-  overflow: hidden;
-  color: var(--ColorSurface); }
-  .status-container.hide {
+  transform: translate(-50%, 100%);
+  display: flex;
+  gap: 0.2rem; }
+
+.status-item {
+  width: 2.8rem;
+  height: 0.6rem;
+  background-color: var(--ColorSurface);
+  border-radius: 0.1rem;
+  overflow: hidden; }
+  .status-item.hide {
     display: none; }
-  .status-container .bar {
+  .status-item .bar {
     width: 100%;
     height: 100%;
-    background-color: #dd3440;
-    transition: all 1s;
-    transform-origin: center left; }
-  .status-container.mp {
-    transform: translate(-50%, 200%); }
-    .status-container.mp .bar {
-      background-color: #486fee; }
-  .status-container .text {
+    background-color: var(--ColorError);
+    transition: all 0.2s;
+    transform-origin: center left;
+    pointer-events: none; }
+  .status-item:hover .text {
+    display: flex; }
+  .status-item .text {
+    display: none;
     position: absolute;
-    top: 50%;
+    top: 100%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 1;
-    box-shadow: var(--EffectShadow);
-    transition: all 0.2s; }
+    transform: translate(-50%, 0);
+    font-size: 1.2rem;
+    font-weight: 700;
+    transition: all 0.2s;
+    gap: 0.2rem;
+    align-items: center;
+    color: var(--ColorError); }
+    .status-item .text::before {
+      content: '';
+      position: relative;
+      width: 0.8rem;
+      height: 0.8rem;
+      background: var(--ColorError);
+      -webkit-mask-image: url("../../assets/img/icon/icon-blood-on.svg");
+      -webkit-mask-size: 100%;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-image: url("../../assets/img/icon/icon-blood-on.svg");
+      mask-size: 100%;
+      mask-repeat: no-repeat;
+      mask-position: center center; }
+  .status-item.mp:hover .text {
+    display: flex; }
+  .status-item.mp .bar {
+    background-color: var(--ColorPrimary); }
+  .status-item.mp .text {
+    display: none;
+    color: var(--ColorPrimary); }
+    .status-item.mp .text::before {
+      background: var(--ColorPrimary);
+      -webkit-mask-image: url("../../assets/img/icon/icon-star-fill.svg");
+      -webkit-mask-size: 100%;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-image: url("../../assets/img/icon/icon-star-fill.svg");
+      mask-size: 100%;
+      mask-repeat: no-repeat;
+      mask-position: center center; }
 
 .modal {
   position: fixed;

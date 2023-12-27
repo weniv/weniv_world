@@ -375,7 +375,7 @@ const getStatusMode = () => {
 };
 const setStatusVisiblity = () => {
     const status = getStatusMode();
-    const statusContainers = document.querySelectorAll('.status-container');
+    const statusContainers = document.querySelectorAll('.status-item');
     if (status === 'show') {
         statusContainers.forEach((container) => {
             container.classList.remove('hide');
@@ -420,7 +420,7 @@ const statusObserver = new MutationObserver((mutationsList) => {
             for (const addedNode of mutation.addedNodes) {
                 console.log(addedNode);
                 const statusContainer =
-                    addedNode.querySelectorAll('.status-container');
+                    addedNode.querySelectorAll('.status-item');
                 if (getStatusMode() === 'hide') {
                     statusContainer.forEach((container) => {
                         container.classList.add('hide');

@@ -63,8 +63,12 @@ class Mob:
         mob.style.transition = f"all {running_speed}s"
         # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         # mob.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
+        status_container = js.document.createElement("div")
+        status_container.setAttribute("class", "status-container")
+
         hp = self.draw_hp()
-        mob.appendChild(hp)
+        status_container.appendChild(hp)
+        mob.appendChild(status_container)
 
         if self.mob == "lion":
             mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"
@@ -103,7 +107,7 @@ class Mob:
         hp_container = js.document.getElementById(f"hp-{self.name}")
         if not hp_container:
             hp_container = js.document.createElement("div")
-            hp_container.setAttribute("class", "status-container hp")
+            hp_container.setAttribute("class", "status-item hp")
             hp_container.setAttribute("id", f"hp-{self.name}")
 
         hp = hp_container.querySelector(".bar")

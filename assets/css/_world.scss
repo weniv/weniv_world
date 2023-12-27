@@ -679,65 +679,96 @@
         height: 2.8rem;
         background-size: 168px 28px;
     }
-
-    & .status-container {
-        min-width: 6.4rem;
-        scale: 0.7692;
-        bottom: 0;
-        transform: translate(-63%, 150%);
-
-        .text {
-            opacity: 1;
-        }
-    }
+}
+.mob .status-container {
+    scale: 0.7692;
+    transform: translate(-63%, 150%);
 }
 
 .status-container {
+    z-index: 10;
+    width: fit-content;
+    height: fit-content;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    display: flex;
+    gap: 0.2rem;
+}
+
+.status-item {
     &.hide {
         display: none;
     }
 
-    width: 100%;
-    height: 0.8rem;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translate(-50%, 80%);
-    background-color: var(--ColorGrayLv2);
-    border-radius: 3rem;
+    width: 2.8rem;
+    height: 0.6rem;
+    background-color: var(--ColorSurface);
+    border-radius: 0.1rem;
     overflow: hidden;
-    color: var(--ColorSurface);
 
     .bar {
         width: 100%;
         height: 100%;
-        background-color: #dd3440;
-        transition: all 1s;
+        background-color: var(--ColorError);
+        transition: all 0.2s;
         transform-origin: center left;
+        pointer-events: none;
     }
 
-    &.mp {
-        transform: translate(-50%, 200%);
-
-        .bar {
-            background-color: #486fee;
+    &:hover {
+        .text {
+            display: flex;
         }
     }
 
     .text {
+        display: none;
         position: absolute;
-        top: 50%;
+        top: 100%;
         left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 0.8rem;
-        font-weight: 600;
-        line-height: 1;
-        box-shadow: var(--EffectShadow);
+        transform: translate(-50%, 0);
+        font-size: 1.2rem;
+        font-weight: 700;
         transition: all 0.2s;
+        gap: 0.2rem;
+        align-items: center;
+        color: var(--ColorError);
+
+        &::before {
+            content: '';
+            position: relative;
+            width: 0.8rem;
+            height: 0.8rem;
+            @include mask-image(
+                var(--ColorError),
+                '../../assets/img/icon/icon-blood-on.svg'
+            );
+        }
     }
-    // &:hover .text {
-    //     opacity: 1;
-    // }
+
+    &.mp {
+        &:hover {
+            .text {
+                display: flex;
+            }
+        }
+        .bar {
+            background-color: var(--ColorPrimary);
+        }
+
+        .text {
+            display: none;
+            color: var(--ColorPrimary);
+            &::before {
+                @include mask-image(
+                    var(--ColorPrimary),
+                    '../../assets/img/icon/icon-star-fill.svg'
+                );
+            }
+        }
+    }
 }
 
 .modal {

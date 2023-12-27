@@ -420,17 +420,22 @@ statusModeButton.addEventListener('click', () => {
 const APP = document.getElementById('app');
 const statusObserver = new MutationObserver((mutationsList) => {
     mutationsList.forEach((mutation) => {
-        console.log('------------- mutation --------------');
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            for (const addedNode of mutation.addedNodes) {
-                const statusContainer =
-                    addedNode.querySelectorAll('.status-item');
-                if (getStatusMode() === 'hide') {
-                    statusContainer.forEach((container) => {
-                        container.classList.add('hide');
-                    });
+            mutation.addedNodes.forEach((addedNode) => {
+                if (
+                    addedNode.classList.contains('map-container') ||
+                    addedNode.classList.contains('character') ||
+                    addedNode.classList.contains('mob')
+                ) {
+                    const statusContainer =
+                        addedNode.querySelectorAll('.status-item');
+                    if (getStatusMode() === 'hide') {
+                        statusContainer.forEach((container) => {
+                            container.classList.add('hide');
+                        });
+                    }
                 }
-            }
+            });
         }
     });
 });

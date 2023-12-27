@@ -1659,8 +1659,27 @@ button {
   .modal.show {
     display: flex; }
   .modal p.text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
     margin: 1.2rem auto 2rem;
     text-align: center; }
+  .modal p.text:before {
+    display: block;
+    width: 2.4rem;
+    height: 2.4rem;
+    content: '';
+    background: var(--ColorError);
+    -webkit-mask-image: url("../img/icon/icon-alert-circle.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../img/icon/icon-alert-circle.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
   .modal button {
     padding: 1.1rem 2rem;
     border: 1px solid var(--ColorGrayLv2);
@@ -1669,9 +1688,28 @@ button {
     .modal button:hover {
       background-color: var(--ColorGrayLv2); }
 
-.modal.confirm .btns {
-  display: flex;
-  gap: 1.2rem; }
+.modal.confirm {
+  top: 10rem; }
+  .modal.confirm .btns {
+    display: flex;
+    gap: 1.2rem; }
+
+.modal.success {
+  border: 2px solid var(--ColorPrimary); }
+  .modal.success p.text:before {
+    display: block;
+    width: 2.4rem;
+    height: 2.4rem;
+    content: '';
+    background: var(--ColorPrimary);
+    -webkit-mask-image: url("../img/icon/icon-check.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../img/icon/icon-check.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
 
 .story {
   display: none;

@@ -707,8 +707,23 @@
     }
 
     p.text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.2rem;
         margin: 1.2rem auto 2rem;
         text-align: center;
+    }
+    p.text:before {
+        display: block;
+        width: 2.4rem;
+        height: 2.4rem;
+        content: '';
+        @include mask-image(
+            var(--ColorError),
+            '../img/icon/icon-alert-circle.svg'
+        );
     }
 
     button {
@@ -724,8 +739,20 @@
 }
 
 .modal.confirm {
+    top: 10rem;
     .btns {
         display: flex;
         gap: 1.2rem;
+    }
+}
+
+.modal.success {
+    border: 2px solid var(--ColorPrimary);
+    p.text:before {
+        display: block;
+        width: 2.4rem;
+        height: 2.4rem;
+        content: '';
+        @include mask-image(var(--ColorPrimary), '../img/icon/icon-check.svg');
     }
 }

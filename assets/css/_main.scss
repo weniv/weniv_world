@@ -251,6 +251,23 @@ button {
         }
     }
 
+    /* 몹 추가 버튼 */
+    &.btn-mob {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-monster.svg'
+            );
+        }
+
+        &:disabled::before {
+            @include mask-image(
+                var(--ColorGrayLv2),
+                '../../assets/img/icon/icon-monster.svg'
+            );
+        }
+    }
+
     /* 월드 크기 조정 버튼 */
     &.btn-resize {
         &::before {

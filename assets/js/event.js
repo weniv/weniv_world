@@ -80,6 +80,7 @@ const storyResizer = document.querySelector('.story-resizer');
 const wallEditButton = document.querySelector('.btn-wall');
 const assetsSelectButton = document.querySelector('.btn-assets');
 const mapResizeButton = document.querySelector('.btn-resize');
+const mobSelectButton = document.querySelector('.btn-mob');
 
 storyShowButton.addEventListener('click', () => {
     storyShowButton.classList.toggle('active');
@@ -98,6 +99,9 @@ storyShowButton.addEventListener('click', () => {
         assetsSelectButton.classList.remove('active');
         assetsSelectButton.setAttribute('disabled', true);
 
+        mobSelectButton.classList.remove('active');
+        mobSelectButton.setAttribute('disabled', true);
+
         mapResizeButton.classList.remove('active');
         mapResizeButton.setAttribute('disabled', true);
     } else {
@@ -113,6 +117,7 @@ storyCloseButton.addEventListener('click', () => {
 
     wallEditButton.removeAttribute('disabled');
     assetsSelectButton.removeAttribute('disabled');
+    mobSelectButton.removeAttribute('disabled');
     mapResizeButton.removeAttribute('disabled');
 
     storyShowButton.classList.remove('active');
@@ -356,5 +361,5 @@ preloadImage([
     './assets/img/characters/licat-1.png',
     './assets/img/characters/licat-2.png',
     './assets/img/characters/licat-3.png',
-    './assets/img/icon/icon-alert-circle.svg'
+    './assets/img/icon/icon-alert-circle.svg',
 ]);

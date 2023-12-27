@@ -395,6 +395,7 @@ button {
   /* 콘텐츠 더보기 버튼(케밥 메뉴) */
   /* 벽 만들기 버튼 */
   /* 에셋 추가 버튼 */
+  /* 몹 추가 버튼 */
   /* 월드 크기 조정 버튼 */
   /* 속도 조절 버튼 */
   /* 함수 리스트 버튼 */
@@ -474,6 +475,26 @@ button {
     -webkit-mask-repeat: no-repeat;
     -webkit-mask-position: center center;
     mask-image: url("../../assets/img/icon/icon-asset-import.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .button-before.btn-mob::before {
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../../assets/img/icon/icon-monster.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-monster.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .button-before.btn-mob:disabled::before {
+    background: var(--ColorGrayLv2);
+    -webkit-mask-image: url("../../assets/img/icon/icon-monster.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-monster.svg");
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }

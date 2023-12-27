@@ -683,6 +683,10 @@
 .mob .status-container {
     scale: 0.7692;
     transform: translate(-63%, 150%);
+
+    &.hide {
+        display: none;
+    }
 }
 
 .status-container {

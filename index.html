@@ -1070,6 +1070,8 @@
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
                 label.classList.add('select')
             else: 
+                mob_select['status'] = False
+                mob_select['name'] = ''
                 item_select['status'] = True
                 item_select['name'] = evt.target.id
                 js.document.querySelector('.wall-container').style.pointerEvents='none'
@@ -1097,10 +1099,10 @@
                 input_count = js.prompt('추가할 아이템 개수를 입력하세요\n(* 추가할 위치에 다른 아이템이 있는 경우 사라집니다.)', '1')
 
                 # 양의 정수이면 count에 저장 / 입력값이 없으면 None 반환 / 입력값이 유효하지 않으면 alert
-                if not input_count:
+                if input_count == None:
                     return None
-                elif not input_count.isdigit() or int(input_count)<0:
-                    js.alert('자연수를 입력해주세요.')
+                elif not input_count.isdigit() or int(input_count)<0 or input_count=='':
+                    _show_modal_alert('자연수를 입력해주세요')
                     return None
                 else:
                     count = int(input_count)
@@ -1127,7 +1129,6 @@
                 js.document.querySelector('.world-map').style.cursor='auto'
         
         # mob
-
         @when("click", selector="input[name='mob']")
         def change_mob_select(evt):
             if mob_select['status'] and evt.target.id == mob_select['name']:
@@ -1154,10 +1155,12 @@
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
                 label.classList.add('select')
             else: 
+                item_select['status'] = False
+                item_select['name'] = ''
                 mob_select['status'] = True
                 mob_select['name'] = evt.target.id
                 js.document.querySelector('.wall-container').style.pointerEvents='none'
-                js.document.querySelector('.world-map').style.cursor=f"url(assets/img/characters/{evt.target.id}-0.png)"
+                js.document.querySelector('.world-map').style.cursor=f"url(assets/img/characters/{evt.target.id}-0.png), auto"
 
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
                 label.classList.add('select')
@@ -1179,10 +1182,13 @@
                     evt.target.style.backgroundColor = ''
                     return None
                 
-                input_name = js.prompt('추가할 몹의 이름을 작성해주세요','')
-                if not input_name:
+                input_name = js.prompt('추가할 몹의 이름을 작성해주세요')
+                if input_name == None:
                     return None
-                
+                elif input_name == "":
+                    _show_modal_alert('이름을 입력해주세요')
+                    return None
+
                 for m in mob_data:
                     if m['name']==input_name:
                         _show_modal_alert('해당 이름을 갖는 몹이 이미 맵에 존재합니다')

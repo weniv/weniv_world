@@ -64,8 +64,10 @@ class Mob:
         # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         # mob.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
         status_container = js.document.createElement("div")
-        status_container.setAttribute("class", "status-container")
-
+        status_mode = js.localStorage.getItem("status_mode")
+        status_container.setAttribute("class", "status-container ")
+        if js.localStorage.getItem("status_mode") == "hide":
+            status_container.classList.add("hide")
         hp = self.draw_hp()
         status_container.appendChild(hp)
         mob.appendChild(status_container)
@@ -104,13 +106,10 @@ class Mob:
         return mob
 
     def draw_hp(self):
-        status_mode = js.localStorage.getItem("status_mode")
         hp_container = js.document.getElementById(f"hp-{self.name}")
         if not hp_container:
             hp_container = js.document.createElement("div")
             hp_container.setAttribute("class", "status-item hp")
-            if status_mode == "hide":
-                hp_container.classList.add("hide")
             hp_container.setAttribute("id", f"hp-{self.name}")
 
         hp = hp_container.querySelector(".bar")

@@ -66,6 +66,9 @@ class Character:
         # character.style.height = f"{self.height}px"
         status_container = js.document.createElement("div")
         status_container.setAttribute("class", "status-container")
+        js.console.log("character >> ", js.localStorage.getItem("status_mode"))
+        if js.localStorage.getItem("status_mode") == "hide":
+            status_container.classList.add("hide")
 
         hp = self.draw_hp()
         status_container.appendChild(hp)
@@ -104,13 +107,10 @@ class Character:
         return character
 
     def draw_hp(self):
-        status_mode = js.localStorage.getItem("status_mode")
         hp_container = js.document.getElementById(f"hp-{self.name}")
         if not hp_container:
             hp_container = js.document.createElement("div")
             hp_container.setAttribute("class", "status-item hp")
-            if status_mode == "hide":
-                hp_container.classList.add("hide")
             hp_container.setAttribute("id", f"hp-{self.name}")
         hp = hp_container.querySelector(".bar")
         if not hp:
@@ -128,13 +128,10 @@ class Character:
         return hp_container
 
     def draw_mp(self):
-        status_mode = js.localStorage.getItem("status_mode")
         mp_container = js.document.getElementById(f"mp-{self.name}")
         if not mp_container:
             mp_container = js.document.createElement("div")
             mp_container.setAttribute("class", "status-item mp")
-            if status_mode == "hide":
-                mp_container.classList.add("hide")
             mp_container.setAttribute("id", f"mp-{self.name}")
         mp = mp_container.querySelector(".bar")
         if not mp:

@@ -1675,6 +1675,8 @@ button {
 .mob .status-container {
   scale: 0.7692;
   transform: translate(-63%, 150%); }
+  .mob .status-container.hide {
+    display: none; }
 
 .status-container {
   z-index: 10;

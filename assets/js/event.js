@@ -418,13 +418,11 @@ statusModeButton.addEventListener('click', () => {
 });
 
 const APP = document.getElementById('app');
-
 const statusObserver = new MutationObserver((mutationsList) => {
     mutationsList.forEach((mutation) => {
+        console.log('------------- mutation --------------');
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            console.log('+++++++++ added ++++++++++');
             for (const addedNode of mutation.addedNodes) {
-                console.log(addedNode);
                 const statusContainer =
                     addedNode.querySelectorAll('.status-item');
                 if (getStatusMode() === 'hide') {
@@ -437,4 +435,4 @@ const statusObserver = new MutationObserver((mutationsList) => {
     });
 });
 
-statusObserver.observe(APP, { childList: true });
+statusObserver.observe(APP, { childList: true, subtree: true });

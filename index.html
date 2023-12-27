@@ -441,12 +441,10 @@
                 <h3 class="sr-only">위니브월드 맵</h3>
                 <div id='app'></div>
                 <div class="modal alert">
-                    <img src="./assets/img/icon/icon-alert-circle.svg" alt="안내">
                     <p class="text"></p>
                     <button class="confirm">확인</button>
                 </div>
                 <div class="modal confirm">
-                    <img src="./assets/img/icon/icon-alert-circle.svg" alt="안내">
                     <p class="text"></p>
                     <div class="btns">
                         <button class="cancel">취소</button>
@@ -1390,7 +1388,7 @@
                     js.localStorage.setItem(f"{story_select['index']}_check", "통과")
                     liElem = evt.target.closest('li')
                     liElem.classList.add('submit')
-                    _show_modal_alert('정답입니다.')
+                    _show_modal_alert('정답입니다.', 'success')
                 else:
                     _show_modal_alert('오답입니다.')
         @when("click", selector=".btn-story")

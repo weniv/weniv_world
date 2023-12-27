@@ -380,10 +380,14 @@ def eat(item, character=None):
 
 
 # utility function
-def _show_modal_alert(message):
-    toast = js.document.querySelector(".modal.alert")
 
-    text = toast.querySelector(".text")
+def _show_modal_alert(message, type='error'):
+    toast = js.document.querySelector('.modal.alert')
+    if type=='success':
+        toast.classList.add('success')
+    else:
+        toast.classList.remove('success')
+    text = toast.querySelector('.text')
     text.innerText = message
     toast.classList.add("show")
 

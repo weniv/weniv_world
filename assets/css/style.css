@@ -1695,13 +1695,13 @@ button {
     gap: 1.2rem; }
 
 .modal.success {
-  border: 2px solid var(--ColorCodeGreen); }
+  border: 2px solid var(--ColorPrimary); }
   .modal.success p.text:before {
     display: block;
     width: 2.4rem;
     height: 2.4rem;
     content: '';
-    background: var(--ColorCodeGreen);
+    background: var(--ColorPrimary);
     -webkit-mask-image: url("../img/icon/icon-check.svg");
     -webkit-mask-size: 100%;
     -webkit-mask-repeat: no-repeat;

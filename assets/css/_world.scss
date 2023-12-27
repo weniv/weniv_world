@@ -747,15 +747,12 @@
 }
 
 .modal.success {
-    border: 2px solid var(--ColorCodeGreen);
+    border: 2px solid var(--ColorPrimary);
     p.text:before {
         display: block;
         width: 2.4rem;
         height: 2.4rem;
         content: '';
-        @include mask-image(
-            var(--ColorCodeGreen),
-            '../img/icon/icon-check.svg'
-        );
+        @include mask-image(var(--ColorPrimary), '../img/icon/icon-check.svg');
     }
 }

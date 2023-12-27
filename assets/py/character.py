@@ -18,6 +18,7 @@ from coordinate import (
 from item import Item
 from error import *
 
+
 class Character:
     def __init__(
         self,
@@ -43,7 +44,7 @@ class Character:
         self.dropRate = dropRate
         self.power = power
         self.hp = initHp
-        self.initHp=initHp
+        self.initHp = initHp
         self.mp = initMp
         self.initMp = initMp
         self.img = f"assets/img/characters/{name}-0.png"
@@ -57,7 +58,9 @@ class Character:
         character = js.document.createElement("div")
         character.setAttribute("class", "character")
         character.classList.add(f"{self.name}")
-        character.style.backgroundImage = f'url("assets/img/characters/{self.name}-{self.directions}.png")'
+        character.style.backgroundImage = (
+            f'url("assets/img/characters/{self.name}-{self.directions}.png")'
+        )
         character.style.transition = f"all {running_speed}s"
         # character.style.width = f"{self.width}px"
         # character.style.height = f"{self.height}px"
@@ -68,18 +71,18 @@ class Character:
         # next value(px) : (-1, -3), (-33, -1), (-65, -2), (-97, -3), (-129, -2), (-161, -1), (-193, -2)
         character.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
         character.style.left = f"{self.y * 100 + 2 + (50 - 32)}px"
-        
+
         finder = False
-        
+
         for c in character_data:
-            if c.get('character', '') == self.name:
+            if c.get("character", "") == self.name:
                 c["x"] = self.x
                 c["y"] = self.y
                 c["directions"] = self.directions
                 c["items"] = {}
-                c["hp"]=self.hp
-                c["power"]=self.power
-                c["mp"]=self.mp
+                c["hp"] = self.hp
+                c["power"] = self.power
+                c["mp"] = self.mp
                 finder = True
         if not finder:
             character_data.append(
@@ -89,51 +92,58 @@ class Character:
                     "y": self.y,
                     "directions": self.directions,
                     "items": {},
-                    "hp":f"{self.hp}",
-                    "power":f"{self.power}",
-                    "mp":f"{self.mp}"
+                    "hp": f"{self.hp}",
+                    "power": f"{self.power}",
+                    "mp": f"{self.mp}",
                 }
             )
         return character
-    
+
     def draw_hp(self):
-        hp_container = js.document.getElementById(f'hp-{self.name}')
+        status_mode = js.localStorage.getItem("status_mode")
+        hp_container = js.document.getElementById(f"hp-{self.name}")
         if not hp_container:
             hp_container = js.document.createElement("div")
-            hp_container.setAttribute('class','state-container hp')
-            hp_container.setAttribute('id',f'hp-{self.name}')
+            hp_container.setAttribute("class", "status-container hp")
+            if status_mode == "hide":
+                hp_container.classList.add("hide")
+            hp_container.setAttribute("id", f"hp-{self.name}")
         hp = hp_container.querySelector(".bar")
         if not hp:
             hp = js.document.createElement("div")
-            hp.setAttribute('class','bar')
+            hp.setAttribute("class", "bar")
             hp_container.appendChild(hp)
-        hp.style.transform=f"scaleX({self.hp/self.initHp})"
-        text = hp_container.querySelector('.text')
+        hp.style.transform = f"scaleX({self.hp/self.initHp})"
+        text = hp_container.querySelector(".text")
         if not text:
-            text = js.document.createElement('span')
-            text.setAttribute('class','text')
+            text = js.document.createElement("span")
+            text.setAttribute("class", "text")
             hp_container.appendChild(text)
         text.innerText = f"{self.hp}/{self.initHp}"
-        
-        return hp_container      
-    
+
+        return hp_container
+
     def draw_mp(self):
-        mp_container = js.document.getElementById(f'mp-{self.name}')
+        status_mode = js.localStorage.getItem("status_mode")
+        mp_container = js.document.getElementById(f"mp-{self.name}")
         if not mp_container:
             mp_container = js.document.createElement("div")
-            mp_container.setAttribute('class','state-container mp')
-            mp_container.setAttribute('id',f'mp-{self.name}')
+            mp_container.setAttribute("class", "status-container mp")
+            js.console.log("status mode", status_mode)
+            if status_mode == "hide":
+                mp_container.classList.add("hide")
+            mp_container.setAttribute("id", f"mp-{self.name}")
         mp = mp_container.querySelector(".bar")
         if not mp:
             mp = js.document.createElement("div")
-            mp.setAttribute('class','bar')
+            mp.setAttribute("class", "bar")
             mp_container.appendChild(mp)
-        mp.style.transform=f"scaleX({self.mp/self.initMp})"
-        
-        text = mp_container.querySelector('.text')
+        mp.style.transform = f"scaleX({self.mp/self.initMp})"
+
+        text = mp_container.querySelector(".text")
         if not text:
-            text = js.document.createElement('span')
-            text.setAttribute('class','text')
+            text = js.document.createElement("span")
+            text.setAttribute("class", "text")
             mp_container.appendChild(text)
         text.innerText = f"{self.mp}/{self.initMp}"
         return mp_container
@@ -160,17 +170,15 @@ class Character:
         global running_speed
         running_speed = speed
 
-    
     def move(self):
         self.running_time += 1000 * running_speed
         self._move()
-        
-        
+
     def _move(self):
         x = self.x
         y = self.y
         directions = self.directions
-        error_check = ''
+        error_check = ""
 
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         nx, ny = x, y
@@ -178,33 +186,40 @@ class Character:
             ny = y + 1
         elif directions == 1:
             nx = x - 1
-            error_check=self._movable(x, y, x - 1, y)
+            error_check = self._movable(x, y, x - 1, y)
         elif directions == 2:
             ny = y - 1
         elif directions == 3:
             nx = x + 1
 
-        error_check=self._movable(x, y, nx, ny)
+        error_check = self._movable(x, y, nx, ny)
         if error_check:
-            setTimeout(create_once_callable(lambda: alert_error(error_check)), self.running_time)
-            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-            
-            if error_check == 'OutOfWorld':
+            setTimeout(
+                create_once_callable(lambda: alert_error(error_check)),
+                self.running_time,
+            )
+            setTimeout(
+                create_once_callable(lambda: self.init_time()), self.running_time
+            )
+
+            if error_check == "OutOfWorld":
                 raise OutOfWorld
-            elif error_check == 'WallIsExist':
+            elif error_check == "WallIsExist":
                 raise WallIsExist
-            elif error_check == 'ObstacleExist':
+            elif error_check == "ObstacleExist":
                 raise ObstacleExist
-        
+
         self.x = nx
         self.y = ny
-        self._set_character_data("x",nx)
-        self._set_character_data("y",ny)
-        
-        setTimeout(create_once_callable(lambda: (self._move_animation(x, y, directions))), self.running_time)
+        self._set_character_data("x", nx)
+        self._set_character_data("y", ny)
+
+        setTimeout(
+            create_once_callable(lambda: (self._move_animation(x, y, directions))),
+            self.running_time,
+        )
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
-        
     def _move_animation(self, x, y, directions):
         c = js.document.querySelector(f".{self.name}")
         if directions == 0:
@@ -212,47 +227,51 @@ class Character:
             self.draw_move_line(x, y, x, y + 1, directions)
         elif directions == 1:
             c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32)}px"
-            self.draw_move_line(x, y, x-1, y, directions)
+            self.draw_move_line(x, y, x - 1, y, directions)
         elif directions == 2:
             c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x, y - 1, directions)
         elif directions == 3:
             c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32)}px"
             self.draw_move_line(x, y, x + 1, y, directions)
- 
-        
+
     def _movable(self, x, y, nx, ny):
         if self._out_of_world(nx, ny):
-            return 'OutOfWorld'
+            return "OutOfWorld"
 
         if self._wall_exist(x, y, nx, ny):
-            return 'WallIsExist'
-        
+            return "WallIsExist"
+
         if self._obstacle_exist(nx, ny):
-            return 'ObstacleExist'
+            return "ObstacleExist"
 
     def _out_of_world(self, x, y):
         if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
             return True
         return False
-    
+
     def _wall_exist(self, x, y, nx, ny):
         global wall_data
         wall_x = float((x + nx) / 2)
         wall_y = float((y + ny) / 2)
-        
-        if wall_data['world'].get((wall_x, wall_y), None) in (wall_blocked+['door']):
+
+        if wall_data["world"].get((wall_x, wall_y), None) in (wall_blocked + ["door"]):
             return True
         return False
-    
+
     def _obstacle_exist(self, nx, ny):
         global character_data
         global mob_data
-        
-        if any(obj.get('x', None) == nx and obj.get('y', None) == ny for obj in character_data) or any(obj.get('x', None) == nx and obj.get('y', None) == ny for obj in mob_data):
+
+        if any(
+            obj.get("x", None) == nx and obj.get("y", None) == ny
+            for obj in character_data
+        ) or any(
+            obj.get("x", None) == nx and obj.get("y", None) == ny for obj in mob_data
+        ):
             return True
         return False
-        
+
     def _pos_to_wall(self, x, y):
         # position 좌표계를 벽을 놓을 수 있는 좌표계로 변환
         return 2 * x + 1, 2 * map_data["height"] - 1 - 2 * y
@@ -260,18 +279,21 @@ class Character:
     def turn_left(self):
         self.running_time += 1000 * running_speed
         self._turn_left()
-        
+
     def _turn_left(self):
         directions = self.directions
-        
+
         nd = directions + 1
         if nd > 3:
             nd = 0
-        
-        self.directions=nd
-        self._set_character_data("directions",nd)
-       
-        setTimeout(create_once_callable(lambda: (self._turn_left_animation(directions))), self.running_time)
+
+        self.directions = nd
+        self._set_character_data("directions", nd)
+
+        setTimeout(
+            create_once_callable(lambda: (self._turn_left_animation(directions))),
+            self.running_time,
+        )
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
 
     def _turn_left_animation(self, directions):
@@ -293,28 +315,28 @@ class Character:
         elif directions == 3:
             c.style.backgroundImage = f'url("assets/img/characters/{self.name}-0.png")'
 
-    def attack(self, skill='claw-yellow'):
+    def attack(self, skill="claw-yellow"):
         self.running_time += 1000 * running_speed
-        
+
         if skill not in skills.keys():
-            alert_error('InvalidSkill')
+            alert_error("InvalidSkill")
             raise InvalidSkill
-        
+
         self._attack(skill)
-        
+
     def _attack(self, skill):
         x = self.x
         y = self.y
         directions = self.directions
-        
-        if skills[skill]['mana'] > self.mp:
-            alert_error('NotEnoughMana')
+
+        if skills[skill]["mana"] > self.mp:
+            alert_error("NotEnoughMana")
             raise NotEnoughMana
 
         if self.typeof_wall():
-            alert_error('WallIsExist')
+            alert_error("WallIsExist")
             raise WallIsExist
-            
+
         # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
         nx, ny = x, y
         if directions == 0:
@@ -325,34 +347,43 @@ class Character:
             ny = y - 1
         elif directions == 3:
             nx = x + 1
-            
-        if not 0<=nx<map_data["height"] or not 0<=ny<map_data["width"]:
-            alert_error('OutOfWorld')
+
+        if not 0 <= nx < map_data["height"] or not 0 <= ny < map_data["width"]:
+            alert_error("OutOfWorld")
             raise OutOfWorld
-            
-        m_obj=None
-        mob_name=''
+
+        m_obj = None
+        mob_name = ""
         for m in mob_data:
-            if (m['x'],m['y'])==(nx,ny):
-                m_obj = m['mob_obj']
-                mob_name = m['name']
-                m['hp'] -= skills[skill]['power']
-                if(m['hp']<=0):
+            if (m["x"], m["y"]) == (nx, ny):
+                m_obj = m["mob_obj"]
+                mob_name = m["name"]
+                m["hp"] -= skills[skill]["power"]
+                if m["hp"] <= 0:
                     mob_data.remove(m)
                     break
-        
-        self.mp -= skills[skill]['mana']
-        self._set_character_data("mp",self.mp)
-        
-            
-        setTimeout(create_once_callable(lambda: (self.draw_attack(x,y,nx,ny, skill))), self.running_time)
+
+        self.mp -= skills[skill]["mana"]
+        self._set_character_data("mp", self.mp)
+
+        setTimeout(
+            create_once_callable(lambda: (self.draw_attack(x, y, nx, ny, skill))),
+            self.running_time,
+        )
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        setTimeout(create_once_callable(lambda: self._mob_hp_animation(m_obj, mob_name, skill)), self.running_time)
+        setTimeout(
+            create_once_callable(
+                lambda: self._mob_hp_animation(m_obj, mob_name, skill)
+            ),
+            self.running_time,
+        )
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        
-        setTimeout(create_once_callable(lambda: self._mp_animation()), self.running_time)
+
+        setTimeout(
+            create_once_callable(lambda: self._mp_animation()), self.running_time
+        )
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        
+
     def draw_attack(self, x, y, x2, y2, skill):
         attack = js.document.createElement("div")
         attack.className = "attack"
@@ -367,22 +398,23 @@ class Character:
         map.appendChild(attack)
         setTimeout(create_once_callable(lambda: (map.removeChild(attack))), 1000)
 
-
     def _mob_hp_animation(self, mob_obj, mob_name, skill):
         if mob_name:
-            mob = js.document.querySelector(f'#{mob_name}.mob')
+            mob = js.document.querySelector(f"#{mob_name}.mob")
         if mob_obj and mob:
             mob_obj.hp -= skills[skill]["power"]
             mob_obj.draw_hp()
-            if(mob_obj.hp<=0):
-                setTimeout(create_once_callable(lambda: self._remove_mob(mob_obj,mob)), 1000)
-              
+            if mob_obj.hp <= 0:
+                setTimeout(
+                    create_once_callable(lambda: self._remove_mob(mob_obj, mob)), 1000
+                )
+
     def _hp_animation(self):
         self.draw_hp()
-        
+
     def _mp_animation(self):
         self.draw_mp()
-                
+
     def _remove_mob(self, mob_obj, mob):
         if mob:
             mob.parentNode.removeChild(mob)
@@ -391,7 +423,7 @@ class Character:
     def pick(self):
         self.running_time += 1000 * running_speed
         self._pick()
-     
+
     def _pick(self):
         """
         발 아래 아이템을 주워서 아이템을 가지고 있는지 확인하고,
@@ -402,48 +434,56 @@ class Character:
         x = self.x
         y = self.y
         item = item_data.get((x, y))
-        
+
         if item:
             item_count = item.get("count", 0)
             item_count -= 1
             item["count"] = item_count
             item_data[(x, y)] = item
-          
+
             item_list = self._get_character_data("items")
             if item["item"] in item_list.keys():
                 item_list[item["item"]] += 1
             else:
                 item_list[item["item"]] = 1
-            
+
             if item_count == 0:
                 item_data.pop((x, y))
-                
-            setTimeout(create_once_callable(lambda: (self._pick_animation(x, y ,item_count))), self.running_time)
-            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+
+            setTimeout(
+                create_once_callable(lambda: (self._pick_animation(x, y, item_count))),
+                self.running_time,
+            )
+            setTimeout(
+                create_once_callable(lambda: self.init_time()), self.running_time
+            )
 
         else:
-            setTimeout(create_once_callable(lambda: alert_error('ItemIsNotExist')), self.running_time)
-            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
+            setTimeout(
+                create_once_callable(lambda: alert_error("ItemIsNotExist")),
+                self.running_time,
+            )
+            setTimeout(
+                create_once_callable(lambda: self.init_time()), self.running_time
+            )
             raise ItemIsNotExist
-            
 
     def _pick_animation(self, x, y, item_count):
-            if item_count == 0:
-                map_items = js.document.querySelectorAll(".map-item")
-                index = map_data["width"] * x + y
-                target = map_items[index]
-                target.removeChild(target.querySelector(".item-container"))
-            else:
-                js.document.querySelector(f".count{x}{y}").innerHTML = item_count
-        
+        if item_count == 0:
+            map_items = js.document.querySelectorAll(".map-item")
+            index = map_data["width"] * x + y
+            target = map_items[index]
+            target.removeChild(target.querySelector(".item-container"))
+        else:
+            js.document.querySelector(f".count{x}{y}").innerHTML = item_count
+
     def put(self, item_name):
         self.running_time += 1000 * running_speed
-        
+
         if item_name not in valid_items:
-            alert_error('InvalidItem')
+            alert_error("InvalidItem")
             raise InvalidItem
         self._put(item_name)
-        
 
     def _put(self, item_name):
         """
@@ -453,32 +493,47 @@ class Character:
         y = self.y
         item = self.check_bottom()
         item_list = self._get_character_data("items")
-        find_item_from_character =item_list.get(item_name, 0)
-        
+        find_item_from_character = item_list.get(item_name, 0)
+
         # 발 아래 아이템이 없을 경우
         if not item:
             if find_item_from_character > 0:
-                
                 item_list[item_name] -= 1
                 if item_list[item_name] == 0:
                     item_list.pop(item_name)
-                
-                item_data[(x,y)]= {"item":item_name,"count":1}
-                setTimeout(create_once_callable(lambda: (self._put_animation(item, x,y,item_name,1))), self.running_time)
-                setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-                
-                
+
+                item_data[(x, y)] = {"item": item_name, "count": 1}
+                setTimeout(
+                    create_once_callable(
+                        lambda: (self._put_animation(item, x, y, item_name, 1))
+                    ),
+                    self.running_time,
+                )
+                setTimeout(
+                    create_once_callable(lambda: self.init_time()), self.running_time
+                )
+
             else:
-                setTimeout(create_once_callable(lambda: alert_error('ItemIsNotExist')), self.running_time)
-                setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
+                setTimeout(
+                    create_once_callable(lambda: alert_error("ItemIsNotExist")),
+                    self.running_time,
+                )
+                setTimeout(
+                    create_once_callable(lambda: self.init_time()), self.running_time
+                )
                 raise ItemIsNotExist
         else:
             # 발 아래 아이템이 있다면
             bottom_item_name = item_data[(x, y)]["item"]
 
             if bottom_item_name != item_name and find_item_from_character > 0:
-                setTimeout(create_once_callable(lambda: alert_error('AnotherItemIsExist')), self.running_time)
-                setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
+                setTimeout(
+                    create_once_callable(lambda: alert_error("AnotherItemIsExist")),
+                    self.running_time,
+                )
+                setTimeout(
+                    create_once_callable(lambda: self.init_time()), self.running_time
+                )
                 raise AnotherItemIsExist
 
             # 주인공 발 아래 아이템과 동일한 아이템이 있다면
@@ -488,19 +543,29 @@ class Character:
                 if item_list[item_name] == 0:
                     item_list.pop(item_name)
                     item_data[(x, y)]["count"] += 1
-                setTimeout(create_once_callable(lambda: (self._put_animation(item,x,y,item_name,item_data[(x, y)]["count"]))), self.running_time)
-                setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
-            
-                
-                    
-    def _put_animation(self,bottom_item, x, y, item_name,count=1):
+                setTimeout(
+                    create_once_callable(
+                        lambda: (
+                            self._put_animation(
+                                item, x, y, item_name, item_data[(x, y)]["count"]
+                            )
+                        )
+                    ),
+                    self.running_time,
+                )
+                setTimeout(
+                    create_once_callable(lambda: self.init_time()), self.running_time
+                )
+
+    def _put_animation(self, bottom_item, x, y, item_name, count=1):
         if not bottom_item:
             item = Item(x, y, item_name, count)
             item.draw()
         else:
             js.document.querySelector(f".count{x}{y}").innerHTML = count
-            
+
         pass
+
     def check_bottom(self):
         """
         주인공 발 아래 아이템이 있는지 확인하는 함수
@@ -588,7 +653,7 @@ class Character:
         target_direction = self.directions
         x = self.x
         y = self.y
-        
+
         if input_dir == "front":
             pass
         elif input_dir == "left":
@@ -610,10 +675,12 @@ class Character:
             ny = y - 1
         elif target_direction == 3:  # 남
             nx = x + 1
-            
-        
-        
-        if self._out_of_world(nx, ny) or self._wall_exist(x, y, nx, ny) or self._obstacle_exist(nx, ny):
+
+        if (
+            self._out_of_world(nx, ny)
+            or self._wall_exist(x, y, nx, ny)
+            or self._obstacle_exist(nx, ny)
+        ):
             return False
         return True
 
@@ -630,31 +697,37 @@ class Character:
     def _open_door(self):
         wall_pos = self._front_wall()
         if self.typeof_wall() == "door":
-            
             # self._set_wall_data(wall_pos, "")
-            del wall_data['world'][wall_pos]
-            setTimeout(create_once_callable(lambda: (self._open_door_animation(wall_pos))), self.running_time)
-            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
-            
-            
+            del wall_data["world"][wall_pos]
+            setTimeout(
+                create_once_callable(lambda: (self._open_door_animation(wall_pos))),
+                self.running_time,
+            )
+            setTimeout(
+                create_once_callable(lambda: self.init_time()), self.running_time
+            )
 
         elif self.typeof_wall() != "":
-            setTimeout(create_once_callable(lambda: alert_error('CannotOpenWall')), self.running_time)
-            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
+            setTimeout(
+                create_once_callable(lambda: alert_error("CannotOpenWall")),
+                self.running_time,
+            )
+            setTimeout(
+                create_once_callable(lambda: self.init_time()), self.running_time
+            )
             raise CannotOpenWall
-            
 
-    def _open_door_animation(self,wall_pos):
-        self._set_wall_screen(wall_pos,"")
+    def _open_door_animation(self, wall_pos):
+        self._set_wall_screen(wall_pos, "")
 
     def typeof_wall(self):
         global wall_data
 
         pos = self._front_wall()
-        if not 0<=pos[0]<map_data["height"] or not 0<=pos[1]<map_data["width"]:
-        # if pos not in wall_data['world'].keys():
-            return 'OutOfWorld'
-            
+        if not 0 <= pos[0] < map_data["height"] or not 0 <= pos[1] < map_data["width"]:
+            # if pos not in wall_data['world'].keys():
+            return "OutOfWorld"
+
         return wall_data["world"].get(pos, None)
 
     def _front_wall(self):
@@ -678,67 +751,83 @@ class Character:
         js.document.querySelector(
             f'.wall[data-x="{pos[0]}"][data-y="{pos[1]}"]'
         ).dataset.type = type
-        
+
     def _set_character_data(self, key, value):
         global character_data
         for c in character_data:
-            if c['character']==self.name:
+            if c["character"] == self.name:
                 c[key] = value
                 break
-    
+
     def _get_character_data(self, key):
         global character_data
         for c in character_data:
-            if c['character']==self.name:
+            if c["character"] == self.name:
                 return c[key]
         return None
-    
+
     def eat(self, item_name):
         self.running_time += 1000 * running_speed
-        
+
         if item_name not in valid_items:
-            setTimeout(create_once_callable(lambda: alert_error('InvalidItem')), self.running_time)
-            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
-            
-            
+            setTimeout(
+                create_once_callable(lambda: alert_error("InvalidItem")),
+                self.running_time,
+            )
+            setTimeout(
+                create_once_callable(lambda: self.init_time()), self.running_time
+            )
+
             raise InvalidItem
-        
+
         if item_name not in edible_items.keys():
-            setTimeout(create_once_callable(lambda: alert_error('InedibleItem')), self.running_time)
-            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
+            setTimeout(
+                create_once_callable(lambda: alert_error("InedibleItem")),
+                self.running_time,
+            )
+            setTimeout(
+                create_once_callable(lambda: self.init_time()), self.running_time
+            )
             raise InedibleItem
-        
-        item_data = self._get_character_data('items')
+
+        item_data = self._get_character_data("items")
         if item_name not in item_data.keys():
-            setTimeout(create_once_callable(lambda: alert_error('ItemIsNotExist')), self.running_time)
-            setTimeout(create_once_callable(lambda: self.init_time()), self.running_time) 
+            setTimeout(
+                create_once_callable(lambda: alert_error("ItemIsNotExist")),
+                self.running_time,
+            )
+            setTimeout(
+                create_once_callable(lambda: self.init_time()), self.running_time
+            )
             raise ItemIsNotExist
-        
 
         say("냠냠")
-        if item_data[item_name]==1:
+        if item_data[item_name] == 1:
             del item_data[item_name]
         else:
-            item_data[item_name]-=1
-        
-        item_hp = edible_items[item_name].get('hp',0)
-        item_mp = edible_items[item_name].get('mp',0)
+            item_data[item_name] -= 1
+
+        item_hp = edible_items[item_name].get("hp", 0)
+        item_mp = edible_items[item_name].get("mp", 0)
         if self.hp + item_hp > self.initHp:
             self.hp = self.initHp
-        else: 
+        else:
             self.hp += item_hp
-            
+
         if self.mp + item_mp > self.initMp:
-            self.mp=self.initMp
+            self.mp = self.initMp
         else:
             self.mp += item_mp
-            
-        self._set_character_data("hp",self.hp)
-        self._set_character_data("mp",self.mp)
-        
-        setTimeout(create_once_callable(lambda: self._hp_animation()), self.running_time)
+
+        self._set_character_data("hp", self.hp)
+        self._set_character_data("mp", self.mp)
+
+        setTimeout(
+            create_once_callable(lambda: self._hp_animation()), self.running_time
+        )
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-        
-        setTimeout(create_once_callable(lambda: self._mp_animation()), self.running_time)
+
+        setTimeout(
+            create_once_callable(lambda: self._mp_animation()), self.running_time
+        )
         setTimeout(create_once_callable(lambda: self.init_time()), self.running_time)
-       

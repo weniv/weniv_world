@@ -320,6 +320,20 @@ button {
     &.active::before {
         background: var(--ColorSurface);
     }
+
+    /* 상태 출력 버튼 */
+    &.btn-status::before {
+        @include mask-image(
+            var(--ColorPrimary),
+            '../../assets/img/icon/icon-blood-on.svg'
+        );
+    }
+    &.btn-status.hide::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-blood-off.svg'
+        );
+    }
 }
 
 /* 다크 모드 버튼 */

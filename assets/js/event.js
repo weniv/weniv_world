@@ -364,3 +364,49 @@ preloadImage([
     './assets/img/characters/licat-3.png',
     './assets/img/icon/icon-alert-circle.svg',
 ]);
+
+// 상태바(체력,마나)
+// 로컬 스토리지에서 값 가져오기
+const statusModeButton = document.querySelector('.btn-status');
+const srText = statusModeButton.querySelector('.sr-only');
+const getStatusMode = () => {
+    const statusVisible = localStorage.getItem('status-mode');
+    return statusVisible ? statusVisible : 'hide';
+};
+const setStatusVisiblity = () => {
+    const status = getStatusMode();
+    const statusContainers = document.querySelectorAll('.status-container');
+    if (status === 'show') {
+        statusContainers.forEach((container) => {
+            container.classList.remove('hide');
+        });
+    } else {
+        statusContainers.forEach((container) => {
+            container.classList.add('hide');
+        });
+    }
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (getStatusMode() === 'show') {
+        localStorage.setItem('status-mode', 'show');
+        statusModeButton.classList.remove('hide');
+    } else {
+        localStorage.setItem('status-mode', 'hide');
+        statusModeButton.classList.add('hide');
+    }
+    setStatusVisiblity();
+});
+
+statusModeButton.addEventListener('click', () => {
+    if (getStatusMode() === 'show') {
+        localStorage.setItem('status-mode', 'hide');
+        statusModeButton.classList.add('hide');
+        srText.innerText = '체력 상태 보기';
+    } else {
+        localStorage.setItem('status-mode', 'show');
+        statusModeButton.classList.remove('hide');
+        srText.innerText = '체력 상태 숨기기';
+    }
+    setStatusVisiblity();
+});

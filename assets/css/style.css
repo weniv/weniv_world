@@ -400,7 +400,8 @@ button {
   /* 속도 조절 버튼 */
   /* 함수 리스트 버튼 */
   /* 변수 리스트 버튼 */
-  /* 초기화 버튼 */ }
+  /* 초기화 버튼 */
+  /* 상태 출력 버튼 */ }
   .button-before:hover, .button-before.active {
     background: var(--ColorActivation); }
   .button-before:disabled:hover, .button-before:disabled.active {
@@ -560,6 +561,26 @@ button {
     mask-position: center center; }
   .button-before.active::before {
     background: var(--ColorSurface); }
+  .button-before.btn-status::before {
+    background: var(--ColorPrimary);
+    -webkit-mask-image: url("../../assets/img/icon/icon-blood-on.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-blood-on.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .button-before.btn-status.hide::before {
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../../assets/img/icon/icon-blood-off.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-blood-off.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
 
 /* 다크 모드 버튼 */
 .btn-dark-mode {
@@ -1650,15 +1671,15 @@ button {
     width: 2.8rem;
     height: 2.8rem;
     background-size: 168px 28px; }
-  .mob .state-container {
+  .mob .status-container {
     min-width: 6.4rem;
     scale: 0.7692;
     bottom: 0;
     transform: translate(-63%, 150%); }
-    .mob .state-container .text {
+    .mob .status-container .text {
       opacity: 1; }
 
-.state-container {
+.status-container {
   width: 100%;
   height: 0.8rem;
   position: absolute;
@@ -1669,17 +1690,19 @@ button {
   border-radius: 3rem;
   overflow: hidden;
   color: var(--ColorSurface); }
-  .state-container .bar {
+  .status-container.hide {
+    display: none; }
+  .status-container .bar {
     width: 100%;
     height: 100%;
     background-color: #dd3440;
     transition: all 1s;
     transform-origin: center left; }
-  .state-container.mp {
+  .status-container.mp {
     transform: translate(-50%, 200%); }
-    .state-container.mp .bar {
+    .status-container.mp .bar {
       background-color: #486fee; }
-  .state-container .text {
+  .status-container .text {
     position: absolute;
     top: 50%;
     left: 50%;

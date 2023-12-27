@@ -680,7 +680,7 @@
         background-size: 168px 28px;
     }
 
-    & .state-container {
+    & .status-container {
         min-width: 6.4rem;
         scale: 0.7692;
         bottom: 0;
@@ -692,7 +692,11 @@
     }
 }
 
-.state-container {
+.status-container {
+    &.hide {
+        display: none;
+    }
+
     width: 100%;
     height: 0.8rem;
     position: absolute;

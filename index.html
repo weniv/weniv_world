@@ -1175,10 +1175,7 @@
                         break
                     index += 1
                     
-                # index를 통해 x, y 좌표 계산
                 x, y = divmod(index, map_data['width'])
-                js.console.log(f"x: {x}, y: {y}")
-
                 if character_exist(x, y) or mob_exist(x, y):
                     _show_modal_alert('다른 캐릭터 또는 몹이 있습니다.')
                     evt.target.style.backgroundColor = ''
@@ -1187,13 +1184,15 @@
                 input_name = js.prompt('추가할 몹의 이름을 작성해주세요','')
                 if not input_name:
                     return None
-                elif any(m['name']==input_name for m in mob_data):
-                    _show_modal_alert('해당 이름을 갖는 몹이 이미 맵에 존재합니다')
-                    return None
-                else:
-                    name = input_name
-                    add_mob(x,y,mob_select['name'], name)
-                    
+                
+                for m in mob_data:
+                    if m['name']==input_name:
+                        _show_modal_alert('해당 이름을 갖는 몹이 이미 맵에 존재합니다')
+                        return None
+
+                name = input_name
+                add_mob(x,y,mob_select['name'], name)
+
                 mob_select['status']=False
                 label = js.document.querySelector(f"label[for='{mob_select['name']}']")
                 label.classList.remove('select')

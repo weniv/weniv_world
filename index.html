@@ -252,6 +252,44 @@
                         </div>
                     </li>
                     <li>
+                        <button class="button-before btn-mob btn-toggle show-tooltip" type="button" name="mob">
+                            <span class="sr-only">몹 추가하기</span>
+                        </button>
+                        <div class="controller-modal select-mobs">
+                            <!-- TODO: items data 파일 뿌려주기 -->
+                            <div class="input-wrap">
+                                <input type="radio" name="mob" id="lion" value="lion" class="sr-only" checked>
+                                <label for="lion">
+                                    <span class="sr-only">lion(기본)</span>
+                                </label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="mob" id="mob1" value="mob1" class="sr-only" checked>
+                                <label for="mob1">
+                                    <span class="sr-only">mob1</span>
+                                </label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="mob" id="mob2" value="mob2" class="sr-only" checked>
+                                <label for="mob2">
+                                    <span class="sr-only">mob2</span>
+                                </label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="mob" id="mob3" value="mob3" class="sr-only" checked>
+                                <label for="mob3">
+                                    <span class="sr-only">mob3</span>
+                                </label>
+                            </div>
+                            <div class="input-wrap">
+                                <input type="radio" name="mob" id="mob4" value="mob4" class="sr-only" checked>
+                                <label for="mob4">
+                                    <span class="sr-only">mob4</span>
+                                </label>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
                         <button class="button-before btn-resize btn-toggle show-tooltip" type="button" name="월드 크기 조정하기">
                             <span class="sr-only">월드 크기 조정하기</span>
                         </button>
@@ -391,6 +429,13 @@
                         </button>
                     </li>
                 </ul>
+                <ul>
+                    <li>
+                        <button class="button-before btn-status show-tooltip hide" type="button" name="체력 상태 보기">
+                            <span class="sr-only">체력 상태 보기</span>
+                        </button>
+                    </li>
+                </ul>
             </nav>
             <section class="world-map">
                 <h3 class="sr-only">위니브월드 맵</h3>
@@ -480,6 +525,10 @@
 
         # item select
         item_select = {
+            'status':False,
+            'name':''
+        }
+        mob_select = {
             'status':False,
             'name':''
         }
@@ -1021,6 +1070,8 @@
                 label = js.document.querySelector(f"label[for='{evt.target.id}']")
                 label.classList.add('select')
             else: 
+                mob_select['status'] = False
+                mob_select['name'] = ''
                 item_select['status'] = True
                 item_select['name'] = evt.target.id
                 js.document.querySelector('.wall-container').style.pointerEvents='none'
@@ -1048,10 +1099,10 @@
                 input_count = js.prompt('추가할 아이템 개수를 입력하세요\n(* 추가할 위치에 다른 아이템이 있는 경우 사라집니다.)', '1')
 
                 # 양의 정수이면 count에 저장 / 입력값이 없으면 None 반환 / 입력값이 유효하지 않으면 alert
-                if not input_count:
+                if input_count == None:
                     return None
-                elif not input_count.isdigit() or int(input_count)<0:
-                    js.alert('자연수를 입력해주세요.')
+                elif not input_count.isdigit() or int(input_count)<0 or input_count=='':
+                    _show_modal_alert('자연수를 입력해주세요')
                     return None
                 else:
                     count = int(input_count)
@@ -1073,6 +1124,83 @@
                 label = js.document.querySelector(f"label[for='{item_select['name']}']")
                 label.classList.remove('select')
                 item_select['name']=''
+
+                js.document.querySelector('.wall-container').style.pointerEvents=''
+                js.document.querySelector('.world-map').style.cursor='auto'
+        
+        # mob
+        @when("click", selector="input[name='mob']")
+        def change_mob_select(evt):
+            if mob_select['status'] and evt.target.id == mob_select['name']:
+                label = js.document.querySelector(f"label[for='{evt.target.id}']")
+                label.classList.remove('select')
+
+                mob_select['status'] = False
+                js.document.querySelector('.wall-container').style.pointerEvents=''
+
+                mob_select['name'] = ''
+                js.document.querySelector('.world-map').style.cursor='auto'
+            elif mob_select['status'] and evt.target.id != mob_select['name']:
+                # 이전 선택 스타일 취소
+                if(mob_select['name']):
+                    label = js.document.querySelector(f"label[for='{mob_select['name']}']")
+                    label.classList.remove('select')
+                    
+                js.document.querySelector('.wall-container').style.pointerEvents='none'
+
+                mob_select['name'] = evt.target.id
+                js.console.log('url',f"assets/img/characters/{evt.target.id}-0.png")
+                js.document.querySelector('.world-map').style.cursor= f"url(assets/img/characters/{evt.target.id}-0.png)"
+
+                label = js.document.querySelector(f"label[for='{evt.target.id}']")
+                label.classList.add('select')
+            else: 
+                item_select['status'] = False
+                item_select['name'] = ''
+                mob_select['status'] = True
+                mob_select['name'] = evt.target.id
+                js.document.querySelector('.wall-container').style.pointerEvents='none'
+                js.document.querySelector('.world-map').style.cursor=f"url(assets/img/characters/{evt.target.id}-0.png), auto"
+
+                label = js.document.querySelector(f"label[for='{evt.target.id}']")
+                label.classList.add('select')
+
+        @when("click",selector=".map-item")
+        def mob_add(evt):
+            if(mob_select['status']):
+                # 좌표값 계산
+                map_items = js.document.querySelectorAll('.map-item')
+                index = 0
+                for item in map_items:
+                    if item == evt.target:
+                        break
+                    index += 1
+                    
+                x, y = divmod(index, map_data['width'])
+                if character_exist(x, y) or mob_exist(x, y):
+                    _show_modal_alert('다른 캐릭터 또는 몹이 있습니다.')
+                    evt.target.style.backgroundColor = ''
+                    return None
+                
+                input_name = js.prompt('추가할 몹의 이름을 작성해주세요')
+                if input_name == None:
+                    return None
+                elif input_name == "":
+                    _show_modal_alert('이름을 입력해주세요')
+                    return None
+
+                for m in mob_data:
+                    if m['name']==input_name:
+                        _show_modal_alert('해당 이름을 갖는 몹이 이미 맵에 존재합니다')
+                        return None
+
+                name = input_name
+                add_mob(x,y,mob_select['name'], name)
+
+                mob_select['status']=False
+                label = js.document.querySelector(f"label[for='{mob_select['name']}']")
+                label.classList.remove('select')
+                mob_select['name']=''
 
                 js.document.querySelector('.wall-container').style.pointerEvents=''
                 js.document.querySelector('.world-map').style.cursor='auto'
@@ -1309,6 +1437,7 @@
             if mob_type not in mob_info.keys():
                 alert_error('InvalidMob')
                 raise InvalidMob
+                
             if character_exist(x, y) or mob_exist(x, y):
                 alert_error('ObstacleExist')
                 raise ObstacleExist

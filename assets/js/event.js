@@ -80,6 +80,7 @@ const storyResizer = document.querySelector('.story-resizer');
 const wallEditButton = document.querySelector('.btn-wall');
 const assetsSelectButton = document.querySelector('.btn-assets');
 const mapResizeButton = document.querySelector('.btn-resize');
+const mobSelectButton = document.querySelector('.btn-mob');
 
 storyShowButton.addEventListener('click', () => {
     storyShowButton.classList.toggle('active');
@@ -98,11 +99,15 @@ storyShowButton.addEventListener('click', () => {
         assetsSelectButton.classList.remove('active');
         assetsSelectButton.setAttribute('disabled', true);
 
+        mobSelectButton.classList.remove('active');
+        mobSelectButton.setAttribute('disabled', true);
+
         mapResizeButton.classList.remove('active');
         mapResizeButton.setAttribute('disabled', true);
     } else {
         wallEditButton.removeAttribute('disabled');
         assetsSelectButton.removeAttribute('disabled');
+        mobSelectButton.removeAttribute('disabled');
         mapResizeButton.removeAttribute('disabled');
     }
 });
@@ -113,6 +118,7 @@ storyCloseButton.addEventListener('click', () => {
 
     wallEditButton.removeAttribute('disabled');
     assetsSelectButton.removeAttribute('disabled');
+    mobSelectButton.removeAttribute('disabled');
     mapResizeButton.removeAttribute('disabled');
 
     storyShowButton.classList.remove('active');
@@ -356,5 +362,82 @@ preloadImage([
     './assets/img/characters/licat-1.png',
     './assets/img/characters/licat-2.png',
     './assets/img/characters/licat-3.png',
-    './assets/img/icon/icon-alert-circle.svg'
+    './assets/img/icon/icon-alert-circle.svg',
 ]);
+
+// 상태바(체력,마나)
+// 로컬 스토리지에서 값 가져오기
+const statusModeButton = document.querySelector('.btn-status');
+const srText = statusModeButton.querySelector('.sr-only');
+const getStatusMode = () => {
+    const statusVisible = localStorage.getItem('status-mode');
+    return statusVisible ? statusVisible : 'hide';
+};
+const setStatusVisiblity = () => {
+    const status = getStatusMode();
+    const statusContainers = document.querySelectorAll('.status-item');
+    if (status === 'show') {
+        statusContainers.forEach((container) => {
+            container.classList.remove('hide');
+        });
+    } else {
+        statusContainers.forEach((container) => {
+            container.classList.add('hide');
+        });
+    }
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (getStatusMode() === 'show') {
+        localStorage.setItem('status-mode', 'show');
+        statusModeButton.classList.remove('hide');
+        statusModeButton.setAttribute('name', '체력 상태 숨기기');
+        srText.innerText = '체력 상태 숨기기';
+    } else {
+        localStorage.setItem('status-mode', 'hide');
+        statusModeButton.classList.add('hide');
+        statusModeButton.setAttribute('name', '체력 상태 보기');
+        srText.innerText = '체력 상태 보기';
+    }
+    setStatusVisiblity();
+});
+
+statusModeButton.addEventListener('click', () => {
+    if (getStatusMode() === 'show') {
+        localStorage.setItem('status-mode', 'hide');
+        statusModeButton.classList.add('hide');
+        statusModeButton.setAttribute('name', '체력 상태 보기');
+        srText.innerText = '체력 상태 보기';
+    } else {
+        localStorage.setItem('status-mode', 'show');
+        statusModeButton.classList.remove('hide');
+        statusModeButton.setAttribute('name', '체력 상태 숨기기');
+        srText.innerText = '체력 상태 숨기기';
+    }
+    setStatusVisiblity();
+});
+
+const APP = document.getElementById('app');
+const statusObserver = new MutationObserver((mutationsList) => {
+    mutationsList.forEach((mutation) => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach((addedNode) => {
+                if (
+                    addedNode.classList.contains('map-container') ||
+                    addedNode.classList.contains('character') ||
+                    addedNode.classList.contains('mob')
+                ) {
+                    const statusContainer =
+                        addedNode.querySelectorAll('.status-item');
+                    if (getStatusMode() === 'hide') {
+                        statusContainer.forEach((container) => {
+                            container.classList.add('hide');
+                        });
+                    }
+                }
+            });
+        }
+    });
+});
+
+statusObserver.observe(APP, { childList: true, subtree: true });

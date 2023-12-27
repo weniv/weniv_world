@@ -395,11 +395,13 @@ button {
   /* 콘텐츠 더보기 버튼(케밥 메뉴) */
   /* 벽 만들기 버튼 */
   /* 에셋 추가 버튼 */
+  /* 몹 추가 버튼 */
   /* 월드 크기 조정 버튼 */
   /* 속도 조절 버튼 */
   /* 함수 리스트 버튼 */
   /* 변수 리스트 버튼 */
-  /* 초기화 버튼 */ }
+  /* 초기화 버튼 */
+  /* 상태 출력 버튼 */ }
   .button-before:hover, .button-before.active {
     background: var(--ColorActivation); }
   .button-before:disabled:hover, .button-before:disabled.active {
@@ -477,6 +479,26 @@ button {
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
+  .button-before.btn-mob::before {
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../../assets/img/icon/icon-monster.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-monster.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .button-before.btn-mob:disabled::before {
+    background: var(--ColorGrayLv2);
+    -webkit-mask-image: url("../../assets/img/icon/icon-asset-import.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-asset-import.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
   .button-before.btn-resize::before {
     background: var(--ColorGrayLv3);
     -webkit-mask-image: url("../../assets/img/icon/icon-world-size.svg");
@@ -539,6 +561,26 @@ button {
     mask-position: center center; }
   .button-before.active::before {
     background: var(--ColorSurface); }
+  .button-before.btn-status::before {
+    background: var(--ColorPrimary);
+    -webkit-mask-image: url("../../assets/img/icon/icon-blood-on.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-blood-on.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .button-before.btn-status.hide::before {
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../../assets/img/icon/icon-blood-off.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-blood-off.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
 
 /* 다크 모드 버튼 */
 .btn-dark-mode {
@@ -1287,6 +1329,41 @@ button {
   .select-items input#goldbar + label {
     background: var(--ColorBackground) url("../../assets/img/item/goldbar.png") no-repeat center/3rem auto; }
 
+/* mob */
+.select-mobs {
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  width: 29.8rem;
+  padding: 1.9rem; }
+  .select-mobs label {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 10px;
+    border: 1px solid var(--ColorGrayLv2);
+    background: var(--ColorBackground) url("../../assets/img/characters/lion-1.png") no-repeat;
+    box-sizing: border-box;
+    cursor: pointer; }
+  .select-mobs label.select {
+    border: 2px solid var(--ColorPrimary);
+    background-color: var(--ColorActivation) !important; }
+  .select-mobs label.active {
+    outline: 2px solid red; }
+  .select-mobs input:checked,
+  .select-mobs label:hover {
+    outline: 2px solid var(--ColorPrimary);
+    border: transparent; }
+  .select-mobs input#mob1 + label {
+    background: var(--ColorBackground) url("../../assets/img/characters/mob1-1.png") no-repeat top 0.2rem left 0.9rem; }
+  .select-mobs input#mob2 + label {
+    background: var(--ColorBackground) url("../../assets/img/characters/mob2-1.png") no-repeat top 0.5rem left 0.5rem; }
+  .select-mobs input#mob3 + label {
+    background: var(--ColorBackground) url("../../assets/img/characters/mob3-1.png") no-repeat top 0.5rem left 0.5rem; }
+  .select-mobs input#mob4 + label {
+    background: var(--ColorBackground) url("../../assets/img/characters/mob4-1.png") no-repeat top 0.5rem left 0.5rem; }
+
 /* map */
 .world-map {
   display: flex;
@@ -1594,45 +1671,84 @@ button {
     width: 2.8rem;
     height: 2.8rem;
     background-size: 168px 28px; }
-  .mob .state-container {
-    min-width: 6.4rem;
-    scale: 0.7692;
-    bottom: 0;
-    transform: translate(-63%, 150%); }
-    .mob .state-container .text {
-      opacity: 1; }
 
-.state-container {
-  width: 100%;
-  height: 0.8rem;
+.mob .status-container {
+  scale: 0.7692;
+  transform: translate(-63%, 150%); }
+  .mob .status-container.hide {
+    display: none; }
+
+.status-container {
+  z-index: 10;
+  width: fit-content;
+  height: fit-content;
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translate(-50%, 80%);
-  background-color: var(--ColorGrayLv2);
-  border-radius: 3rem;
-  overflow: hidden;
-  color: var(--ColorSurface); }
-  .state-container .bar {
+  transform: translate(-50%, 100%);
+  display: flex;
+  gap: 0.2rem; }
+
+.status-item {
+  width: 2.8rem;
+  height: 0.6rem;
+  background-color: var(--ColorSurface);
+  border-radius: 0.1rem;
+  overflow: hidden; }
+  .status-item.hide {
+    display: none; }
+  .status-item .bar {
     width: 100%;
     height: 100%;
-    background-color: #dd3440;
-    transition: all 1s;
-    transform-origin: center left; }
-  .state-container.mp {
-    transform: translate(-50%, 200%); }
-    .state-container.mp .bar {
-      background-color: #486fee; }
-  .state-container .text {
+    background-color: var(--ColorError);
+    transition: all 0.2s;
+    transform-origin: center left;
+    pointer-events: none; }
+  .status-item:hover .text {
+    display: flex; }
+  .status-item .text {
+    display: none;
     position: absolute;
-    top: 50%;
+    top: 100%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 1;
-    box-shadow: var(--EffectShadow);
-    transition: all 0.2s; }
+    transform: translate(-50%, 0);
+    font-size: 1.2rem;
+    font-weight: 700;
+    transition: all 0.2s;
+    gap: 0.2rem;
+    align-items: center;
+    color: var(--ColorError); }
+    .status-item .text::before {
+      content: '';
+      position: relative;
+      width: 0.8rem;
+      height: 0.8rem;
+      background: var(--ColorError);
+      -webkit-mask-image: url("../../assets/img/icon/icon-blood-on.svg");
+      -webkit-mask-size: 100%;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-image: url("../../assets/img/icon/icon-blood-on.svg");
+      mask-size: 100%;
+      mask-repeat: no-repeat;
+      mask-position: center center; }
+  .status-item.mp:hover .text {
+    display: flex; }
+  .status-item.mp .bar {
+    background-color: var(--ColorPrimary); }
+  .status-item.mp .text {
+    display: none;
+    color: var(--ColorPrimary); }
+    .status-item.mp .text::before {
+      background: var(--ColorPrimary);
+      -webkit-mask-image: url("../../assets/img/icon/icon-star-fill.svg");
+      -webkit-mask-size: 100%;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-image: url("../../assets/img/icon/icon-star-fill.svg");
+      mask-size: 100%;
+      mask-repeat: no-repeat;
+      mask-position: center center; }
 
 .modal {
   position: fixed;

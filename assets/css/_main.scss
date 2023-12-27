@@ -251,6 +251,23 @@ button {
         }
     }
 
+    /* 몹 추가 버튼 */
+    &.btn-mob {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-monster.svg'
+            );
+        }
+
+        &:disabled::before {
+            @include mask-image(
+                var(--ColorGrayLv2),
+                '../../assets/img/icon/icon-asset-import.svg'
+            );
+        }
+    }
+
     /* 월드 크기 조정 버튼 */
     &.btn-resize {
         &::before {
@@ -302,6 +319,20 @@ button {
 
     &.active::before {
         background: var(--ColorSurface);
+    }
+
+    /* 상태 출력 버튼 */
+    &.btn-status::before {
+        @include mask-image(
+            var(--ColorPrimary),
+            '../../assets/img/icon/icon-blood-on.svg'
+        );
+    }
+    &.btn-status.hide::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-blood-off.svg'
+        );
     }
 }
 

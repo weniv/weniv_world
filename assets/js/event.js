@@ -391,9 +391,13 @@ window.addEventListener('DOMContentLoaded', () => {
     if (getStatusMode() === 'show') {
         localStorage.setItem('status-mode', 'show');
         statusModeButton.classList.remove('hide');
+        statusModeButton.setAttribute('name', '체력 상태 숨기기');
+        srText.innerText = '체력 상태 숨기기';
     } else {
         localStorage.setItem('status-mode', 'hide');
         statusModeButton.classList.add('hide');
+        statusModeButton.setAttribute('name', '체력 상태 보기');
+        srText.innerText = '체력 상태 보기';
     }
     setStatusVisiblity();
 });
@@ -402,10 +406,12 @@ statusModeButton.addEventListener('click', () => {
     if (getStatusMode() === 'show') {
         localStorage.setItem('status-mode', 'hide');
         statusModeButton.classList.add('hide');
+        statusModeButton.setAttribute('name', '체력 상태 보기');
         srText.innerText = '체력 상태 보기';
     } else {
         localStorage.setItem('status-mode', 'show');
         statusModeButton.classList.remove('hide');
+        statusModeButton.setAttribute('name', '체력 상태 숨기기');
         srText.innerText = '체력 상태 숨기기';
     }
     setStatusVisiblity();

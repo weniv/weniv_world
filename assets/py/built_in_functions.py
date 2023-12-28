@@ -380,29 +380,37 @@ def eat(item, character=None):
 
 
 # utility function
+def show_modal_alert(message, type="error"):
+    alert = js.document.createElement("div")
+    alert.classList.add("modal", "alert")
+    if type == "success":
+        toast.classList.add("success")
 
-def _show_modal_alert(message, type='error'):
-    toast = js.document.querySelector('.modal.alert')
-    if type=='success':
-        toast.classList.add('success')
-    else:
-        toast.classList.remove('success')
-    text = toast.querySelector('.text')
+    text = js.document.createElement("p")
+    text.classList.add("text")
     text.innerText = message
-    toast.classList.add("show")
 
-    button = toast.querySelector(".confirm")
-    button.addEventListener("click", create_once_callable(lambda e: hiddenToast()))
-    js.setTimeout(create_once_callable(lambda: (hiddenToast())), 2000)
+    button = js.document.createElement("button")
+    button.classList.add("confirm")
+    button.innerText = "확인"
+    alert.append(text, button)
+
+    alert.classList.add("show")
+
+    world_map = js.document.querySelector(".world-map")
+    world_map.appendChild(alert)
+
+    button.addEventListener("click", create_once_callable(lambda e: hiddenToast(alert)))
+    js.setTimeout(create_once_callable(lambda: (hiddenToast(alert))), 2000)
 
 
-def hiddenToast():
-    js.document.querySelector(".modal.alert").classList.remove("show")
+def hiddenToast(modal):
+    modal.remove()
 
 
 def alert_error(error_type):
     # 순환참조로 인하여 built_in_functions에서 발생하는 오류는 따로 관리
     if error_type not in error_message.keys():
-        _show_modal_alert(error_type)
+        show_modal_alert(error_type)
     else:
-        _show_modal_alert(error_message[error_type])
+        show_modal_alert(error_message[error_type])

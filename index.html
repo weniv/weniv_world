@@ -440,17 +440,13 @@
             <section class="world-map">
                 <h3 class="sr-only">위니브월드 맵</h3>
                 <div id='app'></div>
-                <div class="modal alert">
-                    <p class="text"></p>
-                    <button class="confirm">확인</button>
-                </div>
-                <div class="modal confirm">
+                <!-- <div class="modal confirm">
                     <p class="text"></p>
                     <div class="btns">
                         <button class="cancel">취소</button>
                         <button class="exit">나가기</button>
                     </div>
-                </div>
+                </div> -->
             </section>
             <div class="resizer" data-direction="vertical"></div>
             <section class="world-output">
@@ -513,7 +509,7 @@
         from item import Item
         from error import *
         from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_data, mob_info, skills, character_info, print_data, say_data
-        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, _show_modal_alert, eat
+        from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, show_modal_alert, eat
         from solution import story_solution
         from pyscript import when
         from js import alert, setTimeout
@@ -1102,7 +1098,7 @@
                 if input_count == None:
                     return None
                 elif not input_count.isdigit() or int(input_count)<0 or input_count=='':
-                    _show_modal_alert('자연수를 입력해주세요')
+                    show_modal_alert('자연수를 입력해주세요')
                     return None
                 else:
                     count = int(input_count)
@@ -1178,7 +1174,7 @@
                     
                 x, y = divmod(index, map_data['width'])
                 if character_exist(x, y) or mob_exist(x, y):
-                    _show_modal_alert('다른 캐릭터 또는 몹이 있습니다.')
+                    show_modal_alert('다른 캐릭터 또는 몹이 있습니다.')
                     evt.target.style.backgroundColor = ''
                     return None
                 
@@ -1186,12 +1182,12 @@
                 if input_name == None:
                     return None
                 elif input_name == "":
-                    _show_modal_alert('이름을 입력해주세요')
+                    show_modal_alert('이름을 입력해주세요')
                     return None
 
                 for m in mob_data:
                     if m['name']==input_name:
-                        _show_modal_alert('해당 이름을 갖는 몹이 이미 맵에 존재합니다')
+                        show_modal_alert('해당 이름을 갖는 몹이 이미 맵에 존재합니다')
                         return None
 
                 name = input_name
@@ -1394,9 +1390,9 @@
                     js.localStorage.setItem(f"{story_select['index']}_check", "통과")
                     liElem = evt.target.closest('li')
                     liElem.classList.add('submit')
-                    _show_modal_alert('정답입니다.', 'success')
+                    show_modal_alert('정답입니다.', 'success')
                 else:
-                    _show_modal_alert('오답입니다.')
+                    show_modal_alert('오답입니다.')
         @when("click", selector=".btn-story")
         def change_storymode(evt=None):
             if(evt.target.classList.contains('active')):

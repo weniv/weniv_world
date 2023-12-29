@@ -2,12 +2,14 @@
     {
         "id": 1,
         "title": "캣의 결심",
-        "url": "./assets/data/story/story1.md"
+        "url": "./assets/data/story/story1.md",
+        "evaluation": ["변수와 자료형", "연산"]
     },
     {
         "id": 2,
         "title": "라이캣의 탄생",
-        "url": "./assets/data/story/story2.md"
+        "url": "./assets/data/story/story2.md",
+        "evaluation": ["연산", "반복문과 조건문"]
     },
     {
         "id": 3,

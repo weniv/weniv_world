@@ -391,6 +391,7 @@ button {
   border-radius: 1rem;
   padding: 0.7rem;
   box-sizing: border-box;
+  /* 보고서 버튼 */
   /* 스토리보기 버튼 */
   /* 콘텐츠 더보기 버튼(케밥 메뉴) */
   /* 벽 만들기 버튼 */
@@ -411,6 +412,16 @@ button {
     display: block;
     width: 2.8rem;
     height: 2.8rem; }
+  .button-before.btn-report::before {
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../../assets/img/icon/icon-file-download.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-file-download.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
   .button-before.btn-story::before {
     background: var(--ColorGrayLv3);
     -webkit-mask-image: url("../../assets/img/icon/icon-book.svg");
@@ -1805,7 +1816,9 @@ button {
       background-color: var(--ColorGrayLv2); }
 
 .modal.confirm {
-  top: 10rem; }
+  position: absolute;
+  top: 50%;
+  left: 50%; }
   .modal.confirm .btns {
     display: flex;
     gap: 1.2rem; }

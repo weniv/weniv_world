@@ -185,6 +185,16 @@ button {
         height: 2.8rem;
     }
 
+    /* 보고서 버튼 */
+    &.btn-report {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-file-download.svg'
+            );
+        }
+    }
+
     /* 스토리보기 버튼 */
     &.btn-story {
         &::before {

@@ -50,6 +50,7 @@
     <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/event.js" defer></script>
     <script src="./assets/js/resizer.js" defer></script>
+    <script src="./assets/js/report.js" defer></script>
     <script type="module" src="./assets/js/parser.js"></script>
 
     <!-- PyScript -->
@@ -83,6 +84,13 @@
         </h1>
         <nav class="menu">
             <ul class="menu-list">
+              <li>
+                <button type="button" class="button-before btn-report show-tooltip" name="보고서 다운로드">
+                    <span class="sr-only">
+                        보고서 다운로드
+                    </span>
+                </button>
+            </li>
                 <li>
                     <button type="button" class="button-before btn-story show-tooltip" name="스토리">
                         <span class="sr-only">
@@ -1387,7 +1395,7 @@
 
                 if solution_flag==True:
                     # TODO: 경고창을 안내창으로 변경
-                    js.localStorage.setItem(f"{story_select['index']}_check", "통과")
+                    js.localStorage.setItem(f"{story_select['index']}_check", "정답")
                     liElem = evt.target.closest('li')
                     liElem.classList.add('submit')
                     show_modal_alert('정답입니다.', 'success')

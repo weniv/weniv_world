@@ -429,8 +429,7 @@ const renderContent = (markdownData) => {
             button.setAttribute('class', 'btn-toggle');
             button.innerHTML = `<span class="sr-only">스토리 여닫기</span>`;
 
-            if (localStorage.getItem(`${index + 1}_check`) === '통과') {
-                // titleSection before의 배경색을 변환
+            if (localStorage.getItem(`${index + 1}_check`) === '정답') {
                 li.classList.add('submit');
             }
             const submitButton = document.createElement('button');

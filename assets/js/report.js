@@ -19,7 +19,7 @@ const getCode = (id) => {
             codeText += '```py\n' + trimedCode + '\n```\n';
         }
     });
-    return codeText;
+    return codeText ? codeText : '```py\n\n```';
 };
 
 const submitCheck = () => {
@@ -53,7 +53,6 @@ const submitCheck = () => {
             }
         });
     });
-    console.log('---report===', reportData);
     return reportData;
 };
 

@@ -262,6 +262,17 @@
             url('../../assets/img/item/goldbar.png') no-repeat center / 3rem
             auto;
     }
+
+    input#hp-potion + label {
+      background: var(--ColorBackground)
+          url('../../assets/img/item/hp-potion.png') no-repeat center / 3rem auto;
+  }
+
+  input#mp-potion + label {
+      background: var(--ColorBackground)
+          url('../../assets/img/item/mp-potion.png') no-repeat center / 3rem
+          auto;
+  }
 }
 
 /* mob */

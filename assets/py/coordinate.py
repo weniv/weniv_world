@@ -29,8 +29,8 @@ say_data = []
 
 #-----------------------#
 ## 시스템 기본 데이터
-valid_items = ['fish-1','fish-2','fish-3','diamond','apple','goldbar']
-edible_items = {'fish-1':{'hp':10},'fish-2':{'hp':10},'fish-3':{'hp':10},'apple':{'mp':10}}
+valid_items = ['fish-1','fish-2','fish-3','diamond','apple','goldbar', 'hp-potion','mp-potion']
+edible_items = {'hp-potion':{'hp':20},'mp-potion':{'mp':20}}
 
 wall_blocked = ["wall", "fence"]  # 이동 불가한 벽 종류
 wall_types = ["wall", "fence", "door"]  # 벽 종류

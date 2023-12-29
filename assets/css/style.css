@@ -1328,6 +1328,10 @@ button {
     background: var(--ColorBackground) url("../../assets/img/item/apple.png") no-repeat center/3rem auto; }
   .select-items input#goldbar + label {
     background: var(--ColorBackground) url("../../assets/img/item/goldbar.png") no-repeat center/3rem auto; }
+  .select-items input#hp-potion + label {
+    background: var(--ColorBackground) url("../../assets/img/item/hp-potion.png") no-repeat center/3rem auto; }
+  .select-items input#mp-potion + label {
+    background: var(--ColorBackground) url("../../assets/img/item/mp-potion.png") no-repeat center/3rem auto; }
 
 /* mob */
 .select-mobs {
@@ -1805,7 +1809,9 @@ button {
       background-color: var(--ColorGrayLv2); }
 
 .modal.confirm {
-  top: 10rem; }
+  position: absolute;
+  top: 50%;
+  left: 50%; }
   .modal.confirm .btns {
     display: flex;
     gap: 1.2rem; }

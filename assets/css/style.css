@@ -1844,6 +1844,12 @@ button {
     mask-repeat: no-repeat;
     mask-position: center center; }
 
+#chart {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  background-color: white; }
+
 .story {
   display: none;
   flex-direction: column;

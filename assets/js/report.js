@@ -24,6 +24,7 @@ const getCode = (id) => {
 const getChart = (chartData) => {
     return new Promise((resolve) => {
         const canvas = document.createElement('canvas');
+        canvas.setAttribute('id', 'chart');
         const ctx = canvas.getContext('2d');
 
         new Chart(ctx, {
@@ -44,15 +45,30 @@ const getChart = (chartData) => {
                         beginAtZero: true,
                     },
                 },
+                responsive: false,
+                maintainAspectRatio: false,
             },
         });
 
         setTimeout(() => {
             const imgLink = canvas.toDataURL('image/png', 0.1);
-            canvas.remove();
+            // canvas.remove();
             resolve(imgLink);
         }, 500);
         document.body.appendChild(canvas);
+    });
+};
+
+const getTable = (chartData) => {
+    return new Promise((resolve) => {
+        let result = '|항목|진행도|점수|\n|:---:|:---|:---:|\n';
+        for (const key of Object.keys(chartData)) {
+            result += `|${key} |${
+                '◼︎'.repeat(chartData[key] / 10) +
+                '◻︎'.repeat(10 - chartData[key] / 10)
+            }|${chartData[key]}|\n`;
+        }
+        return resolve(result);
     });
 };
 
@@ -80,6 +96,7 @@ btnDownload.addEventListener('click', (e) => {
         함수: 0,
         클래스: 0,
     };
+
     let reportData = '';
     const questionData = fetchQuestionInfo();
     questionData.then((data) => {
@@ -94,20 +111,21 @@ btnDownload.addEventListener('click', (e) => {
                         score[key] += 10;
                     }
                 }
-                const storyData = `## 문제 ${id}번\n\n* 목표 : ${
-                    story['goals'] || '-'
-                }\n* 평가 항목 : ${
+                const storyData = `## 문제 ${id}번\n\n* 평가 항목 : ${
                     story['evaluation'] || '-'
                 }\n* 통과 여부 : ${result}\n\n${getCode(id)}\n\n`;
 
                 reportData += storyData;
             }
         });
-        // drawChart(score);
         console.log('score', score);
         // 이미지 가져오기
-        getChart(score).then((imgLink) => {
-            reportData = `# 학습 보고서\n\n ![](${imgLink})\n\n` + reportData;
+        // getChart(score).then((imgLink) => {
+        // reportData = `# 학습 보고서\n\n ![](${res})\n\n` + reportData;
+
+        // 표로 가져오기
+        getTable(score).then((res) => {
+            reportData = `# 학습 보고서\n\n ${res}\n\n` + reportData;
 
             // TODO: 학번과 이름을 입력받아 파일명을 만들어준다.
             if (!!reportData) {

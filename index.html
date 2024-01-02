@@ -1375,37 +1375,21 @@
                         continue
                     
                     if key=='print_data' or key=='say_data':
-                        if all(elem in check_data[key] for elem in solution[key]):
-                            pass
-                            # js.console.log('출력 통과')
-                        else:
-                            # js.console.log('출력 실패')
+                        if not all(elem in check_data[key] for elem in solution[key]):
                             solution_flag = False
 
                     elif key=='character_data':
                         ch_solution = solution[key]
                         ch_check = check_data[key]
-                        if all(ch_solution.get(prop, None) == ch_check.get(prop, None) for prop in ch_solution.keys()):
-                            pass
-                            # js.console.log('캐릭터 통과')
-                        else:
-                            # js.console.log('캐릭터 실패')
+                        if not all(ch_solution.get(prop, None) == ch_check.get(prop, None) for prop in ch_solution.keys()):
                             solution_flag = False
 
                     elif key=='item':
-                        if solution[key]==check_data[key]:
-                            pass
-                            # js.console.log('아이템 통과')
-                        else:
-                            # js.console.log('아이템 실패')
+                        if not solution[key]==check_data[key]:
                             solution_flag = False
 
                     elif key=='item_data':
-                        if solution[key] == check_data[key]:
-                            pass
-                            # js.console.log('월드 아이템 통과')
-                        else:
-                            # js.console.log('월드 아이템 실패')
+                        if not solution[key] == check_data[key]:
                             solution_flag = False 
 
                 if solution_flag==True:

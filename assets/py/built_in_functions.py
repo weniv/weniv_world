@@ -384,7 +384,7 @@ def show_modal_alert(message, type="error"):
     alert = js.document.createElement("div")
     alert.classList.add("modal", "alert")
     if type == "success":
-        toast.classList.add("success")
+        alert.classList.add("success")
 
     text = js.document.createElement("p")
     text.classList.add("text")

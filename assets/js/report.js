@@ -27,7 +27,6 @@ const getChart = (chartData) => {
         canvas.setAttribute('id', 'chart');
         const ctx = canvas.getContext('2d');
         ctx.canvas.width = 800;
-        ctx.canvas.height = 600;
 
         const myChart = new Chart(ctx, {
             type: 'bar',
@@ -35,18 +34,13 @@ const getChart = (chartData) => {
                 labels: Object.keys(chartData),
                 datasets: [
                     {
-                        label: 'Score',
+                        label: '점수',
                         data: Object.values(chartData),
                         borderWidth: 1,
                     },
                 ],
             },
             options: {
-                animation: {
-                    onComplete: function () {
-                        console.log('chart', myChart.toBase64Image());
-                    },
-                },
                 scales: {
                     y: {
                         beginAtZero: true,
@@ -60,7 +54,8 @@ const getChart = (chartData) => {
 
         setTimeout(() => {
             const imgLink = canvas.toDataURL('image/png');
-            canvas.remove();
+            console.log('imgLink', imgLink);
+            // canvas.remove();
             resolve(imgLink);
         }, 500);
         document.body.appendChild(canvas);
@@ -126,14 +121,14 @@ btnDownload.addEventListener('click', (e) => {
                 reportData += storyData;
             }
         });
-        console.log('score', score);
+        'score', score;
         // 이미지 가져오기
-        getChart(score).then((res) => {
-            reportData = `# 학습 보고서\n\n ![](${res})\n\n` + reportData;
-            console.log('img', res);
-            // 표로 가져오기
-            // getTable(score).then((res) => {
-            //     reportData = `# 학습 보고서\n\n ${res}\n\n` + reportData;
+        // getChart(score).then((res) => {
+        //     reportData = `# 학습 보고서\n\n ![](${res})\n\n` + reportData;
+
+        // 표로 가져오기
+        getTable(score).then((res) => {
+            reportData = `# 학습 보고서\n\n ${res}\n\n` + reportData;
 
             // TODO: 학번과 이름을 입력받아 파일명을 만들어준다.
             if (!!reportData) {

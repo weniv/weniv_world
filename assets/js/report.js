@@ -26,8 +26,10 @@ const getChart = (chartData) => {
         const canvas = document.createElement('canvas');
         canvas.setAttribute('id', 'chart');
         const ctx = canvas.getContext('2d');
+        ctx.canvas.width = 800;
+        ctx.canvas.height = 600;
 
-        new Chart(ctx, {
+        const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: Object.keys(chartData),
@@ -40,19 +42,25 @@ const getChart = (chartData) => {
                 ],
             },
             options: {
+                animation: {
+                    onComplete: function () {
+                        console.log('chart', myChart.toBase64Image());
+                    },
+                },
                 scales: {
                     y: {
                         beginAtZero: true,
+                        min: 0,
+                        max: 100,
                     },
                 },
                 responsive: false,
-                maintainAspectRatio: false,
             },
         });
 
         setTimeout(() => {
-            const imgLink = canvas.toDataURL('image/png', 0.1);
-            // canvas.remove();
+            const imgLink = canvas.toDataURL('image/png');
+            canvas.remove();
             resolve(imgLink);
         }, 500);
         document.body.appendChild(canvas);
@@ -120,12 +128,12 @@ btnDownload.addEventListener('click', (e) => {
         });
         console.log('score', score);
         // 이미지 가져오기
-        // getChart(score).then((imgLink) => {
-        // reportData = `# 학습 보고서\n\n ![](${res})\n\n` + reportData;
-
-        // 표로 가져오기
-        getTable(score).then((res) => {
-            reportData = `# 학습 보고서\n\n ${res}\n\n` + reportData;
+        getChart(score).then((res) => {
+            reportData = `# 학습 보고서\n\n ![](${res})\n\n` + reportData;
+            console.log('img', res);
+            // 표로 가져오기
+            // getTable(score).then((res) => {
+            //     reportData = `# 학습 보고서\n\n ${res}\n\n` + reportData;
 
             // TODO: 학번과 이름을 입력받아 파일명을 만들어준다.
             if (!!reportData) {

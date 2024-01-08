@@ -1,5 +1,4 @@
 const btnDownload = document.querySelector('.btn-report.btn-text');
-const btnChartDownload = document.querySelector('.btn-report.btn-chart');
 
 const fetchQuestionInfo = async () => {
     const response = await fetch(
@@ -117,6 +116,8 @@ btnDownload.addEventListener('click', (e) => {
                 }
                 const storyData = `## 문제 ${id}번\n\n* 평가 항목 : ${
                     story['evaluation'] || '-'
+                }\n* 제출 시간 : ${
+                    localStorage.getItem(`${id}_time`) || '-'
                 }\n* 통과 여부 : ${result}\n\n${getCode(id)}\n\n`;
 
                 reportData += storyData;
@@ -126,60 +127,6 @@ btnDownload.addEventListener('click', (e) => {
         // 표로 가져오기
         getTable(score).then((res) => {
             reportData = `# 학습 보고서\n\n ${res}\n\n` + reportData;
-
-            // TODO: 학번과 이름을 입력받아 파일명을 만들어준다.
-            if (!!reportData) {
-                const name = `보고서`;
-                const today = new Date();
-                downloadFile({
-                    data: reportData,
-                    fileName: `${today
-                        .toISOString()
-                        .slice(2, 10)
-                        .replace(/-/g, '')}_${name}_.md`,
-                    fileType: 'text/json',
-                });
-            } else {
-                window.alert('다운로드 할 데이터가 없습니다.');
-            }
-        });
-    });
-});
-
-btnChartDownload.addEventListener('click', (e) => {
-    const score = {
-        '변수와 자료형': 0,
-        연산: 0,
-        '반복문과 조건문': 0,
-        함수: 0,
-        클래스: 0,
-    };
-
-    let reportData = '';
-    const questionData = fetchQuestionInfo();
-    questionData.then((data) => {
-        data.forEach((story) => {
-            id = story['id'];
-            if (localStorage.getItem(`${id}_code`)) {
-                const result =
-                    localStorage.getItem(`${id}_check`) === '정답' ? 'Y' : 'N';
-                // evaluation 항목에 따라 점수를 부여한다.
-                if (result == 'Y') {
-                    for (const key of story['evaluation']) {
-                        score[key] += 10;
-                    }
-                }
-                const storyData = `## 문제 ${id}번\n\n* 평가 항목 : ${
-                    story['evaluation'] || '-'
-                }\n* 통과 여부 : ${result}\n\n${getCode(id)}\n\n`;
-
-                reportData += storyData;
-            }
-        });
-        'score', score;
-        // 이미지 가져오기
-        getChart(score).then((res) => {
-            reportData = `# 학습 보고서\n\n ![](${res})\n\n` + reportData;
 
             // TODO: 학번과 이름을 입력받아 파일명을 만들어준다.
             if (!!reportData) {

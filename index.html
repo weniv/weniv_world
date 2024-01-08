@@ -88,16 +88,9 @@
         <nav class="menu">
             <ul class="menu-list">
                 <li>
-                    <button type="button" class="button-before btn-report btn-chart show-tooltip" name="보고서 다운로드">
-                        <span class="sr-only">
-                            보고서 다운로드(차트)
-                        </span>
-                    </button>
-                </li>
-                <li>
                     <button type="button" class="button-before btn-report btn-text show-tooltip" name="보고서 다운로드">
                         <span class="sr-only">
-                            보고서 다운로드(텍스트)
+                            보고서 다운로드
                         </span>
                     </button>
                 </li>
@@ -548,6 +541,7 @@
         import json
         import math
         import copy
+        from datetime import datetime
 
         # item select
         item_select = {
@@ -1362,7 +1356,7 @@
                     cms = codeBlock.querySelector('.cm-content')
                     code_list.append(cms.innerText)
                 js.localStorage.setItem(f"{story_select['index']}_code", json.dumps(code_list))
-                
+                js.localStorage.setItem(f"{story_select['index']}_time", datetime.now().strftime('%Y-%m-%d %H:%M'))
                 check_data = {
                     'print_data': print_data,
                     'say_data': say_data,
@@ -1372,8 +1366,6 @@
                     'mob_data': mob_data,
                 }
 
-                # TODO: submit 성공 조건문 추가
-                # check_data의 key값을 순회 0
                 solution_flag = True
                 solution = story_solution[story_select['index']]
 

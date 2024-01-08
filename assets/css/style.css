@@ -1848,7 +1848,8 @@ button {
   position: absolute;
   inset: 0;
   z-index: 1000;
-  background-color: white; }
+  background-color: white;
+  visibility: hidden; }
 
 .story {
   display: none;

@@ -128,15 +128,17 @@ btnDownload.addEventListener('click', (e) => {
             reportData = `# 학습 보고서\n\n ${res}\n\n` + reportData;
 
             // TODO: 학번과 이름을 입력받아 파일명을 만들어준다.
+            const userName =
+                JSON.parse(localStorage.getItem('profile'))?.name || '익명';
             if (!!reportData) {
-                const name = `보고서`;
+                const fileName = `보고서`;
                 const today = new Date();
                 downloadFile({
                     data: reportData,
                     fileName: `${today
                         .toISOString()
                         .slice(2, 10)
-                        .replace(/-/g, '')}_${name}_.md`,
+                        .replace(/-/g, '')}_${fileName}_${userName}.md`,
                     fileType: 'text/json',
                 });
             } else {

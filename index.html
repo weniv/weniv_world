@@ -521,20 +521,21 @@
         <article class="profile-modal">
             <h2 class="sr-only">사용자 정보</h2>
             <div class="btn-cont">
-                <button class="btn-edit">편집</button>
-                <button class="btn-save active">저장</button>
-                <button class="btn-cancel active">취소</button>
+                <button class="btn-edit active">편집</button>
+                <button class="btn-save">저장</button>
+                <button class="btn-cancel">취소</button>
             </div>
             <div class="profile-wrap">
+                
                 <div class="img-wrap">
                     <div class="basic-profile"></div>
                     <img class="profile-img" src="" alt="프로필 이미지">
-                    <label for="inp-profile-img" class="labl-profile active">
-                        <input class="sr-only inp-profile" type="file" name="profile-img" id="inp-profile-img">
+                    <label for="inp-profile-img" class="labl-profile">
+                        <input class="sr-only inp-profile" type="file" name="profile-img" id="inp-profile-img" accept="image/*0">
                     </label>
                 </div>
                 <label for="profile-name" class="labl-name">
-                    <input type="text" name="profile-name" id="profile-name" class="inp-name" placeholder="이름을 입력해주세요.">
+                    <input type="text" name="profile-name" id="profile-name" class="inp-name" placeholder="이름을 입력해주세요." disabled>
                 </label>
             
             </div>

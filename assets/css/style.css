@@ -886,18 +886,18 @@ button {
   margin-left: auto;
   display: flex;
   flex-direction: row-reverse;
-  gap: 0.5rem; }
+  gap: 0.8rem; }
   .profile-modal .btn-cont button {
     white-space: nowrap;
     color: var(--ColorSurface);
     display: none; }
-    .profile-modal .btn-cont button.active {
-      display: block; }
     .profile-modal .btn-cont button:hover {
       color: var(--ColorPrimary); }
+  .profile-modal .btn-cont button.active {
+    display: block; }
 
 .profile-wrap {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 500;
   color: var(--ColorGrayLv3);
   margin: 1rem 0;
@@ -934,6 +934,10 @@ button {
         mask-repeat: no-repeat;
         mask-position: center center; }
     .profile-wrap .img-wrap .profile-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 100;
       width: 100%;
       height: 100%;
       border-radius: 50%;
@@ -947,6 +951,7 @@ button {
       position: absolute;
       bottom: 0;
       right: 0;
+      z-index: 500;
       background: var(--ColorGrayLv4);
       display: none;
       justify-content: center;
@@ -973,7 +978,7 @@ button {
     border-bottom: 2px solid var(--ColorBackground);
     background-color: var(--ColorBackground);
     color: var(--ColorSurface); }
-    .profile-wrap .labl-name .inp-name:focus, .profile-wrap .labl-name .inp-name:active {
+    .profile-wrap .labl-name .inp-name:not(:disabled):focus, .profile-wrap .labl-name .inp-name:not(:disabled):active {
       outline: none;
       border-bottom: 2px solid var(--ColorPrimary); }
 

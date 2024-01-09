@@ -445,13 +445,20 @@ statusObserver.observe(APP, { childList: true, subtree: true });
 // 프로필 모달
 const profileModal = document.querySelector('.profile-modal');
 const profileImg = document.querySelector('.profile-img');
+
+const lablProfileImg = document.querySelector('.labl-profile');
+const inpProfileImg = document.getElementById('inp-profile-img');
 const profileName = document.getElementById('profile-name');
 
 const setProfile = () => {
     const profileData = JSON.parse(localStorage.getItem('profile'));
     if (profileData) {
-        profileImg.src = profileData?.img;
-        profileName.value = profileData?.name;
+        if (profileData?.img === window.location.origin + '/') {
+            profileImg.src = '';
+        } else {
+            profileImg.src = profileData?.img;
+            profileName.value = profileData?.name;
+        }
     } else {
         localStorage.setItem(
             'profile',
@@ -463,3 +470,64 @@ const setProfile = () => {
     }
 };
 setProfile();
+
+const updateProfile = () => {
+    localStorage.setItem(
+        'profile',
+        JSON.stringify({
+            img: profileImg.src,
+            name: profileName.value,
+        }),
+    );
+};
+
+const btnSaveProfile = profileModal.querySelector('.btn-save');
+const btnEditProfile = profileModal.querySelector('.btn-edit');
+const btnCancelProfile = profileModal.querySelector('.btn-cancel');
+const basicProfile = profileModal.querySelector('.basic-profile');
+
+const changeProfileMode = (mode) => {
+    if (mode === 'edit') {
+        btnEditProfile.classList.remove('active');
+        btnSaveProfile.classList.add('active');
+        btnCancelProfile.classList.add('active');
+
+        lablProfileImg.classList.add('active');
+        profileName.removeAttribute('disabled');
+    } else {
+        btnSaveProfile.classList.remove('active');
+        btnCancelProfile.classList.remove('active');
+        btnEditProfile.classList.add('active');
+        lablProfileImg.classList.remove('active');
+        profileName.setAttribute('disabled', true);
+    }
+};
+
+btnEditProfile.addEventListener('click', () => {
+    changeProfileMode('edit');
+});
+btnSaveProfile.addEventListener('click', () => {
+    changeProfileMode('save');
+    updateProfile();
+});
+btnCancelProfile.addEventListener('click', () => {
+    changeProfileMode('cancel');
+    setProfile();
+});
+
+const updateProfileImg = (e) => {
+    const file = e.target.files[0];
+    // 이미지 용량 제한
+    if (file.size > 1024 * 1024 * 1) {
+        alert('이미지 용량은 최대 1MB까지 가능합니다.');
+        return;
+    }
+    // TODO: 이미지 압축
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        profileImg.src = e.target.result;
+        basicProfile.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+};
+inpProfileImg.addEventListener('change', updateProfileImg);

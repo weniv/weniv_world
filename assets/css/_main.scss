@@ -708,25 +708,24 @@ button {
     margin-left: auto;
     display: flex;
     flex-direction: row-reverse;
-    gap: 0.5rem;
+    gap: 0.8rem;
 
     button {
         white-space: nowrap;
         color: var(--ColorSurface);
         display: none;
 
-        &.active {
-            display: block;
-        }
-
         &:hover {
             color: var(--ColorPrimary);
         }
     }
+    button.active {
+        display: block;
+    }
 }
 
 .profile-wrap {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     font-weight: 500;
     color: var(--ColorGrayLv3);
     margin: 1rem 0;
@@ -764,6 +763,10 @@ button {
         }
 
         .profile-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
             width: 100%;
             height: 100%;
             border-radius: 50%;
@@ -780,6 +783,7 @@ button {
             position: absolute;
             bottom: 0;
             right: 0;
+            z-index: 500;
 
             background: var(--ColorGrayLv4);
             display: none;
@@ -811,10 +815,12 @@ button {
             background-color: var(--ColorBackground);
             color: var(--ColorSurface);
 
-            &:focus,
-            &:active {
-                outline: none;
-                border-bottom: 2px solid var(--ColorPrimary);
+            &:not(:disabled) {
+                &:focus,
+                &:active {
+                    outline: none;
+                    border-bottom: 2px solid var(--ColorPrimary);
+                }
             }
         }
     }

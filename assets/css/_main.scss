@@ -570,6 +570,7 @@ button {
     display: flex;
     width: 100%;
     height: calc(100vh - 7rem);
+    position: relative;
 }
 
 /* pyscript */
@@ -679,5 +680,95 @@ button {
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-code-download.svg'
         );
+    }
+}
+
+// profile-modal
+.profile-modal {
+    font-size: 1.4rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+
+    width: 24rem;
+    height: fit-content;
+    background: var(--ColorBackground);
+
+    border-radius: 1rem;
+    border: 1px solid var(--ColorGrayLv2);
+    padding: 1.4rem 1.4rem 1.8rem;
+
+    display: flex;
+    flex-direction: column;
+
+    .btn-cont {
+        margin-left: auto;
+    }
+}
+
+.profile-wrap {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: var(--ColorGrayLv3);
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.4rem;
+
+    .profile-img {
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        position: relative;
+        border: 1px solid var(--ColorGrayLv2);
+
+        img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .labl-profile {
+            width: 3.2rem;
+            height: 3.2rem;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+
+            background: var(--ColorGrayLv4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &::before {
+                width: 65%;
+                height: 65%;
+                background-color: var(-ColorGrayLv4);
+                content: '';
+                @include mask-image(
+                    var(--ColorBackground),
+                    '../img/icon/icon-image.svg'
+                );
+            }
+        }
+    }
+
+    .labl-name {
+        .inp-name {
+            text-align: center;
+            border: none;
+            border-bottom: 2px solid var(--ColorBackground);
+
+            &:focus,
+            &:active {
+                outline: none;
+                border-bottom: 2px solid var(--ColorPrimary);
+            }
+        }
     }
 }

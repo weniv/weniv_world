@@ -1,4 +1,4 @@
-const btnDownload = document.querySelector('.btn-report.btn-text');
+const btnDownload = document.querySelector('.btn-report');
 
 const fetchQuestionInfo = async () => {
     const response = await fetch(

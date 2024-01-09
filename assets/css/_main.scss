@@ -703,128 +703,180 @@ button {
 
 /* profile modal */
 .profile-modal {
-    font-size: 1.4rem;
     position: absolute;
-    right: 50%;
     top: 50%;
+    right: 50%;
     transform: translate(23%, 11%);
     z-index: 1000;
 
-    width: 24rem;
-    height: fit-content;
+    padding: 1.6rem 1.6rem 4rem;
+    width: 28rem;
     background: var(--ColorBackground);
-
-    border-radius: 1rem;
     border: 1px solid var(--ColorGrayLv2);
-    padding: 1.4rem 1.4rem 1.8rem;
+    border-radius: 1rem;
 
     display: none;
     flex-direction: column;
+
+    .btn-close {
+        margin-left: auto;
+    }
 }
 
-.profile-modal .btn-cont {
-    margin-left: auto;
-    display: flex;
-    flex-direction: row-reverse;
-    gap: 0.8rem;
+.profileimg-wrap {
+    margin: auto;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    position: relative;
 
-    button {
-        white-space: nowrap;
-        color: var(--ColorSurface);
+    .basic-profile {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--ColorGrayLv1);
+        border: 1px solid var(--ColorGrayLv2);
+
+        &::before {
+            content: '';
+            width: 5.2rem;
+            height: 3rem;
+            @include mask-image(
+                var(--ColorGrayLv2),
+                '../img/icon/icon-face.svg'
+            );
+        }
+    }
+
+    .profile-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    .profile-img[src=''] {
         display: none;
+    }
 
-        &:hover {
+    .labl-profile {
+        width: 4.2rem;
+        height: 4.2rem;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 500;
+
+        background: var(--ColorGrayLv4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::before {
+            width: 2.2rem;
+            height: 2.2rem;
+            background-color: var(-ColorGrayLv4);
+            content: '';
+            @include mask-image(
+                var(--ColorBackground),
+                '../img/icon/icon-image.svg'
+            );
+        }
+    }
+}
+
+.profile-view {
+    display: flex;
+    flex-direction: column;
+
+    .info-prof {
+        margin: 1.8rem auto 3.2rem;
+        text-align: center;
+
+        .txt-name {
+            font-weight: 500;
+            line-height: 2.2rem;
+        }
+        .txt-level {
+            font-size: 1.2rem;
+            font-weight: 700;
+            line-height: 1.6rem;
             color: var(--ColorPrimary);
         }
     }
-    button.active {
-        display: block;
-    }
-}
 
-.profile-wrap {
-    font-size: 1.8rem;
-    font-weight: 500;
-    color: var(--ColorGrayLv3);
-    margin: 1rem 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.4rem;
+    .cont-btns {
+        width: 15.2rem;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 1.6rem;
 
-    .img-wrap {
-        width: 10rem;
-        height: 10rem;
-        border-radius: 50%;
-        position: relative;
-        border: 1px solid var(--ColorGrayLv2);
+        button {
+            color: var(--ColorGrayLv3);
+            &:hover {
+                color: var(--ColorSurface);
+            }
+        }
 
-        .basic-profile {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
+        .btn-edit {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--ColorGrayLv1);
+            gap: 1.2rem;
 
             &::before {
                 content: '';
                 width: 2rem;
                 height: 2rem;
+                background-color: var(--ColorPrimary);
                 @include mask-image(
-                    var(--ColorGrayLv2),
-                    '../img/icon/icon-face.svg'
+                    var(--ColorGrayLv3),
+                    '../img/icon/icon-setting.svg'
+                );
+            }
+            &:hover::before {
+                @include mask-image(
+                    var(--ColorSurface),
+                    '../img/icon/icon-setting.svg'
                 );
             }
         }
-
-        .profile-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .profile-img[src=''] {
-            display: none;
-        }
-
-        .labl-profile {
-            width: 3.2rem;
-            height: 3.2rem;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            z-index: 500;
-
-            background: var(--ColorGrayLv4);
-            display: none;
+        .btn-report {
+            display: flex;
             justify-content: center;
             align-items: center;
-
-            &.active {
-                display: flex;
-            }
+            gap: 1.2rem;
 
             &::before {
-                width: 65%;
-                height: 65%;
-                background-color: var(-ColorGrayLv4);
                 content: '';
+                width: 2rem;
+                height: 2rem;
+                background-color: var(--ColorPrimary);
                 @include mask-image(
-                    var(--ColorBackground),
-                    '../img/icon/icon-image.svg'
+                    var(--ColorGrayLv3),
+                    '../img/icon/icon-file-download.svg'
+                );
+            }
+            &:hover::before {
+                @include mask-image(
+                    var(--ColorSurface),
+                    '../img/icon/icon-file-download.svg'
                 );
             }
         }
     }
+}
 
+.profile-edit {
+    display: none;
     .labl-name {
         .inp-name {
             text-align: center;

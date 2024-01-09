@@ -444,20 +444,22 @@ statusObserver.observe(APP, { childList: true, subtree: true });
 
 // 프로필 모달
 const profileModal = document.querySelector('.profile-modal');
-const profileImg = document.querySelector('.profile-img');
+const profileImg = profileModal.querySelector('.profile-img');
 
-const lablProfileImg = document.querySelector('.labl-profile');
+const lablProfileImg = profileModal.querySelector('.labl-profile');
 const inpProfileImg = document.getElementById('inp-profile-img');
-const profileName = document.getElementById('profile-name');
+const inpProfileName = document.getElementById('profile-name');
 
-const setProfile = () => {
+const viewProfileName = profileModal.querySelector('.txt-name');
+const viewProfileLevel = profileModal.querySelector('.txt-level');
+const initProfile = () => {
     const profileData = JSON.parse(localStorage.getItem('profile'));
     if (profileData) {
         if (profileData?.img === window.location.origin + '/') {
             profileImg.src = '';
         } else {
             profileImg.src = profileData?.img;
-            profileName.value = profileData?.name;
+            viewProfileName.innerText = profileData?.name;
         }
     } else {
         localStorage.setItem(
@@ -469,51 +471,23 @@ const setProfile = () => {
         );
     }
 };
-setProfile();
+initProfile();
 
 const updateProfile = () => {
     localStorage.setItem(
         'profile',
         JSON.stringify({
             img: profileImg.src,
-            name: profileName.value,
+            name: inpProfileName.value,
         }),
     );
 };
 
-const btnSaveProfile = profileModal.querySelector('.btn-save');
-const btnEditProfile = profileModal.querySelector('.btn-edit');
-const btnCancelProfile = profileModal.querySelector('.btn-cancel');
 const basicProfile = profileModal.querySelector('.basic-profile');
 
 const changeProfileMode = (mode) => {
-    if (mode === 'edit') {
-        btnEditProfile.classList.remove('active');
-        btnSaveProfile.classList.add('active');
-        btnCancelProfile.classList.add('active');
-
-        lablProfileImg.classList.add('active');
-        profileName.removeAttribute('disabled');
-    } else {
-        btnSaveProfile.classList.remove('active');
-        btnCancelProfile.classList.remove('active');
-        btnEditProfile.classList.add('active');
-        lablProfileImg.classList.remove('active');
-        profileName.setAttribute('disabled', true);
-    }
+    // TODO: 프로필 모달 모드 변경
 };
-
-btnEditProfile.addEventListener('click', () => {
-    changeProfileMode('edit');
-});
-btnSaveProfile.addEventListener('click', () => {
-    changeProfileMode('save');
-    updateProfile();
-});
-btnCancelProfile.addEventListener('click', () => {
-    changeProfileMode('cancel');
-    setProfile();
-});
 
 const updateProfileImg = (e) => {
     const file = e.target.files[0];
@@ -532,7 +506,10 @@ const updateProfileImg = (e) => {
 };
 inpProfileImg.addEventListener('change', updateProfileImg);
 
+// 프로필 모달 여닫기
 const btnProfileOpen = document.querySelector('.btn-profile');
+const btnProfileClose = profileModal.querySelector('.btn-close');
+console.log('btnProfileOpen', btnProfileOpen);
 btnProfileOpen.addEventListener('click', () => {
     btnProfileOpen.classList.toggle('active');
 });

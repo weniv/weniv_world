@@ -441,3 +441,25 @@ const statusObserver = new MutationObserver((mutationsList) => {
 });
 
 statusObserver.observe(APP, { childList: true, subtree: true });
+
+// 프로필 모달
+const profileModal = document.querySelector('.profile-modal');
+const profileImg = document.querySelector('.profile-img');
+const profileName = document.getElementById('profile-name');
+
+const setProfile = () => {
+    const profileData = JSON.parse(localStorage.getItem('profile'));
+    if (profileData) {
+        profileImg.src = profileData?.img;
+        profileName.value = profileData?.name;
+    } else {
+        localStorage.setItem(
+            'profile',
+            JSON.stringify({
+                img: '',
+                name: '',
+            }),
+        );
+    }
+};
+setProfile();

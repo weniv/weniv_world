@@ -521,15 +521,16 @@
         <article class="profile-modal">
             <h2 class="sr-only">사용자 정보</h2>
             <div class="btn-cont">
-                <button class="btnEdit">편집</button>
-                <button class="btnSave">저장</button>
-                <button class="btnCancel"><span class="sr-only">취소</span></button>
+                <button class="btn-edit">편집</button>
+                <button class="btn-save active">저장</button>
+                <button class="btn-cancel active">취소</button>
             </div>
             <div class="profile-wrap">
-                <div class="profile-img">
-                    <img src="https://i.pinimg.com/564x/9d/d4/52/9dd45271b020a094a12bfeee12b39f65.jpg" alt="프로필 이미지">
-                    <label for="profile-img" class="labl-profile">
-                        <input class="sr-only inp-profile" type="file" name="profile-img" id="profile-img">
+                <div class="img-wrap">
+                    <div class="basic-profile"></div>
+                    <img class="profile-img" src="" alt="프로필 이미지">
+                    <label for="inp-profile-img" class="labl-profile active">
+                        <input class="sr-only inp-profile" type="file" name="profile-img" id="inp-profile-img">
                     </label>
                 </div>
                 <label for="profile-name" class="labl-name">

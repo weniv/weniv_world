@@ -702,9 +702,26 @@ button {
 
     display: flex;
     flex-direction: column;
+}
 
-    .btn-cont {
-        margin-left: auto;
+.profile-modal .btn-cont {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 0.5rem;
+
+    button {
+        white-space: nowrap;
+        color: var(--ColorSurface);
+        display: none;
+
+        &.active {
+            display: block;
+        }
+
+        &:hover {
+            color: var(--ColorPrimary);
+        }
     }
 }
 
@@ -718,18 +735,42 @@ button {
     align-items: center;
     gap: 1.4rem;
 
-    .profile-img {
+    .img-wrap {
         width: 10rem;
         height: 10rem;
         border-radius: 50%;
         position: relative;
         border: 1px solid var(--ColorGrayLv2);
 
-        img {
+        .basic-profile {
             width: 100%;
             height: 100%;
             border-radius: 50%;
             object-fit: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--ColorGrayLv1);
+
+            &::before {
+                content: '';
+                width: 2rem;
+                height: 2rem;
+                @include mask-image(
+                    var(--ColorGrayLv2),
+                    '../img/icon/icon-face.svg'
+                );
+            }
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .profile-img[src=''] {
+            display: none;
         }
 
         .labl-profile {
@@ -741,9 +782,13 @@ button {
             right: 0;
 
             background: var(--ColorGrayLv4);
-            display: flex;
+            display: none;
             justify-content: center;
             align-items: center;
+
+            &.active {
+                display: flex;
+            }
 
             &::before {
                 width: 65%;
@@ -763,6 +808,8 @@ button {
             text-align: center;
             border: none;
             border-bottom: 2px solid var(--ColorBackground);
+            background-color: var(--ColorBackground);
+            color: var(--ColorSurface);
 
             &:focus,
             &:active {

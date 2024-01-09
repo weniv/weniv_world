@@ -393,6 +393,7 @@ button {
   box-sizing: border-box;
   /* 보고서 버튼 */
   /* 스토리보기 버튼 */
+  /* 프로필 보기 버튼 */
   /* 콘텐츠 더보기 버튼(케밥 메뉴) */
   /* 벽 만들기 버튼 */
   /* 에셋 추가 버튼 */
@@ -434,6 +435,20 @@ button {
     mask-position: center center; }
   .button-before.btn-story.active::before {
     background: var(--ColorPrimary); }
+  .button-before.btn-profile::before {
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../../assets/img/icon/icon-person.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-person.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .button-before.btn-profile.active::before {
+    background: var(--ColorPrimary); }
+  .button-before.btn-profile.active + .profile-modal {
+    display: flex; }
   .button-before.btn-kebab {
     padding: 0; }
     .button-before.btn-kebab::before {
@@ -866,12 +881,13 @@ button {
     mask-repeat: no-repeat;
     mask-position: center center; }
 
+/* profile modal */
 .profile-modal {
   font-size: 1.4rem;
   position: absolute;
+  right: 50%;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(23%, 11%);
   z-index: 1000;
   width: 24rem;
   height: fit-content;
@@ -879,7 +895,7 @@ button {
   border-radius: 1rem;
   border: 1px solid var(--ColorGrayLv2);
   padding: 1.4rem 1.4rem 1.8rem;
-  display: flex;
+  display: none;
   flex-direction: column; }
 
 .profile-modal .btn-cont {

@@ -209,6 +209,24 @@ button {
         }
     }
 
+    /* 프로필 보기 버튼 */
+    &.btn-profile {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-person.svg'
+            );
+        }
+
+        &.active::before {
+            background: var(--ColorPrimary);
+        }
+
+        &.active + .profile-modal {
+            display: flex;
+        }
+    }
+
     /* 콘텐츠 더보기 버튼(케밥 메뉴) */
     &.btn-kebab {
         padding: 0;
@@ -683,13 +701,13 @@ button {
     }
 }
 
-// profile-modal
+/* profile modal */
 .profile-modal {
     font-size: 1.4rem;
     position: absolute;
+    right: 50%;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(23%, 11%);
     z-index: 1000;
 
     width: 24rem;
@@ -700,7 +718,7 @@ button {
     border: 1px solid var(--ColorGrayLv2);
     padding: 1.4rem 1.4rem 1.8rem;
 
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 

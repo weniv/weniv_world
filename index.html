@@ -47,8 +47,8 @@
 
 
     <!-- JavaScript -->
-    <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/event.js" defer></script>
+    <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/resizer.js" defer></script>
     <script src="./assets/js/report.js" defer></script>
     <script type="module" src="./assets/js/parser.js"></script>
@@ -88,11 +88,38 @@
         <nav class="menu">
             <ul class="menu-list">
                 <li>
-                    <button type="button" class="button-before btn-report btn-text show-tooltip" name="보고서 다운로드">
+                    <button type="button" class="button-before btn-profile show-tooltip" name="프로필">
                         <span class="sr-only">
-                            보고서 다운로드
+                            프로필 보기
                         </span>
                     </button>
+                    <article class="profile-modal">
+                        <h2 class="sr-only">사용자 정보</h2>
+                        <div class="btn-cont">
+                            <button class="btn-edit active">편집</button>
+                            <button class="btn-save">저장</button>
+                            <button class="btn-cancel">취소</button>
+                        </div>
+                        <div class="profile-wrap">
+                            
+                            <div class="img-wrap">
+                                <div class="basic-profile"></div>
+                                <img class="profile-img" src="" alt="프로필 이미지">
+                                <label for="inp-profile-img" class="labl-profile">
+                                    <input class="sr-only inp-profile" type="file" name="profile-img" id="inp-profile-img" accept="image/*0">
+                                </label>
+                            </div>
+                            <label for="profile-name" class="labl-name">
+                                <input type="text" name="profile-name" id="profile-name" class="inp-name" placeholder="이름을 입력해주세요." disabled>
+                            </label>
+                        
+                        </div>
+                        <button type="button" class="button-before btn-report btn-text show-tooltip" name="보고서 다운로드">
+                            <span class="sr-only">
+                                보고서 다운로드
+                            </span>
+                        </button>
+                    </article>
                 </li>
                 <li>
                     <button type="button" class="button-before btn-story show-tooltip" name="스토리">
@@ -109,6 +136,7 @@
                         <span class="sr-only">다크모드 온/오프 버튼</span>
                     </button>
                 </li>
+               
                 <li class="additional-contents">
                     <button type="button" class="button-before btn-kebab show-tooltip" name="콘텐츠 더보기">
                         <span class="sr-only">콘텐츠 더보기</span>
@@ -518,28 +546,7 @@
             </header>
             <ul class="story-list"></ul>
         </section>
-        <article class="profile-modal">
-            <h2 class="sr-only">사용자 정보</h2>
-            <div class="btn-cont">
-                <button class="btn-edit active">편집</button>
-                <button class="btn-save">저장</button>
-                <button class="btn-cancel">취소</button>
-            </div>
-            <div class="profile-wrap">
-                
-                <div class="img-wrap">
-                    <div class="basic-profile"></div>
-                    <img class="profile-img" src="" alt="프로필 이미지">
-                    <label for="inp-profile-img" class="labl-profile">
-                        <input class="sr-only inp-profile" type="file" name="profile-img" id="inp-profile-img" accept="image/*0">
-                    </label>
-                </div>
-                <label for="profile-name" class="labl-name">
-                    <input type="text" name="profile-name" id="profile-name" class="inp-name" placeholder="이름을 입력해주세요." disabled>
-                </label>
-            
-            </div>
-        </article>
+      
     </main>
     <p id="pointer"></p>
 

@@ -531,3 +531,8 @@ const updateProfileImg = (e) => {
     reader.readAsDataURL(file);
 };
 inpProfileImg.addEventListener('change', updateProfileImg);
+
+const btnProfileOpen = document.querySelector('.btn-profile');
+btnProfileOpen.addEventListener('click', () => {
+    btnProfileOpen.classList.toggle('active');
+});

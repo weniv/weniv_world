@@ -54,7 +54,6 @@ const getChart = (chartData) => {
 
         setTimeout(() => {
             const imgLink = canvas.toDataURL('image/png');
-            console.log('imgLink', imgLink);
             canvas.remove();
             resolve(imgLink);
         }, 500);

@@ -47,10 +47,14 @@
 
 
     <!-- JavaScript -->
-    <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/event.js" defer></script>
+    <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/resizer.js" defer></script>
+    <script src="./assets/js/report.js" defer></script>
     <script type="module" src="./assets/js/parser.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- PyScript -->
     <link rel="stylesheet" href="./assets/pyscript/pyscript.css" />
@@ -83,6 +87,7 @@
         </h1>
         <nav class="menu">
             <ul class="menu-list">
+                
                 <li>
                     <button type="button" class="button-before btn-story show-tooltip" name="스토리">
                         <span class="sr-only">
@@ -92,6 +97,48 @@
                 </li>
                 <li>
                     <a href="http://notebook.weniv.co.kr/" class="basic-btn" target="_blank">코드 에디터로 이동</a>
+                </li>
+                <li>
+                    <button type="button" class="btn-profile show-tooltip" name="프로필">
+                        <img class="profile-img" src="./assets/img/icon/transparent.png" alt="" >
+                        <span class="sr-only">
+                            프로필 보기
+                        </span>
+                    </button>
+                    <section class="profile-modal">
+                        <h2 class="sr-only">사용자 정보</h2>
+                        <button class="btn-close">
+                            <span class="sr-only">프로필 닫기</span>
+                        </button>
+
+                        <div class="profileimg-wrap">
+                            <img class="profile-img" src="./assets/img/icon/transparent.png" alt="프로필 이미지" >
+                            <label for="inp-profile-img" class="labl-profile">
+                                <input class="sr-only inp-profile" type="file" name="profile-img" id="inp-profile-img" accept="image/*0">
+                            </label>
+                        </div>
+                        
+                        <div class="profile-view active">
+                            <div class="info-prof">
+                                <p class="txt-name">사용자</p>
+                                <!-- <p class="txt-level">Lv. 32</p> -->
+                            </div>
+                            <div class="cont-btns">
+                                <button class="btn-edit">프로필 편집</button>
+                                <!-- <button type="button" class="btn-report"> 보고서 다운로드</button> -->
+                            </div>  
+                        </div>
+                        <div class="profile-edit ">
+                            <label for="profile-name" class="labl-name">
+                                내 별명
+                                <input type="text" maxlength="12" name="profile-name" id="profile-name" class="inp-name" >
+                            </label>
+                            <div class="btn-cont">
+                                <button class="btn-confirm">편집</button>
+                                <button class="btn-cancel">취소</button>
+                            </div>
+                        </div>
+                    </section>
                 </li>
                 <li>
                     <button type="button" class="btn-dark-mode show-tooltip" name="다크모드 ON">
@@ -507,6 +554,7 @@
             </header>
             <ul class="story-list"></ul>
         </section>
+      
     </main>
     <p id="pointer"></p>
 
@@ -530,6 +578,7 @@
         import json
         import math
         import copy
+        from datetime import datetime
 
         # item select
         item_select = {
@@ -1344,7 +1393,7 @@
                     cms = codeBlock.querySelector('.cm-content')
                     code_list.append(cms.innerText)
                 js.localStorage.setItem(f"{story_select['index']}_code", json.dumps(code_list))
-                
+                js.localStorage.setItem(f"{story_select['index']}_time", datetime.now().strftime('%Y-%m-%d %H:%M'))
                 check_data = {
                     'print_data': print_data,
                     'say_data': say_data,
@@ -1354,8 +1403,6 @@
                     'mob_data': mob_data,
                 }
 
-                # TODO: submit 성공 조건문 추가
-                # check_data의 key값을 순회 0
                 solution_flag = True
                 solution = story_solution[story_select['index']]
 
@@ -1364,42 +1411,26 @@
                         continue
                     
                     if key=='print_data' or key=='say_data':
-                        if all(elem in check_data[key] for elem in solution[key]):
-                            pass
-                            # js.console.log('출력 통과')
-                        else:
-                            # js.console.log('출력 실패')
+                        if not all(elem in check_data[key] for elem in solution[key]):
                             solution_flag = False
 
                     elif key=='character_data':
                         ch_solution = solution[key]
                         ch_check = check_data[key]
-                        if all(ch_solution.get(prop, None) == ch_check.get(prop, None) for prop in ch_solution.keys()):
-                            pass
-                            # js.console.log('캐릭터 통과')
-                        else:
-                            # js.console.log('캐릭터 실패')
+                        if not all(ch_solution.get(prop, None) == ch_check.get(prop, None) for prop in ch_solution.keys()):
                             solution_flag = False
 
                     elif key=='item':
-                        if solution[key]==check_data[key]:
-                            pass
-                            # js.console.log('아이템 통과')
-                        else:
-                            # js.console.log('아이템 실패')
+                        if not solution[key]==check_data[key]:
                             solution_flag = False
 
                     elif key=='item_data':
-                        if solution[key] == check_data[key]:
-                            pass
-                            # js.console.log('월드 아이템 통과')
-                        else:
-                            # js.console.log('월드 아이템 실패')
+                        if not solution[key] == check_data[key]:
                             solution_flag = False 
 
                 if solution_flag==True:
                     # TODO: 경고창을 안내창으로 변경
-                    js.localStorage.setItem(f"{story_select['index']}_check", "통과")
+                    js.localStorage.setItem(f"{story_select['index']}_check", "정답")
                     liElem = evt.target.closest('li')
                     liElem.classList.add('submit')
                     show_modal_alert('정답입니다.', 'success')

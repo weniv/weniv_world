@@ -441,3 +441,88 @@ const statusObserver = new MutationObserver((mutationsList) => {
 });
 
 statusObserver.observe(APP, { childList: true, subtree: true });
+
+// 프로필 모달
+const profileModal = document.querySelector('.profile-modal');
+const btnProfileOpen = document.querySelector('.btn-profile');
+const btnProfileClose = profileModal.querySelector('.btn-close');
+window.addEventListener('click', (e) => {
+    if (btnProfileOpen.contains(e.target)) {
+        btnProfileOpen.classList.toggle('active');
+    } else if (e.target == btnProfileClose) {
+        btnProfileOpen.classList.remove('active');
+    } else if (!profileModal.contains(e.target)) {
+        btnProfileOpen.classList.remove('active');
+    }
+});
+
+const profileImages = document.querySelectorAll('.profile-img');
+const profileName = profileModal.querySelector('.txt-name');
+const inpProfileName = profileModal.querySelector('.inp-name');
+const initProfile = () => {
+    const profile = JSON.parse(localStorage.getItem('profile'));
+    if (profile) {
+        profileImages.forEach((profileImage) => {
+            profileImage.src = profile?.img.replace(window.location.origin, '');
+        });
+        profileName.innerText = profile?.name;
+        inpProfileName.value = profile?.name;
+    }
+};
+initProfile();
+
+// 변경 설정
+const profileImage = document.querySelector('.profileimg-wrap .profile-img');
+const changeProfileImg = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+        profileImage.src = evt.target.result;
+    };
+    reader.readAsDataURL(file);
+};
+const inpProfileImg = profileModal.querySelector('.inp-profile');
+inpProfileImg.addEventListener('change', (e) => changeProfileImg(e));
+const changeProfile = (e) => {
+    localStorage.setItem(
+        'profile',
+        JSON.stringify({
+            img: profileImage.src,
+            name: inpProfileName.value,
+        }),
+    );
+    profileName.innerText = inpProfileName.value;
+    const profileMenuImg = document.querySelector('button .profile-img');
+    profileMenuImg.src = profileImage.src;
+};
+
+const profileImageWrap = profileModal.querySelector('.profileimg-wrap');
+const profileView = profileModal.querySelector('.profile-view');
+const profileEdit = profileModal.querySelector('.profile-edit');
+const changeProfileMode = (mode) => {
+    if (mode === 'edit') {
+        profileImageWrap.classList.add('active');
+        profileView.classList.remove('active');
+        profileEdit.classList.add('active');
+    } else if (mode === 'view') {
+        profileImageWrap.classList.remove('active');
+        profileView.classList.add('active');
+        profileEdit.classList.remove('active');
+    }
+};
+
+const btnProfileEdit = profileModal.querySelector('.btn-edit');
+const btnProfileSave = profileModal.querySelector('.btn-confirm');
+const btnProfileCancel = profileModal.querySelector('.btn-cancel');
+btnProfileEdit.addEventListener('click', () => {
+    changeProfileMode('edit');
+    initProfile();
+});
+btnProfileSave.addEventListener('click', () => {
+    changeProfileMode('view');
+    changeProfile();
+});
+btnProfileCancel.addEventListener('click', () => {
+    changeProfileMode('view');
+    initProfile();
+});

@@ -2,27 +2,32 @@
     {
         "id": 1,
         "title": "캣의 결심",
-        "url": "./assets/data/story/story1.md"
+        "url": "./assets/data/story/story1.md",
+        "evaluation": ["변수와 자료형", "연산"]
     },
     {
         "id": 2,
         "title": "라이캣의 탄생",
-        "url": "./assets/data/story/story2.md"
+        "url": "./assets/data/story/story2.md",
+        "evaluation": ["연산", "반복문과 조건문"]
     },
     {
         "id": 3,
         "title": "해골섬으로 향하는 라이캣",
-        "url": "./assets/data/story/story3.md"
+        "url": "./assets/data/story/story3.md",
+        "evaluation": ["연산", "함수"]
     },
     {
         "id": 4,
         "title": "지금까지 이런 맛은 없었다",
-        "url": "./assets/data/story/story4.md"
+        "url": "./assets/data/story/story4.md",
+        "evaluation": ["연산", "함수"]
     },
     {
         "id": 5,
         "title": "직원의 승진",
-        "url": "./assets/data/story/story5.md"
+        "url": "./assets/data/story/story5.md",
+        "evaluation": ["변수와 자료형", "함수"]
     },
     {
         "id": 6,

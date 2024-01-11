@@ -185,6 +185,16 @@ button {
         height: 2.8rem;
     }
 
+    /* 보고서 버튼 */
+    &.btn-report {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-file-download.svg'
+            );
+        }
+    }
+
     /* 스토리보기 버튼 */
     &.btn-story {
         &::before {
@@ -364,6 +374,47 @@ button {
         background: var(--ColorGrayLv1)
             url(../../assets/img/icon/icon-dark-mode.svg) no-repeat center /
             1.2rem 1.2rem;
+    }
+}
+
+/* 프로필 버튼 */
+.btn-profile {
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 50%;
+    background-color: var(--ColorGrayLv1);
+    display: block;
+    position: relative;
+
+    &::before {
+        content: '';
+        width: 50%;
+        height: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include mask-image(
+            var(--ColorGrayLv2),
+            '../../assets/img/icon/icon-face.svg'
+        );
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        position: relative;
+        z-index: 100;
+    }
+
+    &.active {
+        outline: 2px solid var(--ColorPrimary);
+    }
+
+    &.active + .profile-modal {
+        display: flex;
     }
 }
 
@@ -560,6 +611,7 @@ button {
     display: flex;
     width: 100%;
     height: calc(100vh - 7rem);
+    position: relative;
 }
 
 /* pyscript */
@@ -669,5 +721,222 @@ button {
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-code-download.svg'
         );
+    }
+}
+
+/* profile modal */
+.profile-modal {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    right: 50%;
+    transform: translate(50%, 5rem);
+    z-index: 1000;
+
+    padding: 1.6rem 1.6rem 4rem;
+    width: 28rem;
+    background: var(--ColorBackground);
+    border: 1px solid var(--ColorGrayLv2);
+    border-radius: 1rem;
+
+    display: none;
+    flex-direction: column;
+
+    .btn-close {
+        margin-left: auto;
+    }
+}
+
+.profileimg-wrap {
+    margin: 0 auto 1.8rem;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    position: relative;
+    background-color: var(--ColorGrayLv1);
+    border: 1px solid var(--ColorGrayLv2);
+    position: relative;
+
+    &::before {
+        content: '';
+        width: 50%;
+        height: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include mask-image(var(--ColorGrayLv2), '../img/icon/icon-face.svg');
+    }
+
+    .profile-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    &.active .labl-profile {
+        width: 4.2rem;
+        height: 4.2rem;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 500;
+        cursor: pointer;
+
+        background: var(--ColorGrayLv4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::before {
+            width: 2.2rem;
+            height: 2.2rem;
+            background-color: var(-ColorGrayLv4);
+            content: '';
+            @include mask-image(
+                var(--ColorBackground),
+                '../img/icon/icon-image.svg'
+            );
+        }
+    }
+}
+.profile-view,
+.profile-edit {
+    display: none;
+}
+.profile-view.active {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+    text-align: center;
+
+    .txt-name {
+        font-weight: 500;
+        line-height: 2.2rem;
+        min-height: 2.2rem;
+        margin-bottom: 0.4rem;
+    }
+    .txt-level {
+        font-size: 1.2rem;
+        font-weight: 700;
+        line-height: 1.6rem;
+        color: var(--ColorPrimary);
+    }
+
+    .cont-btns {
+        width: 15.2rem;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 1.6rem;
+
+        button {
+            color: var(--ColorGrayLv3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.2rem;
+            &:hover {
+                color: var(--ColorSurface);
+            }
+        }
+
+        .btn-edit {
+            &::before {
+                content: '';
+                width: 2rem;
+                height: 2rem;
+                background-color: var(--ColorPrimary);
+                @include mask-image(
+                    var(--ColorGrayLv3),
+                    '../img/icon/icon-setting.svg'
+                );
+            }
+            &:hover::before {
+                @include mask-image(
+                    var(--ColorSurface),
+                    '../img/icon/icon-setting.svg'
+                );
+            }
+        }
+        .btn-report {
+            &::before {
+                content: '';
+                width: 2rem;
+                height: 2rem;
+                background-color: var(--ColorPrimary);
+                @include mask-image(
+                    var(--ColorGrayLv3),
+                    '../img/icon/icon-file-download.svg'
+                );
+            }
+            &:hover::before {
+                @include mask-image(
+                    var(--ColorSurface),
+                    '../img/icon/icon-file-download.svg'
+                );
+            }
+        }
+    }
+}
+
+.profile-edit.active {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+    text-align: center;
+    align-items: center;
+
+    .labl-name {
+        width: 22rem;
+        text-align: left;
+        font-size: 1.2rem;
+        font-weight: 700;
+
+        .inp-name {
+            font-size: 1.4rem;
+            font-weight: 500;
+
+            box-sizing: border-box;
+            display: block;
+            width: 100%;
+            height: 4.2rem;
+            margin-top: 0.8rem;
+            border-radius: 1rem;
+            border: 1px solid var(--ColorGrayLv2);
+            padding: 1.1rem 1.6rem;
+            background-color: var(--ColorBackground);
+
+            &:focus,
+            &:active {
+                outline: 1px solid var(--ColorPrimary);
+                border: 1px solid var(--ColorPrimary);
+            }
+        }
+    }
+    .btn-cont {
+        display: flex;
+        gap: 1.2rem;
+
+        .btn-confirm {
+            padding: 1.1rem 2rem;
+            border-radius: 1rem;
+            background-color: var(--ColorPrimary);
+            color: #fff;
+        }
+        .btn-cancel {
+            padding: 1.1rem 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--ColorGrayLv2);
+            &:hover {
+                background-color: var(--ColorGrayLv1);
+            }
+        }
     }
 }

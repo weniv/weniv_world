@@ -956,8 +956,6 @@ button {
     height: 100%;
     border-radius: 50%;
     object-fit: cover; }
-  .profileimg-wrap .profile-img[src=''] {
-    display: none; }
   .profileimg-wrap.active .labl-profile {
     width: 4.2rem;
     height: 4.2rem;
@@ -966,6 +964,7 @@ button {
     bottom: 0;
     right: 0;
     z-index: 500;
+    cursor: pointer;
     background: var(--ColorGrayLv4);
     display: flex;
     justify-content: center;
@@ -997,6 +996,7 @@ button {
   .profile-view.active .txt-name {
     font-weight: 500;
     line-height: 2.2rem;
+    min-height: 2.2rem;
     margin-bottom: 0.4rem; }
   .profile-view.active .txt-level {
     font-size: 1.2rem;

@@ -393,7 +393,6 @@ button {
   box-sizing: border-box;
   /* 보고서 버튼 */
   /* 스토리보기 버튼 */
-  /* 프로필 보기 버튼 */
   /* 콘텐츠 더보기 버튼(케밥 메뉴) */
   /* 벽 만들기 버튼 */
   /* 에셋 추가 버튼 */
@@ -435,20 +434,6 @@ button {
     mask-position: center center; }
   .button-before.btn-story.active::before {
     background: var(--ColorPrimary); }
-  .button-before.btn-profile::before {
-    background: var(--ColorGrayLv3);
-    -webkit-mask-image: url("../../assets/img/icon/icon-person.svg");
-    -webkit-mask-size: 100%;
-    -webkit-mask-repeat: no-repeat;
-    -webkit-mask-position: center center;
-    mask-image: url("../../assets/img/icon/icon-person.svg");
-    mask-size: 100%;
-    mask-repeat: no-repeat;
-    mask-position: center center; }
-  .button-before.btn-profile.active::before {
-    background: var(--ColorPrimary); }
-  .button-before.btn-profile.active + .profile-modal {
-    display: flex; }
   .button-before.btn-kebab {
     padding: 0; }
     .button-before.btn-kebab::before {
@@ -629,6 +614,43 @@ button {
   .btn-dark-mode.active::after {
     left: 2.9rem;
     background: var(--ColorGrayLv1) url(../../assets/img/icon/icon-dark-mode.svg) no-repeat center/1.2rem 1.2rem; }
+
+/* 프로필 버튼 */
+.btn-profile {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 50%;
+  background-color: var(--ColorGrayLv1);
+  display: block;
+  position: relative; }
+  .btn-profile::before {
+    content: '';
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--ColorGrayLv2);
+    -webkit-mask-image: url("../../assets/img/icon/icon-face.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-face.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .btn-profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: relative;
+    z-index: 100; }
+  .btn-profile.active {
+    outline: 2px solid var(--ColorPrimary); }
+  .btn-profile.active + .profile-modal {
+    display: flex; }
 
 /* 툴팁 */
 .show-tooltip {
@@ -883,10 +905,11 @@ button {
 
 /* profile modal */
 .profile-modal {
+  box-sizing: border-box;
   position: absolute;
-  top: 50%;
+  top: 0;
   right: 50%;
-  transform: translate(23%, 11%);
+  transform: translate(50%, 5rem);
   z-index: 1000;
   padding: 1.6rem 1.6rem 4rem;
   width: 28rem;
@@ -899,34 +922,31 @@ button {
     margin-left: auto; }
 
 .profileimg-wrap {
-  margin: auto;
+  margin: 0 auto 1.8rem;
   width: 12rem;
   height: 12rem;
   border-radius: 50%;
+  position: relative;
+  background-color: var(--ColorGrayLv1);
+  border: 1px solid var(--ColorGrayLv2);
   position: relative; }
-  .profileimg-wrap .basic-profile {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--ColorGrayLv1);
-    border: 1px solid var(--ColorGrayLv2); }
-    .profileimg-wrap .basic-profile::before {
-      content: '';
-      width: 5.2rem;
-      height: 3rem;
-      background: var(--ColorGrayLv2);
-      -webkit-mask-image: url("../img/icon/icon-face.svg");
-      -webkit-mask-size: 100%;
-      -webkit-mask-repeat: no-repeat;
-      -webkit-mask-position: center center;
-      mask-image: url("../img/icon/icon-face.svg");
-      mask-size: 100%;
-      mask-repeat: no-repeat;
-      mask-position: center center; }
+  .profileimg-wrap::before {
+    content: '';
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--ColorGrayLv2);
+    -webkit-mask-image: url("../img/icon/icon-face.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../img/icon/icon-face.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
   .profileimg-wrap .profile-img {
     position: absolute;
     top: 0;
@@ -938,7 +958,7 @@ button {
     object-fit: cover; }
   .profileimg-wrap .profile-img[src=''] {
     display: none; }
-  .profileimg-wrap .labl-profile {
+  .profileimg-wrap.active .labl-profile {
     width: 4.2rem;
     height: 4.2rem;
     border-radius: 50%;
@@ -950,7 +970,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center; }
-    .profileimg-wrap .labl-profile::before {
+    .profileimg-wrap.active .labl-profile::before {
       width: 2.2rem;
       height: 2.2rem;
       background-color: var(-ColorGrayLv4);
@@ -965,99 +985,128 @@ button {
       mask-repeat: no-repeat;
       mask-position: center center; }
 
-.profile-view {
+.profile-view,
+.profile-edit {
+  display: none; }
+
+.profile-view.active {
   display: flex;
-  flex-direction: column; }
-  .profile-view .info-prof {
-    margin: 1.8rem auto 3.2rem;
-    text-align: center; }
-    .profile-view .info-prof .txt-name {
-      font-weight: 500;
-      line-height: 2.2rem; }
-    .profile-view .info-prof .txt-level {
-      font-size: 1.2rem;
-      font-weight: 700;
-      line-height: 1.6rem;
-      color: var(--ColorPrimary); }
-  .profile-view .cont-btns {
+  flex-direction: column;
+  gap: 3.2rem;
+  text-align: center; }
+  .profile-view.active .txt-name {
+    font-weight: 500;
+    line-height: 2.2rem;
+    margin-bottom: 0.4rem; }
+  .profile-view.active .txt-level {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.6rem;
+    color: var(--ColorPrimary); }
+  .profile-view.active .cont-btns {
     width: 15.2rem;
     margin: auto;
     display: flex;
     flex-direction: column;
     align-items: start;
     gap: 1.6rem; }
-    .profile-view .cont-btns button {
-      color: var(--ColorGrayLv3); }
-      .profile-view .cont-btns button:hover {
-        color: var(--ColorSurface); }
-    .profile-view .cont-btns .btn-edit {
-      display: flex;
-      gap: 1.2rem; }
-      .profile-view .cont-btns .btn-edit::before {
-        content: '';
-        width: 2rem;
-        height: 2rem;
-        background-color: var(--ColorPrimary);
-        background: var(--ColorGrayLv3);
-        -webkit-mask-image: url("../img/icon/icon-setting.svg");
-        -webkit-mask-size: 100%;
-        -webkit-mask-repeat: no-repeat;
-        -webkit-mask-position: center center;
-        mask-image: url("../img/icon/icon-setting.svg");
-        mask-size: 100%;
-        mask-repeat: no-repeat;
-        mask-position: center center; }
-      .profile-view .cont-btns .btn-edit:hover::before {
-        background: var(--ColorSurface);
-        -webkit-mask-image: url("../img/icon/icon-setting.svg");
-        -webkit-mask-size: 100%;
-        -webkit-mask-repeat: no-repeat;
-        -webkit-mask-position: center center;
-        mask-image: url("../img/icon/icon-setting.svg");
-        mask-size: 100%;
-        mask-repeat: no-repeat;
-        mask-position: center center; }
-    .profile-view .cont-btns .btn-report {
+    .profile-view.active .cont-btns button {
+      color: var(--ColorGrayLv3);
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 1.2rem; }
-      .profile-view .cont-btns .btn-report::before {
-        content: '';
-        width: 2rem;
-        height: 2rem;
-        background-color: var(--ColorPrimary);
-        background: var(--ColorGrayLv3);
-        -webkit-mask-image: url("../img/icon/icon-file-download.svg");
-        -webkit-mask-size: 100%;
-        -webkit-mask-repeat: no-repeat;
-        -webkit-mask-position: center center;
-        mask-image: url("../img/icon/icon-file-download.svg");
-        mask-size: 100%;
-        mask-repeat: no-repeat;
-        mask-position: center center; }
-      .profile-view .cont-btns .btn-report:hover::before {
-        background: var(--ColorSurface);
-        -webkit-mask-image: url("../img/icon/icon-file-download.svg");
-        -webkit-mask-size: 100%;
-        -webkit-mask-repeat: no-repeat;
-        -webkit-mask-position: center center;
-        mask-image: url("../img/icon/icon-file-download.svg");
-        mask-size: 100%;
-        mask-repeat: no-repeat;
-        mask-position: center center; }
+      .profile-view.active .cont-btns button:hover {
+        color: var(--ColorSurface); }
+    .profile-view.active .cont-btns .btn-edit::before {
+      content: '';
+      width: 2rem;
+      height: 2rem;
+      background-color: var(--ColorPrimary);
+      background: var(--ColorGrayLv3);
+      -webkit-mask-image: url("../img/icon/icon-setting.svg");
+      -webkit-mask-size: 100%;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-image: url("../img/icon/icon-setting.svg");
+      mask-size: 100%;
+      mask-repeat: no-repeat;
+      mask-position: center center; }
+    .profile-view.active .cont-btns .btn-edit:hover::before {
+      background: var(--ColorSurface);
+      -webkit-mask-image: url("../img/icon/icon-setting.svg");
+      -webkit-mask-size: 100%;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-image: url("../img/icon/icon-setting.svg");
+      mask-size: 100%;
+      mask-repeat: no-repeat;
+      mask-position: center center; }
+    .profile-view.active .cont-btns .btn-report::before {
+      content: '';
+      width: 2rem;
+      height: 2rem;
+      background-color: var(--ColorPrimary);
+      background: var(--ColorGrayLv3);
+      -webkit-mask-image: url("../img/icon/icon-file-download.svg");
+      -webkit-mask-size: 100%;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-image: url("../img/icon/icon-file-download.svg");
+      mask-size: 100%;
+      mask-repeat: no-repeat;
+      mask-position: center center; }
+    .profile-view.active .cont-btns .btn-report:hover::before {
+      background: var(--ColorSurface);
+      -webkit-mask-image: url("../img/icon/icon-file-download.svg");
+      -webkit-mask-size: 100%;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-position: center center;
+      mask-image: url("../img/icon/icon-file-download.svg");
+      mask-size: 100%;
+      mask-repeat: no-repeat;
+      mask-position: center center; }
 
-.profile-edit {
-  display: none; }
-  .profile-edit .labl-name .inp-name {
-    text-align: center;
-    border: none;
-    border-bottom: 2px solid var(--ColorBackground);
-    background-color: var(--ColorBackground);
-    color: var(--ColorSurface); }
-    .profile-edit .labl-name .inp-name:not(:disabled):focus, .profile-edit .labl-name .inp-name:not(:disabled):active {
-      outline: none;
-      border-bottom: 2px solid var(--ColorPrimary); }
+.profile-edit.active {
+  display: flex;
+  flex-direction: column;
+  gap: 3.2rem;
+  text-align: center;
+  align-items: center; }
+  .profile-edit.active .labl-name {
+    width: 22rem;
+    text-align: left;
+    font-size: 1.2rem;
+    font-weight: 700; }
+    .profile-edit.active .labl-name .inp-name {
+      font-size: 1.4rem;
+      font-weight: 500;
+      box-sizing: border-box;
+      display: block;
+      width: 100%;
+      height: 4.2rem;
+      margin-top: 0.8rem;
+      border-radius: 1rem;
+      border: 1px solid var(--ColorGrayLv2);
+      padding: 1.1rem 1.6rem;
+      background-color: var(--ColorBackground); }
+      .profile-edit.active .labl-name .inp-name:focus, .profile-edit.active .labl-name .inp-name:active {
+        outline: 1px solid var(--ColorPrimary);
+        border: 1px solid var(--ColorPrimary); }
+  .profile-edit.active .btn-cont {
+    display: flex;
+    gap: 1.2rem; }
+    .profile-edit.active .btn-cont .btn-confirm {
+      padding: 1.1rem 2rem;
+      border-radius: 1rem;
+      background-color: var(--ColorPrimary);
+      color: #fff; }
+    .profile-edit.active .btn-cont .btn-cancel {
+      padding: 1.1rem 2rem;
+      border-radius: 1rem;
+      border: 1px solid var(--ColorGrayLv2); }
+      .profile-edit.active .btn-cont .btn-cancel:hover {
+        background-color: var(--ColorGrayLv1); }
 
 .notebook {
   width: 50rem;

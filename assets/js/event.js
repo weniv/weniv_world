@@ -444,72 +444,109 @@ statusObserver.observe(APP, { childList: true, subtree: true });
 
 // 프로필 모달
 const profileModal = document.querySelector('.profile-modal');
-const profileImg = profileModal.querySelector('.profile-img');
-
-const lablProfileImg = profileModal.querySelector('.labl-profile');
-const inpProfileImg = document.getElementById('inp-profile-img');
-const inpProfileName = document.getElementById('profile-name');
-
-const viewProfileName = profileModal.querySelector('.txt-name');
-const viewProfileLevel = profileModal.querySelector('.txt-level');
-const initProfile = () => {
-    const profileData = JSON.parse(localStorage.getItem('profile'));
-    if (profileData) {
-        if (profileData?.img === window.location.origin + '/') {
-            profileImg.src = '';
-        } else {
-            profileImg.src = profileData?.img;
-            viewProfileName.innerText = profileData?.name;
-        }
-    } else {
-        localStorage.setItem(
-            'profile',
-            JSON.stringify({
-                img: '',
-                name: '',
-            }),
-        );
-    }
-};
-initProfile();
-
-const updateProfile = () => {
-    localStorage.setItem(
-        'profile',
-        JSON.stringify({
-            img: profileImg.src,
-            name: inpProfileName.value,
-        }),
-    );
-};
-
-const basicProfile = profileModal.querySelector('.basic-profile');
-
-const changeProfileMode = (mode) => {
-    // TODO: 프로필 모달 모드 변경
-};
-
-const updateProfileImg = (e) => {
-    const file = e.target.files[0];
-    // 이미지 용량 제한
-    if (file.size > 1024 * 1024 * 1) {
-        alert('이미지 용량은 최대 1MB까지 가능합니다.');
-        return;
-    }
-    // TODO: 이미지 압축
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        profileImg.src = e.target.result;
-        basicProfile.style.display = 'none';
-    };
-    reader.readAsDataURL(file);
-};
-inpProfileImg.addEventListener('change', updateProfileImg);
 
 // 프로필 모달 여닫기
 const btnProfileOpen = document.querySelector('.btn-profile');
 const btnProfileClose = profileModal.querySelector('.btn-close');
-console.log('btnProfileOpen', btnProfileOpen);
-btnProfileOpen.addEventListener('click', () => {
-    btnProfileOpen.classList.toggle('active');
+
+window.addEventListener('click', (e) => {
+    if (e.target == btnProfileOpen) {
+        btnProfileOpen.classList.toggle('active');
+    } else if (e.target == btnProfileClose) {
+        btnProfileOpen.classList.remove('active');
+    } else if (!profileModal.contains(e.target)) {
+        btnProfileOpen.classList.remove('active');
+    }
 });
+
+// 편집 모드 변경
+const profileImageWrap = profileModal.querySelector('.profileimg-wrap');
+const profileView = profileModal.querySelector('.profile-view');
+const profileEdit = profileModal.querySelector('.profile-edit');
+
+const changeProfileMode = (mode) => {
+    if (mode === 'edit') {
+        profileImageWrap.classList.add('active');
+        profileView.classList.remove('active');
+        profileEdit.classList.add('active');
+    } else if (mode === 'view') {
+        profileImageWrap.classList.remove('active');
+        profileView.classList.add('active');
+        profileEdit.classList.remove('active');
+    }
+};
+const btnProfileEdit = profileModal.querySelector('.btn-edit');
+const btnProfileSave = profileModal.querySelector('.btn-confirm');
+const btnProfileCancel = profileModal.querySelector('.btn-cancel');
+
+btnProfileEdit.addEventListener('click', () => {
+    changeProfileMode('edit');
+});
+btnProfileSave.addEventListener('click', () => {
+    changeProfileMode('view');
+});
+btnProfileCancel.addEventListener('click', () => {
+    changeProfileMode('view');
+});
+// const profileImg = profileModal.querySelector('.profile-img');
+
+// const lablProfileImg = profileModal.querySelector('.labl-profile');
+// const inpProfileImg = document.getElementById('inp-profile-img');
+// const inpProfileName = document.getElementById('profile-name');
+
+// const viewProfileName = profileModal.querySelector('.txt-name');
+// const viewProfileLevel = profileModal.querySelector('.txt-level');
+
+// const initProfile = () => {
+//     const profileData = JSON.parse(localStorage.getItem('profile'));
+//     if (profileData) {
+//         if (profileData?.img === window.location.origin + '/') {
+//             profileImg.src = '';
+//         } else {
+//             profileImg.src = profileData?.img;
+//             viewProfileName.innerText = profileData?.name;
+//         }
+//     } else {
+//         localStorage.setItem(
+//             'profile',
+//             JSON.stringify({
+//                 img: '',
+//                 name: '',
+//             }),
+//         );
+//     }
+// };
+// initProfile();
+
+// const updateProfile = () => {
+//     localStorage.setItem(
+//         'profile',
+//         JSON.stringify({
+//             img: profileImg.src,
+//             name: inpProfileName.value,
+//         }),
+//     );
+// };
+
+// const basicProfile = profileModal.querySelector('.basic-profile');
+
+// const changeProfileMode = (mode) => {
+//     // TODO: 프로필 모달 모드 변경
+// };
+
+// const updateProfileImg = (e) => {
+//     const file = e.target.files[0];
+//     // 이미지 용량 제한
+//     if (file.size > 1024 * 1024 * 1) {
+//         alert('이미지 용량은 최대 1MB까지 가능합니다.');
+//         return;
+//     }
+//     // TODO: 이미지 압축
+//     const reader = new FileReader();
+//     reader.onload = (e) => {
+//         profileImg.src = e.target.result;
+//         basicProfile.style.display = 'none';
+//     };
+//     reader.readAsDataURL(file);
+// };
+// inpProfileImg.addEventListener('change', updateProfileImg);

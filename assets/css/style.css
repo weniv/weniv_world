@@ -886,6 +886,13 @@ button {
     font-size: 1.2rem;
     font-weight: 400;
     line-height: 1.6rem; }
+  .kebab-menu .content {
+    display: flex;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    color: var(--ColorGrayLv3);
+    gap: 0.2rem;
+    padding: 0 1.6rem; }
   .kebab-menu .btn-download::before {
     display: inline-block;
     content: '';

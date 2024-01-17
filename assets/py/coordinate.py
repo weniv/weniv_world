@@ -36,7 +36,7 @@ wall_blocked = ["wall", "fence"]  # 이동 불가한 벽 종류
 wall_types = ["wall", "fence", "door"]  # 벽 종류
 wall_type = "wall"  # 현재 선택되어 있는 벽 종류
 
-skills={
+skill_data={
     'claw-yellow':{'mana':10, 'power':10},
     'claw-white':{'mana':10, 'power':10},
     'beam':{'mana':5, 'power':5},
@@ -46,7 +46,7 @@ character_info = {
     'licat':{
         'hp':100,
         'mp':100,
-        'skills':['claw-yellow','claw-white','beam','explosion']
+        'skill_data':['claw-yellow','claw-white','beam','explosion']
     }
     }
 

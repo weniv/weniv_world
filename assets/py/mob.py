@@ -9,15 +9,14 @@ from coordinate import (
     mob_data,
     map_data,
     item_data,
-    skills,
+    skill_data,
     wall_blocked,
     wall_types,
     wall_data,
     running_speed,
 )
 from item import Item
-from error import OutOfWorld, WallIsExist, CannotOpenWall
-
+from error import *
 
 class Mob:
     def __init__(
@@ -302,7 +301,7 @@ class Mob:
     def attack(self, skill="claw-yellow"):
         self.running_time += 1000 * running_speed
 
-        if skill not in skills.keys():
+        if skill not in skill_data.keys():
             alert_error("InvalidSkill")
             raise InvalidSkill
 
@@ -333,7 +332,7 @@ class Mob:
         for c in character_data:
             if (c["x"], c["y"]) == (nx, ny):
                 c_obj = c["character_obj"]
-                c["hp"] -= skills[skill]["power"]
+                c["hp"] -= skill_data[skill]["power"]
                 ch_name = c["character"]
 
                 if c["hp"] <= 0 and c["character"] != default_character:
@@ -370,7 +369,7 @@ class Mob:
         if ch_name:
             char = js.document.querySelector(f".{ch_name}")
         if char_obj and char:
-            char_obj.hp -= skills[skill]["power"]
+            char_obj.hp -= skill_data[skill]["power"]
             char_obj.draw_hp()
             if char_obj.hp <= 0:
                 if ch_name == default_character:

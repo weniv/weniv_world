@@ -10,7 +10,7 @@ from coordinate import (
     item_data,
     valid_items,
     edible_items,
-    skills,
+    skill_data,
     wall_blocked,
     wall_data,
     running_speed,
@@ -318,7 +318,7 @@ class Character:
     def attack(self, skill="claw-yellow"):
         self.running_time += 1000 * running_speed
 
-        if skill not in skills.keys():
+        if skill not in skill_data.keys():
             alert_error("InvalidSkill")
             raise InvalidSkill
 
@@ -329,7 +329,7 @@ class Character:
         y = self.y
         directions = self.directions
 
-        if skills[skill]["mana"] > self.mp:
+        if skill_data[skill]["mana"] > self.mp:
             alert_error("NotEnoughMana")
             raise NotEnoughMana
 
@@ -358,12 +358,12 @@ class Character:
             if (m["x"], m["y"]) == (nx, ny):
                 m_obj = m["mob_obj"]
                 mob_name = m["name"]
-                m["hp"] -= skills[skill]["power"]
+                m["hp"] -= skill_data[skill]["power"]
                 if m["hp"] <= 0:
                     mob_data.remove(m)
                     break
 
-        self.mp -= skills[skill]["mana"]
+        self.mp -= skill_data[skill]["mana"]
         self._set_character_data("mp", self.mp)
 
         setTimeout(
@@ -402,7 +402,7 @@ class Character:
         if mob_name:
             mob = js.document.querySelector(f"#{mob_name}.mob")
         if mob_obj and mob:
-            mob_obj.hp -= skills[skill]["power"]
+            mob_obj.hp -= skill_data[skill]["power"]
             mob_obj.draw_hp()
             if mob_obj.hp <= 0:
                 setTimeout(

@@ -659,6 +659,7 @@
         map_data['width'] = int(map_slider_y.value)
 
         def change_map(evt=None):
+            js.console.log('change map')
             global wall_data, item_data, draw_map, mob_data, character_data
             main_ch = character_data[0]
             
@@ -696,9 +697,10 @@
                 wall_data['world'] = wall.wall_data
                 draw_map.appendChild(wall_container)
 
-                # map-item 이벤트 등록
+                # map-item, mob_add 이벤트 등록
                 for map_elem in draw_map.querySelectorAll('.map-item'):
                     add_event_listener(map_elem, 'click', map_item_add)
+                    add_event_listener(map_elem, 'click', mob_add)
 
                 # wall_container의 자식요소들에 이벤트 등록
                 for wall_elem in wall_container.querySelectorAll('.wall'):
@@ -814,9 +816,10 @@
                     wall_container.style.pointerEvents='none'
                     js.document.querySelector('.map-items').style.pointerEvents='none'
 
-                # map-item 이벤트 등록
+                # map-item, mob_add 이벤트 등록
                 for map_elem in draw_map.querySelectorAll('.map-item'):
                     add_event_listener(map_elem, 'click', map_item_add)
+                    add_event_listener(map_elem, 'click', mob_add)
 
                 # wall_container의 자식요소들에 이벤트 등록
                 for wall_elem in wall_container.querySelectorAll('.wall'):
@@ -1027,7 +1030,6 @@
                 character_data.append(c)
 
             global map_data
-            map_data = json_data["map_data"]
             for key, value in json_data["map_data"].items():
                 map_data[key]=value
                 

@@ -659,6 +659,7 @@
         map_data['width'] = int(map_slider_y.value)
 
         def change_map(evt=None):
+            js.console.log('change map')
             global wall_data, item_data, draw_map, mob_data, character_data
             main_ch = character_data[0]
             
@@ -1029,7 +1030,6 @@
                 character_data.append(c)
 
             global map_data
-            map_data = json_data["map_data"]
             for key, value in json_data["map_data"].items():
                 map_data[key]=value
                 

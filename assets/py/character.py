@@ -66,7 +66,6 @@ class Character:
         # character.style.height = f"{self.height}px"
         status_container = js.document.createElement("div")
         status_container.setAttribute("class", "status-container")
-        js.console.log("character >> ", js.localStorage.getItem("status_mode"))
         if js.localStorage.getItem("status_mode") == "hide":
             status_container.classList.add("hide")
 

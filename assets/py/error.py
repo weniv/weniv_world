@@ -112,7 +112,7 @@ class ObstacleExist(Exception):
 
     def __init__(self):
         print("error.Obstacle Exist: another character or mob is exist", type="error")
-        super().__init__("cannot add")
+        super().__init__("cannot move forward")
 
 
 class MobIsExist(Exception):
@@ -122,7 +122,7 @@ class MobIsExist(Exception):
 
     def __init__(self):
         print("error.MobIsExist: mob is aleready exist. use another name", type="error")
-        super().__init__("cannot move forward")
+        super().__init__("cannot add")
 
 
 class CharacterIsExist(Exception):
@@ -132,7 +132,7 @@ class CharacterIsExist(Exception):
 
     def __init__(self):
         print("error.CharacterIsExist: character is already exist.", type="error")
-        super().__init__("cannot move forward")
+        super().__init__("cannot add")
 
 
 class ArgumentsError(Exception):
@@ -142,7 +142,7 @@ class ArgumentsError(Exception):
 
     def __init__(self):
         print("error.ArgumentsError: arguments is x`wrong.", type="error")
-        super().__init__("arguments is wrong")
+        super().__init__("syntax error")
 
 
 def alert_error(error_type):

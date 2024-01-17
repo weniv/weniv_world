@@ -453,6 +453,27 @@
                                 <li>
                                     <button type="button" class="code-item show-tooltip" name="(from modules import jump), 장애물 한 칸을 뛰어넘음">jump()</button>
                                 </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="스킬을 이용하여 앞에 있는 몬스터를 공격">attack(skill)</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="hp, mp 포션을 섭취하여 체력과 마나를 회복">eat(potion)</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="캐릭터 추가">add_ch(x, y, name)</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="몬스터 추가">add_mob(x, y, type, name)</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="몬스터 이동">{mob}.move()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="몬스터 회전">{mob}.turn_left()</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="몬스터가 앞에 있는 캐릭터를 공격 ">{mob}.attack(skill)</button>
+                                </li>
                             </ul>
                             <button class="btn-close" type="button">
                                 <span class="sr-only">닫기 버튼</span>
@@ -477,6 +498,12 @@
                                 </li>
                                 <li>
                                     <button type="button" class="code-item show-tooltip" name="벽 데이터">wall_data['world']</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="몬스터 데이터">mob_data</button>
+                                </li>
+                                <li>
+                                    <button type="button" class="code-item show-tooltip" name="스킬 데이터">skill_data</button>
                                 </li>
                             </ul>
                             <button class="btn-close" type="button">
@@ -572,7 +599,7 @@
         from mob import Mob
         from item import Item
         from error import *
-        from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_data, mob_info, skills, character_info, print_data, say_data
+        from coordinate import map_data, running_speed, character_data, default_character, mob_data, item_data, wall_data, valid_items, edible_items,wall_type, story_data, mob_info, skill_data, character_info, print_data, say_data
         from built_in_functions import print, say, directions, item, set_item, move, turn_left, pick, put, repeat, attack, front_is_clear, left_is_clear, right_is_clear, back_is_clear, open_door, typeof_wall, mission_start, mission_end, on_item, mob_exist, character_exist, show_modal_alert, eat
         from solution import story_solution
         from pyscript import when

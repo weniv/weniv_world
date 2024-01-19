@@ -1608,7 +1608,7 @@ button {
     height: 4.2rem;
     border-radius: 10px;
     border: 1px solid var(--ColorGrayLv2);
-    background: var(--ColorBackground) url("../../assets/img/characters/lion-3.png") no-repeat;
+    background: var(--ColorBackground) url("../../assets/img/characters/lion-2.png") no-repeat top -0.5rem left -1rem;
     box-sizing: border-box;
     cursor: pointer; }
   .select-mobs label.select {
@@ -1621,13 +1621,13 @@ button {
     outline: 2px solid var(--ColorPrimary);
     border: transparent; }
   .select-mobs input#mob1 + label {
-    background: var(--ColorBackground) url("../../assets/img/characters/mob1-3.png") no-repeat top 0.2rem left 0.9rem; }
+    background: var(--ColorBackground) url("../../assets/img/characters/mob1-2.png") no-repeat top -0.5rem left -1rem; }
   .select-mobs input#mob2 + label {
-    background: var(--ColorBackground) url("../../assets/img/characters/mob2-3.png") no-repeat top 0.5rem left 0.5rem; }
+    background: var(--ColorBackground) url("../../assets/img/characters/mob2-2.png") no-repeat top -0.5rem left -1rem; }
   .select-mobs input#mob3 + label {
-    background: var(--ColorBackground) url("../../assets/img/characters/mob3-3.png") no-repeat top 0.5rem left 0.5rem; }
-  .select-mobs input#mob4 + label {
-    background: var(--ColorBackground) url("../../assets/img/characters/mob4-3.png") no-repeat top 0.5rem left 0.5rem; }
+    background: var(--ColorBackground) url("../../assets/img/characters/mob3-2.png") no-repeat top -0.5rem left -1rem; }
+  .select-mobs input#wizard + label {
+    background: var(--ColorBackground) url("../../assets/img/characters/wizard-2.png") no-repeat top -0.5rem left -1rem; }
 
 /* map */
 .world-map {
@@ -1927,11 +1927,8 @@ button {
   z-index: 10; }
   .mob.lion {
     transform: translate(-15%, -15%); }
-  .mob.mob1, .mob.mob2, .mob.mob3, .mob.mob4 {
-    animation-name: mob;
-    width: 2.8rem;
-    height: 2.8rem;
-    background-size: 168px 28px; }
+  .mob.wizard {
+    transform: translate(-15%, -15%); }
 
 .mob .status-container {
   scale: 0.7692;

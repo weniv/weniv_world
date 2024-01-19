@@ -345,9 +345,9 @@
                                 </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="mob" id="mob4" value="mob4" class="sr-only" checked>
-                                <label for="mob4">
-                                    <span class="sr-only">mob4</span>
+                                <input type="radio" name="mob" id="wizard" value="wizard" class="sr-only" checked>
+                                <label for="wizard">
+                                    <span class="sr-only">wizard</span>
                                 </label>
                             </div>
                         </div>
@@ -1550,11 +1550,27 @@
                             'y': y,
                             'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
                             'hp':50,
-                            'power':5
                         }
                     )
                     draw_ch = mob.draw()
                     draw_map.appendChild(draw_ch)
+                    return mob
+                else:
+                    mob = Mob(x=x, y=y, mob=mob_type, name=name, width=32,height=40,initHp=50)
+                    mob_data.append(
+                        {
+                            'name': name,
+                            'mob': mob_type,
+                            'mob_obj': mob,
+                            'x': x,
+                            'y': y,
+                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
+                            'hp':50,
+                        }
+                    )
+                    draw_ch = mob.draw()
+                    draw_map.appendChild(draw_ch)
+
                     return mob
             else:
                 return None

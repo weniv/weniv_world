@@ -67,7 +67,7 @@ mob_info = {
         'hp':50,
         'mp':float("inf"),
     },
-    'mob4':{
+    'wizard':{
         'hp':50,
         'mp':float("inf"),
     },

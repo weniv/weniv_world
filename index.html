@@ -734,7 +734,7 @@
                 if not (0 <= m['x'] < map_data['height'] and 0 <= m['y'] < map_data['width']):
                     mob_data.remove(m)
                 else:
-                    new_mob = Mob(x=m['x'], y=m['y'],mob=m['mob'] ,name=m['name'], width=32, height=40,rotate=m['directions'], initHp=mob_info[m['mob']]['hp'])
+                    new_mob = Mob(x=m['x'], y=m['y'],mob=m['mob'] ,name=m['name'], width=32, height=40,directions=m['directions'], initHp=mob_info[m['mob']]['hp'])
                     m['mob_obj'] = new_mob
                     draw_ch = m['mob_obj'].draw()
                     draw_map.appendChild(draw_ch)

@@ -386,7 +386,7 @@
     height: 6.2rem;
     background-repeat: no-repeat;
     background-position: 0 0;
-    background-size: 512px 62px;
+    background-size: 512px 64px;
     animation: player 1s steps(8) infinite;
     z-index: 10;
 
@@ -669,14 +669,14 @@
     background-position: 0 0;
     z-index: 5;
     animation-duration: 1s;
-    background-size: 512px 62px;
+    background-size: 512px 64px;
     animation: player 1s steps(8) infinite;
     transform: translate(-15%, -15%);
     z-index: 10;
 
     &.py {
         animation: mob 1s steps(6) infinite;
-        background-size: 320px 64px;
+        background-size: 384px 64px;
     }
 }
 .mob .status-container {

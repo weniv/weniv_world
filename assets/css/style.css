@@ -197,13 +197,9 @@ img {
   to {
     background-position: -512px, 0; } }
 
-@keyframes lion {
-  to {
-    background-position: -288px, 0; } }
-
 @keyframes mob {
   to {
-    background-position: -320px, 0; } }
+    background-position: -384px, 0; } }
 
 @keyframes attack-claw-white {
   from {
@@ -1684,7 +1680,7 @@ button {
   height: 6.2rem;
   background-repeat: no-repeat;
   background-position: 0 0;
-  background-size: 512px 62px;
+  background-size: 512px 64px;
   animation: player 1s steps(8) infinite;
   z-index: 10; }
   .character .character-info-bubble {
@@ -1922,13 +1918,13 @@ button {
   background-position: 0 0;
   z-index: 5;
   animation-duration: 1s;
-  background-size: 512px 62px;
+  background-size: 512px 64px;
   animation: player 1s steps(8) infinite;
   transform: translate(-15%, -15%);
   z-index: 10; }
   .mob.py {
     animation: mob 1s steps(6) infinite;
-    background-size: 320px 64px; }
+    background-size: 384px 64px; }
 
 .mob .status-container {
   scale: 0.7692;

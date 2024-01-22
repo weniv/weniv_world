@@ -1682,7 +1682,7 @@ button {
   background-position: 0 0;
   background-size: 512px 64px;
   animation: player 1s steps(8) infinite;
-  z-index: 10; }
+  z-index: 100; }
   .character .character-info-bubble {
     flex-direction: column;
     position: absolute;

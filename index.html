@@ -719,6 +719,8 @@
                     c['character_obj'] = new_ch
                     draw_ch = c['character_obj'].draw()
                     draw_map.appendChild(draw_ch)
+                    add_event_listener(draw_ch, 'click', show_character_info)
+
 
             # 아이템 갱신
             for i in copy.deepcopy(item_data).keys():

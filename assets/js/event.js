@@ -526,3 +526,82 @@ btnProfileCancel.addEventListener('click', () => {
     changeProfileMode('view');
     initProfile();
 });
+
+/* 인증서 모달 */
+const certifBtn = document.querySelector('.btn-certif');
+const certifWrap = document.querySelector('.certif-wrap');
+const certifClose = certifWrap.querySelector('.btn-close');
+window.addEventListener('click', (e) => {
+    if (certifBtn.contains(e.target)) {
+        certifBtn.classList.toggle('active');
+    } else if (e.target == certifClose) {
+        certifBtn.classList.remove('active');
+    } else if (!certifWrap.contains(e.target)) {
+        certifBtn.classList.remove('active');
+    }
+    if (certifBtn.classList.contains('active')) {
+        updateCertifItem();
+    }
+});
+
+/* 인증서 초기화 */
+const certifList = certifWrap.querySelector('.certif-list');
+const storyChapter = {
+    입문: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    // 기초: [12, 13, 14, 15, 16, 17, 18, 19, 20],
+};
+const setCertifItem = () => {
+    Object.keys(storyChapter).forEach((chapter) => {
+        const li = document.createElement('li');
+        li.classList.add('certif-item');
+
+        li.innerHTML = `
+        <p class="title">${chapter}</p>
+        <p class="progress"><span class="solved">0</span>/<span class="total">${storyChapter[chapter].length}</span></p>
+        <div class="progress-bar">
+            <div class="progress-bar-inner"></div>
+        </div>
+        <button class="btn-download-certif" disabled><span class="sr-only">인증서 다운로드</span></button>
+        `;
+        certifList.append(li);
+    });
+};
+const updateCertifItem = () => {
+    const certifItems = certifList.querySelectorAll('.certif-item');
+    Object.entries(storyChapter).forEach(([key, value], index) => {
+        const li = certifItems[index];
+        const solved = value.reduce((acc, cur) => {
+            const check = localStorage.getItem(`${cur}_check`);
+            if (check === '정답') {
+                return acc + 1;
+            }
+            return acc;
+        }, 0);
+
+        li.querySelector('.solved').innerText = solved;
+        li.querySelector('.progress-bar-inner').style.transform = `scaleX(${
+            (solved / value.length) * 100
+        }%)`;
+        if (solved === value.length) {
+            li.querySelector('.btn-download-certif').removeAttribute(
+                'disabled',
+            );
+        } else {
+            li.querySelector('.btn-download-certif').setAttribute(
+                'disabled',
+                true,
+            );
+        }
+    });
+};
+setCertifItem();
+document.addEventListener('DOMContentLoaded', () => {
+    updateCertifItem();
+});
+// const solved_count = storyChapter[chapter].reduce((acc, cur) => {
+//     const check = localStorage.getItem(`element_check_${cur}`);
+//     if (check === '통과') {
+//         return acc + 1;
+//     }
+//     return acc;
+// }, 0);

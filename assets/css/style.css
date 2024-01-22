@@ -389,6 +389,7 @@ button {
   box-sizing: border-box;
   /* 보고서 버튼 */
   /* 스토리보기 버튼 */
+  /* 인증서 보기 버튼 */
   /* 콘텐츠 더보기 버튼(케밥 메뉴) */
   /* 벽 만들기 버튼 */
   /* 에셋 추가 버튼 */
@@ -429,6 +430,18 @@ button {
     mask-repeat: no-repeat;
     mask-position: center center; }
   .button-before.btn-story.active::before {
+    background: var(--ColorPrimary); }
+  .button-before.btn-certif::before {
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../../assets/img/icon/icon-medal.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-medal.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .button-before.btn-certif.active::before {
     background: var(--ColorPrimary); }
   .button-before.btn-kebab {
     padding: 0; }
@@ -1110,6 +1123,100 @@ button {
       border: 1px solid var(--ColorGrayLv2); }
       .profile-edit.active .btn-cont .btn-cancel:hover {
         background-color: var(--ColorGrayLv1); }
+
+/* 인증서 */
+.btn-certif.active + .certif-wrap {
+  display: block; }
+
+.certif-wrap {
+  display: none;
+  position: absolute;
+  transform: translate(-50%, 8%);
+  z-index: 1000;
+  width: 38rem;
+  background-color: var(--ColorBackground);
+  border: 1px solid var(--ColorGrayLv2);
+  box-shadow: var(--EffectShadow);
+  border-radius: 1rem;
+  padding: 4rem 2.4rem 3.2rem; }
+  .certif-wrap h2 {
+    font-size: 1.6rem;
+    line-height: 2.2rem;
+    font-weight: 600; }
+  .certif-wrap .btn-close {
+    position: absolute;
+    top: 1.6rem;
+    right: 1.6rem; }
+  .certif-wrap .certif-list {
+    margin-top: 3.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; }
+
+.certif-list li {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center; }
+  .certif-list li .title {
+    width: 4rem;
+    font-size: 1.4rem;
+    line-height: 2rem;
+    font-weight: 500;
+    flex-shrink: 0;
+    text-align: center; }
+  .certif-list li .progress {
+    background-color: var(--ColorActivation);
+    color: var(--ColorPrimary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    flex-shrink: 0;
+    width: 2.6rem; }
+    .certif-list li .progress .solved {
+      font-weight: 700; }
+  .certif-list li .progress-bar {
+    width: 100%;
+    height: 1.2rem;
+    border-radius: 1.2rem;
+    background: var(--ColorGrayLv2);
+    overflow: hidden; }
+    .certif-list li .progress-bar .progress-bar-inner {
+      width: 100%;
+      height: 100%;
+      background: var(--ColorPrimary);
+      transform: scaleX(0.23);
+      transform-origin: left; }
+
+.btn-download-certif {
+  width: 2.8rem;
+  height: 2.8rem;
+  flex-shrink: 0;
+  background: var(--ColorPrimary);
+  border-radius: 0.8rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default; }
+  .btn-download-certif::before {
+    content: '';
+    width: 1.9rem;
+    height: 1.9rem;
+    background: #fff;
+    -webkit-mask-image: url("../../assets/img/icon/icon-medal-v2.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-medal-v2.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
+  .btn-download-certif:disabled {
+    background-color: var(--ColorGrayLv2); }
 
 .notebook {
   width: 50rem;

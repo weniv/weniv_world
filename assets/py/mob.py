@@ -71,12 +71,8 @@ class Mob:
         status_container.appendChild(hp)
         mob.appendChild(status_container)
 
-        if self.mob == "lion":
-            mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"
-            mob.style.left = f"{self.y * 100 + 2 + (50 - 32) + 13}px"
-        elif self.mob[:3] == "mob":
-            mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 23}px"
-            mob.style.left = f"{self.y * 100 + 2 + (50 - 32) + 21}px"
+        mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"
+        mob.style.left = f"{self.y * 100 + 2 + (50 - 32) + 13}px"
 
         finder = False
 
@@ -185,37 +181,19 @@ class Mob:
     def _move_animation(self, x, y, directions):
         c = js.document.querySelector(f"#{self.name}.mob")
 
-        if self.mob == "lion":
-            #     mob.style.top = f"{self.x * 100 + 2 + (50 - 32) + 8}px"
-            #     mob.style.left = f"{self.y * 100 + 2 + (50 - 32) + 13}px"
-            if directions == 0:
-                c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32) + 13}px"
-                self.draw_move_line(x, y, x, y + 1, directions)
-            elif directions == 1:
-                c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32) + 8}px"
-                self.draw_move_line(x, y, x - 1, y, directions)
-            elif directions == 2:
-                c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32) + 13}px"
-                self.draw_move_line(x, y, x, y - 1, directions)
-            elif directions == 3:
-                c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32) + 8}px"
-                self.draw_move_line(x, y, x + 1, y, directions)
+        if directions == 0:
+            c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32) + 13}px"
+            self.draw_move_line(x, y, x, y + 1, directions)
+        elif directions == 1:
+            c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32) + 8}px"
+            self.draw_move_line(x, y, x - 1, y, directions)
+        elif directions == 2:
+            c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32) + 13}px"
+            self.draw_move_line(x, y, x, y - 1, directions)
+        elif directions == 3:
+            c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32) + 8}px"
+            self.draw_move_line(x, y, x + 1, y, directions)
 
-        elif self.mob[:3] == "mob":
-            # top = (x+1)*100 + 2 + (50-32) + 23
-            # left = (y+1)*100 + 2 + (50-32) + 21
-            if directions == 0:
-                c.style.left = f"{(y + 1) * 100 + 2 + (50 - 32) + 21}px"
-                self.draw_move_line(x, y, x, y + 1, directions)
-            elif directions == 1:
-                c.style.top = f"{(x - 1) * 100 + 2 + (50 - 32) + 23}px"
-                self.draw_move_line(x, y, x - 1, y, directions)
-            elif directions == 2:
-                c.style.left = f"{(y - 1) * 100 + 2 + (50 - 32) + 21}px"
-                self.draw_move_line(x, y, x, y - 1, directions)
-            elif directions == 3:
-                c.style.top = f"{(x + 1) * 100 + 2 + (50 - 32) + 23}px"
-                self.draw_move_line(x, y, x + 1, y, directions)
 
     def _movable(self, x, y, nx, ny):
         if self._out_of_world(nx, ny):

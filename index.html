@@ -327,27 +327,27 @@
                                 </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="mob" id="mob1" value="mob1" class="sr-only" checked>
-                                <label for="mob1">
-                                    <span class="sr-only">mob1</span>
+                                <input type="radio" name="mob" id="py" value="py" class="sr-only" checked>
+                                <label for="py">
+                                    <span class="sr-only">py</span>
                                 </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="mob" id="mob2" value="mob2" class="sr-only" checked>
-                                <label for="mob2">
-                                    <span class="sr-only">mob2</span>
+                                <input type="radio" name="mob" id="binky" value="binky" class="sr-only" checked>
+                                <label for="binky">
+                                    <span class="sr-only">binky</span>
                                 </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="mob" id="mob3" value="mob3" class="sr-only" checked>
-                                <label for="mob3">
-                                    <span class="sr-only">mob3</span>
+                                <input type="radio" name="mob" id="gary" value="gary" class="sr-only" checked>
+                                <label for="gary">
+                                    <span class="sr-only">gary</span>
                                 </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="mob" id="mob4" value="mob4" class="sr-only" checked>
-                                <label for="mob4">
-                                    <span class="sr-only">mob4</span>
+                                <input type="radio" name="mob" id="wizard" value="wizard" class="sr-only" checked>
+                                <label for="wizard">
+                                    <span class="sr-only">wizard</span>
                                 </label>
                             </div>
                         </div>
@@ -734,7 +734,7 @@
                 if not (0 <= m['x'] < map_data['height'] and 0 <= m['y'] < map_data['width']):
                     mob_data.remove(m)
                 else:
-                    new_mob = Mob(x=m['x'], y=m['y'],mob=m['mob'] ,name=m['name'], width=32, height=40,rotate=m['directions'], initHp=mob_info[m['mob']]['hp'])
+                    new_mob = Mob(x=m['x'], y=m['y'],mob=m['mob'] ,name=m['name'], width=32, height=40,directions=m['directions'], initHp=mob_info[m['mob']]['hp'])
                     m['mob_obj'] = new_mob
                     draw_ch = m['mob_obj'].draw()
                     draw_map.appendChild(draw_ch)
@@ -1492,9 +1492,9 @@
             
             테스트 코드:
             add_mob('lion', 4, 4)
-            add_mob('mob1', 3, 3)
-            add_mob('mob2', 3, 2)
-            add_mob('mob3', 2, 3)
+            add_mob('py', 3, 3)
+            add_mob('binky', 3, 2)
+            add_mob('gary', 2, 3)
             '''
             global mob_data
             
@@ -1550,11 +1550,27 @@
                             'y': y,
                             'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
                             'hp':50,
-                            'power':5
                         }
                     )
                     draw_ch = mob.draw()
                     draw_map.appendChild(draw_ch)
+                    return mob
+                else:
+                    mob = Mob(x=x, y=y, mob=mob_type, name=name, width=32,height=40,initHp=50)
+                    mob_data.append(
+                        {
+                            'name': name,
+                            'mob': mob_type,
+                            'mob_obj': mob,
+                            'x': x,
+                            'y': y,
+                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
+                            'hp':50,
+                        }
+                    )
+                    draw_ch = mob.draw()
+                    draw_map.appendChild(draw_ch)
+
                     return mob
             else:
                 return None

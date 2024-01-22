@@ -95,6 +95,8 @@
 }
 
 .controll-btn-list {
+    z-index: 100;
+    position: relative;
     .wall-type,
     .resize {
         flex-direction: column;
@@ -388,7 +390,7 @@
     background-position: 0 0;
     background-size: 512px 64px;
     animation: player 1s steps(8) infinite;
-    z-index: 100;
+    z-index: 12;
 
     .character-info-bubble {
         flex-direction: column;

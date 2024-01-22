@@ -310,19 +310,20 @@
         border: transparent;
     }
 
-    input#mob1 + label {
+    input#py + label {
         background: var(--ColorBackground)
-            url('../../assets/img/characters/mob1-2.png') no-repeat top -0.5rem left -1rem;
+            url('../../assets/img/characters/py-2.png') no-repeat top -0.5rem left -1rem;
     }
 
-    input#mob2 + label {
+    input#binky + label {
         background: var(--ColorBackground)
-            url('../../assets/img/characters/mob2-2.png') no-repeat top -0.5rem left -1rem;
+            url('../../assets/img/characters/binky-2.png') no-repeat top -0.5rem
+            left -1rem;
     }
 
-    input#mob3 + label {
+    input#gary + label {
         background: var(--ColorBackground)
-            url('../../assets/img/characters/mob3-2.png') no-repeat top -0.5rem left -1rem;
+            url('../../assets/img/characters/gary-2.png') no-repeat top -0.5rem left -1rem;
     }
 
     input#wizard + label {
@@ -670,13 +671,12 @@
     animation-duration: 1s;
     background-size: 512px 62px;
     animation: player 1s steps(8) infinite;
+    transform: translate(-15%, -15%);
     z-index: 10;
 
-    &.lion {
-        transform: translate(-15%, -15%);
-    }
-    &.wizard {
-        transform: translate(-15%, -15%);
+    &.py {
+        animation: mob 1s steps(6) infinite;
+        background-size: 320px 64px;
     }
 }
 .mob .status-container {

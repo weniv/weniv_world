@@ -55,15 +55,15 @@ mob_info = {
         'hp':250,
         'mp':float("inf"),
     },
-    'mob1':{
+    'py':{
         'hp':50,
         'mp':float("inf"),
     },
-    'mob2':{
+    'binky':{
         'hp':50,
         'mp':float("inf"),
     },
-    'mob3':{
+    'gary':{
         'hp':50,
         'mp':float("inf"),
     },

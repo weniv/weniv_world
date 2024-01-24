@@ -348,30 +348,13 @@ story_data = {
         },
     },
     13: {
-        "map_width": 5,
-        "map_height": 5,
+        "map_width": 1,
+        "map_height": 1,
         "wall": {  # (x, y): "wall", 'fence', 'door'
-            (0.5, 1): "wall",
-            (0.5, 2): "wall",
-            (0.5, 3): "wall",
-            (1.0, 0.5): "wall",
-            (1.0, 3.5): "wall",
-            (2.0, 0.5): "wall",
-            (2.0, 3.5): "wall",
-            (3.0, 0.5): "wall",
-            (3.0, 3.5): "wall",
-            (3.5, 1): "wall",
-            (3.5, 2): "wall",
-            (3.5, 3): "wall",
         },
         "item": {
-            (0, 1): {"item": "fish-1", "count": 1},
-            (0, 3): {"item": "fish-1", "count": 1},
-            (2, 4): {"item": "fish-1", "count": 1},
-            (4, 1): {"item": "fish-1", "count": 1},
-            (4, 0): {"item": "fish-1", "count": 1},
-            (2, 0): {"item": "fish-1", "count": 1},
         },
+        "basic_code":"s = [\n '   + -- + - + -   ',\n'   + --- + - +   ',\n'   + -- + - + -   ',\n'   + - + - + - +   '\n]"
     },
     14: {
         "map_width": 1,

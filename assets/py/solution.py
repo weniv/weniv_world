@@ -95,14 +95,7 @@ story_solution = {
         "item": { "fish-1": 4 }
     },
     13: {
-        "print_data": ["라이캣은 물고기 6마리를 잡았다!"],
-        "item_data": {},
-        "character_data": {
-            "character": "licat",
-            "x": 0,
-            "y": 0
-        },
-        "item": { "fish-1": 6 }
+        "print_data": ["JEJU"],
     },
     14: {
         "print_data": ["['자바독', '개리', '소울곰']"],"item_data": {},

@@ -85,14 +85,14 @@ story_solution = {
         "item":{'diamond':12},
     },
     12: {
-        "say_data": ["hello, world!"],
+        "print_data": ["hp-potion","fish-3","diamond","fish-2","goldbar"],
         "item_data": {},
         "character_data": {
             "character": "licat",
-            "x": 0,
-            "y": 0
+            "x": 4,
+            "y": 4 
         },
-        "item": { "fish-1": 4 }
+        "item": {'fish-2': 3, 'hp-potion': 2, 'goldbar': 2, 'diamond': 2, 'fish-3': 1}
     },
     13: {
         "print_data": ["JEJU"],

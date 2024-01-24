@@ -325,26 +325,38 @@ story_data = {
     }, 
     # 12번 스토리
     12: {
-        "map_width": 4,
-        "map_height": 4,
+        "map_width": 5,
+        "map_height": 5,
         "wall": {  
-            (0.5, 0): "wall",
-            (0.5, 1): "wall",
-            (0.5, 2): "wall",
-            (1.0, 2.5): "wall",
-            (2.0, 0.5): "wall",
-            (2.0, 2.5): "wall",
-            (2.5, 1): "wall",
-            (2.5, 2): "wall"
+            (0.0, 0.5):	"wall",
+            (0.0, 2.5):	"wall",
+            (1.0, 0.5):	"wall",
+            (1.0, 1.5):	"wall",
+            (1.0, 2.5):	"wall",
+            (1.0, 3.5):	"wall",
+            (2.0, 0.5):	"wall",
+            (2.0, 1.5):	"wall",
+            (2.0, 2.5):	"wall",
+            (2.0, 3.5):	"wall",
+            (3.0, 0.5):	"wall",
+            (3.0, 1.5):	"wall",
+            (3.0, 2.5):	"wall",
+            (3.0, 3.5):	"wall",
+            (4.0, 1.5):	"wall",
+            (4.0, 3.5):	"wall"
         },
-        "item": { # (x, y) : {"item":name, "count":count}
-            (0, 1) : {"item":"fish-1", "count":1},
-            (0, 3): {"item":"diamond", "count":1},
-            (1, 0): {"item":"apple", "count":1},
-            (1, 3): {"item":"goldbar", "count":1},
-            (2, 0): {"item":"mp-potion", "count":1},
-            (2, 3): {"item":"fish-2", "count":1},
-            (3, 2): {"item":"fish-3", "count":1},
+        "item": {
+                (1, 0): { "item": "fish-2", "count": 1 },
+                (3, 1): { "item": "fish-2", "count": 1 },
+                (2, 4): { "item": "fish-2", "count": 1 },
+                (4, 0): { "item": "hp-potion", "count": 1 },
+                (1, 3): { "item": "hp-potion", "count": 1 },
+                (0, 3): { "item": "diamond", "count": 1 },
+                (2, 2): { "item": "diamond", "count": 1 },
+                (3, 4): { "item": "fish-3", "count": 1 },
+                (4, 4): { "item": "goldbar", "count": 1 },
+                (2, 1): { "item": "goldbar", "count": 1 },
+                (5, 0): { "item": "fish-3", "count": 3 }
         },
     },
     13: {
@@ -368,7 +380,8 @@ story_data = {
     15: {
         "map_width": 1,
         "map_height": 1,
-        "wall": {  # (x, y): "wall", 'fence', 'door'
+        "wall": { 
+      
         },
         "item": {},
         "basic_code":"공지문 = '대표 라이캣, 팀장 뮤라, 팀 리더 하티'"

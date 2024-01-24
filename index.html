@@ -1484,8 +1484,10 @@
                         continue
                     
                     if key=='print_data' or key=='say_data':
-                        if not all(elem in check_data[key] for elem in solution[key]):
-                            solution_flag = False
+                        for s in solution[key]:
+                            if not any(s in check for check in check_data[key]):
+                                solution_flag = False
+                                break
 
                     elif key=='character_data':
                         ch_solution = solution[key]
@@ -1502,10 +1504,6 @@
                             solution_flag = False 
 
                     elif key=='code':
-                        # check_data[key]에 있는 요소들이 solution[key]에 있는 요소들에 포함되면 true
-                        # check_data[key]의 요소가 'hello'일 때, solution[key]에서 'hello world'가 있으면 true
-                        # check_data[key]의 요소가 'hello world'일 때, solution[key]에서 'hello'가 있으면 false
-                        # check_data[key]를 순회하면서, solution[key]에 있는 요소들에 포함되는지 확인
                         for code in solution[key]:
                             if not any(code in checke_code for checke_code in check_data[key]):
                                 solution_flag = False

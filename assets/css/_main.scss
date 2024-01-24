@@ -120,6 +120,7 @@ button {
 
 /* 월드 업로드 버튼 */
 #btn-upload-worlddata.hidden {
+    cursor: default;
     background-color: var(--ColorGrayLv2);
     &:hover {
         background-color: var(--ColorGrayLv2);

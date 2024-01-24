@@ -383,16 +383,24 @@ story_data = {
         "basic_code":"character = ['라이캣', '개리', '자바독', '빙키', '뮤라', '소울곰', '대리인 No.1']\nstone = ['피스 스톤', '스페이스 스톤', '마인드 스톤', '리얼리티 스톤', '타임 스톤', '소울 스톤', '파워 스톤']"
     },
     17: {
-        "map_width": 5,
-        "map_height": 2,
+        "map_width": 4,
+        "map_height": 3,
         "wall": {  # (x, y): "wall", 'fence', 'door'
-            (0.5, 4): "wall",
-            (1.0, 3.5): "door",
+            (0.5, 0): "wall",
+            (0.5, 1): "wall",
+            (0.5, 2): "wall",
+            (1.5, 1): "wall",
+            (1.5, 2): "wall",
+            (1.5, 3): "wall"
         },
         "item": {
-            (0, 1): {"item": "fish-1", "count": 12},
-            (0, 2): {"item": "goldbar", "count": 15},
-        },
+            (2, 0): { "item": "fish-1", "count": 3 },
+            (0, 2): { "item": "fish-2", "count": 1 },
+            (1, 3): { "item": "fish-2", "count": 2 },
+            (2, 2): { "item": "fish-3", "count": 3 },
+            (1, 0): { "item": "fish-1", "count": 4 },
+            (0, 3): { "item": "fish-3", "count": 2 }
+            }
     },
     18: {
         "map_width": 5,

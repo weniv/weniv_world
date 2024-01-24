@@ -423,9 +423,9 @@ const statusObserver = new MutationObserver((mutationsList) => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
             mutation.addedNodes.forEach((addedNode) => {
                 if (
-                    addedNode.classList.contains('map-container') ||
-                    addedNode.classList.contains('character') ||
-                    addedNode.classList.contains('mob')
+                    addedNode.classList?.contains('map-container') ||
+                    addedNode.classList?.contains('character') ||
+                    addedNode.classList?.contains('mob')
                 ) {
                     const statusContainer =
                         addedNode.querySelectorAll('.status-item');

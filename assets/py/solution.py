@@ -108,14 +108,9 @@ story_solution = {
         "code":["enumerate"]
     },
     17: {
-        "say_data": ["오늘은 밥차를 운영합니다!"],
-        "item_data": {(1,4):{'item':'fish-1','count':1}},
-        "character_data": {
-            "character": "licat",
-            "x": 1,
-            "y": 4
-        },
-        "item":{'fish-1':11,'goldbar':15}
+        "print_data": ["[('fish-1', 7), ('fish-3', 5), ('fish-2', 3)]"],
+        "item_data": {},
+        "item":{"fish-1":7, "fish-2":3,"fish-3":5}
     },
     18: {
         "print_data":["27"],

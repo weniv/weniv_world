@@ -113,7 +113,7 @@ story_solution = {
         "item":{"fish-1":7, "fish-2":3,"fish-3":5}
     },
     18: {
-        "print_data":["27"],
+        "print_data":["[['당근', 6], ['당근', 7]]"],
         "item_data": {},
     },
     19: {

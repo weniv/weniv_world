@@ -118,6 +118,14 @@ button {
     }
 }
 
+/* 월드 업로드 버튼 */
+#btn-upload-worlddata.hidden {
+    background-color: var(--ColorGrayLv2);
+    &:hover {
+        background-color: var(--ColorGrayLv2);
+    }
+}
+
 /* code-download 버튼 */
 .btn-code-download {
     width: 2rem;

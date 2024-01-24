@@ -1403,7 +1403,6 @@
                 init()
                 
                 idx = story_select['index']
-                js.console.log('story index',idx)
                 if idx:
                     localData = js.localStorage.getItem(f"{idx}_code")
                     code_list = json.loads(localData) if localData else []
@@ -1421,7 +1420,6 @@
                         newRepl = js.document.createElement('py-repl')
                         # 기본코드
                         basic_code = story_data[idx].get('basic_code','')
-                        js.console.log(basic_code)
                         newRepl.textContent = basic_code
                         notebookSection.appendChild(newRepl)
 
@@ -1450,6 +1448,7 @@
                     'character_data': character_data[0],
                     'item':character_data[0]['items'],
                     'mob_data': mob_data,
+                    'code':code_list
                 }
 
                 solution_flag = True
@@ -1476,6 +1475,16 @@
                     elif key=='item_data':
                         if not solution[key] == check_data[key]:
                             solution_flag = False 
+
+                    elif key=='code':
+                        # check_data[key]에 있는 요소들이 solution[key]에 있는 요소들에 포함되면 true
+                        # check_data[key]의 요소가 'hello'일 때, solution[key]에서 'hello world'가 있으면 true
+                        # check_data[key]의 요소가 'hello world'일 때, solution[key]에서 'hello'가 있으면 false
+                        # check_data[key]를 순회하면서, solution[key]에 있는 요소들에 포함되는지 확인
+                        for code in solution[key]:
+                            if not any(code in checke_code for checke_code in check_data[key]):
+                                solution_flag = False
+                                break
 
                 if solution_flag==True:
                     # TODO: 경고창을 안내창으로 변경

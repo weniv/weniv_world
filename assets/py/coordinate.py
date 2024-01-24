@@ -105,7 +105,7 @@ story_data = {
     1: {
         "map_width": 5,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
         },
         "item": {
             (0, 1): {"item": "fish-1", "count": 1},
@@ -118,7 +118,7 @@ story_data = {
     2: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 0): "wall",
             (1.5, 2): "wall",
             (2.0, 0.5): "wall",
@@ -136,7 +136,7 @@ story_data = {
     3: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 1): "wall",
             (0.5, 2): "wall",
             (0.5, 3): "wall",
@@ -163,7 +163,7 @@ story_data = {
     4: {
         "map_width": 5,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
         },
         "item": {
             (0, 1): {"item": "fish-1", "count": 2},
@@ -175,7 +175,7 @@ story_data = {
     5: {
         "map_width": 1,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
         },
         "item": {},
         "basic_code":"공지문 = '대표 라이캣, 팀장 뮤라, 팀 리더 하티'"
@@ -184,7 +184,7 @@ story_data = {
     6: {
         "map_width": 5,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
         },
         "item": {
             (0, 0): {"item": "goldbar", "count": 2},
@@ -198,7 +198,7 @@ story_data = {
     7: {
         "map_width": 5,
         "map_height": 2,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 4): "wall",
             (1.0, 3.5): "door",
         },
@@ -211,7 +211,7 @@ story_data = {
     8: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 1): "wall",
             (0.5, 2): "wall",
             (0.5, 3): "wall",
@@ -247,7 +247,7 @@ story_data = {
     9: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (1.0, 0.5): "wall",
             (1.0, 1.5): "wall",
             (1.0, 2.5): "wall",
@@ -277,7 +277,7 @@ story_data = {
     10: {
         "map_width": 2,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 0): "wall",
             (1.5, 1): "wall",
             (2.5, 0): "wall",
@@ -298,7 +298,7 @@ story_data = {
     11: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 0): "wall",
             (0.5, 2): "wall",
             (1.5, 1): "wall",
@@ -323,20 +323,34 @@ story_data = {
             (4, 4): {"item": "goldbar", "count": 1},
         },
     }, 
+    # 12번 스토리
     12: {
-        "map_width": 5,
-        "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
-            
+        "map_width": 4,
+        "map_height": 4,
+        "wall": {  
+            (0.5, 0): "wall",
+            (0.5, 1): "wall",
+            (0.5, 2): "wall",
+            (1.0, 2.5): "wall",
+            (2.0, 0.5): "wall",
+            (2.0, 2.5): "wall",
+            (2.5, 1): "wall",
+            (2.5, 2): "wall"
         },
         "item": { # (x, y) : {"item":name, "count":count}
-            (2, 2): {"item": "diamond", "count": 1},
+            (0, 1) : {"item":"fish-1", "count":1},
+            (0, 3): {"item":"diamond", "count":1},
+            (1, 0): {"item":"apple", "count":1},
+            (1, 3): {"item":"goldbar", "count":1},
+            (2, 0): {"item":"mp-potion", "count":1},
+            (2, 3): {"item":"fish-2", "count":1},
+            (3, 2): {"item":"fish-3", "count":1},
         },
     },
     13: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 1): "wall",
             (0.5, 2): "wall",
             (0.5, 3): "wall",
@@ -362,7 +376,7 @@ story_data = {
     14: {
         "map_width": 5,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
         },
         "item": {
             (0, 1): {"item": "fish-1", "count": 2},
@@ -373,28 +387,24 @@ story_data = {
     15: {
         "map_width": 1,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
         },
         "item": {},
         "basic_code":"공지문 = '대표 라이캣, 팀장 뮤라, 팀 리더 하티'"
     },
     16: {
-        "map_width": 5,
+        "map_width": 1,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": { 
         },
         "item": {
-            (0, 0): {"item": "goldbar", "count": 2},
-            (0, 1): {"item": "goldbar", "count": 2},
-            (0, 2): {"item": "goldbar", "count": 5},
-            (0, 3): {"item": "goldbar", "count": 1},
-            (0, 4): {"item": "fish-3", "count": 15},
         },
+        "basic_code":"character = ['라이캣', '개리', '자바독', '빙키', '뮤라', '소울곰', '대리인 No.1']\nstone = ['피스 스톤', '스페이스 스톤', '마인드 스톤', '리얼리티 스톤', '타임 스톤', '소울 스톤', '파워 스톤']"
     },
     17: {
         "map_width": 5,
         "map_height": 2,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 4): "wall",
             (1.0, 3.5): "door",
         },
@@ -406,7 +416,7 @@ story_data = {
     18: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 1): "wall",
             (0.5, 2): "wall",
             (0.5, 3): "wall",
@@ -441,7 +451,7 @@ story_data = {
     19: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (1.0, 0.5): "wall",
             (1.0, 1.5): "wall",
             (1.0, 2.5): "wall",

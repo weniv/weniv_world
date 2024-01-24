@@ -117,12 +117,6 @@ story_solution = {
         "item_data": {},
     },
     19: {
-        "say_data":['배송 1개 완료', '배송 3개 완료', '배송 1개 완료', '배송 5개 완료', '배송 7개 완료'],
-        "item_data": {},
-        "character_data": {
-            "character": "licat",
-            "x": 0,
-            "y": 4
-        },
+        "print_data":['True'],
     },
 }

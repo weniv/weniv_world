@@ -405,39 +405,15 @@ story_data = {
     18: {
         "map_width": 1,
         "map_height": 1,
-        "wall": {  # (x, y): "wall", 'fence', 'door'
-        },
-        "item": {
-        },
+        "wall": {},
+        "item": {},
         "basic_code":"items = [['당근', 3], ['사과', 5], ['당근', 6], ['포도', 4], ['당근', 7]]"
     },
     19: {
-        "map_width": 5,
-        "map_height": 5,
-        "wall": {  # (x, y): "wall", 'fence', 'door'
-            (1.0, 0.5): "wall",
-            (1.0, 1.5): "wall",
-            (1.0, 2.5): "wall",
-            (1.0, 3.5): "wall",
-            (2.0, 0.5): "wall",
-            (2.0, 1.5): "wall",
-            (2.0, 2.5): "wall",
-            (2.0, 3.5): "wall",
-            (3.0, 0.5): "wall",
-            (3.0, 1.5): "wall",
-            (3.0, 2.5): "wall",
-            (3.0, 3.5): "wall",
-            (4.0, 0.5): "wall",
-            (4.0, 1.5): "wall",
-            (4.0, 2.5): "wall",
-            (4.0, 3.5): "wall",
-        },
-        "item": {
-            (4, 0): {"item": "fish-1", "count": 1},
-            (3, 1): {"item": "fish-1", "count": 3},
-            (4, 2): {"item": "fish-1", "count": 1},
-            (2, 3): {"item": "fish-1", "count": 5},
-            (3, 4): {"item": "fish-1", "count": 7},
-        },
+        "map_width": 1,
+        "map_height": 1,
+        "wall": {},
+        "item": {},
+        "basic_code":"# 요리에 필요한 당근의 조건 확인\nrequired_ingredient = '당근'\nrequired_freshness = 5\nrequired_quantity = 4\n\nitems = [\n\t{\"name\": \"당근\", \"freshness\": 7, \"quantity\": 3},\n\t{\"name\": \"사과\", \"freshness\": 5, \"quantity\": 2},\n\t{\"name\": \"당근\", \"freshness\": 6, \"quantity\": 1},\n\t{\"name\": \"포도\", \"freshness\": 4, \"quantity\": 5},\n\t{\"name\": \"당근\", \"freshness\": 8, \"quantity\": 2}\n]"
     }
 }

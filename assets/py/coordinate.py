@@ -378,13 +378,44 @@ story_data = {
         "basic_code":"# 튜플로 구성된 동료 정보\ncrew_info = [\n('자바독', 95, 'Python이 궁금한 평생 JAVA만 해온 JAVA독. Python을 무기로 가지고 있는 라이캣이 동료가 되라는 말에 호기심을 느껴 작은 시험을 냈고 라이캣이 지혜를 발휘하여 문제를 풀자 라이캣의 동료가 됨. Python으로 여러가지를 해보고자 함.'),\n('개리', 85, '알고리즘 보물을 찾으러가는 배에서 만난 개리. 남는 자리에 누가 앉을 것인지에 대해 논의하던 중 페이지 교체 알고리즘으로 약자를 배려하는 아이디어를 낸 라이캣에 감복하여 동료가 되었음.'),\n('소울곰', 1, '파이와 썬의 심복인 소울곰. NPC로 무한 동력으로 움직이는 특징을 가지고 있다. 성산일출봉에서 파이와 썬의 마지막 관문을 지키는 지킴이. 카페 주인으로 위장하고 있으나 단번에 NPC인 것을 알아봄.')\n]"
     },
     15: {
-        "map_width": 1,
-        "map_height": 1,
+        "map_width": 5,
+        "map_height": 5,
         "wall": { 
-      
+            (0.5, 0.0): "wall",
+            (0.5, 2.0): "wall",
+            (1.0, 0.5): "wall",
+            (1.0, 1.5): "wall",
+            (1.0, 3.5): "wall",
+            (1.5, 0.0): "wall",
+            (1.5, 3.0): "wall",
+            (1.5, 4.0): "wall",
+            (2.0, 1.5): "wall",
+            (2.0, 3.5): "wall",
+            (2.5, 2.0): "wall",
+            (2.5, 3.0): "wall",
+            (3.0, 0.5): "wall",
+            (3.5, 0.0): "wall",
+            (3.5, 2.0): "wall",
+            (3.5, 3.0): "wall",
+            (4.0, 1.5): "wall",
+            (4.0, 3.5): "wall"
         },
-        "item": {},
-        "basic_code":"공지문 = '대표 라이캣, 팀장 뮤라, 팀 리더 하티'"
+        "item": {
+            (1, 1): { "item": "hp-potion", "count": 4 },
+            (0, 2): { "item": "hp-potion", "count": 3 },
+            (1, 3): { "item": "hp-potion", "count": 2 },
+            (0, 4): { "item": "hp-potion", "count": 1 },
+            (2, 0): { "item": "hp-potion", "count": 4 },
+            (3, 1): { "item": "hp-potion", "count": 6 },
+            (3, 0): { "item": "mp-potion", "count": 3 },
+            (4, 1): { "item": "hp-potion", "count": 4 },
+            (3, 2): { "item": "hp-potion", "count": 7 },
+            (2, 4): { "item": "hp-potion", "count": 5 },
+            (4, 4): { "item": "hp-potion", "count": 4 },
+            (2, 3): { "item": "mp-potion", "count": 2 },
+            (5, 0): { "item": "hp-potion", "count": 9 }
+            },
+        "basic_code":"# 라이캣이 먹은 포션의 수\npotion_counts = [0, 0, 0, 0]"
     },
     16: {
         "map_width": 1,

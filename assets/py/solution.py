@@ -101,7 +101,14 @@ story_solution = {
         "print_data": ["['자바독', '개리', '소울곰']"],"item_data": {},
     },
     15: {
-        "print_data": ["종류   마리    가격    합", "fish-1 2       1000   2000","fish-2 5       2000   10000","fish-3 10      3000   30000", "합                    42000"],
+        "say_data": ["9"],
+        "item_data": {(0, 2): {'item': 'hp-potion', 'count': 3}, (1, 3): {'item': 'hp-potion', 'count': 2}, (0, 4): {'item': 'hp-potion', 'count': 1}, (2, 0): {'item': 'hp-potion', 'count': 4}, (3, 0): {'item': 'mp-potion', 'count': 3}, (4, 1): {'item': 'hp-potion', 'count': 4}, (4, 4): {'item': 'hp-potion', 'count': 4}, (2, 3): {'item': 'mp-potion', 'count': 2}},
+        "character_data": {
+            "character": "licat",
+            "x": 2,
+            "y": 4 
+        },
+        "item": {'hp-potion':22}
     },
     16: {
         "print_data":["라이캣 : 피스 스톤", "개리 : 스페이스 스톤","자바독 : 마인드 스톤","빙키 : 리얼리티 스톤","뮤라 : 타임 스톤","소울곰 : 소울 스톤","대리인 No.1 : 파워 스톤"],

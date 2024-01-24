@@ -17,16 +17,22 @@
 믿음, 보람, 역할, 존재의 이유, 혁신과 혁명. 곡괭이를 휘두르면서도 소울곰은 그동안 머릿속에 단순한 단어로만 저장되어 있던 세상의 지식을 되새기며, 그것들을 지혜와 영혼으로 승화시켰습니다.
 
 ### 임무
-맵에서 금괴와 보석을 채굴하여 `class Treasure`의 인스턴스로 만들고 `__str__`를 정의하여 각각에 인스턴스를 print를 했을 때에는 `금괴 10개`의 방식으로 출력되게 해주세요. `class Treasure`에는 `__str__`, `__init__`과 아이템을 주웠을 때 아이템 갯수를 증가하는 `get_item` 메서드는 필수로 구현되어 있어야 합니다.
+맵에서 금괴와 보석을 채굴하여 `class Treasure`의 인스턴스로 만드세요. 각 인스턴스를 print 했을 때 금괴 10개, 보석 20개와 같이 출력되도록 `__str__` 메서드를 정의해야 합니다. `class Treasure`는 `__init__`, `__str__` 및 아이템을 주웠을 때 아이템의 수를 증가시키는 `get_item` 메서드를 포함해야 합니다.
 
 ### 기본 데이터
 ```python
 class Treasure:
+    # 클래스 정의
     pass
 
+# 인스턴스 생성
 gold = Treasure('gold', 0)
 diamond = Treasure('diamond', 0)
+
+# 인스턴스 리스트
 treasure_list = [gold, diamond]
+
+# 각 인스턴스 출력
 for treasure in treasure_list:
     print(treasure)
 ```
@@ -42,13 +48,16 @@ for treasure in treasure_list:
 
 ```python
 class Treasure:
-    
-    def __init__(self):
-        pass
+    # 초기화 메서드
+    def __init__(self, name, quantity):
+        self.name = name
+        self.quantity = quantity
 
+    # 문자열 표현 메서드
     def __str__(self):
         pass
 
+    # 아이템 수 증가 메서드
     def get_item(self):
         pass
 ```

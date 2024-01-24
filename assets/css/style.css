@@ -332,6 +332,13 @@ button {
   .btn-file-import:hover {
     background: var(--ColorSurface); }
 
+/* 월드 업로드 버튼 */
+#btn-upload-worlddata.hidden {
+  cursor: default;
+  background-color: var(--ColorGrayLv2); }
+  #btn-upload-worlddata.hidden:hover {
+    background-color: var(--ColorGrayLv2); }
+
 /* code-download 버튼 */
 .btn-code-download {
   width: 2rem;

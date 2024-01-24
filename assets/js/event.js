@@ -81,6 +81,8 @@ const wallEditButton = document.querySelector('.btn-wall');
 const assetsSelectButton = document.querySelector('.btn-assets');
 const mapResizeButton = document.querySelector('.btn-resize');
 const mobSelectButton = document.querySelector('.btn-mob');
+const uploadWorldDataButton = document.getElementById('btn-upload-worlddata');
+const worldDataInput = document.getElementById('worldFileInput');
 
 storyShowButton.addEventListener('click', () => {
     storyShowButton.classList.toggle('active');
@@ -104,11 +106,16 @@ storyShowButton.addEventListener('click', () => {
 
         mapResizeButton.classList.remove('active');
         mapResizeButton.setAttribute('disabled', true);
+
+        uploadWorldDataButton.classList.add('hidden');
+        worldDataInput.setAttribute('disabled', true);
     } else {
         wallEditButton.removeAttribute('disabled');
         assetsSelectButton.removeAttribute('disabled');
         mobSelectButton.removeAttribute('disabled');
         mapResizeButton.removeAttribute('disabled');
+        uploadWorldDataButton.classList.remove('hidden');
+        worldDataInput.removeAttribute('disabled');
     }
 });
 
@@ -120,6 +127,8 @@ storyCloseButton.addEventListener('click', () => {
     assetsSelectButton.removeAttribute('disabled');
     mobSelectButton.removeAttribute('disabled');
     mapResizeButton.removeAttribute('disabled');
+    uploadWorldDataButton.classList.remove('hidden');
+    worldDataInput.removeAttribute('disabled');
 
     storyShowButton.classList.remove('active');
     storySection.classList.remove('show');

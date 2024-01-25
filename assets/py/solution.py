@@ -126,4 +126,21 @@ story_solution = {
     19: {
         "print_data":['True'],
     },
-}
+    20: {
+        "code":["__str__"],
+        "print_data": ["금괴 10개","보석 20개"],
+        "character_data": {
+            "character": "licat",
+            "x": 1,
+            "y": 0 
+        },
+    },
+    21: {
+        "print_data":["[['당근', 6], ['당근', 7]]"],
+        "item_data": {},
+    },
+    22: {
+        "print_data":['True'],
+    }}
+
+

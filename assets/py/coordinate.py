@@ -492,10 +492,26 @@ story_data = {
     '''
     },
     20: {
-        "map_width": 1,
-        "map_height": 1,
-        "wall": {},
-        "item": {},
+        "map_width": 4,
+        "map_height": 4,
+        "wall": {
+                (0.5, 1.0): "wall",
+                (0.5, 2.0): "wall",
+                (1.0, 0.5): "wall",
+                (1.0, 2.5): "wall",
+                (2.0, 0.5): "wall",
+                (2.0, 2.5): "wall",
+                (2.5, 1.0): "wall",
+                (2.5, 2.0): "wall"},
+        "item": {
+            (0, 3): { "item": "diamond", "count": 6 },
+            (0, 1): { "item": "goldbar", "count": 2 },
+            (1, 0): { "item": "diamond", "count": 1 },
+            (1, 3): { "item": "goldbar", "count": 7 },
+            (2, 0): { "item": "goldbar", "count": 1 },
+            (3, 2): { "item": "diamond", "count": 4 },
+            (3, 3): { "item": "diamond", "count": 9 }
+        },
         "basic_code":'''
         class Treasure:
             # 클래스 정의

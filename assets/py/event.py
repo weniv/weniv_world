@@ -1,6 +1,6 @@
 import js
 
-from map import Map
+from world_map import Map
 from wall import Wall
 from character import Character
 from item import Item

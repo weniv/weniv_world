@@ -69,7 +69,7 @@
 
         [[fetch]]
         from = "./assets/py/"
-        files = ["built_in_functions.py", "character.py", "map.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py", "mob.py", "solution.py"]
+        files = ["built_in_functions.py", "character.py", "worldMap.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py", "mob.py", "solution.py"]
     </py-config>
 </head>
 <body>
@@ -607,7 +607,7 @@
     <section class="description"></section>
     <!-- <script type="py" src="./assets/py/event.py" defer></script> -->
     <py-script>
-        from map import Map
+        from worldMap import Map
         from wall import Wall
         from character import Character
         from mob import Mob
@@ -700,8 +700,8 @@
             # TODO: map object는 map_data에서 관리해야할 것으로 보임
             if map_exist:
                 js.document.querySelector('.map-container').remove()
-                map = Map(map_data['height'], map_data['width'])
-                draw_map = map.drawMap()
+                world_map = Map(map_data['height'], map_data['width'])
+                draw_map = world_map.drawMap()
                 # draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)
@@ -770,8 +770,8 @@
         draw_character = licat.draw()
 
         # map 생성
-        map = Map(map_data['height'], map_data['width'])
-        draw_map = map.drawMap()
+        world_map = Map(map_data['height'], map_data['width'])
+        draw_map = world_map.drawMap()
         draw_map.appendChild(draw_character)
         draw_map.appendChild(wall_container)
 
@@ -805,8 +805,8 @@
             # TODO: map object는 map_data에서 관리해야할 것으로 보임
             if map_exist:
                 js.document.querySelector('.map-container').remove()
-                map = Map(map_data['height'], map_data['width'])
-                draw_map = map.drawMap()
+                world_map = Map(map_data['height'], map_data['width'])
+                draw_map = world_map.drawMap()
                 draw_map.appendChild(draw_character)
                 app = Element("app").element
                 app.appendChild(draw_map)

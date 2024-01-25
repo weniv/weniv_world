@@ -366,7 +366,14 @@ story_data = {
         },
         "item": {
         },
-        "basic_code":"s = [\n '   + -- + - + -   ',\n'   + --- + - +   ',\n'   + -- + - + -   ',\n'   + - + - + - +   '\n]"
+        "basic_code":'''
+        s = [
+            '   + -- + - + -   ',
+            '   + --- + - +   ',
+            '   + -- + - + -   ',
+            '   + - + - + - +   '
+        ]
+        '''
     },
     14: {
         "map_width": 1,
@@ -375,7 +382,14 @@ story_data = {
         },
         "item": {
         },
-        "basic_code":"# 튜플로 구성된 동료 정보\ncrew_info = [\n('자바독', 95, 'Python이 궁금한 평생 JAVA만 해온 JAVA독. Python을 무기로 가지고 있는 라이캣이 동료가 되라는 말에 호기심을 느껴 작은 시험을 냈고 라이캣이 지혜를 발휘하여 문제를 풀자 라이캣의 동료가 됨. Python으로 여러가지를 해보고자 함.'),\n('개리', 85, '알고리즘 보물을 찾으러가는 배에서 만난 개리. 남는 자리에 누가 앉을 것인지에 대해 논의하던 중 페이지 교체 알고리즘으로 약자를 배려하는 아이디어를 낸 라이캣에 감복하여 동료가 되었음.'),\n('소울곰', 1, '파이와 썬의 심복인 소울곰. NPC로 무한 동력으로 움직이는 특징을 가지고 있다. 성산일출봉에서 파이와 썬의 마지막 관문을 지키는 지킴이. 카페 주인으로 위장하고 있으나 단번에 NPC인 것을 알아봄.')\n]"
+        "basic_code":'''
+        # 튜플로 구성된 동료 정보
+        crew_info = [
+            ('자바독', 95, 'Python이 궁금한 평생 JAVA만 해온 JAVA독. Python을 무기로 가지고 있는 라이캣이 동료가 되라는 말에 호기심을 느껴 작은 시험을 냈고 라이캣이 지혜를 발휘하여 문제를 풀자 라이캣의 동료가 됨. Python으로 여러가지를 해보고자 함.'),
+            ('개리', 85, '알고리즘 보물을 찾으러가는 배에서 만난 개리. 남는 자리에 누가 앉을 것인지에 대해 논의하던 중 페이지 교체 알고리즘으로 약자를 배려하는 아이디어를 낸 라이캣에 감복하여 동료가 되었음.'),
+            ('소울곰', 1, '파이와 썬의 심복인 소울곰. NPC로 무한 동력으로 움직이는 특징을 가지고 있다. 성산일출봉에서 파이와 썬의 마지막 관문을 지키는 지킴이. 카페 주인으로 위장하고 있으나 단번에 NPC인 것을 알아봄.')
+        ]
+        '''
     },
     15: {
         "map_width": 5,
@@ -424,7 +438,10 @@ story_data = {
         },
         "item": {
         },
-        "basic_code":"character = ['라이캣', '개리', '자바독', '빙키', '뮤라', '소울곰', '대리인 No.1']\nstone = ['피스 스톤', '스페이스 스톤', '마인드 스톤', '리얼리티 스톤', '타임 스톤', '소울 스톤', '파워 스톤']"
+        "basic_code":'''
+        character = ['라이캣', '개리', '자바독', '빙키', '뮤라', '소울곰', '대리인 No.1']
+        stone = ['피스 스톤', '스페이스 스톤', '마인드 스톤', '리얼리티 스톤', '타임 스톤', '소울 스톤', '파워 스톤']
+        '''
     },
     17: {
         "map_width": 4,
@@ -458,6 +475,85 @@ story_data = {
         "map_height": 1,
         "wall": {},
         "item": {},
-        "basic_code":"# 요리에 필요한 당근의 조건 확인\nrequired_ingredient = '당근'\nrequired_freshness = 5\nrequired_quantity = 4\n\nitems = [\n\t{\"name\": \"당근\", \"freshness\": 7, \"quantity\": 3},\n\t{\"name\": \"사과\", \"freshness\": 5, \"quantity\": 2},\n\t{\"name\": \"당근\", \"freshness\": 6, \"quantity\": 1},\n\t{\"name\": \"포도\", \"freshness\": 4, \"quantity\": 5},\n\t{\"name\": \"당근\", \"freshness\": 8, \"quantity\": 2}\n]"
+        "basic_code":'''
+        required_ingredient = ["당근", "양상추", "양파", "방울토마토"]
+        required_freshness = 5
+        required = [False, False, False, False]
+
+        items = [{"name": "당근", "freshness": 7},
+            {"name": "사과", "freshness": 5},
+            {"name": "당근", "freshness": 6},
+            {"name": "포도", "freshness": 4}, 
+            {"name": "당근", "freshness": 8}, 
+            {"name": "양상추", "freshness": 8},
+            {"name": "양파", "freshness": 2}, 
+            {"name": "방울토마토", "freshness": 5}]
+    '''
+    },
+    20: {
+        "map_width": 1,
+        "map_height": 1,
+        "wall": {},
+        "item": {},
+        "basic_code":'''
+        class Treasure:
+            # 클래스 정의
+            pass
+
+        # 인스턴스 생성
+        gold = Treasure('gold', 0)
+        diamond = Treasure('diamond', 0)
+
+        # 인스턴스 리스트
+        treasure_list = [gold, diamond]
+
+        # 각 인스턴스 출력
+        for treasure in treasure_list:
+            print(treasure)
+        '''
+    },
+    21: {
+        "map_width": 1,
+        "map_height": 1,
+        "wall": {},
+        "item": {},
+        "basic_code":'''
+        class TribeMember:
+            pass
+
+        class PortalQueue:
+            pass
+
+        tribe_members = [
+            TribeMember('member1'), 
+            TribeMember('member2'),
+            TribeMember('member3'),
+            TribeMember('member4'),
+            TribeMember('member5')
+        ]
+        portal_queue = PortalQueue()
+
+        # 부족원 인스턴스 생성 및 큐에 추가
+        for member in tribe_members:
+            portal_queue.enter_portal(member)
+
+        # 모든 부족원 이동
+        result = portal_queue.transport_all()
+        print(result)
+        '''
+    },
+    22: {
+        "map_width": 1,
+        "map_height": 1,
+        "wall": {},
+        "item": {},
+        "basic_code":'''
+        class PathRecorder:
+            # 클래스 정의
+            pass
+
+        path_recorder = PathRecorder()
+
+        '''
     }
 }

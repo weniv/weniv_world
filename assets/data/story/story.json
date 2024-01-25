@@ -98,5 +98,20 @@
         "id": 19,
         "title": "부족의 마음 사로잡기!",
         "url": "./assets/data/story/story19.md"
+    },
+    {
+        "id": 20,
+        "title": "광석 채굴!",
+        "url": "./assets/data/story/story20.md"
+    },
+    {
+        "id": 21,
+        "title": "구출하라!",
+        "url": "./assets/data/story/story21.md"
+    },
+    {
+        "id": 22,
+        "title": "좀비출현!",
+        "url": "./assets/data/story/story22.md"
     }
 ]

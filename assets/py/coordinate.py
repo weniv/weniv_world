@@ -476,6 +476,7 @@ story_data = {
         "wall": {},
         "item": {},
         "basic_code":'''
+        # 요리에 필요한 재료의 조건 확인
         required_ingredient = ["당근", "양상추", "양파", "방울토마토"]
         required_freshness = 5
         required = [False, False, False, False]

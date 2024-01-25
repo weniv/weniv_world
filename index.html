@@ -1457,7 +1457,7 @@
                         newRepl.setAttribute('auto-generate', 'true')
             # story submit
             if(evt.target.tagName == 'BUTTON' and evt.target.classList.contains('btn-submit')):
-                # 코드 저장
+                # 코드 저장 및 정답 확인
                 notebookSection = js.document.getElementById('notebookSection')
                 codeBlocks = notebookSection.querySelectorAll('py-repl')
                 code_list = []
@@ -1488,6 +1488,8 @@
                             if not any(s in check for check in check_data[key]):
                                 solution_flag = False
                                 break
+                        if check_data[key][-1] not in solution[key]:
+                            solution_flag = False
 
                     elif key=='character_data':
                         ch_solution = solution[key]

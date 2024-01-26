@@ -820,6 +820,10 @@
                         if ( 0 <= pos[0] < map_data['height'] and 0 <= pos[1] < map_data['width']):
                             item = Item(pos[0], pos[1], items[pos]['item'], items[pos]['count'])
                             item.draw()
+
+                    for mob in story_data[idx].get('mob_data',[]):
+                        add_mob(mob['x'], mob['y'], mob['mob'], mob['name'], mob['directions'])
+
                         
                 wall_container = wall.drawWall()
                 wall_data['world']= wall.wall_data
@@ -841,8 +845,8 @@
                     add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
 
                 draw_map.appendChild(wall_container)
-
-            mob_data.clear()
+            if not story_select['status']:
+                mob_data.clear()
             init_character()
                 
         @when("click", selector="#init_character")
@@ -859,7 +863,7 @@
                 'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
                 'items': {},
                 'hp':100,
-                'power':10,
+                # 'power':10,
                 'mp':100
             })
             licat = Character(x=0, y=0, name='licat', width=32, height=40,rotate=0)
@@ -883,7 +887,7 @@
                 'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
                 'items': {},
                 'hp':100,
-                'power':10,
+                # 'power':10,
                 'mp':100
             }}
             licat_data.update(update_data)
@@ -1488,8 +1492,11 @@
                             if not any(s in check for check in check_data[key]):
                                 solution_flag = False
                                 break
-                        if check_data[key][-1] not in solution[key]:
-                            solution_flag = False
+
+                        # TODO: 리스트의 경우 요소를 각각 solution[key]에 추가
+                        if len(solution[key])==1:
+                            if check_data[key][-1] not in solution[key]:
+                                solution_flag = False
 
                     elif key=='character_data':
                         ch_solution = solution[key]
@@ -1535,7 +1542,7 @@
             story_select['status'] = False
             init()
 
-        def add_mob(x, y, mob_type, name):
+        def add_mob(x, y, mob_type, name, directions=0):
             '''
             몹을 추가하는 함수
             순환 참조로 인해 이 함수만 index.html에 있음
@@ -1570,60 +1577,38 @@
                         alert_error('MobIsExist')
                         raise MobIsExist
                         
-                if mob_type == 'lion':
-                    lion = Mob(x=x, y=y, mob='lion', name = name, width=32, height=40, initHp = 250)
-                    mob_data.append(
-                        {
-                            'name': name,
-                            'mob': 'lion',
-                            'mob_obj': lion,
-                            'x': x,
-                            'y': y,
-                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
-                            'hp':250,
-                            'power':50,
-                        }
-                    )
-                    draw_ch = lion.draw()
-                    draw_map.appendChild(draw_ch)
+            
+            mob = None;
+            if mob_type=='lion':
+                mob = Mob(x=x, y=y, mob=mob_type, name=name, width=32,height=40,initHp=200)
+                mob_data.append(
+                    {
+                        'name': name,
+                        'mob': mob_type,
+                        'mob_obj': mob,
+                        'x': x,
+                        'y': y,
+                        'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
+                        'hp':200,
+                    }
+                )
+            else: 
+                mob = Mob(x=x, y=y, mob=mob_type, name=name, width=32,height=40,initHp=50)
+                mob_data.append(
+                    {
+                        'name': name,
+                        'mob': mob_type,
+                        'mob_obj': mob,
+                        'x': x,
+                        'y': y,
+                        'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
+                        'hp':50,
+                    }
+                )
+            draw_ch = mob.draw()
+            draw_map.appendChild(draw_ch)
 
-                    return lion
-                    
-                elif mob_type[:3] == 'mob':
-                    mob = Mob(x=x, y=y, mob=f'mob{mob_type[-1]}',name=name, width=32, height=40, initHp = 50)
-                    mob_data.append(
-                        {
-                            'name': name,
-                            'mob': f'mob{mob_type[-1]}',
-                            'mob_obj': mob,
-                            'x': x,
-                            'y': y,
-                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
-                            'hp':50,
-                        }
-                    )
-                    draw_ch = mob.draw()
-                    draw_map.appendChild(draw_ch)
-                    return mob
-                else:
-                    mob = Mob(x=x, y=y, mob=mob_type, name=name, width=32,height=40,initHp=50)
-                    mob_data.append(
-                        {
-                            'name': name,
-                            'mob': mob_type,
-                            'mob_obj': mob,
-                            'x': x,
-                            'y': y,
-                            'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남),
-                            'hp':50,
-                        }
-                    )
-                    draw_ch = mob.draw()
-                    draw_map.appendChild(draw_ch)
-
-                    return mob
-            else:
-                return None
+            return mob
 
         def add_ch(x, y, name):
             global character_data
@@ -1660,7 +1645,7 @@
                         'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
                         'items': {},
                         'hp':100,
-                        'power':10,
+                        # 'power':10,
                     }
                 )
             else:
@@ -1673,7 +1658,7 @@
                         'directions': 0, # 0(동, 오른쪽), 1(북), 2(서, 왼쪽), 3(남)
                         'items': {},
                         'hp':100,
-                        'power':10,
+                        # 'power':10,
                     }
                 )
             char = Character(x=x, y=y, name=name, width=32, height=40)

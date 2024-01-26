@@ -560,10 +560,35 @@ story_data = {
         '''
     },
     22: {
-        "map_width": 1,
-        "map_height": 1,
-        "wall": {},
-        "item": {},
+        "map_width": 7,
+        "map_height": 5,
+        "wall": {
+            (0.5, 0): "wall",
+            (0.5, 1): "wall",
+            (0.5, 4): "wall",
+            (0.5, 6): "wall",
+            (1.0, 2.5) : "wall",
+            (1.0, 4.5) : "wall",
+            (1.0, 5.5) : "wall",
+            (1.5, 1): "wall",
+            (1.5, 2): "wall",
+            (1.5, 5): "wall",
+            (2.0, 1.5) : "wall",
+            (2.0, 4.5) : "wall",
+            (3.0, 0.5) : "wall",
+            (3.0, 2.5) : "wall",
+            (3.0, 4.5) : "wall",
+            (3.5, 1): "wall",
+            (3.5, 4): "wall",
+            (4.0, 1.5) : "wall",
+            (4.0, 5.5) : "wall"
+            },
+        "item": {
+            (4, 6): { "item": "diamond", "count": 1 },
+            (2, 2): { "item": "hp-potion", "count": 1 },
+            (0, 6): { "item": "mp-potion", "count": 1 },
+            (1, 0): { "item": "mp-potion", "count": 1 }
+        },
         "basic_code":'''
         class PathRecorder:
             # 클래스 정의
@@ -571,6 +596,39 @@ story_data = {
 
         path_recorder = PathRecorder()
 
-        '''
+        ''',
+        "mob_data": [
+            {
+            "name": "wizard",
+            "mob": "wizard",
+            "x": 2,
+            "y": 3,
+            "directions": 3,
+            },
+            {
+            "name": "binky1",
+            "mob": "binky",
+            "x": 4,
+            "y": 0,
+            "directions": 0,
+            },
+            {
+            "name": "py1",
+            "mob": "py",
+            "x": 1,
+            "y": 5,
+            "directions": 0,
+            "hp": 50,
+            "power": 10
+            },
+            {
+            "name": "gary1",
+            "mob": "gary",
+            "x": 2,
+            "y": 6,
+            "directions": 0,
+            "hp": 50,
+            }
+        ]
     }
 }

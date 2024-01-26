@@ -136,8 +136,7 @@ story_solution = {
         },
     },
     21: {
-        "print_data":["[['당근', 6], ['당근', 7]]"],
-        "item_data": {},
+        "print_data":["모든 부족원이 안전하게 이동되었습니다."]
     },
     22: {
         "print_data":['True'],

@@ -30,7 +30,7 @@ class Character:
         height=33,
         initHp=100,
         dropRate=0.1,
-        power=10,
+        # power=10,
         initMp=100,
         rotate=0,
     ):
@@ -42,7 +42,7 @@ class Character:
         self.height = height
         self.initHp = initHp
         self.dropRate = dropRate
-        self.power = power
+        # self.power = power
         self.hp = initHp
         self.initHp = initHp
         self.mp = initMp
@@ -87,7 +87,7 @@ class Character:
                 c["directions"] = self.directions
                 c["items"] = {}
                 c["hp"] = self.hp
-                c["power"] = self.power
+                # c["power"] = self.power
                 c["mp"] = self.mp
                 finder = True
         if not finder:
@@ -99,7 +99,7 @@ class Character:
                     "directions": self.directions,
                     "items": {},
                     "hp": f"{self.hp}",
-                    "power": f"{self.power}",
+                    # "power": f"{self.power}",
                     "mp": f"{self.mp}",
                 }
             )

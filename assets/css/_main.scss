@@ -754,6 +754,19 @@ button {
             '../../assets/img/icon/icon-code-download.svg'
         );
     }
+
+    .btn-link::before {
+        display: inline-block;
+        content: '';
+        width: 2rem;
+        height: 2rem;
+        vertical-align: bottom;
+        margin-right: 0.8rem;
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-link.svg'
+        );
+    }
 }
 
 /* profile modal */

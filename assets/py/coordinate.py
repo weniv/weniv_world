@@ -585,17 +585,12 @@ story_data = {
             },
         "item": {
             (4, 6): { "item": "diamond", "count": 1 },
-            (2, 2): { "item": "hp-potion", "count": 1 },
-            (0, 6): { "item": "mp-potion", "count": 1 },
-            (1, 0): { "item": "mp-potion", "count": 1 }
         },
         "basic_code":'''
         class PathRecorder:
             # 클래스 정의
             pass
-
         path_recorder = PathRecorder()
-
         ''',
         "mob_data": [
             {

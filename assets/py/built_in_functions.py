@@ -86,7 +86,7 @@ def say(text="", character=None, speech_time=5000):
         else:
             if len(character_data) and character_data[0]["character_obj"] != None:
                 character_data[0]["character_obj"].say(text, speech_time)
-                say_data.append(text)
+                say_data.append(str(text))
             else:
                 alert_error("CharacterIsNotExist")
                 raise CharacterIsNotExist

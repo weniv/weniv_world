@@ -108,7 +108,6 @@ story_solution = {
             "x": 2,
             "y": 4 
         },
-        "item": {'hp-potion':22}
     },
     16: {
         "print_data":["1. 라이캣 : 피스 스톤", "2. 개리 : 스페이스 스톤","3. 자바독 : 마인드 스톤","4. 빙키 : 리얼리티 스톤","5. 뮤라 : 타임 스톤","6. 소울곰 : 소울 스톤","7. 대리인 No.1 : 파워 스톤"],
@@ -139,7 +138,14 @@ story_solution = {
         "print_data":["모든 부족원이 안전하게 이동되었습니다."]
     },
     22: {
-        "print_data":['True'],
+        "character_data": {
+            "character": "licat",
+            "x": 0,
+            "y": 0 
+        },
+        "item_data": {},
+        "item":{"diamond":1}
+        
     }}
 
 

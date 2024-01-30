@@ -925,6 +925,22 @@ button {
     mask-size: 100%;
     mask-repeat: no-repeat;
     mask-position: center center; }
+  .kebab-menu .btn-link::before {
+    display: inline-block;
+    content: '';
+    width: 2rem;
+    height: 2rem;
+    vertical-align: bottom;
+    margin-right: 0.8rem;
+    background: var(--ColorGrayLv3);
+    -webkit-mask-image: url("../../assets/img/icon/icon-link.svg");
+    -webkit-mask-size: 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center center;
+    mask-image: url("../../assets/img/icon/icon-link.svg");
+    mask-size: 100%;
+    mask-repeat: no-repeat;
+    mask-position: center center; }
 
 /* profile modal */
 .profile-modal {

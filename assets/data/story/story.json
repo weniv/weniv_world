@@ -58,5 +58,60 @@
         "id": 11,
         "title": "병원 설립!",
         "url": "./assets/data/story/story11.md"
+    },
+    {
+        "id": 12,
+        "title": "왕이 되기로 한 라이캣!",
+        "url": "./assets/data/story/story12.md"
+    },
+    {
+        "id": 13,
+        "title": "암호해독",
+        "url": "./assets/data/story/story13.md"
+    },
+    {
+        "id": 14,
+        "title": "동료를 모아!",
+        "url": "./assets/data/story/story14.md"
+    },
+    {
+        "id": 15,
+        "title": "마지막 관문 앞으로!",
+        "url": "./assets/data/story/story15.md"
+    },
+    {
+        "id": 16,
+        "title": "원석을 획득한 라이캣",
+        "url": "./assets/data/story/story16.md"
+    },
+    {
+        "id": 17,
+        "title": "라이캣의 마음,생선 잡기",
+        "url": "./assets/data/story/story17.md"
+    },
+    {
+        "id": 18,
+        "title": "상한 당근을 골라내자!",
+        "url": "./assets/data/story/story18.md"
+    },
+    {
+        "id": 19,
+        "title": "부족의 마음 사로잡기!",
+        "url": "./assets/data/story/story19.md"
+    },
+    {
+        "id": 20,
+        "title": "광석 채굴!",
+        "url": "./assets/data/story/story20.md"
+    },
+    {
+        "id": 21,
+        "title": "구출하라!",
+        "url": "./assets/data/story/story21.md"
+    },
+    {
+        "id": 22,
+        "title": "좀비출현!",
+        "url": "./assets/data/story/story22.md"
     }
 ]

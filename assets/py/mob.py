@@ -42,7 +42,7 @@ class Mob:
         self.height = height
         self.initHp = initHp
         self.dropRate = dropRate
-        self.power = power
+        # self.power = power
         self.hp = initHp
         self.img = f"assets/img/characters/{mob}-0.png"
         self.running_time = 0
@@ -84,7 +84,7 @@ class Mob:
                 m["y"] = self.y
                 m["directions"] = self.directions
                 m["hp"] = self.hp
-                m["power"] = self.power
+                # m["power"] = self.power
                 finder = True
         if not finder:
             mob_data.append(
@@ -95,7 +95,7 @@ class Mob:
                     "y": self.y,
                     "directions": self.directions,
                     "hp": self.hp,
-                    "power": self.power,
+                    # "power": self.power,
                 }
             )
         return mob

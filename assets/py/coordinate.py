@@ -105,7 +105,7 @@ story_data = {
     1: {
         "map_width": 5,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
         },
         "item": {
             (0, 1): {"item": "fish-1", "count": 1},
@@ -118,7 +118,7 @@ story_data = {
     2: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 0): "wall",
             (1.5, 2): "wall",
             (2.0, 0.5): "wall",
@@ -136,7 +136,7 @@ story_data = {
     3: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 1): "wall",
             (0.5, 2): "wall",
             (0.5, 3): "wall",
@@ -163,7 +163,7 @@ story_data = {
     4: {
         "map_width": 5,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
         },
         "item": {
             (0, 1): {"item": "fish-1", "count": 2},
@@ -175,7 +175,7 @@ story_data = {
     5: {
         "map_width": 1,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
         },
         "item": {},
         "basic_code":"공지문 = '대표 라이캣, 팀장 뮤라, 팀 리더 하티'"
@@ -184,7 +184,7 @@ story_data = {
     6: {
         "map_width": 5,
         "map_height": 1,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
         },
         "item": {
             (0, 0): {"item": "goldbar", "count": 2},
@@ -198,7 +198,7 @@ story_data = {
     7: {
         "map_width": 5,
         "map_height": 2,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 4): "wall",
             (1.0, 3.5): "door",
         },
@@ -211,7 +211,7 @@ story_data = {
     8: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 1): "wall",
             (0.5, 2): "wall",
             (0.5, 3): "wall",
@@ -247,7 +247,7 @@ story_data = {
     9: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (1.0, 0.5): "wall",
             (1.0, 1.5): "wall",
             (1.0, 2.5): "wall",
@@ -277,7 +277,7 @@ story_data = {
     10: {
         "map_width": 2,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 0): "wall",
             (1.5, 1): "wall",
             (2.5, 0): "wall",
@@ -298,7 +298,7 @@ story_data = {
     11: {
         "map_width": 5,
         "map_height": 5,
-        "wall": {  # (x, y): 'wall', 'fence', 'door'
+        "wall": {  # (x, y): "wall", 'fence', 'door'
             (0.5, 0): "wall",
             (0.5, 2): "wall",
             (1.5, 1): "wall",
@@ -322,5 +322,313 @@ story_data = {
             (4, 2): {"item": "diamond", "count": 1},
             (4, 4): {"item": "goldbar", "count": 1},
         },
+    }, 
+    # 12번 스토리
+    12: {
+        "map_width": 5,
+        "map_height": 5,
+        "wall": {  
+            (0.0, 0.5):	"wall",
+            (0.0, 2.5):	"wall",
+            (1.0, 0.5):	"wall",
+            (1.0, 1.5):	"wall",
+            (1.0, 2.5):	"wall",
+            (1.0, 3.5):	"wall",
+            (2.0, 0.5):	"wall",
+            (2.0, 1.5):	"wall",
+            (2.0, 2.5):	"wall",
+            (2.0, 3.5):	"wall",
+            (3.0, 0.5):	"wall",
+            (3.0, 1.5):	"wall",
+            (3.0, 2.5):	"wall",
+            (3.0, 3.5):	"wall",
+            (4.0, 1.5):	"wall",
+            (4.0, 3.5):	"wall"
+        },
+        "item": {
+                (1, 0): { "item": "fish-2", "count": 1 },
+                (3, 1): { "item": "fish-2", "count": 1 },
+                (2, 4): { "item": "fish-2", "count": 1 },
+                (4, 0): { "item": "hp-potion", "count": 1 },
+                (1, 3): { "item": "hp-potion", "count": 1 },
+                (0, 3): { "item": "diamond", "count": 1 },
+                (2, 2): { "item": "diamond", "count": 1 },
+                (3, 4): { "item": "fish-3", "count": 1 },
+                (4, 4): { "item": "goldbar", "count": 1 },
+                (2, 1): { "item": "goldbar", "count": 1 },
+                (5, 0): { "item": "fish-3", "count": 3 }
+        },
     },
+    13: {
+        "map_width": 1,
+        "map_height": 1,
+        "wall": {  # (x, y): "wall", 'fence', 'door'
+        },
+        "item": {
+        },
+        "basic_code":'''
+        s = [
+            '   + -- + - + -   ',
+            '   + --- + - +   ',
+            '   + -- + - + -   ',
+            '   + - + - + - +   '
+        ]
+        '''
+    },
+    14: {
+        "map_width": 1,
+        "map_height": 1,
+        "wall": {  # (x, y): "wall", 'fence', 'door'
+        },
+        "item": {
+        },
+        "basic_code":'''
+        # 튜플로 구성된 동료 정보
+        crew_info = [
+            ('자바독', 95, 'Python이 궁금한 평생 JAVA만 해온 JAVA독. Python을 무기로 가지고 있는 라이캣이 동료가 되라는 말에 호기심을 느껴 작은 시험을 냈고 라이캣이 지혜를 발휘하여 문제를 풀자 라이캣의 동료가 됨. Python으로 여러가지를 해보고자 함.'),
+            ('개리', 85, '알고리즘 보물을 찾으러가는 배에서 만난 개리. 남는 자리에 누가 앉을 것인지에 대해 논의하던 중 페이지 교체 알고리즘으로 약자를 배려하는 아이디어를 낸 라이캣에 감복하여 동료가 되었음.'),
+            ('소울곰', 1, '파이와 썬의 심복인 소울곰. NPC로 무한 동력으로 움직이는 특징을 가지고 있다. 성산일출봉에서 파이와 썬의 마지막 관문을 지키는 지킴이. 카페 주인으로 위장하고 있으나 단번에 NPC인 것을 알아봄.')
+        ]
+        '''
+    },
+    15: {
+        "map_width": 5,
+        "map_height": 5,
+        "wall": { 
+            (0.5, 0.0): "wall",
+            (0.5, 2.0): "wall",
+            (1.0, 0.5): "wall",
+            (1.0, 1.5): "wall",
+            (1.0, 3.5): "wall",
+            (1.5, 0.0): "wall",
+            (1.5, 3.0): "wall",
+            (1.5, 4.0): "wall",
+            (2.0, 1.5): "wall",
+            (2.0, 3.5): "wall",
+            (2.5, 2.0): "wall",
+            (2.5, 3.0): "wall",
+            (3.0, 0.5): "wall",
+            (3.5, 0.0): "wall",
+            (3.5, 2.0): "wall",
+            (3.5, 3.0): "wall",
+            (4.0, 1.5): "wall",
+            (4.0, 3.5): "wall"
+        },
+        "item": {
+            (1, 1): { "item": "hp-potion", "count": 4 },
+            (0, 2): { "item": "hp-potion", "count": 3 },
+            (1, 3): { "item": "hp-potion", "count": 2 },
+            (0, 4): { "item": "hp-potion", "count": 1 },
+            (2, 0): { "item": "hp-potion", "count": 4 },
+            (3, 1): { "item": "hp-potion", "count": 6 },
+            (3, 0): { "item": "mp-potion", "count": 3 },
+            (4, 1): { "item": "hp-potion", "count": 4 },
+            (3, 2): { "item": "hp-potion", "count": 7 },
+            (2, 4): { "item": "hp-potion", "count": 5 },
+            (4, 4): { "item": "hp-potion", "count": 4 },
+            (2, 3): { "item": "mp-potion", "count": 2 },
+            (5, 0): { "item": "hp-potion", "count": 9 }
+            },
+        "basic_code":"# 라이캣이 먹은 포션의 수\npotion_counts = [0, 0, 0, 0]"
+    },
+    16: {
+        "map_width": 1,
+        "map_height": 1,
+        "wall": { 
+        },
+        "item": {
+        },
+        "basic_code":'''
+        character = ['라이캣', '개리', '자바독', '빙키', '뮤라', '소울곰', '대리인 No.1']
+        stone = ['피스 스톤', '스페이스 스톤', '마인드 스톤', '리얼리티 스톤', '타임 스톤', '소울 스톤', '파워 스톤']
+        '''
+    },
+    17: {
+        "map_width": 4,
+        "map_height": 3,
+        "wall": {  # (x, y): "wall", 'fence', 'door'
+            (0.5, 0): "wall",
+            (0.5, 1): "wall",
+            (0.5, 2): "wall",
+            (1.5, 1): "wall",
+            (1.5, 2): "wall",
+            (1.5, 3): "wall"
+        },
+        "item": {
+            (2, 0): { "item": "fish-1", "count": 3 },
+            (0, 2): { "item": "fish-2", "count": 1 },
+            (1, 3): { "item": "fish-2", "count": 2 },
+            (2, 2): { "item": "fish-3", "count": 3 },
+            (1, 0): { "item": "fish-1", "count": 4 },
+            (0, 3): { "item": "fish-3", "count": 2 }
+            }
+    },
+    18: {
+        "map_width": 1,
+        "map_height": 1,
+        "wall": {},
+        "item": {},
+        "basic_code":"items = [['당근', 3], ['사과', 5], ['당근', 6], ['포도', 4], ['당근', 7]]"
+    },
+    19: {
+        "map_width": 1,
+        "map_height": 1,
+        "wall": {},
+        "item": {},
+        "basic_code":'''
+        # 요리에 필요한 재료의 조건 확인
+        required_ingredient = ["당근", "양상추", "양파", "방울토마토"]
+        required_freshness = 5
+        required = [False, False, False, False]
+
+        items = [{"name": "당근", "freshness": 7},
+            {"name": "사과", "freshness": 5},
+            {"name": "당근", "freshness": 6},
+            {"name": "포도", "freshness": 4}, 
+            {"name": "당근", "freshness": 8}, 
+            {"name": "양상추", "freshness": 8},
+            {"name": "양파", "freshness": 2}, 
+            {"name": "방울토마토", "freshness": 5}]
+    '''
+    },
+    20: {
+        "map_width": 4,
+        "map_height": 4,
+        "wall": {
+                (0.5, 1.0): "wall",
+                (0.5, 2.0): "wall",
+                (1.0, 0.5): "wall",
+                (1.0, 2.5): "wall",
+                (2.0, 0.5): "wall",
+                (2.0, 2.5): "wall",
+                (2.5, 1.0): "wall",
+                (2.5, 2.0): "wall"},
+        "item": {
+            (0, 3): { "item": "diamond", "count": 6 },
+            (0, 1): { "item": "goldbar", "count": 2 },
+            (1, 0): { "item": "diamond", "count": 1 },
+            (1, 3): { "item": "goldbar", "count": 7 },
+            (2, 0): { "item": "goldbar", "count": 1 },
+            (3, 2): { "item": "diamond", "count": 4 },
+            (3, 3): { "item": "diamond", "count": 9 }
+        },
+        "basic_code":'''
+        class Treasure:
+            # 클래스 정의
+            pass
+
+        # 인스턴스 생성
+        gold = Treasure('gold', 0)
+        diamond = Treasure('diamond', 0)
+
+        # 인스턴스 리스트
+        treasure_list = [gold, diamond]
+
+        # 각 인스턴스 출력
+        for treasure in treasure_list:
+            print(treasure)
+        '''
+    },
+    21: {
+        "map_width": 1,
+        "map_height": 1,
+        "wall": {},
+        "item": {},
+        "basic_code":'''
+        class TribeMember:
+            pass
+
+        class PortalQueue:
+            pass
+
+        tribe_members = [
+            TribeMember('member1'), 
+            TribeMember('member2'),
+            TribeMember('member3'),
+            TribeMember('member4'),
+            TribeMember('member5')
+        ]
+        portal_queue = PortalQueue()
+
+        # 부족원 인스턴스 생성 및 큐에 추가
+        for member in tribe_members:
+            portal_queue.enter_portal(member)
+
+        # 모든 부족원 이동
+        result = portal_queue.transport_all()
+        print(result)
+        '''
+    },
+    22: {
+        "map_width": 7,
+        "map_height": 5,
+        "wall": {
+            (0.5, 0): "wall",
+            (0.5, 1): "wall",
+            (0.5, 4): "wall",
+            (0.5, 6): "wall",
+            (1.0, 2.5) : "wall",
+            (1.0, 4.5) : "wall",
+            (1.0, 5.5) : "wall",
+            (1.5, 1): "wall",
+            (1.5, 2): "wall",
+            (1.5, 5): "wall",
+            (2.0, 1.5) : "wall",
+            (2.0, 4.5) : "wall",
+            (3.0, 0.5) : "wall",
+            (3.0, 2.5) : "wall",
+            (3.0, 4.5) : "wall",
+            (3.5, 1): "wall",
+            (3.5, 4): "wall",
+            (4.0, 1.5) : "wall",
+            (4.0, 5.5) : "wall"
+            },
+        "item": {
+            (4, 6): { "item": "diamond", "count": 1 },
+            (2, 2): { "item": "hp-potion", "count": 1 },
+            (0, 6): { "item": "mp-potion", "count": 1 },
+            (1, 0): { "item": "mp-potion", "count": 1 }
+        },
+        "basic_code":'''
+        class PathRecorder:
+            # 클래스 정의
+            pass
+
+        path_recorder = PathRecorder()
+
+        ''',
+        "mob_data": [
+            {
+            "name": "wizard",
+            "mob": "wizard",
+            "x": 2,
+            "y": 3,
+            "directions": 3,
+            },
+            {
+            "name": "binky1",
+            "mob": "binky",
+            "x": 4,
+            "y": 0,
+            "directions": 0,
+            },
+            {
+            "name": "py1",
+            "mob": "py",
+            "x": 1,
+            "y": 5,
+            "directions": 0,
+            "hp": 50,
+            "power": 10
+            },
+            {
+            "name": "gary1",
+            "mob": "gary",
+            "x": 2,
+            "y": 6,
+            "directions": 0,
+            "hp": 50,
+            }
+        ]
+    }
 }

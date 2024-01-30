@@ -432,9 +432,9 @@ const statusObserver = new MutationObserver((mutationsList) => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
             mutation.addedNodes.forEach((addedNode) => {
                 if (
-                    addedNode.classList.contains('map-container') ||
-                    addedNode.classList.contains('character') ||
-                    addedNode.classList.contains('mob')
+                    addedNode.classList?.contains('map-container') ||
+                    addedNode.classList?.contains('character') ||
+                    addedNode.classList?.contains('mob')
                 ) {
                     const statusContainer =
                         addedNode.querySelectorAll('.status-item');
@@ -557,7 +557,7 @@ window.addEventListener('click', (e) => {
 const certifList = certifWrap.querySelector('.certif-list');
 const storyChapter = {
     입문: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-    // 기초: [12, 13, 14, 15, 16, 17, 18, 19, 20],
+    기초: [12, 13, 14, 15, 16, 17, 18, 19],
 };
 const setCertifItem = () => {
     Object.keys(storyChapter).forEach((chapter) => {

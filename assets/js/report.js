@@ -70,7 +70,8 @@ const getTable = (chartData) => {
                 '◻︎'.repeat(10 - chartData[key] / 10)
             }|${chartData[key]}|\n`;
         }
-        return resolve(result);
+        // return resolve(result);
+        return resolve('');
     });
 };
 
@@ -108,14 +109,13 @@ btnDownload.addEventListener('click', (e) => {
                 const result =
                     localStorage.getItem(`${id}_check`) === '정답' ? 'Y' : 'N';
                 // evaluation 항목에 따라 점수를 부여한다.
-                if (result == 'Y') {
+                if (result == 'Y' && story['evaluation']) {
                     for (const key of story['evaluation']) {
                         score[key] += 10;
                     }
                 }
-                const storyData = `## 문제 ${id}번\n\n* 평가 항목 : ${
-                    story['evaluation'] || '-'
-                }\n* 제출 시간 : ${
+                // const storyData = `## 문제 ${id}번\n\n* 평가 항목 : ${
+                const storyData = `## 문제 ${id}번\n\n* 제출 시간 : ${
                     localStorage.getItem(`${id}_time`) || '-'
                 }\n* 통과 여부 : ${result}\n\n${getCode(id)}\n\n`;
 

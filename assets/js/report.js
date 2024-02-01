@@ -129,7 +129,7 @@ btnDownload.addEventListener('click', (e) => {
 
             // TODO: 학번과 이름을 입력받아 파일명을 만들어준다.
             const userName =
-                JSON.parse(localStorage.getItem('profile'))?.name || '익명';
+                JSON.parse(localStorage.getItem('profile'))?.name || '[이름]';
             if (!!reportData) {
                 const fileName = `보고서`;
                 const today = new Date();

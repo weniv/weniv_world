@@ -44,7 +44,7 @@ class Mob:
         self.dropRate = dropRate
         # self.power = power
         self.hp = initHp
-        self.img = f"assets/img/characters/{mob}-0.png"
+        self.img = f"assets/img/characters/{mob}-0.webp"
         self.running_time = 0
         self.rotate = rotate
 
@@ -57,7 +57,7 @@ class Mob:
         mob.classList.add(f"{self.mob}")
         mob.setAttribute("id", self.name)
         mob.style.backgroundImage = (
-            f'url("assets/img/characters/{self.mob}-{self.directions}.png")'
+            f'url("assets/img/characters/{self.mob}-{self.directions}.webp")'
         )
         mob.style.transition = f"all {running_speed}s"
         # mob.style.top = f"{self.x * 100 + 2 + (50 - 32)}px"
@@ -258,20 +258,12 @@ class Mob:
         c = js.document.querySelector(f"#{self.name}.mob")
         c.style.transformOrigin = "center center"
 
-        if directions == 0:
+        if directions == 3:
+            c.style.backgroundImage = f'url("assets/img/characters/{self.mob}-0.webp")'
+        else:
             c.style.backgroundImage = (
-                f'url("assets/img/characters/{self.mob}-{directions+1}.png")'
+                f'url("assets/img/characters/{self.mob}-{directions+1}.webp")'
             )
-        elif directions == 1:
-            c.style.backgroundImage = (
-                f'url("assets/img/characters/{self.mob}-{directions+1}.png")'
-            )
-        elif directions == 2:
-            c.style.backgroundImage = (
-                f'url("assets/img/characters/{self.mob}-{directions+1}.png")'
-            )
-        elif directions == 3:
-            c.style.backgroundImage = f'url("assets/img/characters/{self.mob}-0.png")'
 
     def init_time(self):
         self.running_time = 0

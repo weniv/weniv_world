@@ -1737,7 +1737,7 @@ button {
     height: 4.2rem;
     border-radius: 10px;
     border: 1px solid var(--ColorGrayLv2);
-    background: var(--ColorBackground) url("../../assets/img/characters/lion-2.png") no-repeat top -0.5rem left -1rem;
+    background: var(--ColorBackground) url("../../assets/img/characters/lion-2.webp") no-repeat top -0.5rem left -1rem;
     box-sizing: border-box;
     cursor: pointer; }
   .select-mobs label.select {
@@ -1750,13 +1750,13 @@ button {
     outline: 2px solid var(--ColorPrimary);
     border: transparent; }
   .select-mobs input#py + label {
-    background: var(--ColorBackground) url("../../assets/img/characters/py-2.png") no-repeat top -0.5rem left -1rem; }
+    background: var(--ColorBackground) url("../../assets/img/characters/py-2.webp") no-repeat top -0.5rem left -1rem; }
   .select-mobs input#binky + label {
-    background: var(--ColorBackground) url("../../assets/img/characters/binky-2.png") no-repeat top -0.5rem left -1rem; }
+    background: var(--ColorBackground) url("../../assets/img/characters/binky-2.webp") no-repeat top -0.5rem left -1rem; }
   .select-mobs input#gary + label {
-    background: var(--ColorBackground) url("../../assets/img/characters/gary-2.png") no-repeat top -0.5rem left -1rem; }
+    background: var(--ColorBackground) url("../../assets/img/characters/gary-2.webp") no-repeat top -0.5rem left -1rem; }
   .select-mobs input#wizard + label {
-    background: var(--ColorBackground) url("../../assets/img/characters/wizard-2.png") no-repeat top -0.5rem left -1rem; }
+    background: var(--ColorBackground) url("../../assets/img/characters/wizard-2.webp") no-repeat top -0.5rem left -1rem; }
 
 /* map */
 .world-map {

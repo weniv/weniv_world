@@ -294,7 +294,8 @@
         border-radius: 10px;
         border: 1px solid var(--ColorGrayLv2);
         background: var(--ColorBackground)
-            url('../../assets/img/characters/lion-2.png') no-repeat top -0.5rem left -1rem;
+            url('../../assets/img/characters/lion-2.webp') no-repeat top -0.5rem
+            left -1rem;
         box-sizing: border-box;
         cursor: pointer;
     }
@@ -314,23 +315,24 @@
 
     input#py + label {
         background: var(--ColorBackground)
-            url('../../assets/img/characters/py-2.png') no-repeat top -0.5rem left -1rem;
+            url('../../assets/img/characters/py-2.webp') no-repeat top -0.5rem left -1rem;
     }
 
     input#binky + label {
         background: var(--ColorBackground)
-            url('../../assets/img/characters/binky-2.png') no-repeat top -0.5rem
+            url('../../assets/img/characters/binky-2.webp') no-repeat top -0.5rem
             left -1rem;
     }
 
     input#gary + label {
         background: var(--ColorBackground)
-            url('../../assets/img/characters/gary-2.png') no-repeat top -0.5rem left -1rem;
+            url('../../assets/img/characters/gary-2.webp') no-repeat top -0.5rem
+            left -1rem;
     }
 
     input#wizard + label {
         background: var(--ColorBackground)
-            url('../../assets/img/characters/wizard-2.png') no-repeat top -0.5rem
+            url('../../assets/img/characters/wizard-2.webp') no-repeat top -0.5rem
             left -1rem;
     }
 }

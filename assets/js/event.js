@@ -367,10 +367,10 @@ const preloadImage = (imgList) => {
 };
 // 라이캣 이미지 프리로드
 preloadImage([
-    './assets/img/characters/licat-0.png',
-    './assets/img/characters/licat-1.png',
-    './assets/img/characters/licat-2.png',
-    './assets/img/characters/licat-3.png',
+    './assets/img/characters/licat-0.webp',
+    './assets/img/characters/licat-1.webp',
+    './assets/img/characters/licat-2.webp',
+    './assets/img/characters/licat-3.webp',
     './assets/img/icon/icon-alert-circle.svg',
 ]);
 

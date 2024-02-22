@@ -331,7 +331,7 @@ def on_item(character=None):
 #     주인공 캐릭터의 이미지를 바꾸는 함수
 #     '''
 #     character = js.document.querySelector(".character")
-#     character.style.backgroundImage = f'url("assets/img/characters/lion.png")'
+#     character.style.backgroundImage = f'url("assets/img/characters/lion.webp")'
 
 # 이벤트 처리를 위해 index.html에 추가
 # def submit():

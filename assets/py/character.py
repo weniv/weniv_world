@@ -47,7 +47,7 @@ class Character:
         self.initHp = initHp
         self.mp = initMp
         self.initMp = initMp
-        self.img = f"assets/img/characters/{name}-0.png"
+        self.img = f"assets/img/characters/{name}-0.webp"
         self.running_time = 0
         self.rotate = rotate
 
@@ -59,7 +59,7 @@ class Character:
         character.setAttribute("class", "character")
         character.classList.add(f"{self.name}")
         character.style.backgroundImage = (
-            f'url("assets/img/characters/{self.name}-{self.directions}.png")'
+            f'url("assets/img/characters/{self.name}-{self.directions}.webp")'
         )
         character.style.transition = f"all {running_speed}s"
         # character.style.width = f"{self.width}px"
@@ -299,20 +299,12 @@ class Character:
         c = js.document.querySelector(f".{self.name}")
         c.style.transformOrigin = "center center"
 
-        if directions == 0:
+        if directions == 3:
+            c.style.backgroundImage = f'url("assets/img/characters/{self.name}-0.webp")'
+        else:
             c.style.backgroundImage = (
-                f'url("assets/img/characters/{self.name}-{directions+1}.png")'
+                f'url("assets/img/characters/{self.name}-{directions+1}.webp")'
             )
-        elif directions == 1:
-            c.style.backgroundImage = (
-                f'url("assets/img/characters/{self.name}-{directions+1}.png")'
-            )
-        elif directions == 2:
-            c.style.backgroundImage = (
-                f'url("assets/img/characters/{self.name}-{directions+1}.png")'
-            )
-        elif directions == 3:
-            c.style.backgroundImage = f'url("assets/img/characters/{self.name}-0.png")'
 
     def attack(self, skill="claw-yellow"):
         self.running_time += 1000 * running_speed

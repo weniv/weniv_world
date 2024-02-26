@@ -1223,8 +1223,7 @@ button {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: default; }
+  justify-content: center; }
   .btn-download-certif::before {
     content: '';
     width: 1.9rem;

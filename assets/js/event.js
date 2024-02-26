@@ -474,7 +474,8 @@ const initProfile = () => {
         profileImages.forEach((profileImage) => {
             profileImage.src = profile?.img.replace(window.location.origin, '');
         });
-        profileName.innerText = profile?.name || '이름을 입력하세요';
+        profileName.innerHTML =
+            profile?.name || '프로필 편집을 눌러<br>이름을 입력하세요';
         inpProfileName.value = profile?.name;
     }
 };
@@ -500,7 +501,8 @@ const changeProfile = (e) => {
             name: inpProfileName.value,
         }),
     );
-    profileName.innerText = inpProfileName.value || '이름을 입력하세요';
+    profileName.innerHTML =
+        inpProfileName.value || '프로필 편집을 눌러<br>이름을 입력하세요';
     const profileMenuImg = document.querySelector('button .profile-img');
     profileMenuImg.src = profileImage.src;
 };

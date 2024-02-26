@@ -596,7 +596,7 @@ const createCertifImg = (chapter) => {
 
         // 이름이 비어있는 경우 하이픈 표시
         const localData = localStorage.getItem('profile');
-        const name = JSON.parse(localData).name || '-';
+        const name = JSON.parse(localData)?.name || '-';
 
         ctx.font = '400 74px pretendard';
         ctx.fillStyle = '#3a72ff';

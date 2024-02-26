@@ -474,7 +474,8 @@ const initProfile = () => {
         profileImages.forEach((profileImage) => {
             profileImage.src = profile?.img.replace(window.location.origin, '');
         });
-        profileName.innerText = profile?.name;
+        profileName.innerHTML =
+            profile?.name || '프로필 편집을 눌러<br>이름을 입력하세요';
         inpProfileName.value = profile?.name;
     }
 };
@@ -500,7 +501,8 @@ const changeProfile = (e) => {
             name: inpProfileName.value,
         }),
     );
-    profileName.innerText = inpProfileName.value;
+    profileName.innerHTML =
+        inpProfileName.value || '프로필 편집을 눌러<br>이름을 입력하세요';
     const profileMenuImg = document.querySelector('button .profile-img');
     profileMenuImg.src = profileImage.src;
 };
@@ -570,11 +572,60 @@ const setCertifItem = () => {
         <div class="progress-bar">
             <div class="progress-bar-inner"></div>
         </div>
-        <button class="btn-download-certif" disabled><span class="sr-only">인증서 다운로드</span></button>
+        <button class="btn-download-certif"><span class="sr-only">인증서 다운로드</span></button>
         `;
+        li.querySelector('.btn-download-certif').addEventListener(
+            'click',
+            () => {
+                createCertifImg(chapter);
+            },
+        );
         certifList.append(li);
     });
 };
+
+const createCertifImg = (chapter) => {
+    const img = new Image();
+    img.src = `./assets/img/certif-${chapter}.jpg`;
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+
+        // 이름이 비어있는 경우 하이픈 표시
+        const localData = localStorage.getItem('profile');
+        const name = JSON.parse(localData).name || '-';
+
+        ctx.font = '400 74px pretendard';
+        ctx.fillStyle = '#3a72ff';
+        ctx.textAlign = 'center';
+        ctx.fillText(name, canvas.width / 2, 570);
+
+        const current = new Date();
+        const currentTime = `${current.getFullYear()}.${
+            current.getMonth() + 1 < 10 ? '0' : ''
+        }${current.getMonth() + 1}.${
+            current.getDate() < 10 ? '0' : ''
+        }${current.getDate()}`;
+
+        //로컬스토리지의 값을 가져오지 못하는 경우 현재 시간으로 대체
+        const date =
+            localStorage.getItem(`${chapter}_certif_time`) || currentTime;
+
+        ctx.font = '400 36px pretendard';
+        ctx.fillStyle = 'black';
+        ctx.fillText(date, 1340, 1000);
+
+        const certif = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = certif;
+        a.download = `${chapter}_인증서.png`;
+        a.click();
+    };
+};
+
 const updateCertifItem = () => {
     const certifItems = certifList.querySelectorAll('.certif-item');
     Object.entries(storyChapter).forEach(([key, value], index) => {

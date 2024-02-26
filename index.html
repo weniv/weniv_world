@@ -47,6 +47,7 @@
 
 
     <!-- JavaScript -->
+    <script src="./assets/js/utils.js"></script>
     <script src="./assets/js/event.js" defer></script>
     <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/resizer.js" defer></script>
@@ -97,11 +98,11 @@
                 </li>
                 <li>
                     <button type="button" class="button-before btn-certif show-tooltip " name="진행률">
-                        <span class="sr-only">진행률
+                        <span class="sr-only">인증서 보기
                         </span>
                     </button>
                     <section class="certif-wrap">
-                        <h2>진행률 보기</h2>
+                        <h2>인증서 다운로드</h2>
                         <ul class="certif-list">
                         </ul>
                         <button class="btn-close"><span class="sr-only">모달 닫기</span></button>
@@ -133,7 +134,7 @@
                         
                         <div class="profile-view active">
                             <div class="info-prof">
-                                <p class="txt-name">사용자</p>
+                                <p class="txt-name">프로필 편집을 눌러<br>이름을 입력하세요</p>
                                 <!-- <p class="txt-level">Lv. 32</p> -->
                             </div>
                             <div class="cont-btns">
@@ -144,7 +145,7 @@
                         <div class="profile-edit ">
                             <label for="profile-name" class="labl-name">
                                 내 별명
-                                <input type="text" maxlength="12" name="profile-name" id="profile-name" class="inp-name" >
+                                <input type="text" maxlength="8" name="profile-name" id="profile-name" class="inp-name" required >
                             </label>
                             <div class="btn-cont">
                                 <button class="btn-confirm">편집</button>
@@ -1482,6 +1483,11 @@
                     'mob_data': mob_data,
                     'code':code_list
                 }
+                # 인증서 날짜 확인용
+                storyChapter = {
+                    '입문': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+                    '기초': [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+                };
 
                 solution_flag = True
                 solution = story_solution[story_select['index']]
@@ -1528,6 +1534,19 @@
                     liElem = evt.target.closest('li')
                     liElem.classList.add('submit')
                     show_modal_alert('정답입니다.', 'success')
+
+                    # solution index가 있는 리스트에 따라서 전체 제출여부를 확인
+                    # storyChatper의 value를 순회하면서 story_select['index']가 있는지 호가인
+                    for chapter in storyChapter:
+                        if story_select['index'] in storyChapter[chapter]:
+                            chapter_list = storyChapter[chapter]
+                            for idx in chapter_list:
+                                if js.localStorage.getItem(f"{idx}_check") != "정답":
+                                    return none
+                            if not (js.localStorage.getItem(f"{chapter}_certif_time")):
+                                show_modal_alert(f'{chapter} 챕터의 모든 문제를 풀었습니다.\n인증서를 다운받을 수 있습니다.', 'success')
+                                js.localStorage.setItem(f"{chapter}_certif_time",datetime.now().strftime('%Y.%m.%d'))
+                            return None
                 else:
                     show_modal_alert('오답입니다.')
         @when("click", selector=".btn-story")
@@ -1779,8 +1798,6 @@
         }
         input.click();
     }
-
-
     </script>
 </body>
 </html>

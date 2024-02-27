@@ -47,7 +47,6 @@
 
 
     <!-- JavaScript -->
-    <script src="./assets/js/utils.js"></script>
     <script src="./assets/js/event.js" defer></script>
     <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/resizer.js" defer></script>
@@ -1542,7 +1541,7 @@
                             chapter_list = storyChapter[chapter]
                             for idx in chapter_list:
                                 if js.localStorage.getItem(f"{idx}_check") != "정답":
-                                    return none
+                                    return None
                             if not (js.localStorage.getItem(f"{chapter}_certif_time")):
                                 show_modal_alert(f'{chapter} 챕터의 모든 문제를 풀었습니다.\n인증서를 다운받을 수 있습니다.', 'success')
                                 js.localStorage.setItem(f"{chapter}_certif_time",datetime.now().strftime('%Y.%m.%d'))

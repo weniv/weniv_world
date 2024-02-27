@@ -21,58 +21,59 @@ const getCode = (id) => {
     return codeText ? codeText : '```py\n\n```';
 };
 
-const getChart = (chartData) => {
-    return new Promise((resolve) => {
-        const canvas = document.createElement('canvas');
-        canvas.setAttribute('id', 'chart');
-        const ctx = canvas.getContext('2d');
-        ctx.canvas.width = 800;
+// const getChart = (chartData) => {
+//     return new Promise((resolve) => {
+//         const canvas = document.createElement('canvas');
+//         canvas.setAttribute('id', 'chart');
+//         const ctx = canvas.getContext('2d');
+//         ctx.canvas.width = 800;
 
-        const myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: Object.keys(chartData),
-                datasets: [
-                    {
-                        label: '점수',
-                        data: Object.values(chartData),
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        min: 0,
-                        max: 100,
-                    },
-                },
-                responsive: false,
-            },
-        });
+//         const myChart = new Chart(ctx, {
+//             type: 'bar',
+//             data: {
+//                 labels: Object.keys(chartData),
+//                 datasets: [
+//                     {
+//                         label: '점수',
+//                         data: Object.values(chartData),
+//                         borderWidth: 1,
+//                     },
+//                 ],
+//             },
+//             options: {
+//                 scales: {
+//                     y: {
+//                         beginAtZero: true,
+//                         min: 0,
+//                         max: 100,
+//                     },
+//                 },
+//                 responsive: false,
+//             },
+//         });
 
-        setTimeout(() => {
-            const imgLink = canvas.toDataURL('image/png');
-            canvas.remove();
-            resolve(imgLink);
-        }, 500);
-        document.body.appendChild(canvas);
-    });
-};
+//         setTimeout(() => {
+//             const imgLink = canvas.toDataURL('image/png');
+//             canvas.remove();
+//             resolve(imgLink);
+//         }, 500);
+//         document.body.appendChild(canvas);
+//     });
+// };
 
-const getTable = (chartData) => {
-    return new Promise((resolve) => {
-        let result = '|항목|진행도|점수|\n|:---:|:---|:---:|\n';
-        for (const key of Object.keys(chartData)) {
-            result += `|${key} |${
-                '◼︎'.repeat(chartData[key] / 10) +
-                '◻︎'.repeat(10 - chartData[key] / 10)
-            }|${chartData[key]}|\n`;
-        }
-        // return resolve(result);
-        return resolve('');
-    });
+const getTable = (evalData, chartData) => {
+    let result = '|항목|진행도|점수|\n|:---:|:---|:---:|\n';
+    for (const key of Object.keys(chartData)) {
+        const fulfilled = Math.floor((chartData[key] / evalData[key]) * 10);
+        const unfulfilled = Math.floor(
+            ((evalData[key] - chartData[key]) / evalData[key]) * 10,
+        );
+
+        result += `|${key} |${
+            '◼︎'.repeat(fulfilled) + '◻︎'.repeat(unfulfilled)
+        }|${fulfilled * 10}%|\n`;
+    }
+    return result;
 };
 
 const downloadFile = async ({ data, fileName, fileType }) => {
@@ -91,59 +92,94 @@ const downloadFile = async ({ data, fileName, fileType }) => {
     link.remove();
 };
 
+console.log(storyChapter);
 btnDownload.addEventListener('click', (e) => {
     const score = {
-        '변수와 자료형': 0,
-        연산: 0,
-        '반복문과 조건문': 0,
-        함수: 0,
-        클래스: 0,
+        입문: {
+            '변수와 자료형': 0,
+            연산: 0,
+            '반복문과 조건문': 0,
+            함수: 0,
+        },
+        기초: {
+            '변수와 자료형': 0,
+            연산: 0,
+            '반복문과 조건문': 0,
+            함수: 0,
+            클래스: 0,
+        },
+    };
+    const evaluate_score = {
+        입문: {
+            '변수와 자료형': 5,
+            연산: 8,
+            '반복문과 조건문': 3,
+            함수: 3,
+        },
+        기초: {
+            '변수와 자료형': 4,
+            연산: 4,
+            '반복문과 조건문': 1,
+            함수: 5,
+            클래스: 3,
+        },
     };
 
-    let reportData = '';
     const questionData = fetchQuestionInfo();
     questionData.then((data) => {
-        data.forEach((story) => {
-            id = story['id'];
-            if (localStorage.getItem(`${id}_code`)) {
-                const result =
-                    localStorage.getItem(`${id}_check`) === '정답' ? 'Y' : 'N';
-                // evaluation 항목에 따라 점수를 부여한다.
-                if (result == 'Y' && story['evaluation']) {
-                    for (const key of story['evaluation']) {
-                        score[key] += 10;
+        let reportData = '';
+        Object.keys(storyChapter).forEach((chap) => {
+            let chapterData = '';
+            const storyList = storyChapter[chap];
+            // storyList를 순회
+            storyList.forEach((id) => {
+                if (localStorage.getItem(`${id}_code`)) {
+                    const result =
+                        localStorage.getItem(`${id}_check`) === '정답'
+                            ? 'Y'
+                            : 'N';
+                    if (result == 'Y') {
+                        const evaluation = data.find(
+                            (el) => el.id === id,
+                        ).evaluation;
+                        for (const evl of evaluation) {
+                            score[chap][evl] += 1;
+                        }
                     }
+                    const storyData = `## 문제 ${id}번\n\n* 제출 시간 : ${
+                        localStorage.getItem(`${id}_time`) || '-'
+                    }\n* 통과 여부 : ${result}\n\n${getCode(id)}\n\n`;
+
+                    chapterData += storyData;
                 }
-                // const storyData = `## 문제 ${id}번\n\n* 평가 항목 : ${
-                const storyData = `## 문제 ${id}번\n\n* 제출 시간 : ${
-                    localStorage.getItem(`${id}_time`) || '-'
-                }\n* 통과 여부 : ${result}\n\n${getCode(id)}\n\n`;
+            });
 
-                reportData += storyData;
-            }
+            // 표로 가져오기
+            reportData +=
+                `# ${chap} 학습 성취도\n\n ${getTable(
+                    evaluate_score[chap],
+                    score[chap],
+                )}\n\n` +
+                chapterData +
+                '---\n\n';
         });
-        'score', score;
-        // 표로 가져오기
-        getTable(score).then((res) => {
-            reportData = `# 학습 보고서\n\n ${res}\n\n` + reportData;
 
-            // TODO: 학번과 이름을 입력받아 파일명을 만들어준다.
-            const userName =
-                JSON.parse(localStorage.getItem('profile'))?.name || '[이름]';
-            if (!!reportData) {
-                const fileName = `보고서`;
-                const today = new Date();
-                downloadFile({
-                    data: reportData,
-                    fileName: `${today
-                        .toISOString()
-                        .slice(2, 10)
-                        .replace(/-/g, '')}_${fileName}_${userName}.md`,
-                    fileType: 'text/json',
-                });
-            } else {
-                window.alert('다운로드 할 데이터가 없습니다.');
-            }
-        });
+        // TODO: 학번과 이름을 입력받아 파일명을 만들어준다.
+        const userName =
+            JSON.parse(localStorage.getItem('profile'))?.name || '[이름]';
+        if (!!reportData) {
+            const fileName = `보고서`;
+            const today = new Date();
+            downloadFile({
+                data: reportData,
+                fileName: `${today
+                    .toISOString()
+                    .slice(2, 10)
+                    .replace(/-/g, '')}_${fileName}_${userName}.md`,
+                fileType: 'text/json',
+            });
+        } else {
+            window.alert('다운로드 할 데이터가 없습니다.');
+        }
     });
 });

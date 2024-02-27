@@ -62,7 +62,7 @@ const getCode = (id) => {
 // };
 
 const getTable = (evalData, chartData) => {
-    let result = '|항목|진행도|점수|\n|:---:|:---|:---:|\n';
+    let result = '|항목|진행도|성취도|\n|:---:|:---|:---:|\n';
     for (const key of Object.keys(chartData)) {
         const fulfilled = Math.floor((chartData[key] / evalData[key]) * 10);
         const unfulfilled = Math.floor(

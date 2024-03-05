@@ -604,11 +604,12 @@ const createCertifImg = (chapter) => {
         ctx.fillText(name, canvas.width / 2, 570);
 
         const current = new Date();
-        const currentTime = `${current.getFullYear()}.${
-            current.getMonth() + 1 < 10 ? '0' : ''
-        }${current.getMonth() + 1}.${
-            current.getDate() < 10 ? '0' : ''
-        }${current.getDate()}`;
+        const currentTime = `${current.getFullYear()}.${(current.getMonth() + 1)
+            .toString()
+            .padStart(2, '0')}.${current
+            .getDate()
+            .toString()
+            .padStart(2, '0')}`;
 
         //로컬스토리지의 값을 가져오지 못하는 경우 현재 시간으로 대체
         const date =

@@ -43,7 +43,7 @@ module.exports = {
                 removeStyleLinkTypeAttributes: true,
                 useShortDoctype: true,
             },
-            // 빌드시 HTML 파일을 압축합니다.
+            // 빌드시 HTML 파일을 압축합니다. Whitespace 옵션이 true가 되면 py-script 파일을 읽지못합니다.
         }),
         new MiniCssExtractPlugin({
             filename: './assets/css/style.css',

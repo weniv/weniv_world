@@ -35,7 +35,15 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './index.html', // 여기에 HTML 파일 경로를 지정합니다.
             filename: 'index.html', // 출력될 파일 이름을 지정합니다.
-            minify: false, // 빌드시 HTML 파일을 압축합니다.
+            minify: {
+                collapseWhitespace: false,
+                removeComments: true,
+                removeRedundantAttributes: true,
+                removeScriptTypeAttributes: true,
+                removeStyleLinkTypeAttributes: true,
+                useShortDoctype: true,
+            },
+            // 빌드시 HTML 파일을 압축합니다. Whitespace 옵션이 true가 되면 py-script 파일을 읽지못합니다.
         }),
         new MiniCssExtractPlugin({
             filename: './assets/css/style.css',

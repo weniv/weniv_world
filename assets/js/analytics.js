@@ -19,13 +19,16 @@ function collectPageView() {
     })
     .catch((error) => console.error('Error:', error));
 }
-window.addEventListener('load', collectPageView);
+window.addEventListener('load', () => {
+  collectPageView();
+  collectReferralUrl();
+});
 
 function collectAnchorClick(event) {
   const session_id = sessionStorage.getItem('session_id');
 
   const source_url = window.location.href;
-  const target_url = event.target.href;
+  const target_url = event.target.closest('a').href;
 
   fetch(`${BASE_URL}/collect/anchor-click`, {
     method: 'POST',
@@ -45,7 +48,11 @@ function collectAnchorClick(event) {
 }
 
 window.addEventListener('click', (event) => {
-  if (event.target.tagName === 'A') {
+  if (event.target.closest('a')) {
     collectAnchorClick(event);
   }
 });
+
+function collectReferralUrl(event) {
+  console.log('ref', document.referrer);
+}

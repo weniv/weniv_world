@@ -49,7 +49,10 @@ function collectAnchorClick(event) {
             .then((data) => {
                 window.open(target_url, target_tar);
             })
-            .catch((error) => console.error('Error:', error));
+            .catch((error) => {
+                console.error('Error:', error);
+                window.open(target_url, target_tar);
+            });
     }
 }
 

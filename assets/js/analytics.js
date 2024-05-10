@@ -33,8 +33,6 @@ function collectPageView(session_id, reload) {
             if (!session_id) {
                 sessionStorage.setItem('session_id', data.session_id);
             }
-
-            console.log(data);
         })
         .catch((error) => console.error('Error:', error));
 }

@@ -1,12 +1,24 @@
 const BASE_URL = 'https://www.analytics.weniv.co.kr';
 
-function collectPageView() {
+//------------------------------------------------------------
+// @post /collect/pageview
+function collectPageView(session_id) {
+    const header = {
+        'Content-Type': 'application/json',
+    };
+    const payload = {
+        url: window.location.href,
+    };
+
+    if (session_id) {
+        header['Session-Id'] = session_id;
+        payload.session_id = session_id;
+    }
+
     fetch(`${BASE_URL}/collect/pageview`, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ url: window.location.href }),
+        headers: header,
+        body: JSON.stringify(payload),
     })
         .then((response) => {
             if (!response.ok) {
@@ -15,49 +27,78 @@ function collectPageView() {
             return response.json();
         })
         .then((data) => {
-            sessionStorage.setItem('session_id', data.session_id);
+            if (!session_id) {
+                sessionStorage.setItem('session_id', data.session_id);
+            }
         })
         .catch((error) => console.error('Error:', error));
 }
-window.addEventListener('load', collectPageView);
+window.addEventListener('load', (e) => {
+    const session_id = sessionStorage.getItem('session_id');
+    const lastPage = sessionStorage.getItem('lastPage');
 
-function collectAnchorClick(event) {
-    const ANCHOR = event.target.closest('a');
-    if (ANCHOR) {
-        event.preventDefault(); // 기본 동작 막기
+    if (lastPage !== window.location.pathname) {
+        collectPageView(session_id);
+    }
 
-        const session_id = sessionStorage.getItem('session_id');
+    sessionStorage.setItem('lastPage', window.location.pathname);
+});
 
-        const source_url = window.location.href;
-        const target_url = ANCHOR.href;
-        const target_tar = ANCHOR.target || '_self';
+//------------------------------------------------------------
+// @post /collect/anchor-click
+async function collectAnchorClick(event, type) {
+    event.preventDefault(); // 기본 동작 막기
 
-        fetch(`${BASE_URL}/collect/anchor-click`, {
+    const ANCHOR = event.currentTarget;
+
+    const session_id = sessionStorage.getItem('session_id');
+
+    const source_url = window.location.href;
+    const target_url = ANCHOR.href;
+    const target_tar = ANCHOR.target || '_self';
+
+    try {
+        const response = await fetch(`${BASE_URL}/collect/anchor-click`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Session-Id': session_id,
             },
-            body: JSON.stringify({ source_url, target_url }),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then((data) => {
-                window.open(target_url, target_tar);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                window.open(target_url, target_tar);
-            });
+            body: JSON.stringify({ source_url, target_url, type }),
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    } finally {
+        window.open(target_url, target_tar);
     }
+
+    // fetch(`${BASE_URL}/collect/anchor-click`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Session-Id': session_id,
+    //   },
+    //   body: JSON.stringify({ source_url, target_url, type }),
+    // })
+    //   .then((response) => {
+    //     if (!response.ok) {
+    //       throw new Error('Network response was not ok');
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   })
+    //   .finally(() => {
+    //     window.open(target_url, target_tar);
+    //   });
 }
 
-document.addEventListener('click', (event) => {
-    if (event.target.closest('a')) {
-        collectAnchorClick(event);
-    }
+// 외부 링크
+document.querySelectorAll('.kebab-list a').forEach((anchor) => {
+    anchor.addEventListener('click', (event) =>
+        collectAnchorClick(event, `교육서비스:${anchor.innerText}`),
+    );
 });

@@ -92,7 +92,6 @@ const downloadFile = async ({ data, fileName, fileType }) => {
     link.remove();
 };
 
-console.log(storyChapter);
 btnDownload.addEventListener('click', (e) => {
     const score = {
         입문: {

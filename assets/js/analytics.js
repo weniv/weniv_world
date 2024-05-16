@@ -31,14 +31,14 @@ function collectPageView(session_id, reload) {
         })
         .then((data) => {
             if (!session_id) {
-                sessionStorage.setItem('session_id', data.session_id);
+                localStorage.setItem('session_id', data.session_id);
             }
         })
         .catch((error) => console.error('Error:', error));
 }
 window.addEventListener('load', (e) => {
-    const session_id = sessionStorage.getItem('session_id');
-    const lastPage = sessionStorage.getItem('lastPage');
+    const session_id = localStorage.getItem('session_id');
+    const lastPage = localStorage.getItem('lastPage');
 
     if (!lastPage || lastPage !== window.location.pathname) {
         collectPageView(session_id);
@@ -47,7 +47,7 @@ window.addEventListener('load', (e) => {
         collectPageView(session_id, true);
     }
 
-    sessionStorage.setItem('lastPage', window.location.pathname);
+    localStorage.setItem('lastPage', window.location.pathname);
 });
 
 //------------------------------------------------------------
@@ -57,7 +57,7 @@ async function collectAnchorClick(event, type) {
 
     const ANCHOR = event.currentTarget;
 
-    const session_id = sessionStorage.getItem('session_id');
+    const session_id = localStorage.getItem('session_id');
 
     const source_url = window.location.href;
     const target_url = ANCHOR.href;

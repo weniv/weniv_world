@@ -1,0 +1,62 @@
+@function get-color($key, $theme: 'light') {
+    @each $name, $color in map-get($colors, $theme) {
+        @if ($key == $name) {
+            @return $color;
+        }
+    }
+}
+
+@mixin mask-image(
+    $color,
+    $url,
+    $size: 100%,
+    $repeat: no-repeat,
+    $positionX: center,
+    $positionY: center
+) {
+    background: $color;
+    -webkit-mask-image: url($url);
+    -webkit-mask-size: $size;
+    -webkit-mask-repeat: $repeat;
+    -webkit-mask-position: $positionX $positionY;
+    mask-image: url($url);
+    mask-size: $size;
+    mask-repeat: $repeat;
+    mask-position: $positionX $positionY;
+}
+
+@mixin scrollbar(
+    $track-color: var(--ColorBackground),
+    $thumb-color: rgba(141, 146, 153, 0.5),
+    $size: 0.6rem,
+    $padding: 0
+) {
+    &::-webkit-scrollbar {
+        width: $size + ($padding * 2);
+        height: $size + ($padding * 2);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: $thumb-color;
+        border-radius: 1rem;
+        cursor: pointer;
+
+        @if $padding > 0 {
+            background-clip: padding-box;
+            border-color: transparent;
+            border-style: solid;
+            border-width: $padding;
+        }
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: $track-color;
+        border-radius: 1rem;
+    }
+
+    &::-webkit-scrollbar-corner {
+        background: $track-color;
+    }
+
+    @content;
+}

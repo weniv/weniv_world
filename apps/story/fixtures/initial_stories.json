@@ -1,0 +1,110 @@
+[
+  {
+    "model": "story.storycategory",
+    "pk": 1,
+    "fields": {
+      "name": "위니브 월드 기본 스토리",
+      "description": "위니브 월드의 22개 기본 스토리들",
+      "order": 1
+    }
+  },
+  {
+    "model": "story.story",
+    "pk": 1,
+    "fields": {
+      "title": "캣의 결심",
+      "content": "# 캣의 결심\n\n위니브 월드에 오신 것을 환영합니다!",
+      "objectives": "이 스토리에서는 연산에 대해 학습합니다.",
+      "difficulty": 2,
+      "category": 1,
+      "order": 1,
+      "is_active": true,
+      "initial_world_data": {
+        "map_width": 5,
+        "map_height": 1,
+        "wall_data": {},
+        "item_data": {
+          "(0, 1)": {"item": "fish-1", "count": 1},
+          "(0, 2)": {"item": "fish-1", "count": 1},
+          "(0, 3)": {"item": "fish-1", "count": 1},
+          "(0, 4)": {"item": "fish-1", "count": 1}
+        },
+        "mob_data": [],
+        "basic_code": ""
+      }
+    }
+  },
+  {
+    "model": "story.story",
+    "pk": 2,
+    "fields": {
+      "title": "라이캣의 탄생",
+      "content": "# 라이캣의 탄생\n\n라이캣이 태어나는 순간입니다.",
+      "objectives": "이 스토리에서는 연산에 대해 학습합니다.",
+      "difficulty": 2,
+      "category": 1,
+      "order": 2,
+      "is_active": true,
+      "initial_world_data": {
+        "map_width": 5,
+        "map_height": 5,
+        "wall_data": {
+          "(0.5, 0)": "wall",
+          "(1.5, 2)": "wall",
+          "(2.0, 0.5)": "wall",
+          "(2.0, 1.5)": "wall",
+          "(2.0, 2.5)": "door",
+          "(2.0, 3.5)": "wall",
+          "(2.5, 1)": "wall",
+          "(2.5, 3)": "wall"
+        },
+        "item_data": {
+          "(2, 2)": {"item": "diamond", "count": 1}
+        },
+        "mob_data": [],
+        "basic_code": ""
+      }
+    }
+  },
+  {
+    "model": "story.story",
+    "pk": 3,
+    "fields": {
+      "title": "해골섬으로 향하는 라이캣",
+      "content": "# 해골섬으로 향하는 라이캣\n\n라이캣이 모험을 시작합니다.",
+      "objectives": "이 스토리에서는 연산, 변수와 자료형에 대해 학습합니다.",
+      "difficulty": 3,
+      "category": 1,
+      "order": 3,
+      "is_active": true,
+      "initial_world_data": {
+        "map_width": 5,
+        "map_height": 5,
+        "wall_data": {
+          "(0.5, 1)": "wall",
+          "(0.5, 2)": "wall",
+          "(0.5, 3)": "wall",
+          "(1.0, 0.5)": "wall",
+          "(1.0, 3.5)": "wall",
+          "(2.0, 0.5)": "wall",
+          "(2.0, 3.5)": "wall",
+          "(3.0, 0.5)": "wall",
+          "(3.0, 3.5)": "wall",
+          "(3.5, 1)": "wall",
+          "(3.5, 2)": "wall",
+          "(3.5, 3)": "wall"
+        },
+        "item_data": {
+          "(0, 1)": {"item": "fish-1", "count": 1},
+          "(0, 3)": {"item": "fish-1", "count": 1},
+          "(2, 4)": {"item": "fish-1", "count": 1},
+          "(4, 1)": {"item": "fish-1", "count": 1},
+          "(4, 0)": {"item": "fish-1", "count": 1},
+          "(2, 0)": {"item": "fish-1", "count": 1}
+        },
+        "mob_data": [],
+        "basic_code": ""
+      }
+    }
+  }
+]

@@ -66,6 +66,12 @@ class Story(models.Model):
         verbose_name_plural = "스토리 관리"
         ordering = ['category__order', 'order']
         unique_together = ['category', 'order']
+        indexes = [
+            models.Index(fields=['category', 'order']),
+            models.Index(fields=['is_active']),
+            models.Index(fields=['difficulty']),
+            models.Index(fields=['created_at']),
+        ]
     
     def __str__(self):
         return f"{self.order}. {self.title}"

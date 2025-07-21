@@ -120,11 +120,23 @@ TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True
 USE_TZ = True
 
+# 캐시 설정 (개발환경에서는 로컬 메모리 캐시 사용)
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'weniv-world-cache',
+        'TIMEOUT': 300,  # 5분 기본 타임아웃
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+        }
+    }
+}
+
 # Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    BASE_DIR / 'assets',
+    BASE_DIR / 'static',
 ]
 
 MEDIA_URL = '/media/'

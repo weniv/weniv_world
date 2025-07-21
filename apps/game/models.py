@@ -6,6 +6,8 @@ class GameSession(models.Model):
     story = models.ForeignKey(
         'story.Story', 
         on_delete=models.CASCADE,
+        null=True,
+        blank=True,
         verbose_name="스토리"
     )
     world_data = models.JSONField(default=dict, verbose_name="월드 상태")
@@ -27,7 +29,8 @@ class GameSession(models.Model):
         ordering = ['-updated_at']
     
     def __str__(self):
-        return f"{self.session_id} - {self.story.title}"
+        story_title = self.story.title if self.story else "자유 모드"
+        return f"{self.session_id} - {story_title}"
     
     def get_session_duration(self):
         """세션 지속 시간 계산"""

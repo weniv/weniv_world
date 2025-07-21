@@ -1,0 +1,1094 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
+
+html {
+    font-size: 10px;
+}
+
+body {
+    font-size: 1.6rem;
+    line-height: 1.6;
+    font-family: $font-basic;
+    color: var(--ColorSurface);
+    background: var(--ColorBackground);
+    letter-spacing: -0.01em;
+    overflow: hidden;
+}
+
+button {
+    letter-spacing: -0.01em;
+}
+
+.sr-only {
+    overflow: hidden;
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
+    padding: 0;
+}
+
+.sl-ellipsis {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.multi-ellipsis {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+}
+
+/* basic 버튼 */
+.basic-btn {
+    padding: 1.1rem 2rem;
+    border-radius: 1rem;
+    background: var(--ColorPrimary);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem;
+    color: var(--ColorBtnSurface);
+}
+
+/* 재생 버튼 */
+.btn-play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--ColorPrimary);
+
+    &::before {
+        content: '';
+        display: block;
+        width: 1.4rem;
+        height: 1.4rem;
+        @include mask-image(#fff, '../../assets/img/icon/icon-play.svg');
+    }
+
+    &.next::before {
+        -webkit-mask-image: url(../../assets/img/icon/icon-play-next.svg);
+        mask-image: url(../../assets/img/icon/icon-play-next.svg);
+    }
+
+    &.pause::before {
+        -webkit-mask-image: url(../../assets/img/icon/icon-pause.svg);
+        mask-image: url(../../assets/img/icon/icon-pause.svg);
+    }
+
+    &.stop::before {
+        -webkit-mask-image: url(../../assets/img/icon/icon-stop.svg);
+        mask-image: url(../../assets/img/icon/icon-stop.svg);
+    }
+}
+
+/* file-export 버튼 */
+.btn-file-export {
+    width: 2.4rem;
+    height: 2.4rem;
+    @include mask-image(
+        var(--ColorGrayLv3),
+        '../../assets/img/icon/icon-file-export.svg'
+    );
+
+    &:hover {
+        background: var(--ColorSurface);
+    }
+}
+
+/* file-import 버튼 */
+.btn-file-import {
+    width: 2.4rem;
+    height: 2.4rem;
+    @include mask-image(
+        var(--ColorGrayLv3),
+        '../../assets/img/icon/icon-file-import.svg'
+    );
+
+    &:hover {
+        background: var(--ColorSurface);
+    }
+}
+
+/* 월드 업로드 버튼 */
+#btn-upload-worlddata.hidden {
+    cursor: default;
+    background-color: var(--ColorGrayLv2);
+    &:hover {
+        background-color: var(--ColorGrayLv2);
+    }
+}
+
+/* code-download 버튼 */
+.btn-code-download {
+    width: 2rem;
+    height: 2rem;
+    @include mask-image(
+        var(--ColorGrayLv3),
+        '../../assets/img/icon/icon-code-download.svg'
+    );
+
+    &:hover {
+        background: var(--ColorSurface);
+    }
+}
+
+/* code-upload 버튼 */
+.btn-code-upload {
+    width: 2rem;
+    height: 2rem;
+    @include mask-image(
+        var(--ColorGrayLv3),
+        '../../assets/img/icon/icon-code-upload.svg'
+    );
+
+    &:hover {
+        background: var(--ColorSurface);
+    }
+}
+
+/* close 버튼 */
+.btn-close {
+    width: 2rem;
+    height: 2rem;
+    @include mask-image(
+        var(--ColorGrayLv3),
+        '../../assets/img/icon/icon-close.svg'
+    );
+
+    &:hover {
+        background: var(--ColorSurface);
+    }
+}
+
+.button-before {
+    display: block;
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 1rem;
+    padding: 0.7rem;
+    box-sizing: border-box;
+
+    &:hover,
+    &.active {
+        background: var(--ColorActivation);
+    }
+
+    &:disabled:hover,
+    &:disabled.active {
+        background: transparent;
+    }
+
+    &::before {
+        content: '';
+        display: block;
+        width: 2.8rem;
+        height: 2.8rem;
+    }
+
+    /* 보고서 버튼 */
+    &.btn-report {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-file-download.svg'
+            );
+        }
+    }
+
+    /* 스토리보기 버튼 */
+    &.btn-story {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-book.svg'
+            );
+        }
+
+        &.active::before {
+            background: var(--ColorPrimary);
+        }
+    }
+
+    /* 인증서 보기 버튼 */
+    &.btn-certif {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-medal.svg'
+            );
+        }
+
+        &.active::before {
+            background: var(--ColorPrimary);
+        }
+    }
+
+    /* 콘텐츠 더보기 버튼(케밥 메뉴) */
+    &.btn-kebab {
+        padding: 0;
+        &::before {
+            width: 100%;
+            height: 100%;
+
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-kebab.svg'
+            );
+        }
+
+        &.active::before {
+            background: var(--ColorPrimary);
+        }
+    }
+
+    /* 벽 만들기 버튼 */
+    &.btn-wall {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-wall-import.svg'
+            );
+        }
+
+        &:disabled::before {
+            @include mask-image(
+                var(--ColorGrayLv2),
+                '../../assets/img/icon/icon-wall-import.svg'
+            );
+        }
+    }
+
+    /* 에셋 추가 버튼 */
+    &.btn-assets {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-asset-import.svg'
+            );
+        }
+
+        &:disabled::before {
+            @include mask-image(
+                var(--ColorGrayLv2),
+                '../../assets/img/icon/icon-asset-import.svg'
+            );
+        }
+    }
+
+    /* 몹 추가 버튼 */
+    &.btn-mob {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-monster.svg'
+            );
+        }
+
+        &:disabled::before {
+            @include mask-image(
+                var(--ColorGrayLv2),
+                '../../assets/img/icon/icon-asset-import.svg'
+            );
+        }
+    }
+
+    /* 월드 크기 조정 버튼 */
+    &.btn-resize {
+        &::before {
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-world-size.svg'
+            );
+        }
+
+        &:disabled::before {
+            @include mask-image(
+                var(--ColorGrayLv2),
+                '../../assets/img/icon/icon-world-size.svg'
+            );
+        }
+    }
+
+    /* 속도 조절 버튼 */
+    &.btn-speed::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-speed-control.svg'
+        );
+    }
+
+    /* 함수 리스트 버튼 */
+    &.btn-function::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-function-list.svg'
+        );
+    }
+
+    /* 변수 리스트 버튼 */
+    &.btn-variable::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-variable-list.svg'
+        );
+    }
+
+    /* 초기화 버튼 */
+    &.btn-reset::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-reset.svg'
+        );
+    }
+
+    &.active::before {
+        background: var(--ColorSurface);
+    }
+
+    /* 상태 출력 버튼 */
+    &.btn-status::before {
+        @include mask-image(
+            var(--ColorPrimary),
+            '../../assets/img/icon/icon-blood-on.svg'
+        );
+    }
+    &.btn-status.hide::before {
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-blood-off.svg'
+        );
+    }
+}
+
+/* 다크 모드 버튼 */
+.btn-dark-mode {
+    position: relative;
+    width: 5.6rem;
+    height: 3.2rem;
+    background: var(--ColorPrimary);
+    border-radius: 3.2rem;
+    box-sizing: border-box;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0.5rem;
+        left: 0.5rem;
+        width: 2.2rem;
+        height: 2.2rem;
+        background: var(--ColorGrayLv1)
+            url(../../assets/img/icon/icon-light-mode.svg) no-repeat center /
+            1.2rem 1.2rem;
+        border-radius: 50%;
+        transition: all 0.4s;
+    }
+
+    &.active::after {
+        left: 2.9rem;
+        background: var(--ColorGrayLv1)
+            url(../../assets/img/icon/icon-dark-mode.svg) no-repeat center /
+            1.2rem 1.2rem;
+    }
+}
+
+/* 프로필 버튼 */
+.btn-profile {
+    width: 4.2rem;
+    height: 4.2rem;
+    border-radius: 50%;
+    background-color: var(--ColorGrayLv1);
+    display: block;
+    position: relative;
+
+    &::before {
+        content: '';
+        width: 50%;
+        height: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include mask-image(
+            var(--ColorGrayLv2),
+            '../../assets/img/icon/icon-face.svg'
+        );
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        position: relative;
+        z-index: 100;
+    }
+
+    &.active {
+        outline: 2px solid var(--ColorPrimary);
+    }
+
+    &.active + .profile-modal {
+        display: flex;
+    }
+}
+
+/* 툴팁 */
+.show-tooltip {
+    position: relative;
+}
+
+.tooltip {
+    position: absolute;
+    display: flex;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.8rem 1.2rem;
+    background: var(--ColorSurface);
+    color: var(--ColorBackground);
+    font-size: 1.2rem;
+    font-weight: 400;
+    line-height: 1.6rem;
+    border-radius: 0.8rem;
+    width: max-content;
+    max-width: 26rem;
+    word-break: break-word;
+    z-index: 100;
+    animation: fadeIn 0.6s;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -0.4rem;
+        left: 50%;
+        width: 0.85rem;
+        height: 0.85rem;
+        background: inherit;
+        border: inherit;
+        clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+        transform: translateX(-50%) rotate(135deg);
+        border-radius: 0px 0px 0px 0.2rem;
+    }
+}
+
+/* slider */
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 0.6rem;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0.8rem;
+    color: var(--ColorPrimary);
+    background: var(--ColorGrayLv2);
+    cursor: pointer;
+
+    &::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        background: var(--ColorPrimary);
+        width: 1.6rem;
+        height: 1.6rem;
+        border-radius: 1.6rem;
+        cursor: pointer;
+    }
+}
+
+/* controller-modal (map, speed, 함수, 변수 리스트) */
+.controller-modal {
+    position: absolute;
+    display: flex;
+    padding: 1.9rem 2.2rem 1.9rem 2rem;
+    background: var(--ColorBackground);
+    color: var(--ColorSurface);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem;
+    border: 1px solid var(--ColorGrayLv2);
+    border-radius: 1rem;
+    z-index: 100;
+    width: max-content;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -1.2rem;
+        left: 0.4rem;
+        width: 2.4rem;
+        height: 2.4rem;
+        background: url('../../assets/img/icon/icon-polygon.svg') no-repeat
+            center / cover;
+    }
+}
+
+:root[color-theme='dark'] .controller-modal {
+    &::before {
+        top: -1.1rem;
+        background: url('../../assets/img/icon/icon-polygon-dark.svg') no-repeat
+            center / cover;
+    }
+}
+
+/* info-modal */
+.info-modal {
+    position: absolute;
+    display: flex;
+    padding: 1.6rem;
+    background: var(--ColorGrayLv4);
+    color: var(--ColorBackground);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem;
+    border-radius: 1rem;
+    z-index: 20;
+    box-sizing: border-box;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 1rem;
+        left: 0rem;
+        width: 0.85rem;
+        height: 0.85rem;
+        background: inherit;
+        border: inherit;
+        clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+        transform: translateX(-50%) rotate(45deg);
+        border-radius: 0px 0px 0px 0.2rem;
+    }
+}
+
+/* speech bubble */
+.speech-bubble {
+    display: inline-block;
+    padding: 1rem 1.4rem;
+    border-radius: 1.2rem 1.2rem 1.2rem 0px;
+    border: 0.2rem solid var(--ColorPrimary);
+    background: var(--ColorGrayLv1);
+    color: var(--ColorPrimary);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem;
+    box-sizing: border-box;
+}
+
+/* code (함수, 변수) */
+.code-item {
+    display: inline-block;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--ColorGrayLv2);
+    background: var(--ColorGrayLv1);
+    color: var(--ColorSurface);
+    font-family: 'Source Code Pro';
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.8rem;
+    text-align: left;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 7rem;
+    padding: 1.4rem 2rem;
+    border-bottom: 1px solid var(--ColorGrayLv2);
+    box-sizing: border-box;
+
+    h1 {
+        width: 4.2rem;
+        height: 4.2rem;
+    }
+
+    svg > rect {
+        fill: var(--ColorPrimary);
+    }
+}
+
+.menu-list {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+    li {
+        position: relative;
+    }
+
+    .btn-story {
+        margin-right: -0.4rem;
+    }
+}
+
+/* 메인 */
+.main {
+    display: flex;
+    width: 100%;
+    height: calc(100vh - 7rem);
+    position: relative;
+}
+
+/* pyscript */
+.py-overlay {
+    z-index: 999;
+}
+
+/* resizer */
+.resizer {
+    flex-shrink: 0;
+    width: 1px;
+    height: 100%;
+    background-color: var(--ColorGrayLv2);
+    border-style: solid;
+    border-color: var(--ColorBackground);
+    border-width: 0 1px 0 1px;
+    cursor: ew-resize;
+
+    &:hover,
+    &.active {
+        border: 0;
+        width: 3px;
+    }
+
+    &[data-direction='vertical'] {
+        height: 1px;
+        width: 100%;
+        border-width: 1px 0 1px 0;
+        cursor: ns-resize;
+
+        &:hover,
+        &.active {
+            border: 0;
+            height: 3px;
+        }
+    }
+
+    &.story-resizer {
+        display: none;
+    }
+}
+
+/* 케밥 메뉴 */
+.menu .btn-kebab {
+    &.active + .kebab-menu {
+        display: block;
+    }
+}
+
+.kebab-menu {
+    display: none;
+    position: absolute;
+    top: 4.8rem;
+    right: 0;
+    width: 24rem;
+    padding: 0.8rem 0;
+    border-radius: 1rem;
+    border: 1px solid var(--ColorGrayLv2);
+    background: var(--ColorBackground);
+    box-shadow: var(--EffectShadow);
+    z-index: 20;
+
+    li {
+        padding: 0;
+    }
+
+    .kebab-item:not(:last-child) {
+        border-bottom: 1px solid var(--ColorGrayLv2);
+        padding-bottom: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .kebab-item li {
+        & > a,
+        & > button {
+            display: block;
+            padding: 1rem 2rem;
+            box-sizing: border-box;
+            font-size: 1.4rem;
+            font-weight: 500;
+            line-height: 2rem;
+
+            &:hover {
+                background: var(--ColorActivation);
+            }
+        }
+    }
+
+    .menu-title {
+        display: flex;
+        padding: 0.4rem 0 0.4rem 1.6rem;
+        margin-bottom: 0.4rem;
+        color: var(--ColorGrayLv3);
+        font-size: 1.2rem;
+        font-weight: 400;
+        line-height: 1.6rem;
+    }
+
+    .content {
+        display: flex;
+        font-size: 1.2rem;
+        line-height: 1.6rem;
+        color: var(--ColorGrayLv3);
+        gap: 0.2rem;
+        padding: 0 1.6rem;
+    }
+
+    .btn-download::before {
+        display: inline-block;
+        content: '';
+        width: 2rem;
+        height: 2rem;
+        vertical-align: bottom;
+        margin-right: 0.8rem;
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-code-download.svg'
+        );
+    }
+
+    .btn-link::before {
+        display: inline-block;
+        content: '';
+        width: 2rem;
+        height: 2rem;
+        vertical-align: bottom;
+        margin-right: 0.8rem;
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-link.svg'
+        );
+    }
+}
+
+/* profile modal */
+.profile-modal {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    right: 50%;
+    transform: translate(50%, 5rem);
+    z-index: 1000;
+
+    padding: 1.6rem 1.6rem 4rem;
+    width: 28rem;
+    background: var(--ColorBackground);
+    border: 1px solid var(--ColorGrayLv2);
+    border-radius: 1rem;
+
+    display: none;
+    flex-direction: column;
+
+    .btn-close {
+        margin-left: auto;
+    }
+}
+
+.profileimg-wrap {
+    margin: 0 auto 1.8rem;
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    position: relative;
+    background-color: var(--ColorGrayLv1);
+    border: 1px solid var(--ColorGrayLv2);
+    position: relative;
+
+    &::before {
+        content: '';
+        width: 50%;
+        height: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include mask-image(var(--ColorGrayLv2), '../img/icon/icon-face.svg');
+    }
+
+    .profile-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+    &.active .labl-profile {
+        width: 4.2rem;
+        height: 4.2rem;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 500;
+        cursor: pointer;
+
+        background: var(--ColorGrayLv4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::before {
+            width: 2.2rem;
+            height: 2.2rem;
+            background-color: var(-ColorGrayLv4);
+            content: '';
+            @include mask-image(
+                var(--ColorBackground),
+                '../img/icon/icon-image.svg'
+            );
+        }
+    }
+}
+.profile-view,
+.profile-edit {
+    display: none;
+}
+.profile-view.active {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+    text-align: center;
+
+    .txt-name {
+        font-weight: 500;
+        line-height: 2.2rem;
+        min-height: 2.2rem;
+        margin-bottom: 0.4rem;
+    }
+    .txt-level {
+        font-size: 1.2rem;
+        font-weight: 700;
+        line-height: 1.6rem;
+        color: var(--ColorPrimary);
+    }
+
+    .cont-btns {
+        width: 15.2rem;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 1.6rem;
+
+        button {
+            color: var(--ColorGrayLv3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.2rem;
+            &:hover {
+                color: var(--ColorSurface);
+            }
+        }
+
+        .btn-edit {
+            &::before {
+                content: '';
+                width: 2rem;
+                height: 2rem;
+                background-color: var(--ColorPrimary);
+                @include mask-image(
+                    var(--ColorGrayLv3),
+                    '../img/icon/icon-setting.svg'
+                );
+            }
+            &:hover::before {
+                @include mask-image(
+                    var(--ColorSurface),
+                    '../img/icon/icon-setting.svg'
+                );
+            }
+        }
+        .btn-report {
+            &::before {
+                content: '';
+                width: 2rem;
+                height: 2rem;
+                background-color: var(--ColorPrimary);
+                @include mask-image(
+                    var(--ColorGrayLv3),
+                    '../img/icon/icon-file-download.svg'
+                );
+            }
+            &:hover::before {
+                @include mask-image(
+                    var(--ColorSurface),
+                    '../img/icon/icon-file-download.svg'
+                );
+            }
+        }
+    }
+}
+
+.profile-edit.active {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+    text-align: center;
+    align-items: center;
+
+    .labl-name {
+        width: 22rem;
+        text-align: left;
+        font-size: 1.2rem;
+        font-weight: 700;
+
+        .inp-name {
+            font-size: 1.4rem;
+            font-weight: 500;
+
+            box-sizing: border-box;
+            display: block;
+            width: 100%;
+            height: 4.2rem;
+            margin-top: 0.8rem;
+            border-radius: 1rem;
+            border: 1px solid var(--ColorGrayLv2);
+            padding: 1.1rem 1.6rem;
+            background-color: var(--ColorBackground);
+
+            &:focus,
+            &:active {
+                outline: 1px solid var(--ColorPrimary);
+                border: 1px solid var(--ColorPrimary);
+            }
+        }
+    }
+    .btn-cont {
+        display: flex;
+        gap: 1.2rem;
+
+        .btn-confirm {
+            padding: 1.1rem 2rem;
+            border-radius: 1rem;
+            background-color: var(--ColorPrimary);
+            color: #fff;
+        }
+        .btn-cancel {
+            padding: 1.1rem 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--ColorGrayLv2);
+            &:hover {
+                background-color: var(--ColorGrayLv1);
+            }
+        }
+    }
+}
+
+/* 인증서 */
+.btn-certif.active + .certif-wrap {
+    display: block;
+}
+
+.certif-wrap {
+    display: none;
+    position: absolute;
+    transform: translate(-50%, 8%);
+    z-index: 1000;
+    width: 38rem;
+    background-color: var(--ColorBackground);
+    border: 1px solid var(--ColorGrayLv2);
+    box-shadow: var(--EffectShadow);
+    border-radius: 1rem;
+    padding: 4rem 2.4rem 3.2rem;
+
+    h2 {
+        font-size: 1.6rem;
+        line-height: 2.2rem;
+        font-weight: 600;
+    }
+
+    .btn-close {
+        position: absolute;
+        top: 1.6rem;
+        right: 1.6rem;
+    }
+
+    .certif-list {
+        margin-top: 3.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+}
+.certif-list li {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+
+    .title {
+        width: 4rem;
+        font-size: 1.4rem;
+        line-height: 2rem;
+        font-weight: 500;
+        flex-shrink: 0;
+        text-align: center;
+    }
+
+    .progress {
+        background-color: var(--ColorActivation);
+        color: var(--ColorPrimary);
+        padding: 0.4rem 0.8rem;
+        border-radius: 0.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        line-height: 1.6rem;
+        flex-shrink: 0;
+        width: 2.6rem;
+
+        .solved {
+            font-weight: 700;
+        }
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 1.2rem;
+        border-radius: 1.2rem;
+        background: var(--ColorGrayLv2);
+        overflow: hidden;
+
+        .progress-bar-inner {
+            width: 100%;
+            height: 100%;
+            background: var(--ColorPrimary);
+            transform: scaleX(0.23);
+            transform-origin: left;
+        }
+    }
+}
+
+.btn-download-certif {
+    width: 2.8rem;
+    height: 2.8rem;
+    flex-shrink: 0;
+    background: var(--ColorPrimary);
+    border-radius: 0.8rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &::before {
+        content: '';
+        width: 1.9rem;
+        height: 1.9rem;
+        @include mask-image(#fff, '../../assets/img/icon/icon-medal-v2.svg');
+    }
+
+    &:disabled {
+        background-color: var(--ColorGrayLv2);
+    }
+}

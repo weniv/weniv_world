@@ -1,0 +1,446 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<header class="header">
+    <h1>
+        <a href="/">
+            <span class="sr-only">위니브 월드 Beta</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42" fill="none">
+                <rect width="42" height="42" rx="10" fill="#2E6FF2"/>
+                <path d="M32.9063 21C32.3019 21 31.8126 21.4808 31.8126 22.0748C31.8126 24.7075 29.6321 26.8504 26.9532 26.8504C24.2742 26.8504 22.0937 24.7075 22.0937 22.0748C22.0937 21.4808 21.6044 21 21 21C20.3956 21 19.9063 21.4808 19.9063 22.0748C19.9063 24.7075 17.7258 26.8504 15.0468 26.8504C12.3679 26.8504 10.1874 24.7075 10.1874 22.0748C10.1874 21.4808 9.6981 21 9.09369 21C8.48928 21 8 21.4808 8 22.0748C8 25.8932 11.1614 29 15.0468 29C17.5497 29 19.7497 27.7102 21 25.7733C22.2503 27.7102 24.4515 29 26.9532 29C30.8386 29 34 25.8932 34 22.0748C34 21.4808 33.5107 21 32.9063 21Z" fill="white"/>
+                <path d="M15 18C16.1046 18 17 17.1046 17 16C17 14.8954 16.1046 14 15 14C13.8954 14 13 14.8954 13 16C13 17.1046 13.8954 18 15 18Z" fill="white"/>
+                <path d="M27 18C28.1046 18 29 17.1046 29 16C29 14.8954 28.1046 14 27 14C25.8954 14 25 14.8954 25 16C25 17.1046 25.8954 18 27 18Z" fill="white"/>
+            </svg>
+        </a>
+    </h1>
+    <nav class="menu">
+        <ul class="menu-list">
+            <li>
+                <button type="button" class="button-before btn-story show-tooltip" name="스토리">
+                    <span class="sr-only">스토리 보기</span>
+                </button>
+            </li>
+            <li>
+                <button type="button" class="button-before btn-certif show-tooltip " name="진행률">
+                    <span class="sr-only">인증서 보기</span>
+                </button>
+                <section class="certif-wrap">
+                    <h2>인증서 다운로드</h2>
+                    <ul class="certif-list"></ul>
+                    <button class="btn-close"><span class="sr-only">모달 닫기</span></button>
+                </section>
+            </li>
+            <li>
+                <a href="https://jupyter.weniv.co.kr/" class="basic-btn" target="_blank">코드 에디터로 이동</a>
+            </li>
+            <li>
+                <button type="button" class="btn-profile show-tooltip" name="프로필">
+                    <img class="profile-img" src="{% static 'img/icon/transparent.png' %}" alt="" >
+                    <span class="sr-only">프로필 보기</span>
+                </button>
+                <section class="profile-modal">
+                    <h2 class="sr-only">사용자 정보</h2>
+                    <button class="btn-close">
+                        <span class="sr-only">프로필 닫기</span>
+                    </button>
+
+                    <div class="profileimg-wrap">
+                        <img class="profile-img" src="{% static 'img/icon/transparent.png' %}" alt="프로필 이미지" >
+                        <label for="inp-profile-img" class="labl-profile">
+                            <input class="sr-only inp-profile" type="file" name="profile-img" id="inp-profile-img" accept="image/*">
+                        </label>
+                    </div>
+                    
+                    <div class="profile-view active">
+                        <div class="info-prof">
+                            <p class="txt-name">프로필 편집을 눌러<br>이름을 입력하세요</p>
+                        </div>
+                        <div class="cont-btns">
+                            <button class="btn-edit">프로필 편집</button>
+                            <button type="button" class="btn-report"> 보고서 다운로드</button>
+                        </div>  
+                    </div>
+                    <div class="profile-edit ">
+                        <label for="profile-name" class="labl-name">
+                            내 별명
+                            <input type="text" maxlength="8" name="profile-name" id="profile-name" class="inp-name" required >
+                        </label>
+                        <div class="btn-cont">
+                            <button class="btn-confirm">편집</button>
+                            <button class="btn-cancel">취소</button>
+                        </div>
+                    </div>
+                </section>
+            </li>
+            <li>
+                <button type="button" class="btn-dark-mode show-tooltip" name="다크모드 ON">
+                    <span class="sr-only">다크모드 온/오프 버튼</span>
+                </button>
+            </li>
+            <li class="additional-contents">
+                <button type="button" class="button-before btn-kebab show-tooltip" name="콘텐츠 더보기">
+                    <span class="sr-only">콘텐츠 더보기</span>
+                </button>
+                <ul class="kebab-menu">
+                    <li class="kebab-item">
+                        <p class="menu-title">자료</p>
+                        <ul>
+                            <li><a href="https://world-en.weniv.co.kr/" target="_blank" class="btn-link">Weniv World(English)</a></li>
+                            <li><a href="https://www.books.weniv.co.kr/wenivworld-teacher" target="_blank" class="btn-link">선생님용 Web-book</a></li>
+                            <li><a href="https://www.books.weniv.co.kr/wenivworld" target="_blank" class="btn-link" >학생용 Web-book</a></li>
+                            <li><a href="{% static 'documents/위니브월드 탐험대(선생님용)-배포용.pdf' %}" class="btn-download" download="위니브월드 탐험대(선생님용).pdf">선생님용 PDF 다운로드</a></li>
+                            <li><a href="{% static 'documents/위니브월드 탐험대(학생용)-배포용.pdf' %}" class="btn-download" download="위니브월드 탐험대(학생용).pdf">학생용 PDF 다운로드</a></li>
+                        </ul>
+                    </li>
+                    <li class="kebab-item">
+                        <p class="menu-title">교육 서비스</p>
+                        <ul>
+                            <li><a href="https://weniv.co.kr/" target="_blank" rel="noopener noreferrer">Weniv</a></li>
+                            <li><a href="https://100.pyalgo.co.kr/" target="_blank" rel="noopener noreferrer">Pyalgo100</a></li>
+                            <li><a href="https://pyalgo.co.kr/" target="_blank" rel="noopener noreferrer">Pyalgo20</a></li>
+                            <li><a href="https://jsalgo.co.kr/" target="_blank" rel="noopener noreferrer">JSalgo</a></li>
+                            <li><a href="https://sql.weniv.co.kr/" target="_blank" rel="noopener noreferrer">SQL | weniv</a></li>
+                            <li><a href="https://flexngrid.com/" target="_blank" rel="noopener noreferrer">FLEX x GRID</a></li>
+                            <li><a href="https://algoview.co.kr/" target="_blank" rel="noopener noreferrer">ALGO.VIEW</a></li>
+                            <li><a href="https://datagenerator.co.kr/" target="_blank" rel="noopener noreferrer">DataGen</a></li>
+                        </ul>
+                    </li>
+                    <li class="kebab-item">
+                        <p class="content">오류 제보 및 문의: <a href="mailto:paul-lab@naver.com?subject=[위니브월드 오류 제보 및 문의]"> paul-lab@naver.com</a></p>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<main class="main">
+    <section class="notebook">
+        <header class="notebook-header">
+            <h2>Notebook</h2>
+            <button type="button" class="btn-add-code">코드 추가</button>
+            <ul class="notebook-btn-list">
+                <li class="show-tooltip" name="노트북 내보내기">
+                    <button type="button" class="downloadNotebookBtn btn-file-export">
+                        <span class="sr-only">노트북 내보내기</span>
+                    </button>
+                </li>
+                <li class="show-tooltip" name="노트북 추가하기">
+                    <button type="button" class="uploadNotebookBtn btn-file-import">
+                        <span class="sr-only">노트북 추가하기</span>
+                    </button>
+                </li>
+            </ul>
+        </header>
+        <section class="notebook-section" id='notebookSection'>
+            <h3 class="sr-only">코드 입력</h3>
+            <py-repl id="my-repl" auto-generate="true">
+                # shift + enter를 눌러 실행해 보세요.
+                # 변수, 함수 목록은 World에 있습니다.
+                mission_start()
+                set_item(2, 2, 'fish-1')
+                move()
+                move()
+                turn_left()
+                turn_left()
+                turn_left()
+                repeat(2, move)
+                # pick()
+                mission_end()
+            </py-repl>
+        </section>
+    </section>
+    
+    <div class="resizer" data-direction="horizontal"></div>
+    
+    <section class="world">
+        <header class="world-header">
+            <h2>World</h2>
+            <ul class="world-btn-list">
+                <li class="show-tooltip" name="월드 내보내기">
+                    <button type="button" class="btn-file-export" id="btn-download-worlddata">
+                        <span class="sr-only">월드 내보내기</span>
+                    </button>
+                </li>
+                <li class="show-tooltip" name="월드 추가하기">
+                    <input type="file" id="worldFileInput" style="display: none;" accept=".json" >
+                    <button type="button" class="btn-file-import" id="btn-upload-worlddata">
+                        <span class="sr-only">월드 추가하기</span>
+                    </button>
+                </li>
+            </ul>
+        </header>
+
+        <!-- World controls and map -->
+        <nav class="world-menu">
+            <!-- Wall controls -->
+            <ul class="controll-btn-list">
+                <li>
+                    <button class="button-before btn-wall btn-toggle show-tooltip" type="button" name="wall">
+                        <span class="sr-only">Add wall</span>
+                    </button>
+                    <div class="controller-modal wall-type">
+                        <div class="input-wrap">
+                            <input type="radio" name="wall-type" id="wall" value="wall" class="sr-only" checked>
+                            <label for="wall">wall(기본)</label>
+                            <div class="wall-info show-tooltip" name="blocked"></div>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="wall-type" id="door" value="door" class="sr-only">
+                            <label for="door">door</label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="wall-type" id="fence" value="fence" class="sr-only">
+                            <label for="fence">fence</label>
+                            <div class="wall-info show-tooltip" name="blocked"></div>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="wall-type" id="delete" value="delete" class="sr-only">
+                            <label for="delete">delete</label>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Item controls -->
+                <li>
+                    <button class="button-before btn-assets btn-toggle show-tooltip" type="button" name="item">
+                        <span class="sr-only">아이템 추가하기</span>
+                    </button>
+                    <div class="controller-modal select-items">
+                        <div class="input-wrap">
+                            <input type="radio" name="item" id="fish-1" value="fish-1" class="sr-only" checked>
+                            <label for="fish-1"><span class="sr-only">fish-1(기본)</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="item" id="fish-2" value="fish-2" class="sr-only">
+                            <label for="fish-2"><span class="sr-only">fish-2</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="item" id="fish-3" value="fish-3" class="sr-only">
+                            <label for="fish-3"><span class="sr-only">fish-3</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="item" id="diamond" value="diamond" class="sr-only">
+                            <label for="diamond"><span class="sr-only">diamond</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="item" id="apple" value="apple" class="sr-only">
+                            <label for="apple"><span class="sr-only">apple</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="item" id="goldbar" value="goldbar" class="sr-only">
+                            <label for="goldbar"><span class="sr-only">goldbar</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="item" id="hp-potion" value="hp-potion" class="sr-only">
+                            <label for="hp-potion"><span class="sr-only">hp-potion</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="item" id="mp-potion" value="mp-potion" class="sr-only">
+                            <label for="mp-potion"><span class="sr-only">mp-potion</span></label>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Mob controls -->
+                <li>
+                    <button class="button-before btn-mob btn-toggle show-tooltip" type="button" name="mob">
+                        <span class="sr-only">몹 추가하기</span>
+                    </button>
+                    <div class="controller-modal select-mobs">
+                        <div class="input-wrap">
+                            <input type="radio" name="mob" id="lion" value="lion" class="sr-only" checked>
+                            <label for="lion"><span class="sr-only">lion(기본)</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="mob" id="py" value="py" class="sr-only">
+                            <label for="py"><span class="sr-only">py</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="mob" id="binky" value="binky" class="sr-only">
+                            <label for="binky"><span class="sr-only">binky</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="mob" id="gary" value="gary" class="sr-only">
+                            <label for="gary"><span class="sr-only">gary</span></label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="radio" name="mob" id="wizard" value="wizard" class="sr-only">
+                            <label for="wizard"><span class="sr-only">wizard</span></label>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- World resize controls -->
+                <li>
+                    <button class="button-before btn-resize btn-toggle show-tooltip" type="button" name="월드 크기 조정하기">
+                        <span class="sr-only">월드 크기 조정하기</span>
+                    </button>
+                    <div class="controller-modal resize">
+                        <div class="input-wrap">
+                            <label for="map-range-x">Map_x</label>
+                            <input type="range" min="3" max="10" value="5" class="slider" id="map-range-x">
+                            <strong id="map-text-x"></strong>
+                        </div>
+                        <div class="input-wrap">
+                            <label for="map-range-y">Map_y</label>
+                            <input type="range" min="3" max="10" value="5" class="slider" id="map-range-y">
+                            <strong id="map-text-y"></strong>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Speed controls -->
+                <li>
+                    <button class="button-before btn-speed btn-toggle show-tooltip" type="button" name="속도 조절하기">
+                        <span class="sr-only">속도 조절하기</span>
+                    </button>
+                    <div class="controller-modal speed">
+                        <div class="input-wrap">
+                            <label for="speed-range">Speed</label>
+                            <input type="range" min="1" max="100" value="50" class="slider" id="speed-range">
+                            <strong id="speed-text"></strong>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Function and variable lists -->
+            <ul class="info-btn-list">
+                <li>
+                    <button class="button-before btn-function btn-toggle show-tooltip" type="button" id="btn-list-function" name="함수 리스트 보기">
+                        <span class="sr-only">함수 리스트 보기</span>
+                    </button>
+                    <section class="controller-modal function-list">
+                        <h4 class="title">함수 리스트</h4>
+                        <ul>
+                            <li><button type="button" class="code-item show-tooltip" name="임무 시작">mission_start()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="임무 끝">mission_end()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="터미널에 결과를 출력">print()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터의 말풍선에 출력">say()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터가 가진 아이템 반환">item()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터 아래 아이템 여부 반환">on_item()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터의 방향을 반환">directions()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터가 바라보는 방향으로 한 칸 이동">move()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="왼쪽(반시계방향)으로 회전">turn_left()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터의 위치에 아이템이 있으면 해당 아이템 획득">pick()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터가 입력한 아이템을 가지고 있다면, 자신의 발 아래에 아이템을 추가">put(item)</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="함수를 count 횟수만큼 반복">repeat(count, function)</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터 이동 방향에 door이 있는 경우 벽을 삭제">open_door()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="맵에 아이템(fish, fish-1, fish-2, fish-3, diamond, apple, goldbar) 추가">set_item(x,y,item,count)</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터의 [앞|좌|우|뒤]에 벽이 있는지 판단">[front|left|right|back]_is_clear()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터 이동 방향의 벽 타입을 반환">typeof_wall()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="(from modules import turn_right), 오른쪽으로 회전">turn_right()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="(from modules import turn_around), 뒤로 회전">turn_around()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="(from modules import move_to_wall), 장애물이 있기 전까지 이동">move_to_wall()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="(from modules import turn_left_until_clear), 앞이 비어있을 때 까지 왼쪽으로 회전">turn_left_until_clear()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="(from modules import jump), 장애물 한 칸을 뛰어넘음">jump()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="스킬을 이용하여 앞에 있는 몬스터를 공격">attack(skill)</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="hp, mp 포션을 섭취하여 체력과 마나를 회복">eat(potion)</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터 추가">add_ch(x, y, name)</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="몬스터 추가">add_mob(x, y, type, name)</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="몬스터 이동">{mob}.move()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="몬스터 회전">{mob}.turn_left()</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="몬스터가 앞에 있는 캐릭터를 공격 ">{mob}.attack(skill)</button></li>
+                        </ul>
+                        <button class="btn-close" type="button">
+                            <span class="sr-only">닫기 버튼</span>
+                        </button>
+                    </section>
+                </li>
+                <li>
+                    <button class="button-before btn-variable btn-toggle show-tooltip" type="button" id="btn-list-variable" name="변수 리스트 보기">
+                        <span class="sr-only">변수 리스트 보기</span>
+                    </button>
+                    <section class="controller-modal variable-list">
+                        <h4 class="title">변수 리스트</h4>
+                        <ul>
+                            <li><button type="button" class="code-item show-tooltip" name="캐릭터 데이터">character_data</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="지도 데이터">map_data</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="아이템 데이터">item_data</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="벽 데이터">wall_data['world']</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="몬스터 데이터">mob_data</button></li>
+                            <li><button type="button" class="code-item show-tooltip" name="스킬 데이터">skill_data</button></li>
+                        </ul>
+                        <button class="btn-close" type="button">
+                            <span class="sr-only">닫기 버튼</span>
+                        </button>
+                    </section>
+                </li>
+            </ul>
+
+            <!-- Reset and status buttons -->
+            <ul>
+                <li>
+                    <button id="init" class="button-before btn-reset show-tooltip" type="button" name="월드, 캐릭터 초기화">
+                        <span class="sr-only">월드, 캐릭터 초기화</span>
+                    </button>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <button class="button-before btn-status show-tooltip hide" type="button" name="체력 상태 보기">
+                        <span class="sr-only">체력 상태 보기</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Game world map -->
+        <section class="world-map">
+            <h3 class="sr-only">위니브월드 맵</h3>
+            <div id='app'></div>
+        </section>
+
+        <div class="resizer" data-direction="vertical"></div>
+        
+        <!-- Terminal output -->
+        <section class="world-output">
+            <header class="output-header">
+                <h3>Terminal</h3>
+                <ul class="output-btn-list">
+                    <li class="show-tooltip" name="init terminal">
+                        <button id="output-init" class="btn-reset" type="button">
+                            <span class="sr-only">init terminal</span>
+                        </button>
+                    </li>
+                    <li class="show-tooltip" name="download">
+                        <button id="output-download" type="button" class="downloadNotebookBtn btn-code-download">
+                            <span class="sr-only">download terminal</span>
+                        </button>
+                    </li>
+                </ul>
+            </header>
+            <div class="output-result">
+                <div class="output-wrap">
+                    <ol class="index-list"></ol>
+                    <div id='output' class="output"></div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <div class="resizer story-resizer" data-direction="horizontal" data-target="next"></div>
+    
+    <!-- Story panel -->
+    <section class="story">
+        <header class="story-header">
+            <h2>스토리 보기</h2>
+            <button type="button" class="btn-close-story show-tooltip" name="스토리 접기">
+                <span class="sr-only">스토리 접기</span>
+            </button>
+            <a href="https://www.youtube.com/playlist?list=PLkfUwwo13dlVEm9gX_ca4BtAIFuY-o3OO" class="btn-guide show-tooltip" target="_blank" rel="noopener noreferrer" name="탐험 가이드" >
+                <span class="sr-only">탐험 가이드</span>
+            </a>
+        </header>
+        <ul class="story-list"></ul>
+    </section>
+</main>
+
+<p id="pointer"></p>
+<section class="description"></section>
+
+<!-- PyScript execution -->
+<py-script src="{% static 'py/script.py' %}"></py-script>
+{% endblock %}

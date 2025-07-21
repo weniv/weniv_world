@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko" color-theme="light">
+<head>
+    <!-- <base href="/"> --> <!-- 상대 경로 문제로 임시 주석 처리 -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XPF3L7HN8R"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XPF3L7HN8R');
+    </script>
+
+    <!-- Meta tags -->
+    <meta name="keywords" content="위니브월드, weniv world, 위니브, 제주코딩베이스캠프, 파이썬, 코딩교육"/>
+    <meta name="description" content="위니브월드로 떠나는 파이썬 코딩 여행" />
+    <meta name="url" content="https://world.weniv.co.kr/" />
+    <meta name="image" content="https://world.weniv.co.kr/{% static 'img/og/weniv-world.png' %}" />
+    <meta name="theme-color" content="#2f6ff2" />
+
+    <!-- OG tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="위니브월드 Beta" />
+    <meta property="og:site_name" content="위니브월드 Beta" />
+    <meta property="og:description" content="위니브월드로 떠나는 파이썬 코딩 여행" />
+    <meta property="og:url" content="https://world.weniv.co.kr/" />
+    <meta property="og:image" content="https://world.weniv.co.kr/{% static 'img/og/weniv-world.png' %}" />
+
+    <!-- Twitter tags -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="위니브월드 Beta" />
+    <meta name="twitter:description" content="위니브월드로 떠나는 파이썬 코딩 여행" />
+    <meta name="twitter:image" content="https://world.weniv.co.kr/{% static 'img/og/weniv-world.png' %}" />
+    <meta name="twitter:url" content="https://world.weniv.co.kr/" />
+
+    <title>{% block title %}Weniv World Beta{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'img/icon/icon-logo.svg' %}">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- PyScript -->
+    <link rel="stylesheet" href="{% static 'pyscript/pyscript.css' %}" />
+    <script defer src="{% static 'pyscript/pyscript_latest.js' %}"></script>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/analytics.js' %}" defer></script>
+    <script src="{% static 'js/event.js' %}" defer></script>
+    <script src="{% static 'js/editor.js' %}" defer></script>
+    <script src="{% static 'js/resizer.js' %}" defer></script>
+    <script src="{% static 'js/report.js' %}" defer></script>
+    <script type="module" src="{% static 'js/parser.js' %}"></script>
+    <script type="module" src="{% static 'js/django-api.js' %}"></script>
+
+    {% block extra_css %}{% endblock %}
+    {% block extra_js %}{% endblock %}
+
+    <py-config>
+        terminal = false
+        # packages = ["numpy", "nest_asyncio"]
+
+        [[fetch]]
+        from = "{% static 'py/' %}"
+        files = ["built_in_functions.py", "character.py", "worldMap.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py", "mob.py", "solution.py"]
+    </py-config>
+</head>
+<body>
+    {% block content %}{% endblock %}
+
+    <!-- Django에서 주입할 데이터 -->
+    <script>
+        // 정적 파일 기본 경로 설정
+        window.STATIC_URL = "{% get_static_prefix %}";
+        
+        // 스토리 데이터를 JavaScript에 전달
+        {% if stories %}
+        window.STORY_DATA = {{ stories|safe }};
+        {% endif %}
+        
+        // API 엔드포인트 URLs (우선 기본 URL 사용)
+        window.API_URLS = {
+            execute_code: "/api/execute-code/",
+            save_session: "/api/save-session/",
+            load_session: "/api/load-session/",
+            create_session: "/api/create-session/",
+            get_stories: "/api/stories/",
+            get_story: "/api/stories/"
+        };
+        
+        // CSRF 토큰
+        window.CSRF_TOKEN = "{{ csrf_token }}";
+    </script>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

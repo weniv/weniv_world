@@ -1,0 +1,209 @@
+.story {
+    display: none;
+    flex-direction: column;
+    width: 50rem;
+    min-width: 26rem;
+    box-sizing: border-box;
+
+    &.show {
+        display: flex;
+    }
+}
+
+.story-header {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 2rem;
+    height: 5rem;
+    padding: 0 1.5rem;
+    border-bottom: 1px solid var(--ColorGrayLv2);
+
+    h2 {
+        color: var(--ColorSurface);
+        font-size: 1.4rem;
+        font-weight: 600;
+        line-height: 2rem;
+        margin-right: 1.2rem;
+    }
+
+    .btn-write-story {
+        color: var(--ColorGrayLv3);
+        font-size: 1.4rem;
+        font-weight: 500;
+        line-height: 2rem;
+    }
+
+    .btn-close-story {
+        order: -1;
+        width: 2.4rem;
+        height: 2.4rem;
+        border-radius: 0.4rem;
+
+        &::before {
+            content: '';
+            display: block;
+            width: 2.4rem;
+            height: 2.4rem;
+            @include mask-image(
+                var(--ColorGrayLv3),
+                '../../assets/img/icon/icon-double-arrow-right.svg'
+            );
+        }
+
+        &:hover {
+            background: var(--ColorActivation);
+
+            &::before {
+                background: var(--ColorSurface);
+            }
+        }
+    }
+}
+
+.story-list {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 5.1rem);
+    gap: 1rem;
+    padding: 1.4rem 0.8rem 2rem 2rem;
+    margin: 0.6rem 0.8rem 0 0;
+    overflow: auto;
+    @include scrollbar;
+
+    & > li {
+        border-radius: 0.8rem;
+        border: 1px solid var(--ColorGrayLv2);
+
+        &.active {
+            .btn-toggle {
+                mask-image: url('../../assets/img/icon/icon-arrow-top.svg');
+            }
+
+            .story-contents {
+                display: flex;
+            }
+
+            .btn-submit {
+                pointer-events: all;
+                color: inherit;
+            }
+        }
+
+        &.submit {
+            .story-title::before {
+                @include mask-image(
+                    var(--ColorPrimary),
+                    '../../assets/img/icon/icon-book.svg',
+                    2rem 2rem
+                );
+            }
+        }
+    }
+}
+
+.story-title {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    height: 7rem;
+    padding: 0 1.6rem;
+
+    &::before {
+        content: '';
+        display: block;
+        width: 4rem;
+        height: 4rem;
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-book.svg',
+            2rem 2rem
+        );
+    }
+
+    h3 {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        color: var(--ColorSurface);
+        font-size: 1.6rem;
+        font-weight: 500;
+        line-height: 2.2rem;
+
+        & > span {
+            color: var(--ColorPrimary);
+        }
+    }
+
+    .btn-submit {
+        margin-left: auto;
+        border: 1px solid var(--ColorGrayLv2);
+        word-break: keep-all;
+        border-radius: 0.8rem;
+        padding: 0.5rem;
+        font-size: 1.4rem;
+        box-shadow: var(--Shadow);
+        color: var(--ColorGrayLv2);
+        pointer-events: none;
+
+        &:hover {
+            background-color: var(--ColorActivation);
+        }
+    }
+    .btn-toggle {
+        width: 2.4rem;
+        height: 2.4rem;
+        @include mask-image(
+            var(--ColorGrayLv3),
+            '../../assets/img/icon/icon-arrow-bottom.svg'
+        );
+
+        &:hover {
+            background: var(--ColorSurface);
+        }
+    }
+}
+
+.story-contents {
+    display: none;
+    flex-direction: column;
+    gap: 2.4rem;
+    padding: 2.8rem;
+
+    .btn-submit {
+        padding: 1rem 0;
+        border: 1px solid var(--ColorGrayLv2);
+        border-radius: 1rem;
+
+        &:hover {
+            background-color: var(--ColorActivation);
+        }
+    }
+}
+
+.btn-guide {
+    margin-left: auto;
+
+    &::before {
+        content: '';
+        display: block;
+        width: 2.4rem;
+        height: 2.4rem;
+        @include mask-image(
+            var(--ColorError),
+            '../../assets/img/icon/icon-youtube.svg'
+        );
+    }
+
+    .tooltip {
+        left: -4.1rem;
+        transform: none;
+
+        &::before {
+            content: '';
+            position: absolute;
+            left: 4.9rem;
+            transform: translateX(0) rotate(135deg);
+        }
+    }
+}

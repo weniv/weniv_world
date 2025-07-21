@@ -1,0 +1,86 @@
+$font-basic: 'Pretendard';
+$font-code: 'Source Code Pro';
+
+$colors: (
+    light: (
+        primary: #2f6ff2,
+        bgColor: #ffffff,
+        surface: #121314,
+        gray-lv1: #f3f5fa,
+        gray-lv2: #d9dbe0,
+        gray-lv3: #8d9299,
+        gray-lv4: #47494d,
+        error: #ff3440,
+        low-error: #ffc533,
+        activation: #dee8ff,
+        code-purple: #964dd1,
+        code-pink: #c93864,
+        code-blue: #2e5dd6,
+        code-green: #328026,
+        code-orange: #ed7200,
+    ),
+    dark: (
+        primary: #3075ff,
+        bgColor: #1f2123,
+        surface: #ffffff,
+        gray-lv1: #121314,
+        gray-lv2: #595f66,
+        gray-lv3: #d9dbe0,
+        gray-lv4: #f3f5fa,
+        error: #fc7377,
+        low-error: #ffe187,
+        activation: #2b3444,
+        code-purple: #c893fd,
+        code-pink: #ed4779,
+        code-blue: #618dff,
+        code-green: #50c140,
+        code-orange: #ffa52a,
+    ),
+);
+
+:root {
+    --ColorBtnSurface: #fff;
+    --ColorWallGray: #959ea6;
+    --ColorWallBlue: #4b7af2;
+    --ColorWallGreen: #53cb42;
+}
+
+:root,
+:root[color-theme='light'] {
+    --ColorPrimary: #{get-color(primary)};
+    --ColorBackground: #{get-color(bgColor)};
+    --ColorSurface: #{get-color(surface)};
+    --ColorGrayLv1: #{get-color(gray-lv1)};
+    --ColorGrayLv2: #{get-color(gray-lv2)};
+    --ColorGrayLv3: #{get-color(gray-lv3)};
+    --ColorGrayLv4: #{get-color(gray-lv4)};
+    --ColorError: #{get-color(error)};
+    --ColorLowError: #{get-color(low-error)};
+    --ColorActivation: #{get-color(activation)};
+    --ColorCodePurple: #{get-color(code-purple)};
+    --ColorCodePink: #{get-color(code-pink)};
+    --ColorCodeBlue: #{get-color(code-blue)};
+    --ColorCodeGreen: #{get-color(code-green)};
+    --ColorCodeOrange: #{get-color(code-orange)};
+    --EffectShadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.04);
+}
+
+:root[color-theme='dark'] {
+    --ColorPrimary: #{get-color(primary, dark)};
+    --ColorBackground: #{get-color(bgColor, dark)};
+    --ColorSurface: #{get-color(surface, dark)};
+    --ColorGrayLv1: #{get-color(gray-lv1, dark)};
+    --ColorGrayLv2: #{get-color(gray-lv2, dark)};
+    --ColorGrayLv3: #{get-color(gray-lv3, dark)};
+    --ColorGrayLv4: #{get-color(gray-lv4, dark)};
+    --ColorError: #{get-color(error, dark)};
+    --ColorLowError: #{get-color(low-error, dark)};
+    --ColorActivation: #{get-color(activation, dark)};
+    --ColorCodePurple: #{get-color(code-purple, dark)};
+    --ColorCodePink: #{get-color(code-pink, dark)};
+    --ColorCodeBlue: #{get-color(code-blue, dark)};
+    --ColorCodeGreen: #{get-color(code-green, dark)};
+    --ColorCodeOrange: #{get-color(code-orange, dark)};
+    --EffectShadow: 0px 8px 12px 0px rgba(18, 18, 18, 0.2),
+        0px 8px 12px 0px rgba(18, 18, 18, 0.2);
+}

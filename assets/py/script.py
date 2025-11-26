@@ -1115,25 +1115,55 @@ def handle_contextmenu_delete(evt):
     - 스토리 모드에서는 삭제 불가
     - 메인 캐릭터(licat)는 삭제 불가
     """
+    js.console.log('=== contextmenu event fired ===')
+    js.console.log('target:', evt.target)
+    js.console.log('target.tagName:', evt.target.tagName)
+    js.console.log('target.classList:', list(evt.target.classList))
+
     # 스토리 모드에서는 삭제 기능 비활성화
     if story_select['status']:
+        js.console.log('story mode - return')
         return
 
     # 아이템 추가 모드일 때는 기존 취소 로직 사용
     if item_select['status'] or mob_select['status']:
+        js.console.log('item/mob select mode - return')
         return
 
     target = evt.target
 
     # 아이템 삭제 처리
-    item_container = target.closest('.item-container')
+    # .item (이미지), .count (개수), .item-container 모두 처리
+    item_container = None
+    if target.classList.contains('item-container'):
+        js.console.log('direct item-container')
+        item_container = target
+    elif target.classList.contains('item') or target.classList.contains('count'):
+        js.console.log('item or count element')
+        # .item 또는 .count의 부모인 .item-container 찾기
+        item_container = target.parentElement
+        js.console.log('parent:', item_container)
+        if item_container:
+            js.console.log('parent classList:', list(item_container.classList))
+        if item_container and not item_container.classList.contains('item-container'):
+            item_container = None
+    else:
+        # closest로 시도
+        js.console.log('trying closest')
+        item_container = target.closest('.item-container')
+
+    js.console.log('item_container found:', item_container)
+
     if item_container:
         evt.preventDefault()
         evt.stopPropagation()
 
         # 부모 map-item에서 좌표 계산
-        map_item = item_container.closest('.map-item')
+        map_item = item_container.parentElement
+        js.console.log('map_item:', map_item)
         if map_item:
+            js.console.log('map_item classList:', list(map_item.classList))
+        if map_item and map_item.classList.contains('map-item'):
             map_items = js.document.querySelectorAll('.map-item')
             index = 0
             for item in map_items:
@@ -1142,12 +1172,15 @@ def handle_contextmenu_delete(evt):
                 index += 1
 
             x, y = divmod(index, map_data['width'])
+            js.console.log(f'coordinates: x={x}, y={y}')
 
             # item_data에서 삭제
             if (x, y) in item_data:
+                js.console.log(f'deleting from item_data: {item_data[(x, y)]}')
                 del item_data[(x, y)]
 
             # UI에서 삭제
+            js.console.log('removing item_container from UI')
             item_container.remove()
         return
 

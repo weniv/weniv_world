@@ -1897,7 +1897,8 @@ button {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%; }
+  height: 100%;
+  pointer-events: none; }
   .wall-container .wall {
     position: absolute;
     box-sizing: border-box;
@@ -1907,7 +1908,8 @@ button {
     border-radius: 5rem;
     margin: 1px 0 0 1px;
     /* 기본 벽 */
-    background-color: transparent; }
+    background-color: transparent;
+    pointer-events: auto; }
   .wall-container .wall[data-type='']:hover {
     background-color: var(--ColorActivation); }
 

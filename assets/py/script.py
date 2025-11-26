@@ -115,7 +115,10 @@ def change_map(evt=None):
             add_event_listener(wall_elem,'mouseenter',wall_mouse_enter)
             add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
 
-    
+        # 우클릭 삭제 이벤트 리스너 등록
+        register_contextmenu_listener()
+
+
     # 캐릭터 갱신
     for c in character_data[:]:
         if not (0 <= c['x'] < map_data['height'] and 0 <= c['y'] < map_data['width']):
@@ -239,6 +242,10 @@ def init(evt=None):
             add_event_listener(wall_elem,'mouseleave',wall_mouse_leave)
 
         draw_map.appendChild(wall_container)
+
+        # 우클릭 삭제 이벤트 리스너 등록
+        register_contextmenu_listener()
+
     if not story_select['status']:
         mob_data.clear()
     init_character()
@@ -1087,3 +1094,110 @@ def item_active(evt=None):
             label = js.document.querySelector(f"label[for={item_select['name']}]")
             label.classList.add('select')
 
+# ESC 키로 캐릭터 정보 팝업 닫기
+def handle_keydown(evt):
+    """
+    ESC 키를 누르면 캐릭터 정보 팝업을 닫는 함수
+    """
+    if evt.key == 'Escape':
+        bubble = js.document.querySelector('.character-info-bubble')
+        if bubble:
+            bubble.remove()
+
+# 전역 keydown 이벤트 리스너 등록
+add_event_listener(js.document, 'keydown', handle_keydown)
+
+
+# 우클릭으로 아이템, 몹, 벽 삭제
+def handle_contextmenu_delete(evt):
+    """
+    우클릭으로 아이템, 몹, 벽을 삭제하는 함수
+    - 스토리 모드에서는 삭제 불가
+    - 메인 캐릭터(licat)는 삭제 불가
+    """
+    # 스토리 모드에서는 삭제 기능 비활성화
+    if story_select['status']:
+        return
+
+    # 아이템 추가 모드일 때는 기존 취소 로직 사용
+    if item_select['status'] or mob_select['status']:
+        return
+
+    target = evt.target
+
+    # 아이템 삭제 처리
+    item_container = target.closest('.item-container')
+    if item_container:
+        evt.preventDefault()
+        evt.stopPropagation()
+
+        # 부모 map-item에서 좌표 계산
+        map_item = item_container.closest('.map-item')
+        if map_item:
+            map_items = js.document.querySelectorAll('.map-item')
+            index = 0
+            for item in map_items:
+                if item == map_item:
+                    break
+                index += 1
+
+            x, y = divmod(index, map_data['width'])
+
+            # item_data에서 삭제
+            if (x, y) in item_data:
+                del item_data[(x, y)]
+
+            # UI에서 삭제
+            item_container.remove()
+        return
+
+    # 몹 삭제 처리
+    mob_elem = target.closest('.mob')
+    if mob_elem:
+        evt.preventDefault()
+        evt.stopPropagation()
+
+        mob_name = mob_elem.id
+
+        # mob_data에서 삭제
+        for m in mob_data[:]:  # 리스트 복사본을 순회
+            if m['name'] == mob_name:
+                mob_data.remove(m)
+                break
+
+        # UI에서 삭제
+        mob_elem.remove()
+        return
+
+    # 벽 삭제 처리
+    wall_elem = target.closest('.wall')
+    if wall_elem:
+        current_type = wall_elem.dataset.type
+        if current_type:  # 벽이 있는 경우에만 삭제
+            evt.preventDefault()
+            evt.stopPropagation()
+
+            posX = float(wall_elem.dataset.x)
+            posY = float(wall_elem.dataset.y)
+
+            # wall_data에서 삭제
+            if (posX, posY) in wall_data['world']:
+                del wall_data['world'][(posX, posY)]
+                wall.wall_data = wall_data['world']
+
+            # UI 업데이트
+            wall_elem.dataset.type = ''
+            wall_elem.style.outline = ''
+        return
+
+def register_contextmenu_listener():
+    """
+    map-container에 우클릭 이벤트 리스너를 등록하는 함수
+    맵이 재생성될 때 호출해야 함
+    """
+    map_container = js.document.querySelector('.map-container')
+    if map_container:
+        add_event_listener(map_container, 'contextmenu', handle_contextmenu_delete)
+
+# 초기 map-container에 우클릭 이벤트 리스너 등록
+register_contextmenu_listener()

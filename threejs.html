@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="ko" color-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weniv World 3D</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="./assets/img/icon/icon-logo.svg">
+
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+
+    <!-- Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.152.2/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.152.2/examples/jsm/"
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+    <style>
+        /* 전체 레이아웃 */
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .main {
+            height: calc(100vh - 60px);
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* 노트북(에디터) 섹션 */
+        .notebook {
+            display: flex;
+            flex-direction: column;
+            min-width: 280px;
+            max-width: 450px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .notebook-header {
+            flex-shrink: 0;
+        }
+
+        .notebook-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 0.8rem;
+            gap: 0.5rem;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .editor-container {
+            flex: 1;
+            min-height: 0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 2px solid var(--ColorGrayLv2);
+        }
+
+        .CodeMirror {
+            height: 100% !important;
+            font-family: 'Consolas', 'Monaco', 'Fira Code', monospace !important;
+            font-size: 13px !important;
+        }
+
+        .run-btn {
+            flex-shrink: 0;
+            background: var(--ColorPrimary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .run-btn:hover {
+            background: var(--ColorActivation);
+        }
+
+        .run-btn.running {
+            background: #e74c3c;
+        }
+
+        .shortcut-hint {
+            flex-shrink: 0;
+            font-size: 11px;
+            color: var(--ColorGrayLv3);
+            text-align: center;
+        }
+
+        /* 월드 섹션 */
+        .world {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .world-header, .world-menu {
+            flex-shrink: 0;
+        }
+
+        .world-map {
+            flex: 1;
+            min-height: 150px;
+            position: relative;
+            background: var(--ColorGrayLv2);
+            border-radius: 1rem;
+            overflow: hidden;
+        }
+
+        #three-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .control-hint {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            z-index: 100;
+        }
+
+        /* 터미널 */
+        .world-output {
+            flex-shrink: 0;
+            height: 100px;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .output-header {
+            flex-shrink: 0;
+        }
+
+        .output-result {
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .output-wrap {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        #terminal {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 5px 10px;
+        }
+
+        #terminal > div { padding: 1px 0; }
+        #terminal .error { color: #e74c3c; }
+        #terminal .success { color: #2ecc71; }
+        #terminal .info { color: #3498db; }
+
+        /* 리사이저 */
+        .resizer[data-direction="vertical"] {
+            height: 6px;
+            cursor: row-resize;
+        }
+
+        /* 반응형 */
+        @media (max-width: 900px) {
+            .main {
+                flex-direction: column;
+            }
+
+            .notebook {
+                max-width: 100%;
+                height: 35%;
+                min-height: 180px;
+            }
+
+            .world {
+                height: 65%;
+            }
+
+            .resizer[data-direction="horizontal"] {
+                width: 100%;
+                height: 6px;
+                cursor: row-resize;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .notebook { height: 30%; }
+            .world { height: 70%; }
+            .world-output { height: 70px; }
+            .control-hint { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>
+            <a href="/">
+                <span class="sr-only">위니브 월드 3D</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42" fill="none">
+                    <rect width="42" height="42" rx="10" fill="#2E6FF2"/>
+                    <path d="M32.9063 21C32.3019 21 31.8126 21.4808 31.8126 22.0748C31.8126 24.7075 29.6321 26.8504 26.9532 26.8504C24.2742 26.8504 22.0937 24.7075 22.0937 22.0748C22.0937 21.4808 21.6044 21 21 21C20.3956 21 19.9063 21.4808 19.9063 22.0748C19.9063 24.7075 17.7258 26.8504 15.0468 26.8504C12.3679 26.8504 10.1874 24.7075 10.1874 22.0748C10.1874 21.4808 9.6981 21 9.09369 21C8.48928 21 8 21.4808 8 22.0748C8 25.8932 11.1614 29 15.0468 29C17.5497 29 19.7497 27.7102 21 25.7733C22.2503 27.7102 24.4515 29 26.9532 29C30.8386 29 34 25.8932 34 22.0748C34 21.4808 33.5107 21 32.9063 21Z" fill="white"/>
+                    <path d="M15 18C16.1046 18 17 17.1046 17 16C17 14.8954 16.1046 14 15 14C13.8954 14 13 14.8954 13 16C13 17.1046 13.8954 18 15 18Z" fill="white"/>
+                    <path d="M27 18C28.1046 18 29 17.1046 29 16C29 14.8954 28.1046 14 27 14C25.8954 14 25 14.8954 25 16C25 17.1046 25.8954 18 27 18Z" fill="white"/>
+                </svg>
+            </a>
+        </h1>
+        <nav class="menu">
+            <ul class="menu-list">
+                <li>
+                    <a href="./index.html" class="basic-btn">2D 모드로 전환</a>
+                </li>
+                <li>
+                    <button type="button" class="btn-dark-mode show-tooltip" name="다크모드 ON">
+                        <span class="sr-only">다크모드 온/오프 버튼</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <!-- 코드 에디터 섹션 -->
+        <section class="notebook">
+            <header class="notebook-header">
+                <h2>Code Editor (JavaScript)</h2>
+            </header>
+            <section class="notebook-section">
+                <h3 class="sr-only">코드 입력</h3>
+                <div class="editor-container">
+                    <textarea id="codeEditor">// 사용 가능한 함수: move(), turn_left(), turn_right(), pick(), put()
+// set_item(x, y, item), repeat(count, func), front_is_clear(), on_item()
+
+set_item(2, 2, 'fish-1');
+move();
+move();
+turn_left();
+move();
+move();
+pick();
+</textarea>
+                </div>
+                <button class="run-btn" id="runBtn">
+                    <span>▶</span> 실행
+                </button>
+                <div class="shortcut-hint">Shift + Enter로 실행</div>
+            </section>
+        </section>
+
+        <div class="resizer" data-direction="horizontal"></div>
+
+        <!-- 3D 월드 섹션 -->
+        <section class="world">
+            <header class="world-header">
+                <h2>World 3D</h2>
+                <ul class="world-btn-list">
+                    <li>
+                        <button type="button" class="button-before btn-reset show-tooltip" id="resetBtn" name="월드 초기화">
+                            <span class="sr-only">월드 초기화</span>
+                        </button>
+                    </li>
+                </ul>
+            </header>
+
+            <nav class="world-menu">
+                <ul class="controll-btn-list">
+                    <li>
+                        <button class="button-before btn-resize btn-toggle show-tooltip" type="button" name="월드 크기 조정">
+                            <span class="sr-only">월드 크기 조정</span>
+                        </button>
+                        <div class="controller-modal resize">
+                            <div class="input-wrap">
+                                <label for="map-size">Map Size</label>
+                                <input type="range" min="3" max="10" value="5" class="slider" id="map-size">
+                                <strong id="map-size-text">5</strong>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <button class="button-before btn-speed btn-toggle show-tooltip" type="button" name="속도 조절">
+                            <span class="sr-only">속도 조절</span>
+                        </button>
+                        <div class="controller-modal speed">
+                            <div class="input-wrap">
+                                <label for="speed-range">Speed</label>
+                                <input type="range" min="1" max="100" value="50" class="slider" id="speed-range">
+                                <strong id="speed-text">50</strong>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="info-btn-list">
+                    <li>
+                        <button class="button-before btn-function btn-toggle show-tooltip" type="button" name="함수 리스트">
+                            <span class="sr-only">함수 리스트</span>
+                        </button>
+                        <section class="controller-modal function-list">
+                            <h4 class="title">함수 리스트</h4>
+                            <ul>
+                                <li><button type="button" class="code-item show-tooltip" name="앞으로 한 칸 이동">move()</button></li>
+                                <li><button type="button" class="code-item show-tooltip" name="왼쪽으로 회전">turn_left()</button></li>
+                                <li><button type="button" class="code-item show-tooltip" name="오른쪽으로 회전">turn_right()</button></li>
+                                <li><button type="button" class="code-item show-tooltip" name="아이템 줍기">pick()</button></li>
+                                <li><button type="button" class="code-item show-tooltip" name="아이템 놓기">put(item)</button></li>
+                                <li><button type="button" class="code-item show-tooltip" name="반복 실행">repeat(count, func)</button></li>
+                                <li><button type="button" class="code-item show-tooltip" name="앞이 비어있는지 확인">front_is_clear()</button></li>
+                                <li><button type="button" class="code-item show-tooltip" name="아이템 위에 있는지 확인">on_item()</button></li>
+                                <li><button type="button" class="code-item show-tooltip" name="아이템 배치">set_item(x, y, item)</button></li>
+                            </ul>
+                            <button class="btn-close" type="button">
+                                <span class="sr-only">닫기</span>
+                            </button>
+                        </section>
+                    </li>
+                </ul>
+            </nav>
+
+            <section class="world-map" style="position: relative;">
+                <h3 class="sr-only">3D 맵</h3>
+                <canvas id="three-canvas"></canvas>
+                <div class="control-hint">
+                    🖱️ 드래그: 회전 | 스크롤: 확대/축소
+                </div>
+            </section>
+
+            <div class="resizer" data-direction="vertical"></div>
+
+            <!-- 터미널 출력 -->
+            <section class="world-output">
+                <header class="output-header">
+                    <h3>Terminal</h3>
+                    <ul class="output-btn-list">
+                        <li class="show-tooltip" name="터미널 초기화">
+                            <button id="clearTerminal" class="btn-reset" type="button">
+                                <span class="sr-only">터미널 초기화</span>
+                            </button>
+                        </li>
+                    </ul>
+                </header>
+                <div class="output-result">
+                    <div class="output-wrap">
+                        <div id="terminal" class="output"></div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/matchbrackets.min.js"></script>
+
+    <!-- Three.js 게임 로직 -->
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+        // ============ CodeMirror 에디터 초기화 ============
+        const editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
+            mode: 'javascript',
+            theme: 'dracula',
+            lineNumbers: true,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            indentUnit: 4,
+            tabSize: 4,
+            indentWithTabs: false,
+            lineWrapping: true,
+            extraKeys: {
+                'Shift-Enter': function(cm) {
+                    runCode();
+                }
+            }
+        });
+
+        // ============ 게임 상태 ============
+        const gameState = {
+            mapSize: 5,
+            character: {
+                x: 0,
+                y: 0,
+                direction: 0,
+                items: {}
+            },
+            items: {},
+            walls: {},
+            speed: 500,
+            isRunning: false,
+            isWalking: false
+        };
+
+        // 애니메이션용 시간 추적
+        const clock = new THREE.Clock();
+        let walkAnimationId = null;
+
+        // ============ Three.js 설정 ============
+        let scene, camera, renderer, controls;
+        let characterModel = null;
+        let characterParts = { leftArm: null, rightArm: null, leftLeg: null, rightLeg: null, tail: null };
+        let mapGroup, itemGroup;
+
+        function initThree() {
+            const canvas = document.getElementById('three-canvas');
+
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x87CEEB);
+
+            renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+
+            camera = new THREE.PerspectiveCamera(50, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+            camera.position.set(8, 8, 8);
+            camera.lookAt(2.5, 0, 2.5);
+
+            controls = new OrbitControls(camera, canvas);
+            controls.enableDamping = true;
+            controls.target.set(2.5, 0, 2.5);
+
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(10, 20, 10);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+
+            mapGroup = new THREE.Group();
+            itemGroup = new THREE.Group();
+            scene.add(mapGroup);
+            scene.add(itemGroup);
+
+            createMap();
+            loadCharacter();
+
+            window.addEventListener('resize', onResize);
+            onResize();
+
+            animate();
+        }
+
+        function createMap() {
+            while(mapGroup.children.length > 0) {
+                mapGroup.remove(mapGroup.children[0]);
+            }
+
+            const size = gameState.mapSize;
+            const geometry = new THREE.BoxGeometry(1, 0.2, 1);
+            const material = new THREE.MeshStandardMaterial({ color: 0x90EE90 });
+
+            for(let x = 0; x < size; x++) {
+                for(let z = 0; z < size; z++) {
+                    const tile = new THREE.Mesh(geometry, material.clone());
+                    tile.position.set(x + 0.5, -0.1, z + 0.5);
+                    tile.receiveShadow = true;
+
+                    if((x + z) % 2 === 0) {
+                        tile.material.color.setHex(0x7CCD7C);
+                    }
+
+                    mapGroup.add(tile);
+                }
+            }
+
+            const gridHelper = new THREE.GridHelper(size, size, 0x000000, 0x444444);
+            gridHelper.position.set(size/2, 0.01, size/2);
+            mapGroup.add(gridHelper);
+
+            const axesHelper = new THREE.AxesHelper(2);
+            axesHelper.position.set(0, 0.02, 0);
+            mapGroup.add(axesHelper);
+        }
+
+        // GLB 모델 사용 여부 플래그
+        let isGLBModel = false;
+        let characterBaseY = 0;
+
+        function loadCharacter() {
+            const loader = new GLTFLoader();
+            loader.load('./assets/model/licat.glb', (gltf) => {
+                characterModel = gltf.scene;
+                characterModel.scale.set(0.25, 0.25, 0.25);
+                characterModel.position.set(0.5, 0, 0.5);
+                characterModel.castShadow = true;
+                characterBaseY = 0;
+                isGLBModel = true;
+                scene.add(characterModel);
+
+                // 모델에서 꼬리 찾기
+                characterModel.traverse((child) => {
+                    if (child.name === 'Lycat_tail') {
+                        characterParts.tail = child;
+                    }
+                });
+
+                terminalLog('🐱 라이캣이 월드에 등장했습니다!', 'success');
+            }, undefined, (error) => {
+                console.log('GLB 로드 실패, 대체 캐릭터 생성');
+                isGLBModel = false;
+                createFallbackCharacter();
+                terminalLog('🤖 캐릭터가 월드에 등장했습니다!', 'success');
+            });
+        }
+
+        function createFallbackCharacter() {
+            // 캐릭터 그룹 생성
+            characterModel = new THREE.Group();
+            characterModel.position.set(0.5, 0, 0.5);
+
+            // 몸통
+            const bodyGeometry = new THREE.CylinderGeometry(0.15, 0.12, 0.35, 12);
+            const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0xFFD700 });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 0.35;
+            body.castShadow = true;
+            characterModel.add(body);
+
+            // 머리
+            const headGeometry = new THREE.SphereGeometry(0.15, 16, 16);
+            const headMaterial = new THREE.MeshStandardMaterial({ color: 0xFFE4B5 });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 0.6;
+            head.castShadow = true;
+            characterModel.add(head);
+
+            // 눈
+            const eyeGeometry = new THREE.SphereGeometry(0.03, 8, 8);
+            const eyeMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+            const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            leftEye.position.set(-0.05, 0.63, 0.12);
+            characterModel.add(leftEye);
+            const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+            rightEye.position.set(0.05, 0.63, 0.12);
+            characterModel.add(rightEye);
+
+            // 왼팔 피벗
+            const leftArmPivot = new THREE.Group();
+            leftArmPivot.position.set(-0.2, 0.45, 0);
+            const leftArmGeometry = new THREE.CylinderGeometry(0.04, 0.03, 0.25, 8);
+            const armMaterial = new THREE.MeshStandardMaterial({ color: 0xFFD700 });
+            const leftArm = new THREE.Mesh(leftArmGeometry, armMaterial);
+            leftArm.position.y = -0.12;
+            leftArm.castShadow = true;
+            leftArmPivot.add(leftArm);
+            characterModel.add(leftArmPivot);
+            characterParts.leftArm = leftArmPivot;
+
+            // 오른팔 피벗
+            const rightArmPivot = new THREE.Group();
+            rightArmPivot.position.set(0.2, 0.45, 0);
+            const rightArm = new THREE.Mesh(leftArmGeometry, armMaterial);
+            rightArm.position.y = -0.12;
+            rightArm.castShadow = true;
+            rightArmPivot.add(rightArm);
+            characterModel.add(rightArmPivot);
+            characterParts.rightArm = rightArmPivot;
+
+            // 왼다리 피벗
+            const leftLegPivot = new THREE.Group();
+            leftLegPivot.position.set(-0.07, 0.18, 0);
+            const legGeometry = new THREE.CylinderGeometry(0.05, 0.04, 0.2, 8);
+            const legMaterial = new THREE.MeshStandardMaterial({ color: 0x4169E1 });
+            const leftLeg = new THREE.Mesh(legGeometry, legMaterial);
+            leftLeg.position.y = -0.1;
+            leftLeg.castShadow = true;
+            leftLegPivot.add(leftLeg);
+            characterModel.add(leftLegPivot);
+            characterParts.leftLeg = leftLegPivot;
+
+            // 오른다리 피벗
+            const rightLegPivot = new THREE.Group();
+            rightLegPivot.position.set(0.07, 0.18, 0);
+            const rightLeg = new THREE.Mesh(legGeometry, legMaterial);
+            rightLeg.position.y = -0.1;
+            rightLeg.castShadow = true;
+            rightLegPivot.add(rightLeg);
+            characterModel.add(rightLegPivot);
+            characterParts.rightLeg = rightLegPivot;
+
+            scene.add(characterModel);
+        }
+
+        function onResize() {
+            const canvas = renderer.domElement;
+            const parent = canvas.parentElement;
+            const width = parent.clientWidth;
+            const height = parent.clientHeight;
+
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+
+            // 걷기 애니메이션 업데이트
+            if (gameState.isWalking) {
+                updateWalkAnimation();
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        function updateWalkAnimation() {
+            const time = clock.getElapsedTime();
+            const swingSpeed = 12; // 흔들림 속도
+            const swingAngle = Math.sin(time * swingSpeed) * 0.5; // 흔들림 각도 (라디안)
+
+            if (isGLBModel) {
+                // GLB 모델: 바운스 + 좌우 흔들림 + 꼬리 흔들기
+                if (characterModel) {
+                    const bounce = Math.abs(Math.sin(time * swingSpeed)) * 0.05;
+                    characterModel.position.y = characterBaseY + bounce;
+
+                    // 좌우로 살짝 흔들림 (걷는 느낌)
+                    characterModel.rotation.z = Math.sin(time * swingSpeed) * 0.1;
+                }
+
+                // 꼬리 흔들기
+                if (characterParts.tail) {
+                    characterParts.tail.rotation.z = Math.sin(time * swingSpeed * 1.5) * 0.4;
+                    characterParts.tail.rotation.x = Math.sin(time * swingSpeed) * 0.2;
+                }
+            } else {
+                // 대체 캐릭터: 팔다리 흔들기
+                // 팔 흔들기 (서로 반대 방향)
+                if (characterParts.leftArm) {
+                    characterParts.leftArm.rotation.x = swingAngle;
+                }
+                if (characterParts.rightArm) {
+                    characterParts.rightArm.rotation.x = -swingAngle;
+                }
+
+                // 다리 흔들기 (팔과 반대)
+                if (characterParts.leftLeg) {
+                    characterParts.leftLeg.rotation.x = -swingAngle * 0.6;
+                }
+                if (characterParts.rightLeg) {
+                    characterParts.rightLeg.rotation.x = swingAngle * 0.6;
+                }
+
+                // 몸 살짝 바운스
+                if (characterModel) {
+                    const bounce = Math.abs(Math.sin(time * swingSpeed)) * 0.03;
+                    characterModel.position.y = bounce;
+                }
+            }
+        }
+
+        function stopWalkAnimation() {
+            gameState.isWalking = false;
+
+            if (isGLBModel) {
+                // GLB 모델: 위치와 회전 원래대로
+                if (characterModel) {
+                    characterModel.position.y = characterBaseY;
+                    characterModel.rotation.z = 0;
+                }
+                // 꼬리 원래대로
+                if (characterParts.tail) {
+                    characterParts.tail.rotation.z = 0;
+                    characterParts.tail.rotation.x = 0;
+                }
+            } else {
+                // 대체 캐릭터: 팔다리를 원래 위치로
+                if (characterParts.leftArm) characterParts.leftArm.rotation.x = 0;
+                if (characterParts.rightArm) characterParts.rightArm.rotation.x = 0;
+                if (characterParts.leftLeg) characterParts.leftLeg.rotation.x = 0;
+                if (characterParts.rightLeg) characterParts.rightLeg.rotation.x = 0;
+
+                // 캐릭터 y 좌표 원래대로
+                if (characterModel) {
+                    characterModel.position.y = 0;
+                }
+            }
+        }
+
+        // ============ 게임 함수들 ============
+
+        function terminalLog(message, type = '') {
+            const terminal = document.getElementById('terminal');
+            const line = document.createElement('div');
+            line.textContent = `> ${message}`;
+            if (type) line.classList.add(type);
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        async function move() {
+            if (!characterModel) return;
+
+            const dir = gameState.character.direction;
+            let nx = gameState.character.x;
+            let nz = gameState.character.y;
+
+            switch(dir) {
+                case 0: nz += 1; break;
+                case 1: nx -= 1; break;
+                case 2: nz -= 1; break;
+                case 3: nx += 1; break;
+            }
+
+            if (nx < 0 || nx >= gameState.mapSize || nz < 0 || nz >= gameState.mapSize) {
+                terminalLog('❌ 맵을 벗어날 수 없습니다!', 'error');
+                return;
+            }
+
+            gameState.character.x = nx;
+            gameState.character.y = nz;
+
+            const targetX = nx + 0.5;
+            const targetZ = nz + 0.5;
+
+            // 걷기 애니메이션 시작
+            gameState.isWalking = true;
+
+            await animateMove(characterModel.position.x, characterModel.position.z, targetX, targetZ);
+
+            // 걷기 애니메이션 종료
+            stopWalkAnimation();
+
+            terminalLog(`➡️ 이동: (${nx}, ${nz})`);
+        }
+
+        async function animateMove(fromX, fromZ, toX, toZ) {
+            const duration = gameState.speed;
+            const startTime = Date.now();
+
+            return new Promise(resolve => {
+                function update() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+
+                    characterModel.position.x = fromX + (toX - fromX) * eased;
+                    characterModel.position.z = fromZ + (toZ - fromZ) * eased;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        resolve();
+                    }
+                }
+                update();
+            });
+        }
+
+        async function turn_left() {
+            if (!characterModel) return;
+
+            gameState.character.direction = (gameState.character.direction + 1) % 4;
+
+            const targetRotation = characterModel.rotation.y + Math.PI / 2;
+            await animateRotate(characterModel.rotation.y, targetRotation);
+
+            const directions = ['동', '북', '서', '남'];
+            terminalLog(`↺ 왼쪽 회전: ${directions[gameState.character.direction]}쪽`);
+        }
+
+        async function turn_right() {
+            if (!characterModel) return;
+
+            gameState.character.direction = (gameState.character.direction + 3) % 4;
+
+            const targetRotation = characterModel.rotation.y - Math.PI / 2;
+            await animateRotate(characterModel.rotation.y, targetRotation);
+
+            const directions = ['동', '북', '서', '남'];
+            terminalLog(`↻ 오른쪽 회전: ${directions[gameState.character.direction]}쪽`);
+        }
+
+        async function animateRotate(fromAngle, toAngle) {
+            const duration = gameState.speed / 2;
+            const startTime = Date.now();
+
+            return new Promise(resolve => {
+                function update() {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+
+                    characterModel.rotation.y = fromAngle + (toAngle - fromAngle) * eased;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(update);
+                    } else {
+                        resolve();
+                    }
+                }
+                update();
+            });
+        }
+
+        function front_is_clear() {
+            const dir = gameState.character.direction;
+            let nx = gameState.character.x;
+            let nz = gameState.character.y;
+
+            switch(dir) {
+                case 0: nz += 1; break;
+                case 1: nx -= 1; break;
+                case 2: nz -= 1; break;
+                case 3: nx += 1; break;
+            }
+
+            const clear = nx >= 0 && nx < gameState.mapSize && nz >= 0 && nz < gameState.mapSize;
+            terminalLog(`🔍 앞이 비어있음: ${clear}`, 'info');
+            return clear;
+        }
+
+        function on_item() {
+            const key = `${gameState.character.x}_${gameState.character.y}`;
+            const hasItem = key in gameState.items;
+            terminalLog(`📦 아이템 위에 있음: ${hasItem}`, 'info');
+            return hasItem;
+        }
+
+        async function pick() {
+            const key = `${gameState.character.x}_${gameState.character.y}`;
+
+            if (key in gameState.items) {
+                const item = gameState.items[key];
+                if (!gameState.character.items[item.name]) {
+                    gameState.character.items[item.name] = 0;
+                }
+                gameState.character.items[item.name] += item.count;
+                delete gameState.items[key];
+
+                const itemMesh = itemGroup.getObjectByName(key);
+                if (itemMesh) itemGroup.remove(itemMesh);
+
+                terminalLog(`✨ ${item.name}을(를) ${item.count}개 주웠습니다!`, 'success');
+            } else {
+                terminalLog('❌ 이 위치에 아이템이 없습니다.', 'error');
+            }
+
+            await delay(200);
+        }
+
+        async function put(itemName) {
+            if (!gameState.character.items[itemName] || gameState.character.items[itemName] <= 0) {
+                terminalLog(`❌ ${itemName}을(를) 가지고 있지 않습니다.`, 'error');
+                return;
+            }
+
+            const key = `${gameState.character.x}_${gameState.character.y}`;
+            gameState.character.items[itemName]--;
+
+            if (!gameState.items[key]) {
+                gameState.items[key] = { name: itemName, count: 0 };
+            }
+            gameState.items[key].count++;
+
+            createItemMesh(gameState.character.x, gameState.character.y, itemName);
+
+            terminalLog(`📦 ${itemName}을(를) 놓았습니다.`, 'success');
+            await delay(200);
+        }
+
+        function set_item(x, y, itemName, count = 1) {
+            const key = `${x}_${y}`;
+            gameState.items[key] = { name: itemName, count: count };
+            createItemMesh(x, y, itemName);
+            terminalLog(`📦 (${x}, ${y})에 ${itemName} ${count}개 배치`, 'info');
+        }
+
+        function createItemMesh(x, y, itemName) {
+            const key = `${x}_${y}`;
+
+            const existing = itemGroup.getObjectByName(key);
+            if (existing) itemGroup.remove(existing);
+
+            const colors = {
+                'fish-1': 0x4169E1,
+                'fish-2': 0x1E90FF,
+                'fish-3': 0x00BFFF,
+                'diamond': 0x00FFFF,
+                'apple': 0xFF6347,
+                'goldbar': 0xFFD700
+            };
+
+            const geometry = new THREE.SphereGeometry(0.15, 16, 16);
+            const material = new THREE.MeshStandardMaterial({
+                color: colors[itemName] || 0xFFFFFF,
+                emissive: colors[itemName] || 0xFFFFFF,
+                emissiveIntensity: 0.3
+            });
+
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set(x + 0.5, 0.2, y + 0.5);
+            mesh.name = key;
+
+            itemGroup.add(mesh);
+        }
+
+        async function repeat(count, func) {
+            for (let i = 0; i < count; i++) {
+                await func();
+            }
+        }
+
+        function resetWorld() {
+            gameState.character.x = 0;
+            gameState.character.y = 0;
+            gameState.character.direction = 0;
+            gameState.character.items = {};
+            gameState.items = {};
+
+            // 걷기 애니메이션 초기화
+            stopWalkAnimation();
+
+            if (characterModel) {
+                characterModel.position.set(0.5, 0, 0.5);
+                characterModel.rotation.y = 0;
+            }
+
+            while(itemGroup.children.length > 0) {
+                itemGroup.remove(itemGroup.children[0]);
+            }
+
+            document.getElementById('terminal').innerHTML = '';
+            terminalLog('🔄 월드가 초기화되었습니다.', 'info');
+        }
+
+        // ============ 코드 실행 ============
+
+        async function runCode() {
+            if (gameState.isRunning) {
+                terminalLog('⚠️ 이미 실행 중입니다.', 'error');
+                return;
+            }
+
+            const runBtn = document.getElementById('runBtn');
+            runBtn.classList.add('running');
+            runBtn.innerHTML = '<span>⏹</span> 실행 중...';
+
+            gameState.isRunning = true;
+            terminalLog('▶️ 코드 실행 시작...', 'info');
+
+            const code = editor.getValue();
+
+            try {
+                const asyncCode = `(async () => { ${code} })()`;
+
+                const context = {
+                    move, turn_left, turn_right, pick, put,
+                    repeat, front_is_clear, on_item, set_item,
+                    delay, console: {
+                        log: (...args) => terminalLog(args.join(' '), 'info')
+                    }
+                };
+
+                const func = new Function(...Object.keys(context), `return ${asyncCode}`);
+                await func(...Object.values(context));
+
+                terminalLog('✅ 코드 실행 완료!', 'success');
+            } catch (error) {
+                terminalLog(`❌ 오류: ${error.message}`, 'error');
+            }
+
+            gameState.isRunning = false;
+            runBtn.classList.remove('running');
+            runBtn.innerHTML = '<span>▶</span> 실행';
+        }
+
+        // 전역에서 runCode 접근 가능하게
+        window.runCode = runCode;
+
+        // ============ 이벤트 리스너 ============
+
+        document.getElementById('runBtn').addEventListener('click', runCode);
+
+        document.getElementById('resetBtn').addEventListener('click', resetWorld);
+
+        document.getElementById('clearTerminal').addEventListener('click', () => {
+            document.getElementById('terminal').innerHTML = '';
+        });
+
+        document.getElementById('map-size').addEventListener('input', (e) => {
+            const size = parseInt(e.target.value);
+            document.getElementById('map-size-text').textContent = size;
+            gameState.mapSize = size;
+            createMap();
+            controls.target.set(size/2, 0, size/2);
+            resetWorld();
+        });
+
+        document.getElementById('speed-range').addEventListener('input', (e) => {
+            const speed = parseInt(e.target.value);
+            document.getElementById('speed-text').textContent = speed;
+            gameState.speed = 1000 - (speed * 9);
+        });
+
+        document.querySelector('.btn-dark-mode')?.addEventListener('click', () => {
+            const html = document.documentElement;
+            const current = html.getAttribute('color-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('color-theme', newTheme);
+            localStorage.setItem('color-theme', newTheme);
+
+            if (scene) {
+                scene.background = new THREE.Color(newTheme === 'dark' ? 0x1a1a2e : 0x87CEEB);
+            }
+
+            // CodeMirror 테마 변경
+            editor.setOption('theme', newTheme === 'dark' ? 'dracula' : 'default');
+        });
+
+        document.querySelectorAll('.btn-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const modal = btn.nextElementSibling;
+                if (modal && modal.classList.contains('controller-modal')) {
+                    modal.classList.toggle('active');
+                    btn.classList.toggle('active');
+                }
+            });
+        });
+
+        document.querySelectorAll('.btn-close').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const modal = btn.closest('.controller-modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    modal.previousElementSibling?.classList.remove('active');
+                }
+            });
+        });
+
+        document.querySelectorAll('.code-item').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const code = btn.textContent;
+                const cursor = editor.getCursor();
+                editor.replaceRange('\n' + code, cursor);
+                editor.focus();
+            });
+        });
+
+        // ============ 초기화 ============
+        initThree();
+        terminalLog('🎮 Weniv World 3D에 오신 것을 환영합니다!', 'success');
+        terminalLog('💡 코드를 작성하고 Shift+Enter로 실행하세요.', 'info');
+
+        // 저장된 테마 적용
+        const savedTheme = localStorage.getItem('color-theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('color-theme', savedTheme);
+            if (savedTheme === 'dark') {
+                editor.setOption('theme', 'dracula');
+                if (scene) scene.background = new THREE.Color(0x1a1a2e);
+            }
+        }
+    </script>
+</body>
+</html>

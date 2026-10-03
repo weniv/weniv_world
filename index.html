@@ -44,29 +44,19 @@
     <link rel="shortcut icon" type="image/x-icon" href="./assets/img/icon/icon-logo.svg">
 
 
+    <!-- Python(Pyodide)은 assets/js/app/py-worker.js 가 Web Worker에서 불러옵니다. -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="modulepreload" href="./assets/vendor/codemirror.js">
+
     <!-- JavaScript -->
     <script src="./assets/js/analytics.js" defer></script>
     <script src="./assets/js/event.js" defer></script>
-    <script src="./assets/js/editor.js" defer></script>
     <script src="./assets/js/resizer.js" defer></script>
     <script src="./assets/js/report.js" defer></script>
-    <script type="module" src="./assets/js/parser.js"></script>
-
-    <!-- PyScript -->
-    <link rel="stylesheet" href="./assets/pyscript/pyscript.css" />
-    <script defer src="./assets/pyscript/pyscript_latest.js"></script>
+    <script type="module" src="./assets/js/app/main.js"></script>
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./assets/css/style.css">
-
-    <py-config>
-        terminal = false
-        # packages = ["numpy", "nest_asyncio"]
-
-        [[fetch]]
-        from = "./assets/py/"
-        files = ["built_in_functions.py", "character.py", "worldMap.py", "wall.py", "item.py", "coordinate.py", "modules.py", "error.py", "mob.py", "solution.py"]
-    </py-config>
 </head>
 <body>
     <header class="header">
@@ -182,7 +172,7 @@
                                 <li><a href="https://100.pyalgo.co.kr/" target="_blank" rel="noopener noreferrer">pyalgo 100</a></li>
                                 <li><a href="https://pyalgo.co.kr/" target="_blank" rel="noopener noreferrer">pyalgo 20</a></li>
                                 <li><a href="https://to.pyalgo.co.kr/" target="_blank" rel="noopener noreferrer">pyalgo 7</a></li>
-                                <li><a href="https://jsalgo.co.kr/" target="_blank" rel="noopener noreferrer">jsalgo 100</a></li>
+                                <li><a href="https://100.jsalgo.co.kr/" target="_blank" rel="noopener noreferrer">jsalgo 100</a></li>
                                 <li><a href="https://jsalgo.co.kr/" target="_blank" rel="noopener noreferrer">jsalgo 20</a></li>
                                 <li><a href="https://to.jsalgo.co.kr/" target="_blank" rel="noopener noreferrer">jsalgo 7</a></li>
                                 <li><a href="https://sql.weniv.co.kr/" target="_blank" rel="noopener noreferrer">weniv SQL</a></li>
@@ -208,6 +198,10 @@
             <header class="notebook-header">
                 <h2>Notebook</h2>
                 <button type="button" class="btn-add-code">코드 추가</button>
+                <span id="engine-status" class="engine-status" role="status" aria-live="polite"></span>
+                <button type="button" id="btn-stop" class="btn-stop" hidden>
+                    <span class="btn-stop-icon" aria-hidden="true"></span>중지
+                </button>
                 <ul class="notebook-btn-list">
                     <li class="show-tooltip" name="노트북 내보내기">
                         <button type="button" class="downloadNotebookBtn btn-file-export">
@@ -221,22 +215,8 @@
                     </li>
                 </ul>
             </header>
-            <section class="notebook-section" id='notebookSection'>
-                <h3 class="sr-only">코드 입력</h3>
-                <py-repl id="my-repl" auto-generate="true">
-                    # shift + enter를 눌러 실행해 보세요.
-                    # 변수, 함수 목록은 World에 있습니다.
-                    mission_start()
-                    set_item(2, 2, 'fish-1')
-                    move()
-                    move()
-                    turn_left()
-                    turn_left()
-                    turn_left()
-                    repeat(2, move)
-                    # pick()
-                    mission_end()
-                </py-repl>
+            <section class="notebook-section" id="notebookSection" aria-label="코드 입력">
+                <!-- 코드 셀은 assets/js/app/notebook.js 가 만듭니다. -->
             </section>
         </section>
         <div class="resizer" data-direction="horizontal"></div>
@@ -289,7 +269,6 @@
                             <span class="sr-only">아이템 추가하기</span>
                         </button>
                         <div class="controller-modal select-items">
-                            <!-- TODO: items data 파일 뿌려주기 -->
                             <div class="input-wrap">
                                 <input type="radio" name="item" id="fish-1" value="fish-1" class="sr-only" checked>
                                 <label for="fish-1">
@@ -345,7 +324,6 @@
                             <span class="sr-only">몹 추가하기</span>
                         </button>
                         <div class="controller-modal select-mobs">
-                            <!-- TODO: items data 파일 뿌려주기 -->
                             <div class="input-wrap">
                                 <input type="radio" name="mob" id="lion" value="lion" class="sr-only" checked>
                                 <label for="lion">
@@ -353,25 +331,25 @@
                                 </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="mob" id="py" value="py" class="sr-only" checked>
+                                <input type="radio" name="mob" id="py" value="py" class="sr-only">
                                 <label for="py">
                                     <span class="sr-only">py</span>
                                 </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="mob" id="binky" value="binky" class="sr-only" checked>
+                                <input type="radio" name="mob" id="binky" value="binky" class="sr-only">
                                 <label for="binky">
                                     <span class="sr-only">binky</span>
                                 </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="mob" id="gary" value="gary" class="sr-only" checked>
+                                <input type="radio" name="mob" id="gary" value="gary" class="sr-only">
                                 <label for="gary">
                                     <span class="sr-only">gary</span>
                                 </label>
                             </div>
                             <div class="input-wrap">
-                                <input type="radio" name="mob" id="wizard" value="wizard" class="sr-only" checked>
+                                <input type="radio" name="mob" id="wizard" value="wizard" class="sr-only">
                                 <label for="wizard">
                                     <span class="sr-only">wizard</span>
                                 </label>
@@ -417,12 +395,6 @@
                             <h4 class="title">함수 리스트</h4>
                             <ul>
                                 <li>
-                                    <button type="button" class="code-item show-tooltip" name="임무 시작">mission_start()</button>
-                                </li>
-                                <li>
-                                    <button type="button" class="code-item show-tooltip" name="임무 끝">mission_end()</button>
-                                </li>
-                                <li>
                                     <button type="button" class="code-item show-tooltip" name="터미널에 결과를 출력">print()</button>
                                 </li>
                                 <li>
@@ -456,7 +428,7 @@
                                     <button type="button" class="code-item show-tooltip" name="캐릭터 이동 방향에 door이 있는 경우 벽을 삭제">open_door()</button>
                                 </li>
                                 <li>
-                                    <button type="button" class="code-item show-tooltip" name="맵에 아이템(fish, fish-1, fish-2, fish-3, diamond, apple, goldbar) 추가">set_item(x,y,item,count)</button>
+                                    <button type="button" class="code-item show-tooltip" name="맵에 아이템(fish-1, fish-2, fish-3, diamond, apple, goldbar, hp-potion, mp-potion) 추가">set_item(x,y,item,count)</button>
                                 </li> 
                                 <li>
                                     <button type="button" class="code-item show-tooltip" name="캐릭터의 [앞|좌|우|뒤]에 벽이 있는지 판단">[front|left|right|back]_is_clear()</button>
@@ -555,14 +527,7 @@
             </nav>
             <section class="world-map">
                 <h3 class="sr-only">위니브월드 맵</h3>
-                <div id='app'></div>
-                <!-- <div class="modal confirm">
-                    <p class="text"></p>
-                    <div class="btns">
-                        <button class="cancel">취소</button>
-                        <button class="exit">나가기</button>
-                    </div>
-                </div> -->
+                <div id="app"></div>
             </section>
             <div class="resizer" data-direction="vertical"></div>
             <section class="world-output">
@@ -576,7 +541,7 @@
                             </button>
                         </li>
                         <li class="show-tooltip" name="download">
-                            <button id="output-download" type="button" class="downloadNotebookBtn btn-code-download">
+                            <button id="output-download" type="button" class="btn-code-download">
                                 <span class="sr-only">download terminal</span>
                             </button>
                         </li>
@@ -594,10 +559,7 @@
         <section class="story">
             <header class="story-header">
                 <h2>스토리 보기</h2>
-                <!-- TODO: 스토리 추가 기능 구현하기(WD2) -->
-                <!-- <button type="button" class="btn-write-story">
-                    직접 작성하기
-                </button> -->
+                <span class="story-progress"></span>
                 <button type="button" class="btn-close-story show-tooltip" name="스토리 접기">
                     <span class="sr-only">
                         스토리 접기
@@ -612,11 +574,5 @@
             <ul class="story-list"></ul>
         </section>
     </main>
-    <p id="pointer"></p>
-
-    <!-- TODO: 배포 직전에는 style="display:none;"를 풀어야 합니다. -->
-    <section class="description"></section>
-    <py-script src="./assets/py/script.py">
-    </py-script>
 </body>
 </html>

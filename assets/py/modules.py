@@ -1,109 +1,55 @@
-import js
-from js import setTimeout
-from pyodide.ffi import create_once_callable
-from built_in_functions import (
-    move,
-    turn_left,
-    front_is_clear,
-    left_is_clear,
-)
-from error import alert_error
-from coordinate import character_data
+"""
+from modules import turn_right 처럼 가져와서 사용하는 확장 함수
+"""
 
-def turn_right():
-    turn_left()
-    turn_left()
-    turn_left()
+import engine
+from actor import DIRECTION_DELTA, out_of_world, obstacle_at
+from built_in_functions import move, turn_left, front_is_clear, _main_character
+from error import OutOfWorld, ObstacleExist, WorldError
 
 
-def turn_around():
-    turn_left()
-    turn_left()
+def turn_right(character=None):
+    """오른쪽으로 회전"""
+    turn_left(character)
+    turn_left(character)
+    turn_left(character)
 
 
-def move_to_wall():
-    while front_is_clear():
-        move()
+def turn_around(character=None):
+    """뒤로 회전"""
+    turn_left(character)
+    turn_left(character)
 
 
-def turn_left_until_clear():
-    for i in range(4):
-        if not front_is_clear():
-            turn_left()
-        else:
+def move_to_wall(character=None):
+    """장애물이 있기 전까지 이동"""
+    while front_is_clear(character):
+        move(character)
+
+
+def turn_left_until_clear(character=None):
+    """앞이 비어 있을 때까지 왼쪽으로 회전"""
+    for _ in range(4):
+        if front_is_clear(character):
             return
-    alert_error("사방이 막혀있습니다.")
-    
+        turn_left(character)
+    raise WorldError("사방이 막혀있습니다.")
 
 
-# jump 함수 관련 로직
 def jump(character=None):
-    if character != None:
-        setTimeout(create_once_callable(lambda: _jump(character)), character.running_time)
-        setTimeout(create_once_callable(lambda:character.init_time()), character.running_time)
-        
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            character = character_data[0]["character_obj"]
-            setTimeout(create_once_callable(lambda: _jump(character)), character.running_time)
-            setTimeout(create_once_callable(lambda:character.init_time()), character.running_time)
-        else:
-            alert_error('CharacterIsNotExist')
-            raise CharacterIsNotExist
+    """
+    바라보는 방향으로 장애물 한 칸을 뛰어넘어 두 칸 이동합니다.
+    """
+    ch = _main_character(character)
+    d = ch._data()
+    x, y, direction = d["x"], d["y"], d["directions"]
+    dx, dy = DIRECTION_DELTA[direction]
+    nx, ny = x + dx * 2, y + dy * 2
 
-def _jump(ch):
-    x, y = ch._get_character_data('x'), ch._get_character_data('y')
-    directions = ch._get_character_data('directions')
-    
-    fx, fy = x, y # 바로 앞
-    nx, ny = x, y # 도착 지점
-    
-    if directions == 0:
-        fy += 1
-        ny += 2
-    elif directions == 1:
-        fx -= 1
-        nx -= 2
-    elif directions == 2:
-        fy -= 1
-        ny -= 2
-    elif directions == 3:
-        fx += 1
-        nx += 2
-        
-    error_check = None
-    if ch._out_of_world(nx, ny):
-        error_check = "OutOfWorld"
-    elif ch._obstacle_exist(nx, ny):
-        error_check = "ObstacleExist"
-    
-    if error_check:
-        setTimeout(create_once_callable(lambda: alert_error(error_check)), ch.running_time)
-        setTimeout(create_once_callable(lambda: ch.init_time()), ch.running_time)
-    else: 
-        setTimeout(create_once_callable(lambda: (ch._move_animation(fx, fy, directions))), ch.running_time)
-        setTimeout(create_once_callable(lambda: ch.init_time()), ch.running_time)
-        
-        setTimeout(create_once_callable(lambda: _scale(ch, 'up')), ch.running_time)
-        setTimeout(create_once_callable(lambda: ch.init_time()), ch.running_time)
-        
-        setTimeout(create_once_callable(lambda: (ch._move_animation(fx, fy, directions))), ch.running_time)
-        setTimeout(create_once_callable(lambda: ch.init_time()), ch.running_time)
-        
-        setTimeout(create_once_callable(lambda: _scale(ch, 'down')), ch.running_time)
-        setTimeout(create_once_callable(lambda: ch.init_time()), ch.running_time)
-        
-        ch.x = nx
-        ch.y = ny
-        ch._set_character_data('x', nx)
-        ch._set_character_data('y', ny)
-        
-        
-def _scale(ch, type):
-    name = ch._get_character_data('character')
-    c = js.document.querySelector(f".{name}")
-    
-    if type=='up':
-        c.style.scale = "1.2"
-    elif type=='down':
-        c.style.scale = "1"
+    if out_of_world(nx, ny):
+        raise OutOfWorld()
+    if obstacle_at(nx, ny):
+        raise ObstacleExist()
+
+    engine.emit("jump", who=ch._who(), frm=[x, y], to=[nx, ny], dir=direction)
+    d["x"], d["y"] = nx, ny

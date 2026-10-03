@@ -1,3 +1,6 @@
+@use "modules";
+@use "variables";
+
 .notebook {
     width: 50rem;
     min-width: 26rem;
@@ -36,7 +39,7 @@
         display: inline-block;
         width: 2rem;
         height: 2rem;
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorPrimary),
             '../../assets/img/icon/icon-plus.svg'
         );
@@ -62,59 +65,174 @@
     margin: 0.6rem;
     box-sizing: border-box;
     overflow: auto;
-    @include scrollbar;
+    @include modules.scrollbar;
 }
 
-.py-repl-box {
-    display: flex;
-    // gap: 1rem;
+/* 실행 상태 / 중지 버튼 */
+.engine-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-left: 1.2rem;
+    color: var(--ColorGrayLv3);
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 2rem;
+    white-space: nowrap;
+
+    &:empty {
+        display: none;
+    }
+
+    &[data-status='loading']::before,
+    &[data-status='running']::before {
+        content: '';
+        width: 1.2rem;
+        height: 1.2rem;
+        border: 2px solid var(--ColorGrayLv2);
+        border-top-color: var(--ColorPrimary);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+    }
+
+    &[data-status='failed'] {
+        color: var(--ColorError);
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
+
+.btn-stop {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-left: 1rem;
+    padding: 0.4rem 1.2rem 0.4rem 1rem;
+    border: 1px solid var(--ColorError);
     border-radius: 0.8rem;
+    color: var(--ColorError);
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 2rem;
+
+    &[hidden] {
+        display: none;
+    }
+
+    &:hover {
+        background: var(--ColorError);
+        color: var(--ColorBtnSurface);
+
+        .btn-stop-icon {
+            background: var(--ColorBtnSurface);
+        }
+    }
+
+    .btn-stop-icon {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 0.2rem;
+        background: var(--ColorError);
+    }
 }
 
-.py-repl-editor {
+/* 코드 셀 */
+.cell {
+    flex-shrink: 0;
+}
+
+.cell-box {
+    display: flex;
+    flex-direction: column;
     border-radius: 0.8rem;
     border: 1px solid var(--ColorGrayLv2);
     background: var(--ColorGrayLv1);
+
+    &:focus-within {
+        outline: 2px solid var(--ColorPrimary);
+        outline-offset: -1px;
+    }
 }
 
-.ͼ1 {
-    overflow: hidden;
+.cell.is-running .cell-box {
+    border-color: var(--ColorPrimary);
 }
 
-.ͼ1 .cm-scroller {
-    font-family: 'Source Code Pro';
-    font-size: 1.6rem;
+.cell-run {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.cell-status {
+    color: var(--ColorGrayLv3);
+    font-size: 1.3rem;
     font-weight: 500;
-    border-radius: 0.8rem;
-    @include scrollbar($track-color: var(--ColorGrayLv1), $padding: 0.6rem);
 }
 
-.ͼ1.cm-focused {
-    border-radius: 0.8rem;
-    outline: 2px solid var(--ColorPrimary);
-}
+.cell-editor {
+    .cm-editor {
+        border-radius: 0 0 0.8rem 0.8rem;
+        background: var(--ColorGrayLv1);
+        color: var(--ColorSurface);
 
-.ͼ1 .cm-foldGutter {
-    width: 1rem;
-}
-
-.ͼ2 .cm-gutters {
-    border: none;
-    background: var(--ColorGrayLv1);
-}
-
-.ͼ1 .cm-lineNumbers {
-    .cm-gutterElement {
-        position: relative;
-        width: 5.5rem;
-        box-sizing: border-box;
-        padding: 1rem 1rem 1rem 0;
-
-        &:first-child {
-            padding: 0;
+        &.cm-focused {
+            outline: none;
         }
+    }
 
-        &.cm-activeLineGutter::before {
+    .cm-scroller {
+        font-family: variables.$font-code;
+        font-size: 1.6rem;
+        font-weight: 500;
+        line-height: 2.2rem;
+        border-radius: 0 0 0.8rem 0.8rem;
+        @include modules.scrollbar($track-color: var(--ColorGrayLv1), $padding: 0.6rem);
+    }
+
+    .cm-content {
+        padding: 1rem 0;
+        caret-color: var(--ColorSurface);
+    }
+
+    .cm-line {
+        padding: 0.5rem 1rem;
+    }
+
+    .cm-cursor {
+        border-left-color: var(--ColorSurface);
+    }
+
+    .cm-gutters {
+        border: none;
+        background: var(--ColorGrayLv1);
+        color: var(--ColorGrayLv3);
+    }
+
+    .cm-lineNumbers .cm-gutterElement {
+        position: relative;
+        min-width: 4.5rem;
+        padding: 0.5rem 1rem 0.5rem 0;
+        box-sizing: border-box;
+        font-size: 1.5rem;
+        line-height: 2.2rem;
+
+        // CodeMirror가 너비 계산용으로 넣는 숨은 첫 요소
+        &:first-child {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+
+    .cm-activeLine,
+    .cm-activeLineGutter {
+        background: var(--ColorActivation);
+    }
+
+    .cm-activeLineGutter {
+        color: var(--ColorSurface);
+
+        &.cm-gutterElement::before {
             content: '';
             position: absolute;
             top: 0;
@@ -124,82 +242,53 @@
             background: var(--ColorPrimary);
         }
     }
-}
 
-.cm-gutterElement {
-    color: var(--ColorGrayLv3);
-    font-size: 1.6rem;
-    line-height: 2rem;
-    font-weight: 500;
+    .cm-foldGutter .cm-gutterElement {
+        width: 1.2rem;
+    }
 
-    &.cm-activeLineGutter {
+    .cm-selectionBackground,
+    .cm-focused .cm-selectionBackground {
+        background: var(--ColorGrayLv2) !important;
+    }
+
+    .cm-selectionMatch {
         background: var(--ColorActivation);
-        color: var(--ColorSurface);
     }
-}
 
-.ͼ1 .cm-content {
-    padding: 1.2rem 0 0.6rem;
-    flex-basis: auto !important;
-}
-
-.ͼ1 .cm-line {
-    padding: 1rem;
-    color: var(--ColorSurface);
-    border: none;
-    box-sizing: border-box;
-
-    .ͼm {
-        color: var(--ColorSurface);
+    .cm-matchingBracket {
+        outline: 1px solid var(--ColorGrayLv3);
+        background: transparent !important;
     }
-}
 
-.ͼ2 .cm-activeLine {
-    background: var(--ColorActivation);
-}
+    .cm-error-line {
+        background: color-mix(in srgb, var(--ColorError) 14%, transparent);
+    }
 
-.ͼb {
-    color: var(--ColorCodePurple);
-}
+    .cm-tooltip {
+        border: 1px solid var(--ColorGrayLv2);
+        border-radius: 0.6rem;
+        background: var(--ColorBackground);
+        color: var(--ColorSurface);
+        font-size: 1.4rem;
+        overflow: hidden;
+    }
 
-.ͼg {
-    color: var(--ColorCodePink);
-}
+    .cm-tooltip-autocomplete ul li[aria-selected] {
+        background: var(--ColorPrimary);
+        color: var(--ColorBtnSurface);
+    }
 
-.ͼd {
-    color: var(--ColorCodeGreen);
-}
-
-.ͼe {
-    color: var(--ColorCodeOrange);
-}
-
-.ͼ1.cm-focused .cm-matchingBracket {
-    background: var(--ColorGrayLv1);
-}
-
-.ͼ1.cm-focused .cm-selectionBackground,
-.ͼ2 .cm-selectionBackground {
-    background: transparent;
-}
-
-.ͼ4 .cm-line::selection {
-    background: var(--ColorGrayLv2) !important;
-}
-
-.ͼ4 .cm-line ::selection {
-    background: var(--ColorGrayLv2) !important;
-}
-
-.ͼ1 .cm-selectionMatch {
-    background: var(--ColorActivation);
+    .cm-completionInfo {
+        padding: 0.6rem 1rem;
+        font-family: variables.$font-basic;
+    }
 }
 
 .cm-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    order: -1;
     height: 5rem;
     padding: 1rem 1.4rem 1rem 1.2rem;
     border-radius: 0.8rem 0.8rem 0 0;
@@ -217,45 +306,68 @@
     }
 }
 
-.py-repl-run-button {
-    position: static;
-    opacity: 1;
+.cell-run-button {
     cursor: pointer;
 }
 
-.py-repl-output {
-    margin-top: 1.2rem;
-    padding: 1.6rem;
-    border-radius: 8px;
+/* 셀 실행 결과 (마지막 식의 값 / 오류) */
+.cell-output {
+    margin-top: 0.8rem;
+    padding: 1.2rem 1.6rem;
+    border-radius: 0.8rem;
     border: 1px solid var(--ColorGrayLv2);
     background: var(--ColorGrayLv1);
-    font-family: Pretendard;
-    font-size: 1.6rem;
-    font-style: normal;
+    color: var(--ColorSurface);
+    font-size: 1.5rem;
     font-weight: 500;
     line-height: 2.2rem;
-    overflow: hidden;
+    overflow: auto;
 
-    &:empty {
+    &[hidden] {
+        display: none;
+    }
+
+    pre {
         margin: 0;
-        padding: 0;
-        border: none;
+        font-family: variables.$font-code;
+        white-space: pre-wrap;
+        word-break: break-word;
     }
 
     &.error {
         border: 2px solid var(--ColorError);
+    }
+
+    .cell-error-title {
         color: var(--ColorError);
+        font-family: variables.$font-code;
+        font-weight: 600;
+        word-break: break-word;
+    }
+
+    .cell-error-hint {
+        margin-top: 0.4rem;
+        color: var(--ColorSurface);
+    }
+
+    details {
+        margin-top: 0.8rem;
+        color: var(--ColorGrayLv3);
+        font-size: 1.3rem;
+
+        summary {
+            cursor: pointer;
+        }
+
+        pre {
+            margin-top: 0.6rem;
+            font-size: 1.3rem;
+            line-height: 1.9rem;
+        }
     }
 }
 
-.py-error {
-    overflow-x: auto;
-    border: none;
-    background: transparent;
-    color: var(--ColorError);
-}
-
-.py-repl-btn-wrap {
+.cell-add-wrap {
     position: relative;
     width: calc(100% - (3rem * 2));
     height: 0.2rem;

@@ -1,3 +1,6 @@
+@use "modules";
+@use "variables";
+
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@500&display=swap');
 
@@ -8,7 +11,7 @@ html {
 body {
     font-size: 1.6rem;
     line-height: 1.6;
-    font-family: $font-basic;
+    font-family: variables.$font-basic;
     color: var(--ColorSurface);
     background: var(--ColorBackground);
     letter-spacing: -0.01em;
@@ -71,7 +74,7 @@ button {
         display: block;
         width: 1.4rem;
         height: 1.4rem;
-        @include mask-image(#fff, '../../assets/img/icon/icon-play.svg');
+        @include modules.mask-image(#fff, '../../assets/img/icon/icon-play.svg');
     }
 
     &.next::before {
@@ -94,7 +97,7 @@ button {
 .btn-file-export {
     width: 2.4rem;
     height: 2.4rem;
-    @include mask-image(
+    @include modules.mask-image(
         var(--ColorGrayLv3),
         '../../assets/img/icon/icon-file-export.svg'
     );
@@ -108,7 +111,7 @@ button {
 .btn-file-import {
     width: 2.4rem;
     height: 2.4rem;
-    @include mask-image(
+    @include modules.mask-image(
         var(--ColorGrayLv3),
         '../../assets/img/icon/icon-file-import.svg'
     );
@@ -131,7 +134,7 @@ button {
 .btn-code-download {
     width: 2rem;
     height: 2rem;
-    @include mask-image(
+    @include modules.mask-image(
         var(--ColorGrayLv3),
         '../../assets/img/icon/icon-code-download.svg'
     );
@@ -145,7 +148,7 @@ button {
 .btn-code-upload {
     width: 2rem;
     height: 2rem;
-    @include mask-image(
+    @include modules.mask-image(
         var(--ColorGrayLv3),
         '../../assets/img/icon/icon-code-upload.svg'
     );
@@ -159,7 +162,7 @@ button {
 .btn-close {
     width: 2rem;
     height: 2rem;
-    @include mask-image(
+    @include modules.mask-image(
         var(--ColorGrayLv3),
         '../../assets/img/icon/icon-close.svg'
     );
@@ -197,7 +200,7 @@ button {
     /* 보고서 버튼 */
     &.btn-report {
         &::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv3),
                 '../../assets/img/icon/icon-file-download.svg'
             );
@@ -207,7 +210,7 @@ button {
     /* 스토리보기 버튼 */
     &.btn-story {
         &::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv3),
                 '../../assets/img/icon/icon-book.svg'
             );
@@ -221,7 +224,7 @@ button {
     /* 인증서 보기 버튼 */
     &.btn-certif {
         &::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv3),
                 '../../assets/img/icon/icon-medal.svg'
             );
@@ -239,7 +242,7 @@ button {
             width: 100%;
             height: 100%;
 
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv3),
                 '../../assets/img/icon/icon-kebab.svg'
             );
@@ -253,14 +256,14 @@ button {
     /* 벽 만들기 버튼 */
     &.btn-wall {
         &::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv3),
                 '../../assets/img/icon/icon-wall-import.svg'
             );
         }
 
         &:disabled::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv2),
                 '../../assets/img/icon/icon-wall-import.svg'
             );
@@ -270,14 +273,14 @@ button {
     /* 에셋 추가 버튼 */
     &.btn-assets {
         &::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv3),
                 '../../assets/img/icon/icon-asset-import.svg'
             );
         }
 
         &:disabled::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv2),
                 '../../assets/img/icon/icon-asset-import.svg'
             );
@@ -287,14 +290,14 @@ button {
     /* 몹 추가 버튼 */
     &.btn-mob {
         &::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv3),
                 '../../assets/img/icon/icon-monster.svg'
             );
         }
 
         &:disabled::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv2),
                 '../../assets/img/icon/icon-asset-import.svg'
             );
@@ -304,14 +307,14 @@ button {
     /* 월드 크기 조정 버튼 */
     &.btn-resize {
         &::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv3),
                 '../../assets/img/icon/icon-world-size.svg'
             );
         }
 
         &:disabled::before {
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv2),
                 '../../assets/img/icon/icon-world-size.svg'
             );
@@ -320,7 +323,7 @@ button {
 
     /* 속도 조절 버튼 */
     &.btn-speed::before {
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-speed-control.svg'
         );
@@ -328,7 +331,7 @@ button {
 
     /* 함수 리스트 버튼 */
     &.btn-function::before {
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-function-list.svg'
         );
@@ -336,7 +339,7 @@ button {
 
     /* 변수 리스트 버튼 */
     &.btn-variable::before {
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-variable-list.svg'
         );
@@ -344,7 +347,7 @@ button {
 
     /* 초기화 버튼 */
     &.btn-reset::before {
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-reset.svg'
         );
@@ -356,13 +359,13 @@ button {
 
     /* 상태 출력 버튼 */
     &.btn-status::before {
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorPrimary),
             '../../assets/img/icon/icon-blood-on.svg'
         );
     }
     &.btn-status.hide::before {
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-blood-off.svg'
         );
@@ -417,7 +420,7 @@ button {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorGrayLv2),
             '../../assets/img/icon/icon-face.svg'
         );
@@ -637,9 +640,80 @@ button {
     position: relative;
 }
 
-/* pyscript */
-.py-overlay {
-    z-index: 999;
+/* 토스트 알림 */
+.toast-wrap {
+    position: fixed;
+    left: 50%;
+    bottom: 3.2rem;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.toast {
+    padding: 1rem 1.8rem;
+    border-radius: 1rem;
+    background: var(--ColorGrayLv4);
+    color: var(--ColorBackground);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem;
+    box-shadow: var(--EffectShadow);
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* 단축키 도움말 */
+.shortcut-help {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(48rem, calc(100vw - 3.2rem));
+    padding: 2.4rem 2.8rem;
+    border: 1px solid var(--ColorGrayLv2);
+    border-radius: 1rem;
+    background: var(--ColorBackground);
+    color: var(--ColorSurface);
+    box-shadow: var(--EffectShadow);
+    box-sizing: border-box;
+    z-index: 1000;
+
+    h2 {
+        margin-bottom: 1.6rem;
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+
+    dl > div {
+        display: flex;
+        gap: 1.6rem;
+        padding: 0.8rem 0;
+        border-top: 1px solid var(--ColorGrayLv2);
+        font-size: 1.4rem;
+    }
+
+    dt {
+        flex: 0 0 18rem;
+    }
+
+    kbd {
+        padding: 0.2rem 0.6rem;
+        border: 1px solid var(--ColorGrayLv2);
+        border-radius: 0.4rem;
+        background: var(--ColorGrayLv1);
+        font-family: variables.$font-code;
+        font-size: 1.3rem;
+    }
+
+    .btn-close {
+        position: absolute;
+        top: 2.4rem;
+        right: 2.4rem;
+    }
 }
 
 /* resizer */
@@ -749,7 +823,7 @@ button {
         height: 2rem;
         vertical-align: bottom;
         margin-right: 0.8rem;
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-code-download.svg'
         );
@@ -762,7 +836,7 @@ button {
         height: 2rem;
         vertical-align: bottom;
         margin-right: 0.8rem;
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-link.svg'
         );
@@ -810,7 +884,7 @@ button {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        @include mask-image(var(--ColorGrayLv2), '../img/icon/icon-face.svg');
+        @include modules.mask-image(var(--ColorGrayLv2), '../img/icon/icon-face.svg');
     }
 
     .profile-img {
@@ -843,7 +917,7 @@ button {
             height: 2.2rem;
             background-color: var(-ColorGrayLv4);
             content: '';
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorBackground),
                 '../img/icon/icon-image.svg'
             );
@@ -898,13 +972,13 @@ button {
                 width: 2rem;
                 height: 2rem;
                 background-color: var(--ColorPrimary);
-                @include mask-image(
+                @include modules.mask-image(
                     var(--ColorGrayLv3),
                     '../img/icon/icon-setting.svg'
                 );
             }
             &:hover::before {
-                @include mask-image(
+                @include modules.mask-image(
                     var(--ColorSurface),
                     '../img/icon/icon-setting.svg'
                 );
@@ -916,13 +990,13 @@ button {
                 width: 2rem;
                 height: 2rem;
                 background-color: var(--ColorPrimary);
-                @include mask-image(
+                @include modules.mask-image(
                     var(--ColorGrayLv3),
                     '../img/icon/icon-file-download.svg'
                 );
             }
             &:hover::before {
-                @include mask-image(
+                @include modules.mask-image(
                     var(--ColorSurface),
                     '../img/icon/icon-file-download.svg'
                 );
@@ -1085,7 +1159,7 @@ button {
         content: '';
         width: 1.9rem;
         height: 1.9rem;
-        @include mask-image(#fff, '../../assets/img/icon/icon-medal-v2.svg');
+        @include modules.mask-image(#fff, '../../assets/img/icon/icon-medal-v2.svg');
     }
 
     &:disabled {

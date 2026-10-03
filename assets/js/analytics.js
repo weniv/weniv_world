@@ -52,34 +52,25 @@ window.addEventListener('load', (e) => {
 
 //------------------------------------------------------------
 // @post /collect/anchor-click
-async function collectAnchorClick(event, type) {
-    event.preventDefault(); // 기본 동작 막기
-
-    const ANCHOR = event.currentTarget;
-
+// 링크 이동(또는 PDF 다운로드)을 막지 않고, 클릭 기록만 백그라운드로 보냅니다.
+// keepalive를 쓰면 페이지를 떠나도 요청이 끝까지 전송됩니다.
+function collectAnchorClick(event, type) {
+    const anchor = event.currentTarget;
     const session_id = localStorage.getItem('session_id');
 
-    const source_url = window.location.href;
-    const target_url = ANCHOR.href;
-    const target_tar = ANCHOR.target || '_self';
-
-    try {
-        const response = await fetch(`${BASE_URL}/collect/anchor-click`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Session-Id': session_id,
-            },
-            body: JSON.stringify({ source_url, target_url, type }),
-        });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    } finally {
-        window.open(target_url, target_tar);
-    }
+    fetch(`${BASE_URL}/collect/anchor-click`, {
+        method: 'POST',
+        keepalive: true,
+        headers: {
+            'Content-Type': 'application/json',
+            'Session-Id': session_id,
+        },
+        body: JSON.stringify({
+            source_url: window.location.href,
+            target_url: anchor.href,
+            type,
+        }),
+    }).catch((error) => console.error('Error:', error));
 }
 
 // 외부 링크

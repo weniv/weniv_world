@@ -40,8 +40,6 @@
 ## 사용 코드
 아래 코드들을 조합하여 문제를 풀어주세요.
 ```python
-mission_start()
-mission_end()
 l.append()
 l.index()
 max(1, 2, 3)

@@ -5,57 +5,73 @@ on:
     branches:
       - main
 
+# 배포가 겹치지 않도록 한 번에 하나씩 실행합니다.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout current repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: weniv_world
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: weniv_world/package-lock.json
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      # 파이썬 엔진 테스트가 실패하면 배포하지 않습니다.
+      - name: Test Python engine
+        working-directory: weniv_world
+        run: python -m unittest discover tests -v
+
       - name: Install and build
+        working-directory: weniv_world
         run: |
-          cd weniv_world
-          npm install
-          npm run webpack
+          npm ci
+          npm run test:js
+          npm run build
 
       - name: Checkout production repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: weniv/weniv_world_production
+          ref: main
           token: ${{ secrets.ACCESS_GITHUB_TOKEN }} # Ensure this PAT has rights to push to weniv/weniv_world_production
           path: weniv_world_production
 
       - name: Backup main to pre_version branch
+        working-directory: weniv_world_production
+        run: git push --force origin HEAD:refs/heads/pre_version
+
+      # 이전에는 '전체 삭제' 커밋을 먼저 푸시해서 잠깐 빈 사이트가 배포될 수 있었습니다.
+      # 지금은 파일을 교체한 뒤 커밋 하나로 푸시합니다.
+      - name: Replace contents and push
+        working-directory: weniv_world_production
         run: |
-          cd weniv_world_production
-          git fetch
-          git checkout pre_version || git checkout -b pre_version
           git config user.name "chimaek"
           git config user.email "pipiru100@gmail.com"
-          git reset --hard origin/main
-          git push -u origin pre_version --force
-
-      - name: Clear main branch
-        run: |
-          cd weniv_world_production
-          git checkout main
-          git rm -rf .
-          git config user.email "pipiru100@gmail.com"
-          git commit -m "Clear main branch"
-          git push
-
-      - name: Copy dist contents to production repository
-        run: |
-          cp -r weniv_world/dist/* weniv_world_production/
-          cd weniv_world_production
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -r ../weniv_world/dist/. .
           echo "world.weniv.co.kr" > CNAME
-          git add .
-          git config user.name "chimaek"
-          git config user.email "pipiru100@gmail.com"
-          git commit -m "Update from source repository"
-          git push
+          git add -A
+          if git diff --cached --quiet; then
+            echo "변경 사항이 없습니다."
+            exit 0
+          fi
+          git commit -m "Update from source repository (${GITHUB_SHA::7})"
+          git push origin HEAD:main
 
 # Note: The last step to set GitHub Pages source to dist/index.html should be done manually or you can automate with GitHub API.

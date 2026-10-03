@@ -1,3 +1,5 @@
+@use "modules";
+
 .story {
     display: none;
     flex-direction: column;
@@ -27,6 +29,14 @@
         margin-right: 1.2rem;
     }
 
+    .story-progress {
+        margin-left: auto;
+        color: var(--ColorGrayLv3);
+        font-size: 1.3rem;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
     .btn-write-story {
         color: var(--ColorGrayLv3);
         font-size: 1.4rem;
@@ -45,7 +55,7 @@
             display: block;
             width: 2.4rem;
             height: 2.4rem;
-            @include mask-image(
+            @include modules.mask-image(
                 var(--ColorGrayLv3),
                 '../../assets/img/icon/icon-double-arrow-right.svg'
             );
@@ -69,7 +79,7 @@
     padding: 1.4rem 0.8rem 2rem 2rem;
     margin: 0.6rem 0.8rem 0 0;
     overflow: auto;
-    @include scrollbar;
+    @include modules.scrollbar;
 
     & > li {
         border-radius: 0.8rem;
@@ -92,7 +102,7 @@
 
         &.submit {
             .story-title::before {
-                @include mask-image(
+                @include modules.mask-image(
                     var(--ColorPrimary),
                     '../../assets/img/icon/icon-book.svg',
                     2rem 2rem
@@ -114,7 +124,7 @@
         display: block;
         width: 4rem;
         height: 4rem;
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-book.svg',
             2rem 2rem
@@ -153,7 +163,7 @@
     .btn-toggle {
         width: 2.4rem;
         height: 2.4rem;
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorGrayLv3),
             '../../assets/img/icon/icon-arrow-bottom.svg'
         );
@@ -189,7 +199,7 @@
         display: block;
         width: 2.4rem;
         height: 2.4rem;
-        @include mask-image(
+        @include modules.mask-image(
             var(--ColorError),
             '../../assets/img/icon/icon-youtube.svg'
         );
@@ -206,4 +216,111 @@
             transform: translateX(0) rotate(135deg);
         }
     }
+}
+
+/* 채점 결과 창 */
+.result-dialog {
+    width: min(44rem, calc(100vw - 3.2rem));
+    padding: 0;
+    border: 2px solid var(--ColorError);
+    border-radius: 1.2rem;
+    background: var(--ColorBackground);
+    color: var(--ColorSurface);
+    box-shadow: var(--EffectShadow);
+
+    &.passed {
+        border-color: var(--ColorPrimary);
+    }
+
+    &::backdrop {
+        background: rgba(0, 0, 0, 0.35);
+    }
+
+    .result-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        padding: 2.8rem 3.2rem 2.4rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 2.8rem;
+    }
+
+    &.passed h2 {
+        color: var(--ColorPrimary);
+    }
+
+    .result-desc {
+        color: var(--ColorGrayLv3);
+        font-size: 1.4rem;
+        line-height: 2.2rem;
+    }
+
+    .result-checks {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        padding: 1.2rem 1.4rem;
+        border-radius: 0.8rem;
+        background: var(--ColorGrayLv1);
+
+        li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: 500;
+            line-height: 2.4rem;
+        }
+
+        .mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--ColorBtnSurface);
+        }
+
+        .ok .mark {
+            background: var(--ColorPrimary);
+        }
+
+        .fail {
+            color: var(--ColorError);
+
+            .mark {
+                background: var(--ColorError);
+            }
+        }
+    }
+
+    .result-note {
+        font-size: 1.4rem;
+        line-height: 2.2rem;
+        word-break: break-word;
+    }
+
+    .confirm {
+        align-self: center;
+        margin-top: 0.4rem;
+        padding: 1.1rem 3.2rem;
+        border-radius: 1rem;
+        background: var(--ColorPrimary);
+        color: var(--ColorBtnSurface);
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+}
+
+.story-list .btn-submit:disabled {
+    opacity: 0.6;
+    cursor: wait;
 }

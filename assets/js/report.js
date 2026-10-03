@@ -1,15 +1,18 @@
 const btnDownload = document.querySelector('.btn-report');
 
 const fetchQuestionInfo = async () => {
-    const response = await fetch(
-        `${window.location.origin}/assets/data/story/story.json`,
-    );
+    const response = await fetch('./assets/data/story/story.json');
     const jsonData = await response.json();
     return jsonData;
 };
 
 const getCode = (id) => {
-    const codes = JSON.parse(localStorage.getItem(`${id}_code`));
+    let codes = [];
+    try {
+        codes = JSON.parse(localStorage.getItem(`${id}_code`)) || [];
+    } catch (e) {
+        codes = [];
+    }
     let codeText = '';
     // code를 순회하면서 요소를 추가
     codes.forEach((code) => {
@@ -124,8 +127,8 @@ btnDownload.addEventListener('click', (e) => {
         },
     };
 
-    const questionData = fetchQuestionInfo();
-    questionData.then((data) => {
+    const questionData = Promise.all([fetchQuestionInfo(), loadStoryChapter]);
+    questionData.then(([data]) => {
         let reportData = '';
         Object.keys(storyChapter).forEach((chap) => {
             let chapterData = '';
@@ -138,9 +141,8 @@ btnDownload.addEventListener('click', (e) => {
                             ? 'Y'
                             : 'N';
                     if (result == 'Y') {
-                        const evaluation = data.find(
-                            (el) => el.id === id,
-                        ).evaluation;
+                        const evaluation =
+                            data.find((el) => el.id === id)?.evaluation || [];
                         for (const evl of evaluation) {
                             score[chap][evl] += 1;
                         }
@@ -175,7 +177,7 @@ btnDownload.addEventListener('click', (e) => {
                     .toISOString()
                     .slice(2, 10)
                     .replace(/-/g, '')}_${fileName}_${userName}.md`,
-                fileType: 'text/json',
+                fileType: 'text/markdown',
             });
         } else {
             window.alert('다운로드 할 데이터가 없습니다.');

@@ -35,8 +35,6 @@
 ## 사용 코드
 아래 코드들을 조합하여 문제를 풀어주세요.
 ```python
-mission_start()
-mission_end()
 'hello' + 'world'
 'hello'[0]
 '1, 2, 3'.replace(',', '')

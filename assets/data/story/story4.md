@@ -23,8 +23,6 @@ fish-3   5    3000   15000
 ## 사용 코드
 아래 코드들을 조합하여 문제를 풀어주세요.
 ```python
-mission_start()
-mission_end()
 move()
 repeat(2, move)
 pick()

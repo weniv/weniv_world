@@ -38,8 +38,6 @@ for i in l:
 아래 코드들을 조합하여 문제를 풀어주세요.
 ```python
 int(10.3)
-mission_start()
-mission_end()
 on_item()
 move()
 repeat(2, move)

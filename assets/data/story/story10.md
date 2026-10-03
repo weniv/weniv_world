@@ -29,8 +29,6 @@ d = {'골드바': 0, '물고기': 0}
 ## 사용 코드
 아래 코드들을 조합하여 문제를 풀어주세요.
 ```python
-mission_start()
-mission_end()
 item()['goldbar'] += 1
 item().get('goldbar', 0)
 move()

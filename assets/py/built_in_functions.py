@@ -1,416 +1,278 @@
-import js
+"""
+학습자가 노트북에서 바로 사용할 수 있는 함수 모음
 
-from pyodide.ffi import create_once_callable
+모든 함수는 character 인자를 생략하면 기본 캐릭터(licat)를 움직입니다.
+"""
+
+import engine
+from actor import DIRECTION_NAME, out_of_world
+from character import Character
+from mob import Mob
+from item import place_item
 from coordinate import (
     character_data,
     map_data,
-    running_speed,
     mob_data,
     item_data,
     valid_items,
-    error_message,
+    mob_info,
+    character_info,
     default_character,
-    print_data,
     say_data,
 )
-from item import Item
+from error import (
+    CharacterIsNotExist,
+    ArgumentsError,
+    OutOfWorld,
+    InvalidItem,
+    InvalidMob,
+    InvalidCharacter,
+    ObstacleExist,
+    MobIsExist,
+    CharacterIsExist,
+)
 
-command_count = 1  # 명령어 줄 수
+
+def _is_int(value):
+    return isinstance(value, int) and not isinstance(value, bool)
 
 
-def get_running_speed():
-    # spped value
-    a = 0.00020004
-    b = -0.0408163393
-    c = 2.5411162993
+def _main_character(character=None):
+    """character 인자가 없으면 기본 캐릭터를 돌려줍니다."""
+    if character is not None:
+        return character
+    if not character_data:
+        raise CharacterIsNotExist()
+    c = character_data[0]
+    obj = c.get("character_obj")
+    if not isinstance(obj, Character):
+        obj = Character(c.get("character"))
+        c["character_obj"] = obj
+    return obj
 
-    # speed slide bar
-    slider = js.document.getElementById("speed-range")
-    slider_output = js.document.getElementById("speed-text")
-    slider_output.innerHTML = slider.value
-    running_speed = a * int(slider.value) ** 2 + b * int(slider.value) + c
-    return running_speed
+
+# mission_start() / mission_end()는 아무 동작도 하지 않습니다.
+# 화면(함수 리스트, 기본 코드, 스토리)에서는 뺐지만, 교안과 이전에 저장한 코드에
+# 호출이 남아 있어 오류가 나지 않도록 함수는 남겨 둡니다.
+def mission_start():
+    """미션 시작 (호출하지 않아도 됩니다)"""
 
 
 def mission_end():
-    """
-    미션 클리어
-    """
-    global command_count
-    command_count = 1
-
-
-def mission_start():
-    """
-    미션 시작
-    """
-    global command_count
-    command_count = 1
-
-
-def print(*texts, type="normal"):
-    """
-    html 문서 내 출력
-    """
-
-    def main():
-        output = js.document.getElementById("output")
-        result = ""
-        for text in texts:
-            result += str(text)
-
-        if output:
-            paragraph = js.document.createElement("p")
-            paragraph.innerText = result
-            paragraph.classList.add("output-item")
-            if type == "error":
-                paragraph.setAttribute("data-error", "true")
-            output.appendChild(paragraph)
-            print_data.append(result)
-        else:
-            js.console.log(result)
-
-    running_speed = get_running_speed()
-    wait_time = command_count * 1000 * running_speed
-    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
+    """미션 끝 (호출하지 않아도 됩니다)"""
 
 
 def say(text="", character=None, speech_time=5000):
     """
-    charecter의 말풍선에 출력
+    캐릭터의 말풍선에 출력
     """
-
-    def main():
-        if character != None:
-            character.say(text)
-        else:
-            if len(character_data) and character_data[0]["character_obj"] != None:
-                character_data[0]["character_obj"].say(text, speech_time)
-                say_data.append(str(text))
-            else:
-                alert_error("CharacterIsNotExist")
-                raise CharacterIsNotExist
-
-    running_speed = get_running_speed()
-    wait_time = command_count * 1000 * running_speed
-    js.setTimeout(create_once_callable(lambda: (main())), wait_time)
+    _main_character(character).say(text, speech_time)
 
 
 def directions(character=None):
     """
-    character의 방향을 right, left, top, bottom으로 반환
+    캐릭터의 방향을 right, top, left, bottom으로 반환
     """
-    global command_count
-    command_count += 1
-
-    d = {0: "right", 1: "top", 2: "left", 3: "bottom"}
-    if character != None:
-        return d[character._get_character_data("directions")]
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            return d[character_data[0]["directions"]]
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    return DIRECTION_NAME[_main_character(character).directions]
 
 
 def item(character=None):
     """
-    character가 가지고 있는 아이템을 보여주는 함수
+    캐릭터가 가지고 있는 아이템을 반환
     """
-    if character != None:
-        return character._get_character_data("items")
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            return character_data[0]["items"]
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
-    wait_time = 1000 * command_count
+    return _main_character(character).items
 
 
-def set_item(x, y, name, count=1, description={}, character=None):
-    if not (isinstance(x, int) and isinstance(y, int)):
-        alert_error("ArgumentsError")
-        print("error.ArgumentsError: arguments is wrong.", type="error")
-        raise Exception("ArgumentsError")
-
-    if not (0 <= x < map_data["height"] and 0 <= y < map_data["width"]):
-        alert_error("OutOfWorld")
-        print("error.OutOfWorld: out of world", type="error")
-        raise Exception("OutOfWorld")
-
+def set_item(x, y, name, count=1, description=None, character=None):
+    """
+    맵의 (x, y) 칸에 아이템을 count개 놓습니다.
+    같은 아이템이 있으면 개수를 더하고, 다른 아이템이 있으면 바꿉니다.
+    """
+    if not (_is_int(x) and _is_int(y)) or not _is_int(count) or count < 1:
+        raise ArgumentsError()
+    if out_of_world(x, y):
+        raise OutOfWorld()
     if name not in valid_items:
-        alert_error("InvalidItem")
-        print("error.InvalidItem: Invalid item", type="error")
-        raise Exception("InvalidItem")
-
-    item = Item(x, y, name, count, description)
-    item.draw()
+        raise InvalidItem()
+    place_item(x, y, name, count, event="set_item")
 
 
 def move(character=None):
-    global command_count
-    command_count += 1
-    if character != None:
-        character.move()
-    else:
-        if (
-            len(character_data)
-            and len(character_data)
-            and character_data[0]["character_obj"] != None
-        ):
-            character_data[0]["character_obj"].move()
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    """
+    캐릭터가 바라보는 방향으로 한 칸 이동
+    """
+    _main_character(character).move()
 
 
 def turn_left(character=None):
-    global command_count
-    command_count += 1
-
-    if character != None:
-        character.turn_left()
-    else:
-        if (
-            len(character_data)
-            and len(character_data)
-            and character_data[0]["character_obj"] != None
-        ):
-            character_data[0]["character_obj"].turn_left()
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    """
+    왼쪽(반시계 방향)으로 회전
+    """
+    _main_character(character).turn_left()
 
 
 def pick(character=None):
-    global command_count
-    command_count += 1
-
-    if character != None:
-        character.pick()
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].pick()
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    """
+    발 아래 아이템을 하나 획득
+    """
+    _main_character(character).pick()
 
 
 def put(item_name, character=None):
-    global command_count
-    command_count += 1
-
-    if character != None:
-        character.put(item_name)
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].put(item_name)
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    """
+    가지고 있는 아이템을 발 아래에 하나 내려놓음
+    """
+    _main_character(character).put(item_name)
 
 
 def repeat(count, f):
-    if isinstance(count, int) == True:
-        for i in range(0, count):
-            f()
-    elif isinstance(f, int) == True:
-        for i in range(0, f):
-            count()
+    """
+    함수 f를 count번 반복합니다. repeat(2, move)
+    """
+    if _is_int(count) and callable(f):
+        times, func = count, f
+    elif _is_int(f) and callable(count):
+        times, func = f, count
+    else:
+        raise ArgumentsError()
+    for _ in range(times):
+        func()
 
 
 def front_is_clear(character=None):
-    if character != None:
-        print(f"character not none")
-        return character.front_is_clear()
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            return character_data[0]["character_obj"].front_is_clear()
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    return _main_character(character).front_is_clear()
 
 
 def left_is_clear(character=None):
-    if character != None:
-        return character.left_is_clear()
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            return character_data[0]["character_obj"].left_is_clear()
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    return _main_character(character).left_is_clear()
 
 
 def right_is_clear(character=None):
-    if character != None:
-        return character.right_is_clear()
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            return character_data[0]["character_obj"].right_is_clear()
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    return _main_character(character).right_is_clear()
 
 
 def back_is_clear(character=None):
-    if character != None:
-        return character.back_is_clear()
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            return character_data[0]["character_obj"].back_is_clear()
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    return _main_character(character).back_is_clear()
 
 
 def attack(skill="claw-yellow", character=None):
-    global command_count
-    command_count += 1
-
-    if character != None:
-        character.attack(skill)
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].attack(skill)
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    """
+    스킬을 이용하여 앞에 있는 몬스터를 공격
+    """
+    _main_character(character).attack(skill)
 
 
 def open_door(character=None):
-    global command_count
-    command_count += 1
-
-    if character != None:
-        character.open_door()
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            character_data[0]["character_obj"].open_door()
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    """
+    바라보는 방향의 문(door)을 엶
+    """
+    _main_character(character).open_door()
 
 
 def typeof_wall(character=None):
-    if character != None:
-        return character.typeof_wall()
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            return character_data[0]["character_obj"].typeof_wall()
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
-            return None
+    """
+    바라보는 방향의 벽 종류를 반환
+    """
+    return _main_character(character).typeof_wall()
 
 
 def on_item(character=None):
     """
-    발 아래 아이템이 있는지 확인하는 함수
+    발 아래 아이템이 있는지 확인
     """
-    if character != None:
-        x, y = character._get_character_data("x"), character._get_character_data("y")
-        if (x, y) in item_data:
-            return True
-        return False
-    else:
-        if len(character_data) and character_data[0]["character_obj"] != None:
-            if (character_data[0]["x"], character_data[0]["y"]) in item_data:
-                return True
-            return False
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
-
-
-# 작동하지만 시기상조로 인해 주석처리
-# def change_img():
-#     '''
-#     주인공 캐릭터의 이미지를 바꾸는 함수
-#     '''
-#     character = js.document.querySelector(".character")
-#     character.style.backgroundImage = f'url("assets/img/characters/lion.webp")'
-
-# 이벤트 처리를 위해 index.html에 추가
-# def submit():
-#     '''
-#     통계보고서 처리를 위한 정답 확인용 함수
-#     캐릭터의 위치, 프린트된 결과, 말한 결과 등을 수집하여 정답 여부 확인
-#     '''
-#     answer[1]={
-#         character_position: (0, 0),
-#         character_item:{'fish-1':4},
-#         print_result: ['hello World!'],
-
-#     }
-
-
-def mob_exist(x, y):
-    for m in mob_data:
-        if m.get("x", -1) == x and m.get("y", -1) == y:
-            return True
-    return False
-
-
-def character_exist(x, y):
-    for c in character_data:
-        if c.get("x", -1) == x and c.get("y", -1) == y:
-            return True
-    return False
+    c = _main_character(character)
+    return (c.x, c.y) in item_data
 
 
 def eat(item, character=None):
-    global command_count
-    command_count += 1
-
-    if character != None:
-        character.eat(item)
-    else:
-        if (
-            len(character_data)
-            and len(character_data)
-            and character_data[0]["character_obj"] != None
-        ):
-            character_data[0]["character_obj"].eat(item)
-        else:
-            alert_error("CharacterIsNotExist")
-            raise CharacterIsNotExist
+    """
+    hp, mp 포션을 먹어 체력과 마나를 회복
+    """
+    _main_character(character).eat(item)
 
 
-# utility function
+def mob_exist(x, y):
+    return any(m.get("x") == x and m.get("y") == y for m in mob_data)
+
+
+def character_exist(x, y):
+    return any(c.get("x") == x and c.get("y") == y for c in character_data)
+
+
 def show_modal_alert(message, type="error"):
-    alert = js.document.createElement("div")
-    alert.classList.add("modal", "alert")
-    if type == "success":
-        alert.classList.add("success")
-
-    text = js.document.createElement("p")
-    text.classList.add("text")
-    text.innerText = message
-
-    button = js.document.createElement("button")
-    button.classList.add("confirm")
-    button.innerText = "확인"
-    alert.append(text, button)
-
-    alert.classList.add("show")
-
-    world_map = js.document.querySelector(".world-map")
-    world_map.appendChild(alert)
-
-    button.addEventListener("click", create_once_callable(lambda e: hiddenToast(alert)))
-    js.setTimeout(create_once_callable(lambda: (hiddenToast(alert))), 2000)
+    """
+    화면에 알림창을 띄웁니다.
+    """
+    engine.emit("alert", message=str(message), level=type)
 
 
-def hiddenToast(modal):
-    modal.remove()
+def add_mob(x, y, mob_type, name, directions=0):
+    """
+    몬스터를 추가하고 Mob 객체를 반환합니다.
+        leo = add_mob(2, 2, 'lion', 'leo')
+        leo.move()
+    """
+    if not (_is_int(x) and _is_int(y)) or not name or not _is_int(directions):
+        raise ArgumentsError()
+    if out_of_world(x, y):
+        raise OutOfWorld()
+    if mob_type not in mob_info:
+        raise InvalidMob()
+    if character_exist(x, y) or mob_exist(x, y):
+        raise ObstacleExist()
+    name = str(name)
+    if any(m.get("name") == name for m in mob_data):
+        raise MobIsExist()
+
+    mob = Mob(name)
+    data = {
+        "name": name,
+        "mob": mob_type,
+        "mob_obj": mob,
+        "x": x,
+        "y": y,
+        "directions": directions % 4,
+        "hp": mob_info[mob_type]["hp"],
+    }
+    mob_data.append(data)
+    engine.emit("add", who=mob._who(), data=_public(data))
+    return mob
 
 
-def alert_error(error_type):
-    # 순환참조로 인하여 built_in_functions에서 발생하는 오류는 따로 관리
-    if error_type not in error_message.keys():
-        show_modal_alert(error_type)
+def add_ch(x, y, name):
+    """
+    캐릭터를 추가하고 Character 객체를 반환합니다.
+    """
+    if not (_is_int(x) and _is_int(y)):
+        raise ArgumentsError()
+    if name not in character_info:
+        raise InvalidCharacter()
+    if out_of_world(x, y):
+        raise OutOfWorld()
+    if character_exist(x, y) or mob_exist(x, y):
+        raise ObstacleExist()
+    if any(c.get("character") == name for c in character_data):
+        raise CharacterIsExist()
+
+    char = Character(name)
+    data = {
+        "character": name,
+        "character_obj": char,
+        "x": x,
+        "y": y,
+        "directions": 0,
+        "items": {},
+        "hp": character_info[name]["hp"],
+        "mp": character_info[name]["mp"],
+    }
+    if name == default_character:
+        character_data.insert(0, data)
     else:
-        show_modal_alert(error_message[error_type])
+        character_data.append(data)
+    engine.emit("add", who=char._who(), data=_public(data))
+    return char
+
+
+def _public(data):
+    """화면으로 보낼 수 있도록 객체 참조를 뺀 사본"""
+    return {k: v for k, v in data.items() if not k.endswith("_obj")}

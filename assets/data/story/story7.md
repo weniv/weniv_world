@@ -39,8 +39,6 @@ else:
 ## 사용 코드
 아래 코드들을 조합하여 문제를 풀어주세요.
 ```python
-mission_start()
-mission_end()
 True and False
 True or False
 10 > 5 and False

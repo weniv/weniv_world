@@ -1,3 +1,10 @@
+// 화면 이벤트 (메뉴, 모달, 다크모드, 프로필, 인증서 등)
+// 노트북·월드·스토리 실행 로직은 assets/js/app/ 의 모듈에 있습니다.
+
+// app/ui.js가 준비되면 토스트로, 아니면 기본 alert로 알립니다.
+const notify = (message) =>
+    window.WenivUI ? window.WenivUI.toast(message) : alert(message);
+
 // input range 스타일 적용을 위한 코드
 const sliders = document.querySelectorAll('.slider');
 const rangeValueText = document.querySelectorAll('.slider + strong');
@@ -92,8 +99,7 @@ storyShowButton.addEventListener('click', () => {
     const mapContainer = document.querySelector('.map-container');
 
     if (storyShowButton.classList.contains('active')) {
-        // TODO: 모달이나 토스트로 변경
-        alert('스토리 모드에서는 월드 편집 기능이 제한됩니다.');
+        notify('스토리 모드에서는 월드 편집 기능이 제한됩니다.');
 
         wallEditButton.classList.remove('active');
         wallEditButton.setAttribute('disabled', true);
@@ -189,6 +195,8 @@ const addTooltipEvent = (target) => {
 tooltipTargetElement.forEach((target) => {
     addTooltipEvent(target);
 });
+// 노트북 셀(app/notebook.js)에서도 같은 툴팁을 씁니다.
+window.addTooltipEvent = addTooltipEvent;
 
 // world 메뉴 - 버튼 이벤트 추가(모달 여닫기)
 const worldMenu = document.querySelector('.world-menu');
@@ -284,45 +292,6 @@ modals.forEach((modal) => {
 resizeObserver.observe(world);
 resizeObserver.observe(window.document.body);
 
-const addCodeNextCellFromSelectCell = (target) => {
-    const selectCell = target.target.parentNode;
-    const nextCell = selectCell.nextElementSibling;
-    const newCell = document.createElement('py-repl');
-    newCell.innerHTML = ``;
-    selectCell.parentNode.insertBefore(newCell, nextCell);
-};
-
-const downloadCode = (target) => {
-    const pyRepl = target.target.closest('py-repl');
-    const code = pyRepl.querySelector('.cm-content').innerText;
-    const blob = new Blob([code], { type: 'text/plain' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `code_${dateFormat()}.py`;
-    link.click();
-};
-const uploadCode = (target) => {
-    const pyRepl = target.target.closest('py-repl');
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.py';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            pyRepl.querySelector('.cm-content').innerText = e.target.result;
-        };
-        reader.readAsText(file);
-    };
-    input.click();
-};
-const deleteCode = (target) => {
-    const pyRepl = target.target.closest('py-repl');
-    const nextpyReplBtnWrapFromPyRepl = pyRepl.nextElementSibling;
-    nextpyReplBtnWrapFromPyRepl.remove();
-    pyRepl.remove();
-};
-
 // 함수, 변수 리스트 클립보드에 복사
 const functionList = document.querySelector('.function-list');
 const variableList = document.querySelector('.variable-list');
@@ -331,7 +300,7 @@ const copyToClipboard = (target) => {
     if (target.tagName == 'BUTTON' && target.classList.contains('code-item')) {
         const code = target.innerText;
         navigator.clipboard.writeText(code).then(() => {
-            alert('클립보드에 복사되었습니다.');
+            notify('클립보드에 복사되었습니다.');
         });
     }
 };
@@ -468,41 +437,66 @@ window.addEventListener('click', (e) => {
 const profileImages = document.querySelectorAll('.profile-img');
 const profileName = profileModal.querySelector('.txt-name');
 const inpProfileName = profileModal.querySelector('.inp-name');
+const setProfileName = (name) => {
+    if (name) profileName.textContent = name;
+    else profileName.innerHTML = '프로필 편집을 눌러<br>이름을 입력하세요';
+};
 const initProfile = () => {
     const profile = JSON.parse(localStorage.getItem('profile'));
     if (profile) {
         profileImages.forEach((profileImage) => {
             profileImage.src = profile?.img.replace(window.location.origin, '');
         });
-        profileName.innerHTML =
-            profile?.name || '프로필 편집을 눌러<br>이름을 입력하세요';
-        inpProfileName.value = profile?.name;
+        setProfileName(profile?.name);
+        inpProfileName.value = profile?.name || '';
     }
 };
 initProfile();
 
 // 변경 설정
 const profileImage = document.querySelector('.profileimg-wrap .profile-img');
+const PROFILE_SIZE = 256;
 const changeProfileImg = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-        profileImage.src = evt.target.result;
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+        const scale = Math.min(
+            1,
+            PROFILE_SIZE / Math.max(img.width, img.height),
+        );
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        canvas
+            .getContext('2d')
+            .drawImage(img, 0, 0, canvas.width, canvas.height);
+        profileImage.src = canvas.toDataURL('image/jpeg', 0.85);
+        URL.revokeObjectURL(url);
     };
-    reader.readAsDataURL(file);
+    img.onerror = () => {
+        URL.revokeObjectURL(url);
+        notify('이미지를 불러오지 못했습니다.');
+    };
+    img.src = url;
 };
 const inpProfileImg = profileModal.querySelector('.inp-profile');
 inpProfileImg.addEventListener('change', (e) => changeProfileImg(e));
 const changeProfile = (e) => {
-    localStorage.setItem(
-        'profile',
-        JSON.stringify({
-            img: profileImage.src,
-            name: inpProfileName.value,
-        }),
-    );
-    profileName.innerHTML =
-        inpProfileName.value || '프로필 편집을 눌러<br>이름을 입력하세요';
+    try {
+        localStorage.setItem(
+            'profile',
+            JSON.stringify({
+                img: profileImage.src,
+                name: inpProfileName.value,
+            }),
+        );
+    } catch (err) {
+        notify('프로필을 저장하지 못했습니다. 더 작은 이미지를 사용해 주세요.');
+        return;
+    }
+    setProfileName(inpProfileName.value);
     const profileMenuImg = document.querySelector('button .profile-img');
     profileMenuImg.src = profileImage.src;
 };
@@ -557,11 +551,23 @@ window.addEventListener('click', (e) => {
 
 /* 인증서 초기화 */
 const certifList = certifWrap.querySelector('.certif-list');
-const storyChapter = {
+let storyChapter = {
     입문: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     기초: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
 };
+const loadStoryChapter = fetch('./assets/data/story/story.json')
+    .then((response) => response.json())
+    .then((stories) => {
+        const chapters = {};
+        stories.forEach((story) => {
+            (chapters[story.chapter] ||= []).push(story.id);
+        });
+        if (Object.keys(chapters).length) storyChapter = chapters;
+    })
+    .catch(() => {});
+
 const setCertifItem = () => {
+    certifList.replaceChildren();
     Object.keys(storyChapter).forEach((chapter) => {
         const li = document.createElement('li');
         li.classList.add('certif-item');
@@ -584,7 +590,15 @@ const setCertifItem = () => {
     });
 };
 
-const createCertifImg = (chapter) => {
+const createCertifImg = async (chapter) => {
+    try {
+        await Promise.all([
+            document.fonts.load('400 74px Pretendard'),
+            document.fonts.load('400 36px Pretendard'),
+        ]);
+    } catch (e) {
+        // 글꼴을 못 불러와도 기본 글꼴로 그립니다.
+    }
     const img = new Image();
     img.src = `./assets/img/certif-${chapter}.jpg`;
     img.onload = () => {
@@ -598,7 +612,7 @@ const createCertifImg = (chapter) => {
         const localData = localStorage.getItem('profile');
         const name = JSON.parse(localData)?.name || '-';
 
-        ctx.font = '400 74px pretendard';
+        ctx.font = '400 74px Pretendard';
         ctx.fillStyle = '#3a72ff';
         ctx.textAlign = 'center';
         ctx.fillText(name, canvas.width / 2, 570);
@@ -615,7 +629,7 @@ const createCertifImg = (chapter) => {
         const date =
             localStorage.getItem(`${chapter}_certif_time`) || currentTime;
 
-        ctx.font = '400 36px pretendard';
+        ctx.font = '400 36px Pretendard';
         ctx.fillStyle = 'black';
         ctx.fillText(date, 1340, 1000);
 
@@ -656,7 +670,9 @@ const updateCertifItem = () => {
     });
 };
 setCertifItem();
-document.addEventListener('DOMContentLoaded', () => {
+updateCertifItem();
+loadStoryChapter.then(() => {
+    setCertifItem();
     updateCertifItem();
 });
 // const solved_count = storyChapter[chapter].reduce((acc, cur) => {
@@ -666,103 +682,3 @@ document.addEventListener('DOMContentLoaded', () => {
 //     }
 //     return acc;
 // }, 0);
-
-const dateFormat = () => {
-    // yyyy-mm-dd-hh-mm-ss korean time
-    const date = new Date();
-    let format = '';
-    format += date.getFullYear() + '-';
-    format += date.getMonth() + 1 + '-';
-    format += date.getDate() + '-';
-    format += date.getHours() + '-';
-    format += date.getMinutes() + '-';
-    format += date.getSeconds();
-    return format;
-};
-const downloadBtn = document.querySelector('.downloadNotebookBtn');
-downloadBtn.addEventListener('click', () => {
-    downloadNotebook();
-});
-function downloadNotebook() {
-    const notebook = {
-        cells: [],
-        metadata: {
-            kernelspec: {
-                display_name: 'Python 3',
-                language: 'python',
-                name: 'python3',
-            },
-            language_info: {
-                codemirror_mode: {
-                    name: 'ipython',
-                    version: 3,
-                },
-                file_extension: '.py',
-                mimetype: 'text/x-python',
-                name: 'python',
-                nbconvert_exporter: 'python',
-                pygments_lexer: 'ipython3',
-                version: '3.7.9',
-            },
-        },
-        nbformat: 4,
-        nbformat_minor: 4,
-    };
-
-    const cells = document.querySelectorAll('.py-repl-editor');
-
-    for (let i = 0; i < cells.length; i++) {
-        notebook.cells.push({
-            cell_type: 'code',
-            execution_count: null,
-            metadata: {},
-            outputs: [],
-            // document.querySelector("#my-repl > div > div.py-repl-editor > div > div > div.cm-scroller > div.cm-content")
-            source: cells[i].querySelector('.cm-content').innerText,
-        });
-    }
-    const notebookJson = JSON.stringify(notebook, null, 2);
-    const blob = new Blob([notebookJson], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.download = `notebook_${dateFormat()}.ipynb`;
-    a.href = url;
-    a.click();
-}
-const uploadBtn = document.querySelector('.uploadNotebookBtn');
-uploadBtn.addEventListener('click', () => {
-    uploadNotebook();
-});
-function uploadNotebook() {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.ipynb';
-    input.onchange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.readAsText(file, 'UTF-8');
-        reader.onload = (readerEvent) => {
-            const content = readerEvent.target.result;
-            const notebook = JSON.parse(content);
-            const cells = notebook.cells;
-            const $notebookSection = document.querySelector('#notebookSection');
-            const autoGenerate = $notebookSection.querySelectorAll(
-                'py-repl[auto-generate="true"]',
-            );
-            autoGenerate.forEach((el) => el.removeAttribute('auto-generate'));
-
-            for (const cell of cells) {
-                const newRepl = document.createElement('py-repl');
-
-                //  마지막 코드블럭만 auto-generate
-                if (cell === cells[cells.length - 1]) {
-                    newRepl.setAttribute('auto-generate', 'true');
-                }
-                newRepl.textContent = cell.source;
-                document.getElementById('notebookSection').appendChild(newRepl);
-            }
-        };
-    };
-    input.click();
-}

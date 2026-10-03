@@ -1,3 +1,5 @@
+@use "sass:map";
+
 $font-basic: 'Pretendard';
 $font-code: 'Source Code Pro';
 
@@ -37,6 +39,10 @@ $colors: (
         code-orange: #ffa52a,
     ),
 );
+
+@function get-color($key, $theme: 'light') {
+    @return map.get(map.get($colors, $theme), $key);
+}
 
 :root {
     --ColorBtnSurface: #fff;

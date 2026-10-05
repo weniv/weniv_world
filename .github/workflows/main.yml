@@ -1,77 +1,44 @@
-name: Build and Deploy to Production Repository
+name: Test and Build
 
+# 사이트(world.weniv.co.kr)는 이 저장소의 GitHub Pages가 직접 서비스합니다.
+# 이 워크플로는 배포하지 않고, 푸시·PR마다 테스트와 빌드가 깨지지 않았는지만 확인합니다.
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
-# 배포가 겹치지 않도록 한 번에 하나씩 실행합니다.
 concurrency:
-  group: deploy-production
-  cancel-in-progress: false
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-and-deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout current repository
+      - name: Checkout
         uses: actions/checkout@v4
-        with:
-          path: weniv_world
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: weniv_world/package-lock.json
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
 
-      # 파이썬 엔진 테스트가 실패하면 배포하지 않습니다.
       - name: Test Python engine
-        working-directory: weniv_world
         run: python -m unittest discover tests -v
 
-      - name: Install and build
-        working-directory: weniv_world
+      # JS 테스트에는 스토리 22편 모범 답안 검사(tests/story-solutions.test.mjs)가 포함됩니다.
+      - name: Install, test and build
         run: |
           npm ci
           npm run test:js
           npm run build
-
-      - name: Checkout production repository
-        uses: actions/checkout@v4
-        with:
-          repository: weniv/weniv_world_production
-          ref: main
-          token: ${{ secrets.ACCESS_GITHUB_TOKEN }} # Ensure this PAT has rights to push to weniv/weniv_world_production
-          path: weniv_world_production
-
-      - name: Backup main to pre_version branch
-        working-directory: weniv_world_production
-        run: git push --force origin HEAD:refs/heads/pre_version
-
-      # 이전에는 '전체 삭제' 커밋을 먼저 푸시해서 잠깐 빈 사이트가 배포될 수 있었습니다.
-      # 지금은 파일을 교체한 뒤 커밋 하나로 푸시합니다.
-      - name: Replace contents and push
-        working-directory: weniv_world_production
-        run: |
-          git config user.name "chimaek"
-          git config user.email "pipiru100@gmail.com"
-          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
-          cp -r ../weniv_world/dist/. .
-          echo "world.weniv.co.kr" > CNAME
-          git add -A
-          if git diff --cached --quiet; then
-            echo "변경 사항이 없습니다."
-            exit 0
-          fi
-          git commit -m "Update from source repository (${GITHUB_SHA::7})"
-          git push origin HEAD:main
-
-# Note: The last step to set GitHub Pages source to dist/index.html should be done manually or you can automate with GitHub API.

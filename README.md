@@ -58,7 +58,7 @@ npm run build:vendor   # CodeMirror 번들(assets/vendor/codemirror.js) 다시 �
 ```
 
 빌드 없이 확인할 때는 저장소 루트를 정적 서버로 열면 됩니다. (예: `python -m http.server`)
-`main` 브랜치에 푸시하면 GitHub Actions가 테스트 → 빌드 → `weniv_world_production` 배포를 진행합니다.
+사이트(world.weniv.co.kr)는 이 저장소의 GitHub Pages가 직접 서비스하므로 `main`에 푸시하면 바로 반영됩니다. GitHub Actions는 푸시·PR마다 테스트와 빌드만 확인합니다.
 
 ### 구조
 

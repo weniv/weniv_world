@@ -155,10 +155,20 @@ class InvalidSyntax(WorldError):
     key = "InvalidSyntax"
 
 
-class TooManyActions(WorldError):
-    """한 번의 실행에서 동작이 너무 많은 경우 (무한 반복 방지)"""
+class TooManyActions(BaseException):
+    """
+    한 번의 실행에서 동작이 너무 많은 경우 (무한 반복 방지)
+
+    KeyboardInterrupt처럼 BaseException을 상속해서 학습자 코드의
+    except Exception: / except WorldError: 에 잡히지 않고 실행을 멈춥니다.
+    """
 
     key = "TooManyActions"
+
+    def __init__(self, message=None):
+        self.message = message or error_message.get(self.key, self.key)
+        self.hint = error_hint.get(self.key, "")
+        super().__init__(self.message)
 
 
 class InputNotAllowed(WorldError):

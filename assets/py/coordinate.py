@@ -114,5 +114,5 @@ error_hint = {
     'NotEnoughMana': "eat('mp-potion')으로 마나를 회복하세요.",
     'InvalidSkill': "사용할 수 있는 스킬: 'claw-yellow', 'claw-white', 'beam', 'explosion'",
     'InvalidMob': "사용할 수 있는 몹: 'lion', 'py', 'binky', 'gary', 'wizard'",
-    'TooManyActions': '반복문이 끝나지 않는 것은 아닌지 확인하세요. (한 번 실행에 최대 10,000개 동작)',
+    'TooManyActions': '반복문이 끝나지 않는 것은 아닌지 확인하세요. (한 번 실행에 동작은 최대 10,000개, 월드 함수 호출은 최대 100,000번)',
 }

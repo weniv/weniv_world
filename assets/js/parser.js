@@ -235,11 +235,12 @@ const parser = (markdown) => {
             'zip',
         ];
 
+        // 단어 단위로만 찾고 뒤의 공백/괄호는 지우지 않습니다. (min( 의 'in(' 이 키워드로 바뀌던 문제)
         keyword_syntex.forEach((key) => {
-            const re = new RegExp(`(.*?)${key}[ ?(]+(.*?)`);
+            const re = new RegExp(`(.*?)\\b${key}\\b(?=[ (])`);
             token = token.replace(
                 re,
-                `$1<span class="code-syntex";>${key} </span>$2`,
+                `$1<span class="code-syntex";>${key}</span>`,
             );
         });
 

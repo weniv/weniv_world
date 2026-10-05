@@ -42,5 +42,5 @@ s = [
 s.replace()
 chr()
 ord()
-print('hello world!')
+say('hello world!')
 ```

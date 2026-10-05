@@ -37,7 +37,7 @@
 ```python
 def delivery():
     pass
-repeat(4, delivery)
+repeat(5, delivery)
 ```
 
 ## 사용 코드
@@ -48,8 +48,7 @@ turn_left()
 on_item()
 repeat(2, move)
 pick()
-put('fish-1')
-print('hello world!')
+say('hello world!')
 front_is_clear()
 left_is_clear()
 right_is_clear()

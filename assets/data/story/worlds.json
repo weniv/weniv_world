@@ -931,12 +931,6 @@
         1,
         "goldbar",
         1
-      ],
-      [
-        5,
-        0,
-        "fish-3",
-        3
       ]
     ],
     "mobs": []
@@ -1130,12 +1124,6 @@
         3,
         "mp-potion",
         2
-      ],
-      [
-        5,
-        0,
-        "hp-potion",
-        9
       ]
     ],
     "mobs": [],
@@ -1246,7 +1234,7 @@
     "walls": [],
     "items": [],
     "mobs": [],
-    "basic_code": "# 요리에 필요한 재료의 조건 확인\nrequired_ingredient = [\"당근\", \"양상추\", \"양파\", \"방울토마토\"]\nrequired_freshness = 5\nrequired = [False, False, False, False]\n\nitems = [{\"name\": \"당근\", \"freshness\": 7},\n    {\"name\": \"사과\", \"freshness\": 5},\n    {\"name\": \"당근\", \"freshness\": 6},\n    {\"name\": \"포도\", \"freshness\": 4}, \n    {\"name\": \"당근\", \"freshness\": 8}, \n    {\"name\": \"양상추\", \"freshness\": 8},\n    {\"name\": \"양파\", \"freshness\": 2}, \n    {\"name\": \"방울토마토\", \"freshness\": 5}]\n"
+    "basic_code": "# 요리에 필요한 재료의 조건 확인\nrequired_ingredient = [\"당근\", \"양상추\", \"양파\", \"방울토마토\"]\nrequired_freshness = 5\nrequired = [False, False, False, False]\n\nitems = [{\"name\": \"당근\", \"freshness\": 7},\n    {\"name\": \"사과\", \"freshness\": 5},\n    {\"name\": \"당근\", \"freshness\": 6},\n    {\"name\": \"포도\", \"freshness\": 4}, \n    {\"name\": \"당근\", \"freshness\": 8}, \n    {\"name\": \"양상추\", \"freshness\": 8},\n    {\"name\": \"양파\", \"freshness\": 5}, \n    {\"name\": \"방울토마토\", \"freshness\": 5}]\n"
   },
   "20": {
     "map": {

@@ -1,7 +1,7 @@
 // 스토리 목록, 선택, 제출(채점)
 
 import { parser } from '../parser.js';
-import { posKey } from './state.js';
+import { gradeDetail, gradingContext } from './grading.js';
 import { showResultDialog, toast } from './ui.js';
 
 const BASE = './assets/data/story/';
@@ -11,90 +11,6 @@ const fetchJson = async (url) => {
     if (!response.ok) throw new Error(`${url} (${response.status})`);
     return response.json();
 };
-
-const sameDict = (a = {}, b = {}) => {
-    const ka = Object.keys(a);
-    const kb = Object.keys(b);
-    return ka.length === kb.length && ka.every((k) => a[k] === b[k]);
-};
-
-// 채점 항목 (assets/data/story/solutions.json 의 키)
-// 오답일 때 어떤 항목이 틀렸는지만 보여 주고, 정답 값은 보여 주지 않습니다.
-const CHECKS = [
-    {
-        key: 'print_data',
-        label: 'print로 출력한 내용',
-        // 정답 문장이 모두 출력되어야 하고, 정답이 한 줄이면 마지막 출력이 그 문장이어야 합니다.
-        test: (expected, ctx) =>
-            expected.every((s) =>
-                ctx.print_data.some((line) => line.includes(s)),
-            ) &&
-            !(
-                expected.length === 1 &&
-                ctx.print_data.length &&
-                !expected.includes(ctx.print_data[ctx.print_data.length - 1])
-            ),
-    },
-    {
-        key: 'say_data',
-        label: 'say로 말한 내용',
-        test: (expected, ctx) =>
-            expected.every((s) =>
-                ctx.say_data.some((line) => line.includes(s)),
-            ) &&
-            !(
-                expected.length === 1 &&
-                ctx.say_data.length &&
-                !expected.includes(ctx.say_data[ctx.say_data.length - 1])
-            ),
-    },
-    {
-        key: 'character_data',
-        label: '캐릭터의 마지막 위치',
-        test: (expected, ctx) => {
-            const ch = ctx.character || {};
-            return Object.keys(expected).every(
-                (prop) => expected[prop] === ch[prop],
-            );
-        },
-    },
-    {
-        key: 'item',
-        label: '캐릭터가 가진 아이템',
-        test: (expected, ctx) => sameDict(expected, ctx.item),
-    },
-    {
-        key: 'item_data',
-        label: '맵에 남은 아이템',
-        test: (expected, ctx) => {
-            const want = {};
-            for (const [x, y, item, count] of expected)
-                want[posKey(x, y)] = `${item}:${count}`;
-            const have = {};
-            for (const [key, v] of Object.entries(ctx.items))
-                have[key] = `${v.item}:${v.count}`;
-            return sameDict(want, have);
-        },
-    },
-    {
-        key: 'code',
-        label: '문제에서 요구한 문법 사용',
-        test: (expected, ctx) =>
-            expected.every((snippet) =>
-                ctx.code.some((code) => code.includes(snippet)),
-            ),
-    },
-];
-
-// 항목별 채점 결과: [{ label, ok }]
-export const gradeDetail = (solution, ctx) =>
-    CHECKS.filter((check) => check.key in solution).map((check) => ({
-        label: check.label,
-        ok: check.test(solution[check.key], ctx),
-    }));
-
-export const grade = (solution, ctx) =>
-    gradeDetail(solution, ctx).every((c) => c.ok);
 
 const now = (withTime) => {
     const d = new Date();
@@ -297,15 +213,7 @@ export class StoryManager {
         storage.set(`${index}_time`, now(true));
 
         const { state, error } = run;
-        const character = state.characters[0];
-        const ctx = {
-            print_data: state.print_data,
-            say_data: state.say_data,
-            items: state.items,
-            character,
-            item: character?.items || {},
-            code: codes,
-        };
+        const ctx = gradingContext(state, codes);
         const checks = [
             { label: '코드가 오류 없이 끝까지 실행됨', ok: !error },
             ...gradeDetail(this.solutions[index] || {}, ctx),

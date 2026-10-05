@@ -24,7 +24,12 @@ from datetime import datetime
 import engine
 import coordinate
 import error as error_module
+import actor as actor_module
+import character as character_module
+import item as item_module
+import mob as mob_module
 import built_in_functions as bif
+import modules as modules_module
 from coordinate import (
     map_data,
     character_data,
@@ -36,7 +41,7 @@ from coordinate import (
 )
 from character import Character
 from mob import Mob
-from error import WorldError, InputNotAllowed
+from error import WorldError, InputNotAllowed, TooManyActions
 
 MAX_RESULT_LENGTH = 10000
 MAX_LINE_LENGTH = 10000
@@ -145,7 +150,7 @@ def _make_namespace():
 
     for name in dir(error_module):
         value = getattr(error_module, name)
-        if isinstance(value, type) and issubclass(value, Exception):
+        if isinstance(value, type) and issubclass(value, BaseException):
             ns[name] = value
 
     ns.update(
@@ -216,8 +221,58 @@ def _restore_mutables(snapshots):
 
 def reset_namespace():
     """학습자가 만든 변수를 모두 지웁니다."""
+    _restore_engine()
     namespace.clear()
     namespace.update(_make_namespace())
+
+
+# ----------------------------------------------------------------------
+# 엔진 원상 복구
+#
+# 학습자 이름공간에는 엔진이 실제로 쓰는 설정 객체(wall_blocked, valid_items 등)가 그대로 들어가고,
+# import로 엔진 모듈·클래스에 접근할 수도 있습니다. 셀에서 이것을 바꾸면 다음 실행에도 남으므로,
+# 제출 채점(run_all)과 이름공간 초기화 때 불러올 때의 상태로 되돌립니다.
+_ENGINE_MODULES = [
+    engine, coordinate, error_module, actor_module, character_module, item_module,
+    mob_module, bif, modules_module, builtins,
+]
+_PRISTINE_GLOBALS = [(m, dict(vars(m))) for m in _ENGINE_MODULES]
+_PRISTINE_CONFIG = {
+    name: (getattr(coordinate, name), copy.deepcopy(getattr(coordinate, name)))
+    for name in [
+        "valid_items", "edible_items", "wall_types", "wall_blocked", "skill_data",
+        "character_info", "mob_info", "error_message", "error_hint",
+    ]
+}
+_PRISTINE_CLASSES = [
+    (cls, dict(vars(cls)))
+    for cls in [actor_module.Actor, Character, Mob]
+    + [v for v in vars(error_module).values() if isinstance(v, type) and issubclass(v, BaseException)]
+]
+
+
+def _restore_engine():
+    # 모듈 전역: 바꿔 끼운 함수·상수 (engine.MAX_EVENTS, built_in_functions.move 등)
+    for module, saved in _PRISTINE_GLOBALS:
+        d = vars(module)
+        for key, value in saved.items():
+            if d.get(key, d) is not value:
+                d[key] = value
+    # 설정 객체: 같은 객체를 다른 모듈이 import해서 쓰므로 내용만 되돌립니다.
+    for name, (target, saved) in _PRISTINE_CONFIG.items():
+        fresh = copy.deepcopy(saved)
+        if isinstance(target, dict):
+            target.clear()
+            target.update(fresh)
+        else:
+            target[:] = fresh
+    # 클래스: 바꿔 끼우거나 추가한 메서드
+    for cls, saved in _PRISTINE_CLASSES:
+        for key in [k for k in vars(cls) if k not in saved]:
+            delattr(cls, key)
+        for key, value in saved.items():
+            if vars(cls).get(key, saved) is not value:
+                setattr(cls, key, value)
 
 
 # ----------------------------------------------------------------------
@@ -374,7 +429,7 @@ def _format_error(exc, ns=None):
     te.stack = traceback.StackSummary.from_list(frames)
     text = "".join(te.format()).rstrip()
 
-    if isinstance(exc, WorldError):
+    if isinstance(exc, (WorldError, TooManyActions)):
         message, hint = exc.message, exc.hint
     else:
         last = "".join(te.format_exception_only()).strip().splitlines()
@@ -402,7 +457,7 @@ def _format_error(exc, ns=None):
         "traceback": text,
         "line": line,
         "file": file[1:-1] if file else None,
-        "world": isinstance(exc, WorldError),
+        "world": isinstance(exc, (WorldError, TooManyActions)),
     }
 
 
@@ -455,6 +510,7 @@ def run_all(codes_json, state_json, inputs_json="[]", seed=0):
     오류가 나면 그 셀에서 멈추고 오류 정보를 돌려줍니다. 동작 한도는 셀마다 적용합니다.
     """
     codes = json.loads(codes_json)
+    _restore_engine()
     load_state(json.loads(state_json))
     _inputs[:] = json.loads(inputs_json)
     random.seed(seed)

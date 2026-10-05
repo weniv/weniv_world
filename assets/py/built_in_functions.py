@@ -38,7 +38,8 @@ def _is_int(value):
 
 
 def _main_character(character=None):
-    """character 인자가 없으면 기본 캐릭터를 돌려줍니다."""
+    """character 인자가 없으면 기본 캐릭터를 돌려줍니다. (월드 함수 호출 수도 셉니다)"""
+    engine.tick()
     if character is not None:
         return character
     if not character_data:

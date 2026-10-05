@@ -50,7 +50,7 @@
 ```bash
 npm ci
 npm start              # 개발 서버 (http://localhost:5501)
-npm test               # 파이썬 엔진 + JavaScript 실행 큐 회귀 테스트
+npm test               # 파이썬 엔진 + JavaScript 실행 큐 + 스토리 모범 답안 회귀 테스트
 npm run test:js        # JavaScript 테스트만 실행 (Node.js 22)
 npm run build          # 배포 파일 생성 → dist/
 npm run scss           # assets/css/*.scss 수정 시 style.css 자동 빌드
@@ -81,7 +81,7 @@ npm run build:vendor   # CodeMirror 번들(assets/vendor/codemirror.js) 다시 �
 | `assets/py/` | 학습자가 쓰는 파이썬 함수와 게임 규칙 (DOM 없음) |
 | `assets/data/story/worlds.json` | 스토리별 맵 (벽, 아이템, 몹, 기본 코드) |
 | `assets/data/story/solutions.json` | 스토리별 채점 기준 |
-| `tests/` | 파이썬 엔진 단위 테스트 |
+| `tests/` | 파이썬 엔진·JavaScript 단위 테스트, 스토리 22편 모범 답안(`story_solutions/`)을 실제 엔진과 채점 규칙으로 검사하는 테스트 |
 
 * 월드 상태는 화면(JS)이 가지고 있다가 실행할 때마다 워커로 보냅니다. 그래서 중지(워커 재시작)해도 월드는 그대로 남습니다.
 * 몹 체력처럼 JS와 파이썬 양쪽에 있는 값은 `assets/js/app/config.js`와 `assets/py/coordinate.py`를 함께 고쳐야 합니다.

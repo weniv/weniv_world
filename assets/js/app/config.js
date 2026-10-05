@@ -1,7 +1,7 @@
 // 앱 전역 설정
 
 // 배포할 때마다 바꾸면 브라우저가 이전 버전의 파이썬 파일을 캐시에서 쓰지 않습니다.
-export const APP_VERSION = '2026.10.04.1';
+export const APP_VERSION = '2026.10.05.1';
 
 // Pyodide (Python 3.14) — Web Worker에서 실행합니다.
 export const PYODIDE_URL = 'https://cdn.jsdelivr.net/pyodide/v314.0.7/full/';

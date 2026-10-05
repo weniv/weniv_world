@@ -311,3 +311,45 @@ class RunAllTest(unittest.TestCase):
         self.assertEqual(run_all(["x = input('값? ')"]), {"need_input": "값? "})
         r = run_all(["x = input('값? ')\nprint(x)"], inputs=["7"])
         self.assertEqual(r["state"]["print_data"], ["값? 7", "7"])
+
+    def test_engine_changes_from_cells_do_not_affect_grading(self):
+        walled = make_state(walls=[[0.5, 0, "wall"]])
+        down = "turn_left()\nturn_left()\nturn_left()\nmove()"
+        for poison in [
+            "wall_blocked.clear()",
+            "import engine\nengine.MAX_EVENTS = 10**9",
+            "Character.move = lambda self: None",
+            "import built_in_functions as b\nb.move = lambda c=None: None",
+            "import builtins\nbuiltins.print = lambda *a, **k: None",
+        ]:
+            with self.subTest(poison=poison):
+                run(poison, walled)
+                r = run_all([down + "\nprint('a')"], walled)
+                self.assertEqual(r["error"]["name"], "WallIsExist")
+                runner.reset_namespace()
+                r = run_all(["print('a')\nwhile True:\n    turn_left()"])
+                self.assertEqual(r["error"]["name"], "TooManyActions")
+                self.assertEqual(r["state"]["print_data"], ["a"])
+
+
+class CallLimitTest(unittest.TestCase):
+    def setUp(self):
+        runner.reset_namespace()
+
+    def test_failed_moves_in_except_exception_loop_stop(self):
+        r = run("while True:\n    try:\n        move()\n    except Exception:\n        pass")
+        self.assertEqual(r["error"]["name"], "TooManyActions")
+        self.assertTrue(r["error"]["world"])
+        self.assertIn("100,000", r["error"]["hint"])
+
+    def test_query_only_loop_stops(self):
+        r = run("while not on_item():\n    pass")
+        self.assertEqual(r["error"]["name"], "TooManyActions")
+
+    def test_many_queries_below_limit_are_fine(self):
+        r = run("for _ in range(20000):\n    front_is_clear()\nprint('ok')")
+        self.assertIsNone(r["error"])
+
+    def test_world_errors_are_still_catchable(self):
+        r = run("try:\n    repeat(5, move)\nexcept OutOfWorld:\n    print('caught')")
+        self.assertEqual(r["state"]["print_data"], ["caught"])

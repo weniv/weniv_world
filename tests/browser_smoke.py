@@ -95,7 +95,7 @@ class BrowserSmokeTest(unittest.TestCase):
     def test_grading_then_cell_uses_graded_world(self):
         self.page.locator('.btn-story').click()
         self.open_story(13)
-        self.set_codes("turn_left()\nprint('JEJU')", 'turn_left()')
+        self.set_codes("turn_left()\nsay('JEJU')", 'turn_left()')
         self.page.evaluate('''async () => {
             const d = __wenivDebug;
             const submit = d.stories.submit(document.querySelector('.story-list > li.active'));

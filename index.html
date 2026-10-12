@@ -6,6 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- 어디에서 열렸는지(단독 사이트·위니버시티 안·설치판) 먼저 정합니다 -->
+    <script src="./assets/js/host.js"></script>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XPF3L7HN8R"></script>
     <script>
@@ -13,7 +16,8 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'G-XPF3L7HN8R');
+    // 위니버시티 안·설치판에서는 세지 않습니다 (위니버시티는 자기 방문 통계로 셉니다)
+    if (window.WENIV_WORLD_HOST === 'web') gtag('config', 'G-XPF3L7HN8R');
     </script>
 
     <!-- meta -->

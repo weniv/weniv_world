@@ -1,8 +1,11 @@
 const BASE_URL = 'https://dev.wenivops.co.kr/api/weniv_analytics';
+// 위니버시티 안(iframe)·설치판에서는 보내지 않습니다 (host.js). 위니버시티는 자기 방문 통계로 셉니다.
+const ANALYTICS_ENABLED = (window.WENIV_WORLD_HOST || 'web') === 'web';
 
 //------------------------------------------------------------
 // @post /collect/pageview
 function collectPageView(session_id, reload) {
+    if (!ANALYTICS_ENABLED) return;
     const header = {
         'Content-Type': 'application/json',
     };
@@ -55,6 +58,7 @@ window.addEventListener('load', (e) => {
 // 링크 이동(또는 PDF 다운로드)을 막지 않고, 클릭 기록만 백그라운드로 보냅니다.
 // keepalive를 쓰면 페이지를 떠나도 요청이 끝까지 전송됩니다.
 function collectAnchorClick(event, type) {
+    if (!ANALYTICS_ENABLED) return;
     const anchor = event.currentTarget;
     const session_id = localStorage.getItem('session_id');
 

@@ -1,6 +1,7 @@
 // 스토리 목록, 선택, 제출(채점)
 
 import { parser } from '../parser.js';
+import { notifyHost } from './embed.js';
 import { gradeDetail, gradingContext } from './grading.js';
 import { showResultDialog, toast } from './ui.js';
 
@@ -211,6 +212,9 @@ export class StoryManager {
 
         storage.set(`${index}_code`, JSON.stringify(codes));
         storage.set(`${index}_time`, now(true));
+        // 제출 횟수 (채점까지 끝난 제출만, 이 브라우저에서 센 값) — 위니버시티 통과 기록에 함께 보낸다
+        const attempts = (Number(storage.get(`${index}_submits`)) || 0) + 1;
+        storage.set(`${index}_submits`, String(attempts));
 
         const { state, error } = run;
         const ctx = gradingContext(state, codes);
@@ -231,6 +235,7 @@ export class StoryManager {
             storage.set(`${index}_check`, '정답');
             li.classList.add('submit');
             this.updateProgress();
+            notifyHost('story-cleared', { storyId: index, attempts });
             for (const [chapter, ids] of Object.entries(this.chapters)) {
                 if (!ids.includes(index)) continue;
                 if (

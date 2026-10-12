@@ -964,6 +964,20 @@ button {
   position: relative;
 }
 
+/* 위니버시티 안(iframe)에서 열렸을 때 (assets/js/host.js)
+   바로 위에 위니버시티 머리글이 있으므로 로고를 빼고 줄 높이를 줄인다. 버튼(스토리·인증서 등)은 그대로 둔다. */
+[data-host=weniversity] .header {
+  justify-content: flex-end;
+  height: 5.6rem;
+  padding: 0.7rem 2rem;
+}
+[data-host=weniversity] .header h1 {
+  display: none;
+}
+[data-host=weniversity] .main {
+  height: calc(100vh - 5.6rem);
+}
+
 /* 토스트 알림 */
 .toast-wrap {
   position: fixed;

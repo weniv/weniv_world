@@ -8,6 +8,7 @@
 // 월드 상태(World)는 화면이 가지고 있고, 실행할 때마다 워커로 보냅니다.
 
 import { MOB_INFO } from './config.js';
+import { notifyHost } from './embed.js';
 import { PythonEngine } from './engine.js';
 import { Notebook, DEFAULT_CODE } from './notebook.js';
 import { Player } from './player.js';
@@ -473,10 +474,13 @@ setupShortcutHelp();
 world.replace(defaultState());
 loadNotebook();
 engine.start();
-stories.load().catch((err) => {
-    console.error(err);
-    toast('스토리를 불러오지 못했습니다.');
-});
+stories
+    .load()
+    .then(() => notifyHost('ready'))
+    .catch((err) => {
+        console.error(err);
+        toast('스토리를 불러오지 못했습니다.');
+    });
 window.addEventListener('pagehide', () => notebook.flushSave());
 
 // 개발자 도구 / 자동 테스트에서 상태를 확인하기 위한 핸들

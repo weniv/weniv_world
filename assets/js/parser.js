@@ -2,6 +2,8 @@
 // 코드가 가독성과 재사용성이 떨어져 리뉴얼이 필요함
 // https://codepen.io/kvendrik/pen/bGKeEE 코드로 리뉴얼할 예정
 
+import { asset } from './app/env.js';
+
 const parser = (markdown) => {
     const normalize = (markdown) => {
         return markdown
@@ -88,7 +90,7 @@ const parser = (markdown) => {
         regex: /^\s*!\[(.*)\]\((.+)\)/,
         replace: (_, g1, g2) => {
             const width = g2.match(/_{2}(\d+)\..+$/)?.[1];
-            return `<figure class="md-figure"><img class="md-img" loading="lazy" src="./assets/data/story/img/${g2}" ${
+            return `<figure class="md-figure"><img class="md-img" loading="lazy" src="${asset(`data/story/img/${g2}`)}" ${
                 width ? ` style="width: ${width}px;"` : ''
             } alt="">${g1 ? `<figcaption>${g1}</figcaption>` : ''}</figure>`;
         },

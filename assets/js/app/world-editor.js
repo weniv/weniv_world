@@ -9,6 +9,7 @@ import {
     posKey,
     resizeState,
 } from './state.js';
+import { asset, query, queryAll } from './env.js';
 import { isTyping, showAlert, toast } from './ui.js';
 
 const DIRECTION_TEXT = ['0 (동쪽)', '1 (북쪽)', '2 (서쪽)', '3 (남쪽)'];
@@ -52,28 +53,26 @@ export class WorldEditor {
     // ------------------------------------------------------------------
     // 도구 모음 (벽 종류, 아이템/몹 선택)
     bindToolbar() {
-        document
-            .querySelectorAll("input[name='wall-type']")
-            .forEach((input) => {
-                input.addEventListener('change', () => {
-                    this.wallType = input.value;
-                    this.applyPointerMode();
-                });
+        queryAll("input[name='wall-type']").forEach((input) => {
+            input.addEventListener('change', () => {
+                this.wallType = input.value;
+                this.applyPointerMode();
             });
-        document.querySelectorAll("input[name='item']").forEach((input) => {
+        });
+        queryAll("input[name='item']").forEach((input) => {
             input.addEventListener('click', () =>
                 this.toggleSelection('item', input.id),
             );
         });
-        document.querySelectorAll("input[name='mob']").forEach((input) => {
+        queryAll("input[name='mob']").forEach((input) => {
             input.addEventListener('click', () =>
                 this.toggleSelection('mob', input.id),
             );
         });
         // 아이템 패널을 다시 열었을 때 선택 표시 유지
-        document
-            .querySelector('.btn-assets')
-            ?.addEventListener('click', () => this.markSelectedLabel());
+        query('.btn-assets')?.addEventListener('click', () =>
+            this.markSelectedLabel(),
+        );
     }
 
     toggleSelection(kind, name) {
@@ -87,8 +86,8 @@ export class WorldEditor {
             this.markSelectedLabel();
             const cursor =
                 kind === 'item'
-                    ? `url(assets/img/item/${name}.png) 16 16, copy`
-                    : `url(assets/img/characters/${name}-0.webp) 16 16, copy`;
+                    ? `url(${asset(`img/item/${name}.png`)}) 16 16, copy`
+                    : `url(${asset(`img/characters/${name}-0.webp`)}) 16 16, copy`;
             this.mapSection.style.cursor = cursor;
         }
         this.applyPointerMode();
@@ -96,16 +95,14 @@ export class WorldEditor {
 
     markSelectedLabel() {
         if (!this.selection) return;
-        document
-            .querySelector(`label[for='${this.selection.name}']`)
-            ?.classList.add('select');
+        query(`label[for='${this.selection.name}']`)?.classList.add('select');
     }
 
     clearSelection() {
         if (this.selection) {
-            document
-                .querySelector(`label[for='${this.selection.name}']`)
-                ?.classList.remove('select');
+            query(`label[for='${this.selection.name}']`)?.classList.remove(
+                'select',
+            );
         }
         this.selection = null;
         this.mapSection.style.cursor = '';
@@ -170,8 +167,7 @@ export class WorldEditor {
             if (!tooltip) {
                 tooltip = document.createElement('div');
                 tooltip.className = 'mouse-tooltip';
-                tooltip.innerHTML =
-                    '<img src="assets/img/icon/icon-mouse-click.svg" alt=""><p>우클릭으로 취소</p>';
+                tooltip.innerHTML = `<img src="${asset('img/icon/icon-mouse-click.svg')}" alt=""><p>우클릭으로 취소</p>`;
                 container.appendChild(tooltip);
             }
             const rect = container.getBoundingClientRect();
@@ -271,10 +267,10 @@ export class WorldEditor {
     // ------------------------------------------------------------------
     // 맵 크기 조절
     bindSliders() {
-        this.sliderX = document.getElementById('map-range-x');
-        this.sliderY = document.getElementById('map-range-y');
-        this.textX = document.getElementById('map-text-x');
-        this.textY = document.getElementById('map-text-y');
+        this.sliderX = query('#map-range-x');
+        this.sliderY = query('#map-range-y');
+        this.textX = query('#map-text-x');
+        this.textY = query('#map-text-y');
         [this.sliderX, this.sliderY].forEach((slider) => {
             slider.min = MAP_MIN;
             slider.max = MAP_MAX;
@@ -311,7 +307,7 @@ export class WorldEditor {
     // ------------------------------------------------------------------
     // 키보드
     bindKeys() {
-        document.addEventListener('keydown', (e) => {
+        this.onKeydown = (e) => {
             if (e.key === 'Escape') {
                 this.closeCharacterInfo();
                 if (this.selection) this.clearSelection();
@@ -330,7 +326,14 @@ export class WorldEditor {
                         : '더 되돌릴 내용이 없습니다.',
                 );
             }
-        });
+        };
+        document.addEventListener('keydown', this.onKeydown);
+    }
+
+    // 앱을 내릴 때 문서에 건 키 처리를 뗍니다.
+    destroy() {
+        document.removeEventListener('keydown', this.onKeydown);
+        clearTimeout(this.bubbleTimer);
     }
 
     // ------------------------------------------------------------------
@@ -391,9 +394,7 @@ export class WorldEditor {
 
     closeCharacterInfo() {
         clearTimeout(this.bubbleTimer);
-        document
-            .querySelectorAll('.character-info-bubble')
-            .forEach((b) => b.remove());
+        queryAll('.character-info-bubble').forEach((b) => b.remove());
     }
 
     resetCharacter(name) {

@@ -18,6 +18,8 @@ import {
     StateField,
     StateEffect,
 } from '../../vendor/codemirror.js';
+import { addTooltipEvent } from './controls.js';
+import { store } from './env.js';
 import { toast } from './ui.js';
 
 export const DEFAULT_CODE = `# shift + enter를 눌러 실행해 보세요.
@@ -246,10 +248,7 @@ export class Notebook {
             }),
         });
 
-        // 툴팁(event.js)
-        root.querySelectorAll('.show-tooltip').forEach((el) =>
-            window.addTooltipEvent?.(el),
-        );
+        root.querySelectorAll('.show-tooltip').forEach(addTooltipEvent);
 
         const index = after ? this.cells.indexOf(after) + 1 : this.cells.length;
         const anchor = after ? after.addWrap.nextSibling : null;
@@ -474,13 +473,7 @@ export class Notebook {
     flushSave() {
         clearTimeout(this.saveTimer);
         if (!this.storageKey) return;
-        try {
-            localStorage.setItem(
-                this.storageKey,
-                JSON.stringify(this.getCodes()),
-            );
-        } catch (err) {
-            /* 저장 공간이 부족하거나 사용할 수 없는 경우 */
-        }
+        // 저장 공간이 부족하거나 사용할 수 없으면 저장하지 않습니다.
+        store.set(this.storageKey, JSON.stringify(this.getCodes()));
     }
 }

@@ -1,424 +1,45 @@
-// 화면 이벤트 (메뉴, 모달, 다크모드, 프로필, 인증서 등)
-// 노트북·월드·스토리 실행 로직은 assets/js/app/ 의 모듈에 있습니다.
+// 단독 사이트 머리 줄 (다크 모드, 더보기 메뉴, 프로필, 인증서)
+// 노트북·월드·스토리와 월드 메뉴·툴팁 같은 화면 조작은 app/ 의 모듈(app.js, controls.js)에 있습니다.
 
-// app/ui.js가 준비되면 토스트로, 아니면 기본 alert로 알립니다.
-const notify = (message) =>
-    window.WenivUI ? window.WenivUI.toast(message) : alert(message);
-
-// input range 스타일 적용을 위한 코드
-const sliders = document.querySelectorAll('.slider');
-const rangeValueText = document.querySelectorAll('.slider + strong');
-
-const setSliderTrack = (element) => {
-    const value = element.value;
-    const max = parseInt(element.max);
-    const min = parseInt(element.min);
-    const width = ((value - min) / (max - min)) * 100;
-    const color = getComputedStyle(element).color;
-
-    element.style.background = `linear-gradient(to right, ${color} 0%, ${color} ${width}%, #d9dbe0 ${width}%, #d9dbe0 100%)`;
-};
-
-const sliderValueObserver = new MutationObserver((mutationsList) => {
-    mutationsList.forEach((mutation) => {
-        if (mutation.type === 'childList') {
-            const slider = mutation.target.previousElementSibling;
-            setSliderTrack(slider);
-        }
-    });
-});
-
-sliders.forEach((slider) => {
-    setSliderTrack(slider);
-});
-
-rangeValueText.forEach((target) => {
-    sliderValueObserver.observe(target, {
-        childList: true,
-        characterData: true,
-    });
-});
+import { asset, store } from './app/env.js';
+import {
+    chapterProgress,
+    chaptersOf,
+    DEFAULT_CHAPTERS,
+    downloadUrl,
+    drawCertificate,
+    formatDate,
+    localRecords,
+} from './app/records.js';
+import { toast } from './app/ui.js';
 
 // 다크모드
-const userColorTheme = localStorage.getItem('color-theme');
+const darkModeButton = document.querySelector('.btn-dark-mode');
+const applyTheme = (theme) => {
+    store.set('color-theme', theme);
+    document.documentElement.setAttribute('color-theme', theme);
+    darkModeButton.classList.toggle('active', theme === 'dark');
+    darkModeButton.setAttribute(
+        'name',
+        theme === 'dark' ? '다크모드 OFF' : '다크모드 ON',
+    );
+};
 const osColorTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
     ? 'dark'
     : 'light';
-const darkModeButton = document.querySelector('.btn-dark-mode');
+applyTheme(store.get('color-theme') || osColorTheme);
+darkModeButton.addEventListener('click', () =>
+    applyTheme(darkModeButton.classList.contains('active') ? 'light' : 'dark'),
+);
 
-const getUserTheme = () => (userColorTheme ? userColorTheme : osColorTheme);
-
-window.addEventListener('load', () => {
-    if (getUserTheme() === 'dark') {
-        localStorage.setItem('color-theme', 'dark');
-        document.documentElement.setAttribute('color-theme', 'dark');
-        darkModeButton.classList.add('active');
-        darkModeButton.setAttribute('name', '다크모드 OFF');
-    } else {
-        localStorage.setItem('color-theme', 'light');
-        document.documentElement.setAttribute('color-theme', 'light');
-        darkModeButton.classList.remove('active');
-        darkModeButton.setAttribute('name', '다크모드 ON');
-    }
-});
-
-darkModeButton.addEventListener('click', () => {
-    if (darkModeButton.classList.contains('active')) {
-        localStorage.setItem('color-theme', 'light');
-        document.documentElement.setAttribute('color-theme', 'light');
-        darkModeButton.classList.remove('active');
-        darkModeButton.setAttribute('name', '다크모드 ON');
-    } else {
-        localStorage.setItem('color-theme', 'dark');
-        document.documentElement.setAttribute('color-theme', 'dark');
-        darkModeButton.classList.add('active');
-        darkModeButton.setAttribute('name', '다크모드 OFF');
-    }
-});
-
-// 스토리 section / 스토리 컨텐츠 여닫기
-const storyShowButton = document.querySelector('.btn-story');
-const storyCloseButton = document.querySelector('.btn-close-story');
-const storySection = document.querySelector('.story');
-const storyList = document.querySelector('.story-list');
-const storyResizer = document.querySelector('.story-resizer');
-
-// 월드 편집 기능
-const wallEditButton = document.querySelector('.btn-wall');
-const assetsSelectButton = document.querySelector('.btn-assets');
-const mapResizeButton = document.querySelector('.btn-resize');
-const mobSelectButton = document.querySelector('.btn-mob');
-const uploadWorldDataButton = document.getElementById('btn-upload-worlddata');
-const worldDataInput = document.getElementById('worldFileInput');
-
-storyShowButton.addEventListener('click', () => {
-    storyShowButton.classList.toggle('active');
-    storySection.classList.toggle('show');
-    storyResizer.style.display = 'block';
-
-    const mapContainer = document.querySelector('.map-container');
-
-    if (storyShowButton.classList.contains('active')) {
-        notify('스토리 모드에서는 월드 편집 기능이 제한됩니다.');
-
-        wallEditButton.classList.remove('active');
-        wallEditButton.setAttribute('disabled', true);
-
-        assetsSelectButton.classList.remove('active');
-        assetsSelectButton.setAttribute('disabled', true);
-
-        mobSelectButton.classList.remove('active');
-        mobSelectButton.setAttribute('disabled', true);
-
-        mapResizeButton.classList.remove('active');
-        mapResizeButton.setAttribute('disabled', true);
-
-        uploadWorldDataButton.classList.add('hidden');
-        worldDataInput.setAttribute('disabled', true);
-    } else {
-        wallEditButton.removeAttribute('disabled');
-        assetsSelectButton.removeAttribute('disabled');
-        mobSelectButton.removeAttribute('disabled');
-        mapResizeButton.removeAttribute('disabled');
-        uploadWorldDataButton.classList.remove('hidden');
-        worldDataInput.removeAttribute('disabled');
-    }
-});
-
-storyCloseButton.addEventListener('click', () => {
-    const mapContainer = document.querySelector('.map-container');
-    mapContainer.style.pointerEvents = '';
-
-    wallEditButton.removeAttribute('disabled');
-    assetsSelectButton.removeAttribute('disabled');
-    mobSelectButton.removeAttribute('disabled');
-    mapResizeButton.removeAttribute('disabled');
-    uploadWorldDataButton.classList.remove('hidden');
-    worldDataInput.removeAttribute('disabled');
-
-    storyShowButton.classList.remove('active');
-    storySection.classList.remove('show');
-    storyResizer.style.display = 'none';
-});
-
-// 툴팁 표시
-const tooltipTargetElement = document.querySelectorAll('.show-tooltip');
-
-const createTooltip = (textContent) => {
-    const div = document.createElement('div');
-    div.setAttribute('class', 'tooltip');
-    div.innerHTML = textContent;
-
-    return div;
-};
-
-const addTooltip = (target) => {
-    const textContent = target.getAttribute('name');
-
-    if (textContent) {
-        const targetHeight = target.clientHeight;
-        const tooltip = createTooltip(textContent);
-        tooltip.style.top = `${targetHeight + 10}px`;
-
-        target.append(tooltip);
-    }
-};
-
-const removeTooltip = (target) => {
-    const tooltip = target.querySelector('.tooltip');
-
-    tooltip && tooltip.remove();
-};
-
-const addTooltipEvent = (target) => {
-    target.addEventListener(
-        'mouseover',
-        () => {
-            addTooltip(target);
-        },
-        false,
-    );
-
-    target.addEventListener(
-        'mouseout',
-        () => {
-            removeTooltip(target);
-        },
-        false,
-    );
-
-    target.addEventListener('click', () => {
-        removeTooltip(target);
-    });
-};
-
-tooltipTargetElement.forEach((target) => {
-    addTooltipEvent(target);
-});
-// 노트북 셀(app/notebook.js)에서도 같은 툴팁을 씁니다.
-window.addTooltipEvent = addTooltipEvent;
-
-// world 메뉴 - 버튼 이벤트 추가(모달 여닫기)
-const worldMenu = document.querySelector('.world-menu');
-
-const toggleActive = (target) => {
-    const currentActiveItem = worldMenu.querySelector('.active');
-
-    if (target.classList.contains('btn-toggle')) {
-        if (target == currentActiveItem) {
-            target.classList.remove('active');
-        } else {
-            currentActiveItem && currentActiveItem.classList.remove('active');
-            target.classList.add('active');
-        }
-    } else {
-        currentActiveItem && currentActiveItem.classList.remove('active');
-    }
-};
-
-worldMenu.addEventListener('click', (e) => {
-    if (e.target.tagName == 'BUTTON') {
-        toggleActive(e.target);
-    }
-});
-
-window.addEventListener('click', (e) => {
-    if (e.target == worldMenu || !worldMenu.contains(e.target)) {
-        toggleActive(e.target);
-    }
-});
-
-// worldmenu - 모달 크기 조절
-const world = document.querySelector('.world');
-const modals = document.querySelectorAll('.controller-modal');
-
-const resizeModal = (target, ratio) => {
-    const targetWidth = target.clientWidth;
-    const resizedWidth = targetWidth * ratio;
-
-    target.style.maxWidth = `${resizedWidth}px`;
-};
-
-const resizeIfHidden = (targetModal) => {
-    const modalRect = targetModal.getBoundingClientRect();
-    const containerRect = world.getBoundingClientRect();
-
-    const isPartiallyHiddenOrFullyHidden =
-        modalRect.right >= containerRect.right;
-
-    if (isPartiallyHiddenOrFullyHidden) {
-        const term = modalRect.right - containerRect.right;
-        const visibleRatio = 1 - term / modalRect.width;
-        resizeModal(targetModal, visibleRatio);
-    } else {
-        targetModal.style.maxWidth = '700px';
-    }
-};
-
-const resizeObserver = new ResizeObserver(() => {
-    const activeButton = world.querySelector('.active');
-    if (activeButton) {
-        const targetModal = activeButton
-            .closest('li')
-            .querySelector('.controller-modal');
-
-        resizeIfHidden(targetModal);
-    }
-});
-
-const observerCallback = (entries, observer) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            const intersectionRatio = entry.intersectionRatio;
-            if (intersectionRatio < 1) {
-                resizeModal(entry.target, intersectionRatio);
-            }
-        } else {
-            entry.target.style.maxWidth = '700px';
-        }
-    });
-};
-
-const modalIntersectionObserver = new IntersectionObserver(observerCallback, {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1,
-});
-
-modals.forEach((modal) => {
-    modalIntersectionObserver.observe(modal);
-});
-
-resizeObserver.observe(world);
-resizeObserver.observe(window.document.body);
-
-// 함수, 변수 리스트 클립보드에 복사
-const functionList = document.querySelector('.function-list');
-const variableList = document.querySelector('.variable-list');
-
-const copyToClipboard = (target) => {
-    if (target.tagName == 'BUTTON' && target.classList.contains('code-item')) {
-        const code = target.innerText;
-        navigator.clipboard.writeText(code).then(() => {
-            notify('클립보드에 복사되었습니다.');
-        });
-    }
-};
-
-functionList.addEventListener('click', (e) => {
-    copyToClipboard(e.target);
-});
-
-variableList.addEventListener('click', (e) => {
-    copyToClipboard(e.target);
-});
-
-// 케밥 메뉴 - 버튼 이벤트 추가
+// 케밥 메뉴
 const kebabMenu = document.querySelector('.btn-kebab');
-
 kebabMenu.addEventListener('click', () => {
     kebabMenu.classList.toggle('active');
 });
-
 window.addEventListener('click', (e) => {
-    if (!kebabMenu.contains(e.target)) {
-        kebabMenu.classList.contains('active') &&
-            kebabMenu.classList.remove('active');
-    }
+    if (!kebabMenu.contains(e.target)) kebabMenu.classList.remove('active');
 });
-
-// 이미지 프리로드
-const preloadImage = (imgList) => {
-    imgList.forEach((src) => {
-        const img = new Image();
-        img.src = src;
-    });
-};
-// 라이캣 이미지 프리로드
-preloadImage([
-    './assets/img/characters/licat-0.webp',
-    './assets/img/characters/licat-1.webp',
-    './assets/img/characters/licat-2.webp',
-    './assets/img/characters/licat-3.webp',
-    './assets/img/icon/icon-alert-circle.svg',
-]);
-
-// 상태바(체력,마나)
-// 로컬 스토리지에서 값 가져오기
-const statusModeButton = document.querySelector('.btn-status');
-const srText = statusModeButton.querySelector('.sr-only');
-const getStatusMode = () => {
-    const statusVisible = localStorage.getItem('status-mode');
-    return statusVisible ? statusVisible : 'hide';
-};
-const setStatusVisiblity = () => {
-    const status = getStatusMode();
-    const statusContainers = document.querySelectorAll('.status-item');
-    if (status === 'show') {
-        statusContainers.forEach((container) => {
-            container.classList.remove('hide');
-        });
-    } else {
-        statusContainers.forEach((container) => {
-            container.classList.add('hide');
-        });
-    }
-};
-
-window.addEventListener('DOMContentLoaded', () => {
-    if (getStatusMode() === 'show') {
-        localStorage.setItem('status-mode', 'show');
-        statusModeButton.classList.remove('hide');
-        statusModeButton.setAttribute('name', '체력 상태 숨기기');
-        srText.innerText = '체력 상태 숨기기';
-    } else {
-        localStorage.setItem('status-mode', 'hide');
-        statusModeButton.classList.add('hide');
-        statusModeButton.setAttribute('name', '체력 상태 보기');
-        srText.innerText = '체력 상태 보기';
-    }
-    setStatusVisiblity();
-});
-
-statusModeButton.addEventListener('click', () => {
-    if (getStatusMode() === 'show') {
-        localStorage.setItem('status-mode', 'hide');
-        statusModeButton.classList.add('hide');
-        statusModeButton.setAttribute('name', '체력 상태 보기');
-        srText.innerText = '체력 상태 보기';
-    } else {
-        localStorage.setItem('status-mode', 'show');
-        statusModeButton.classList.remove('hide');
-        statusModeButton.setAttribute('name', '체력 상태 숨기기');
-        srText.innerText = '체력 상태 숨기기';
-    }
-    setStatusVisiblity();
-});
-
-const APP = document.getElementById('app');
-const statusObserver = new MutationObserver((mutationsList) => {
-    mutationsList.forEach((mutation) => {
-        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            mutation.addedNodes.forEach((addedNode) => {
-                if (
-                    addedNode.classList?.contains('map-container') ||
-                    addedNode.classList?.contains('character') ||
-                    addedNode.classList?.contains('mob')
-                ) {
-                    const statusContainer =
-                        addedNode.querySelectorAll('.status-item');
-                    if (getStatusMode() === 'hide') {
-                        statusContainer.forEach((container) => {
-                            container.classList.add('hide');
-                        });
-                    }
-                }
-            });
-        }
-    });
-});
-
-statusObserver.observe(APP, { childList: true, subtree: true });
 
 // 프로필 모달
 const profileModal = document.querySelector('.profile-modal');
@@ -442,7 +63,7 @@ const setProfileName = (name) => {
     else profileName.innerHTML = '프로필 편집을 눌러<br>이름을 입력하세요';
 };
 const initProfile = () => {
-    const profile = JSON.parse(localStorage.getItem('profile'));
+    const profile = store.getJson('profile');
     if (profile) {
         profileImages.forEach((profileImage) => {
             profileImage.src = profile?.img.replace(window.location.origin, '');
@@ -477,23 +98,22 @@ const changeProfileImg = (e) => {
     };
     img.onerror = () => {
         URL.revokeObjectURL(url);
-        notify('이미지를 불러오지 못했습니다.');
+        toast('이미지를 불러오지 못했습니다.');
     };
     img.src = url;
 };
 const inpProfileImg = profileModal.querySelector('.inp-profile');
 inpProfileImg.addEventListener('change', (e) => changeProfileImg(e));
-const changeProfile = (e) => {
-    try {
-        localStorage.setItem(
-            'profile',
-            JSON.stringify({
-                img: profileImage.src,
-                name: inpProfileName.value,
-            }),
-        );
-    } catch (err) {
-        notify('프로필을 저장하지 못했습니다. 더 작은 이미지를 사용해 주세요.');
+const changeProfile = () => {
+    const saved = store.set(
+        'profile',
+        JSON.stringify({
+            img: profileImage.src,
+            name: inpProfileName.value,
+        }),
+    );
+    if (!saved) {
+        toast('프로필을 저장하지 못했습니다. 더 작은 이미지를 사용해 주세요.');
         return;
     }
     setProfileName(inpProfileName.value);
@@ -505,29 +125,20 @@ const profileImageWrap = profileModal.querySelector('.profileimg-wrap');
 const profileView = profileModal.querySelector('.profile-view');
 const profileEdit = profileModal.querySelector('.profile-edit');
 const changeProfileMode = (mode) => {
-    if (mode === 'edit') {
-        profileImageWrap.classList.add('active');
-        profileView.classList.remove('active');
-        profileEdit.classList.add('active');
-    } else if (mode === 'view') {
-        profileImageWrap.classList.remove('active');
-        profileView.classList.add('active');
-        profileEdit.classList.remove('active');
-    }
+    profileImageWrap.classList.toggle('active', mode === 'edit');
+    profileView.classList.toggle('active', mode === 'view');
+    profileEdit.classList.toggle('active', mode === 'edit');
 };
 
-const btnProfileEdit = profileModal.querySelector('.btn-edit');
-const btnProfileSave = profileModal.querySelector('.btn-confirm');
-const btnProfileCancel = profileModal.querySelector('.btn-cancel');
-btnProfileEdit.addEventListener('click', () => {
+profileModal.querySelector('.btn-edit').addEventListener('click', () => {
     changeProfileMode('edit');
     initProfile();
 });
-btnProfileSave.addEventListener('click', () => {
+profileModal.querySelector('.btn-confirm').addEventListener('click', () => {
     changeProfileMode('view');
     changeProfile();
 });
-btnProfileCancel.addEventListener('click', () => {
+profileModal.querySelector('.btn-cancel').addEventListener('click', () => {
     changeProfileMode('view');
     initProfile();
 });
@@ -536,6 +147,9 @@ btnProfileCancel.addEventListener('click', () => {
 const certifBtn = document.querySelector('.btn-certif');
 const certifWrap = document.querySelector('.certif-wrap');
 const certifClose = certifWrap.querySelector('.btn-close');
+const certifList = certifWrap.querySelector('.certif-list');
+let storyChapter = DEFAULT_CHAPTERS;
+
 window.addEventListener('click', (e) => {
     if (certifBtn.contains(e.target)) {
         certifBtn.classList.toggle('active');
@@ -548,23 +162,6 @@ window.addEventListener('click', (e) => {
         updateCertifItem();
     }
 });
-
-/* 인증서 초기화 */
-const certifList = certifWrap.querySelector('.certif-list');
-let storyChapter = {
-    입문: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-    기초: [12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
-};
-const loadStoryChapter = fetch('./assets/data/story/story.json')
-    .then((response) => response.json())
-    .then((stories) => {
-        const chapters = {};
-        stories.forEach((story) => {
-            (chapters[story.chapter] ||= []).push(story.id);
-        });
-        if (Object.keys(chapters).length) storyChapter = chapters;
-    })
-    .catch(() => {});
 
 const setCertifItem = () => {
     certifList.replaceChildren();
@@ -582,103 +179,49 @@ const setCertifItem = () => {
         `;
         li.querySelector('.btn-download-certif').addEventListener(
             'click',
-            () => {
-                createCertifImg(chapter);
+            async () => {
+                try {
+                    const url = await drawCertificate({
+                        chapter,
+                        name: localRecords.name(),
+                        // 날짜를 남기지 못한 경우 오늘 날짜
+                        date:
+                            localRecords.certificateDate(chapter) ||
+                            formatDate(),
+                    });
+                    downloadUrl(url, `${chapter}_인증서.png`);
+                } catch (err) {
+                    toast(err.message);
+                }
             },
         );
         certifList.append(li);
     });
 };
 
-const createCertifImg = async (chapter) => {
-    try {
-        await Promise.all([
-            document.fonts.load('400 74px Pretendard'),
-            document.fonts.load('400 36px Pretendard'),
-        ]);
-    } catch (e) {
-        // 글꼴을 못 불러와도 기본 글꼴로 그립니다.
-    }
-    const img = new Image();
-    img.src = `./assets/img/certif-${chapter}.jpg`;
-    img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-
-        // 이름이 비어있는 경우 하이픈 표시
-        const localData = localStorage.getItem('profile');
-        const name = JSON.parse(localData)?.name || '-';
-
-        ctx.font = '400 74px Pretendard';
-        ctx.fillStyle = '#3a72ff';
-        ctx.textAlign = 'center';
-        ctx.fillText(name, canvas.width / 2, 570);
-
-        const current = new Date();
-        const currentTime = `${current.getFullYear()}.${(current.getMonth() + 1)
-            .toString()
-            .padStart(2, '0')}.${current
-            .getDate()
-            .toString()
-            .padStart(2, '0')}`;
-
-        //로컬스토리지의 값을 가져오지 못하는 경우 현재 시간으로 대체
-        const date =
-            localStorage.getItem(`${chapter}_certif_time`) || currentTime;
-
-        ctx.font = '400 36px Pretendard';
-        ctx.fillStyle = 'black';
-        ctx.fillText(date, 1340, 1000);
-
-        const certif = canvas.toDataURL('image/png');
-        const a = document.createElement('a');
-        a.href = certif;
-        a.download = `${chapter}_인증서.png`;
-        a.click();
-    };
-};
-
 const updateCertifItem = () => {
     const certifItems = certifList.querySelectorAll('.certif-item');
-    Object.entries(storyChapter).forEach(([key, value], index) => {
-        const li = certifItems[index];
-        const solved = value.reduce((acc, cur) => {
-            const check = localStorage.getItem(`${cur}_check`);
-            if (check === '정답') {
-                return acc + 1;
-            }
-            return acc;
-        }, 0);
-
-        li.querySelector('.solved').innerText = solved;
-        li.querySelector('.progress-bar-inner').style.transform = `scaleX(${
-            (solved / value.length) * 100
-        }%)`;
-        if (solved === value.length) {
-            li.querySelector('.btn-download-certif').removeAttribute(
+    chapterProgress(storyChapter, localRecords.isSolved).forEach(
+        ({ solved, total, done }, index) => {
+            const li = certifItems[index];
+            li.querySelector('.solved').innerText = solved;
+            li.querySelector('.progress-bar-inner').style.transform =
+                `scaleX(${(solved / total) * 100}%)`;
+            li.querySelector('.btn-download-certif').toggleAttribute(
                 'disabled',
+                !done,
             );
-        } else {
-            li.querySelector('.btn-download-certif').setAttribute(
-                'disabled',
-                true,
-            );
-        }
-    });
+        },
+    );
 };
 setCertifItem();
 updateCertifItem();
-loadStoryChapter.then(() => {
-    setCertifItem();
-    updateCertifItem();
-});
-// const solved_count = storyChapter[chapter].reduce((acc, cur) => {
-//     const check = localStorage.getItem(`element_check_${cur}`);
-//     if (check === '통과') {
-//         return acc + 1;
-//     }
-//     return acc;
-// }, 0);
+
+fetch(asset('data/story/story.json'))
+    .then((response) => response.json())
+    .then((stories) => {
+        storyChapter = chaptersOf(stories);
+        setCertifItem();
+        updateCertifItem();
+    })
+    .catch(() => {});

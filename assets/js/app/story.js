@@ -2,10 +2,11 @@
 
 import { parser } from '../parser.js';
 import { notifyHost } from './embed.js';
+import { asset, resolveAsset, store as storage } from './env.js';
 import { gradeDetail, gradingContext } from './grading.js';
 import { showResultDialog, toast } from './ui.js';
 
-const BASE = './assets/data/story/';
+const dataUrl = (file) => asset(`data/story/${file}`);
 
 const fetchJson = async (url) => {
     const response = await fetch(url);
@@ -24,25 +25,16 @@ const now = (withTime) => {
         : date;
 };
 
-const storage = {
-    get(key) {
-        try {
-            return localStorage.getItem(key);
-        } catch (e) {
-            return null;
-        }
-    },
-    set(key, value) {
-        try {
-            localStorage.setItem(key, value);
-        } catch (e) {
-            /* 무시 */
-        }
-    },
-};
-
 export class StoryManager {
-    constructor({ list, progress, onSelect, getCodes, runForGrading }) {
+    constructor({
+        list,
+        progress,
+        onSelect,
+        getCodes,
+        runForGrading,
+        isSolved,
+        onCleared,
+    }) {
         this.list = list;
         this.progress = progress;
         this.onSelect = onSelect; // (index) => void, 0이면 선택 해제
@@ -50,6 +42,10 @@ export class StoryManager {
         // (index, codes) => 스토리 월드를 처음 상태로 되돌린 뒤 셀 전체를 새로 실행한 결과
         // { state, error } (중지하면 null)
         this.runForGrading = runForGrading;
+        // 통과 여부를 다른 곳(위니버시티 계정 기록 등)에서 정할 때 (id) => boolean. 없으면 이 브라우저 기록
+        this.solvedSource = isSolved || null;
+        // 제출이 통과했을 때 (index, attempts) — 진행률을 다시 그리기 전에 부릅니다
+        this.onCleared = onCleared || null;
         this.stories = [];
         this.worlds = {};
         this.solutions = {};
@@ -60,9 +56,9 @@ export class StoryManager {
 
     async load() {
         const [stories, worlds, solutions] = await Promise.all([
-            fetchJson(`${BASE}story.json`),
-            fetchJson(`${BASE}worlds.json`),
-            fetchJson(`${BASE}solutions.json`),
+            fetchJson(dataUrl('story.json')),
+            fetchJson(dataUrl('worlds.json')),
+            fetchJson(dataUrl('solutions.json')),
         ]);
         this.stories = stories;
         this.worlds = worlds;
@@ -71,7 +67,7 @@ export class StoryManager {
         const contents = await Promise.all(
             stories.map(async (story) => {
                 try {
-                    const response = await fetch(story.url);
+                    const response = await fetch(resolveAsset(story.url));
                     return response.ok
                         ? parser(await response.text()).join('')
                         : '';
@@ -91,8 +87,23 @@ export class StoryManager {
         return chapters;
     }
 
-    isSolved(id) {
+    // 이 브라우저에서 통과한 적이 있는지
+    isSolvedHere(id) {
         return storage.get(`${id}_check`) === '정답';
+    }
+
+    isSolved(id) {
+        return this.solvedSource
+            ? this.solvedSource(id)
+            : this.isSolvedHere(id);
+    }
+
+    // 통과 기록을 다른 곳에서 받아 왔을 때(로그인·로그아웃 등) 목록 표시와 진행률을 다시 그립니다.
+    refreshSolved() {
+        this.list.querySelectorAll(':scope > li').forEach((li) => {
+            li.classList.toggle('submit', this.isSolved(Number(li.dataset.id)));
+        });
+        this.updateProgress();
     }
 
     render(contents) {
@@ -233,6 +244,7 @@ export class StoryManager {
 
         if (passed) {
             storage.set(`${index}_check`, '정답');
+            this.onCleared?.(index, attempts);
             li.classList.add('submit');
             this.updateProgress();
             notifyHost('story-cleared', { storyId: index, attempts });

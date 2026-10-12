@@ -5,30 +5,22 @@
 // 워커는 DOM을 쓰지 않고 실행 결과(이벤트 목록과 월드 상태)만 돌려줍니다.
 
 let runner = null;
+let runtime = null;
+
+// Pyodide 314부터는 모듈 워커에서만 동작합니다. (engine.js에서 type: 'module'로 생성)
+const loadRuntime = (pyodideUrl) =>
+    (runtime ||= import(`${pyodideUrl}pyodide.mjs`).then(({ loadPyodide }) =>
+        loadPyodide({ indexURL: pyodideUrl }),
+    ));
 
 const post = (id, payload) => self.postMessage({ id, ...payload });
 
-async function init({ pyodideUrl, files, version }) {
-    // Pyodide 314부터는 모듈 워커에서만 동작합니다. (engine.js에서 type: 'module'로 생성)
-    const { loadPyodide } = await import(`${pyodideUrl}pyodide.mjs`);
-    const pyodide = await loadPyodide({ indexURL: pyodideUrl });
+async function init({ pyodideUrl, sources }) {
+    const pyodide = await loadRuntime(pyodideUrl);
 
+    // 파이썬 파일 내용은 화면이 받아서 넘겨 줍니다. (engine.js loadPythonSources)
     const dir = '/home/pyodide/world';
     pyodide.FS.mkdirTree(dir);
-    const sources = await Promise.all(
-        files.map(async (file) => {
-            const url = new URL(
-                `../../py/${file}?v=${encodeURIComponent(version)}`,
-                self.location.href,
-            );
-            const response = await fetch(url);
-            if (!response.ok)
-                throw new Error(
-                    `${file}을(를) 불러오지 못했습니다. (${response.status})`,
-                );
-            return [file, await response.text()];
-        }),
-    );
     for (const [file, text] of sources)
         pyodide.FS.writeFile(`${dir}/${file}`, text);
 
@@ -39,6 +31,11 @@ async function init({ pyodideUrl, files, version }) {
 
 self.onmessage = async ({ data }) => {
     const { id, type } = data;
+    if (type === 'preload') {
+        // 실패하면 이어서 오는 init에서 같은 오류를 돌려줍니다.
+        loadRuntime(data.pyodideUrl).catch(() => {});
+        return;
+    }
     try {
         if (type === 'init') {
             post(id, { ok: true, value: await init(data) });

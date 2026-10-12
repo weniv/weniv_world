@@ -9,7 +9,8 @@
         "scss:build": "sass --no-source-map assets/css/style.scss assets/css/style.css",
         "build:vendor": "esbuild scripts/codemirror-entry.js --bundle --format=esm --minify --legal-comments=eof --outfile=assets/vendor/codemirror.js",
         "test": "python -m unittest discover tests && npm run test:js",
-        "test:js": "node --experimental-default-type=module --test tests/*.test.mjs"
+        "test:js": "node --experimental-default-type=module --test tests/*.test.mjs",
+        "build:embed": "node scripts/build-embed.mjs --asset-base /world-runtime/"
     },
     "devDependencies": {
         "@codemirror/autocomplete": "^6.18.6",
@@ -23,6 +24,7 @@
         "copy-webpack-plugin": "^14.0.0",
         "esbuild": "^0.28.2",
         "html-webpack-plugin": "^5.6.3",
+        "postcss": "^8.5.29",
         "sass": "^1.89.0",
         "webpack": "^5.99.9",
         "webpack-cli": "^6.0.1",

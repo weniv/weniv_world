@@ -271,3 +271,6 @@ cython_debug/
 /desktop/app
 /desktop/vendor
 /desktop/release
+
+# 다른 사이트에 붙이는 묶음 (npm run build:embed)
+/embed

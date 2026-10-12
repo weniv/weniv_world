@@ -964,6 +964,12 @@ button {
   position: relative;
 }
 
+/* 위니버시티 학습 도구 페이지 안에 붙였을 때 (scripts/build-embed.mjs 묶음, 앱을 담은 요소에 data-host="weniversity-page")
+   머리 줄은 위니버시티가 따로 그리고, 앱은 위니버시티 페이지가 정한 높이를 모두 씁니다. */
+[data-host=weniversity-page] .main {
+  height: 100%;
+}
+
 /* 위니버시티 안(iframe)에서 열렸을 때 (assets/js/host.js)
    바로 위에 위니버시티 머리글이 있으므로 로고를 빼고 줄 높이를 줄인다. 버튼(스토리·인증서 등)은 그대로 둔다. */
 [data-host=weniversity] .header {
@@ -1242,7 +1248,7 @@ button {
 .profileimg-wrap.active .labl-profile::before {
   width: 2.2rem;
   height: 2.2rem;
-  background-color: var(-ColorGrayLv4);
+  background-color: var(--ColorGrayLv4);
   content: "";
   background: var(--ColorBackground);
   -webkit-mask-image: url("../img/icon/icon-image.svg");

@@ -1,4 +1,9 @@
 // 알림창, 토스트, 속도 조절, 단축키 도움말
+//
+// 알림창·결과 창은 앱 화면 안(env.root)에 붙입니다. 위니버시티처럼 페이지 일부에 앱을 붙여도
+// 위니브월드 스타일이 그대로 적용되게 하려는 것입니다.
+
+import { hostElement, query, store } from './env.js';
 
 // ------------------------------------------------------------------
 // 알림창 (이전 show_modal_alert)
@@ -25,18 +30,19 @@ export const showAlert = (
     button.addEventListener('click', close);
     if (duration) setTimeout(close, duration);
 
-    (document.querySelector('.world-map') || document.body).appendChild(modal);
+    (query('.world-map') || hostElement()).appendChild(modal);
     button.focus({ preventScroll: true });
     return modal;
 };
 
 export const toast = (message) => {
-    let wrap = document.querySelector('.toast-wrap');
+    const host = hostElement();
+    let wrap = host.querySelector(':scope > .toast-wrap');
     if (!wrap) {
         wrap = document.createElement('div');
         wrap.className = 'toast-wrap';
         wrap.setAttribute('aria-live', 'polite');
-        document.body.appendChild(wrap);
+        host.appendChild(wrap);
     }
     const item = document.createElement('p');
     item.className = 'toast';
@@ -107,14 +113,11 @@ export const showResultDialog = ({
         if (e.target === dialog) dialog.close();
     });
 
-    document.body.appendChild(dialog);
+    hostElement().appendChild(dialog);
     dialog.showModal();
     button.focus();
     return dialog;
 };
-
-// event.js 같은 일반 스크립트에서도 쓸 수 있게 공개합니다.
-window.WenivUI = { showAlert, toast };
 
 // ------------------------------------------------------------------
 // 속도 조절
@@ -137,19 +140,11 @@ export const createSpeedControl = (slider, output) => {
             `한 칸에 ${seconds.toFixed(2)}초`,
         );
     };
-    try {
-        const saved = localStorage.getItem('speed');
-        if (saved) slider.value = saved;
-    } catch (e) {
-        /* 저장소를 쓸 수 없는 환경 */
-    }
+    const saved = store.get('speed');
+    if (saved) slider.value = saved;
     slider.addEventListener('input', () => {
         render();
-        try {
-            localStorage.setItem('speed', slider.value);
-        } catch (e) {
-            /* 무시 */
-        }
+        store.set('speed', slider.value);
     });
     render();
     return { seconds: () => speedToSeconds(slider.value) };
@@ -172,6 +167,7 @@ export const isTyping = (target) =>
         'input, textarea, select, [contenteditable="true"], .cm-editor',
     ) !== null;
 
+// 문서 전체의 ? 키를 받습니다. 앱을 내릴 때 부를 정리 함수를 돌려줍니다.
 export const setupShortcutHelp = () => {
     let dialog = null;
     const close = () => {
@@ -189,14 +185,19 @@ export const setupShortcutHelp = () => {
             <dl>${SHORTCUTS.map(([k, d]) => `<div><dt><kbd>${k}</kbd></dt><dd>${d}</dd></div>`).join('')}</dl>
             <button type="button" class="btn-close"><span class="sr-only">닫기</span></button>`;
         dialog.querySelector('.btn-close').addEventListener('click', close);
-        document.body.appendChild(dialog);
+        hostElement().appendChild(dialog);
     };
-    document.addEventListener('keydown', (e) => {
+    const onKeydown = (e) => {
         if (e.key === '?' && !isTyping(e.target)) {
             e.preventDefault();
             open();
         } else if (e.key === 'Escape') {
             close();
         }
-    });
+    };
+    document.addEventListener('keydown', onKeydown);
+    return () => {
+        document.removeEventListener('keydown', onKeydown);
+        close();
+    };
 };

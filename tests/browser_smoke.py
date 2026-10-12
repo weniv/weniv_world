@@ -116,6 +116,49 @@ class BrowserSmokeTest(unittest.TestCase):
         self.page.wait_for_function('__wenivDebug.world.state.map.height === 7')
         self.assertEqual(self.page.evaluate('__wenivDebug.world.state.mobs'), [])
 
+    def test_header_story_button_and_world_menu(self):
+        # 스토리 버튼: 창을 열면 월드 편집 버튼이 막히고, 접기 버튼으로 닫으면 풀린다
+        self.page.locator('.btn-story').click()
+        self.page.wait_for_function('__wenivDebug.storyMode === true')
+        self.assertTrue(self.page.locator('.btn-story.active').count() == 1)
+        self.assertTrue(self.page.locator('.story.show').count() == 1)
+        self.assertTrue(self.page.locator('.btn-wall').is_disabled())
+        self.page.locator('.btn-close-story').click()
+        self.page.wait_for_function('__wenivDebug.storyMode === false')
+        self.assertEqual(self.page.locator('.btn-story.active').count(), 0)
+        self.assertFalse(self.page.locator('.btn-wall').is_disabled())
+        # 월드 메뉴: 버튼을 누르면 창이 열리고, 바깥을 누르면 닫힌다
+        self.page.locator('.btn-speed').click()
+        self.assertEqual(self.page.locator('.btn-speed.active').count(), 1)
+        self.page.mouse.click(5, 400)
+        self.assertEqual(self.page.locator('.btn-speed.active').count(), 0)
+        # 툴팁
+        self.page.locator('.btn-reset#init').hover()
+        self.assertEqual(self.page.locator('#init .tooltip').inner_text(), '월드, 캐릭터 초기화')
+
+    def test_header_theme_profile_certificate_report(self):
+        self.page.locator('.btn-dark-mode').click()
+        theme = self.page.evaluate("document.documentElement.getAttribute('color-theme')")
+        self.assertEqual(self.page.evaluate("localStorage.getItem('color-theme')"), theme)
+        # 프로필 이름 저장
+        self.page.locator('.btn-profile').click()
+        self.page.locator('.profile-modal .btn-edit').click()
+        self.page.locator('#profile-name').fill('라이캣')
+        self.page.locator('.profile-modal .btn-confirm').click()
+        self.assertEqual(self.page.locator('.profile-modal .txt-name').inner_text(), '라이캣')
+        self.assertEqual(self.page.evaluate("JSON.parse(localStorage.getItem('profile')).name"), '라이캣')
+        # 보고서: 제출 기록이 있으면 내려받는다
+        self.page.evaluate("""() => { localStorage.setItem('1_code', JSON.stringify(['move()'])); localStorage.setItem('1_check', '정답'); }""")
+        with self.page.expect_download() as info:
+            self.page.locator('.btn-report').click()
+        self.assertTrue(info.value.suggested_filename.endswith('_보고서_라이캣.md'))
+        # 인증서 창: 장마다 진행률, 다 풀지 않으면 받기 버튼이 막힘
+        self.page.mouse.click(5, 400)
+        self.page.locator('.btn-certif').click()
+        self.page.wait_for_function("document.querySelectorAll('.certif-item').length === 2")
+        self.assertEqual(self.page.locator('.certif-item').first.locator('.solved').inner_text(), '1')
+        self.assertTrue(self.page.locator('.certif-item .btn-download-certif').first.is_disabled())
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

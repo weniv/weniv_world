@@ -4,17 +4,12 @@
 // 재생기(player.js)가 애니메이션을 보여 줍니다.
 
 import { CELL, CHARACTER_INFO, MOB_INFO } from './config.js';
+import { asset, store } from './env.js';
 import { posKey, wallSlots } from './state.js';
 
 export const actorKey = (who) => `${who.kind}:${who.name}`;
 
-const statusHidden = () => {
-    try {
-        return (localStorage.getItem('status-mode') || 'hide') === 'hide';
-    } catch (e) {
-        return true;
-    }
-};
+const statusHidden = () => (store.get('status-mode') || 'hide') === 'hide';
 
 // 칸 안에서 스프라이트를 가운데에 놓기 위한 보정값(px)
 const OFFSET = {
@@ -217,7 +212,7 @@ export class WorldView extends EventTarget {
 
     setSprite(el, direction) {
         el.dataset.directions = direction;
-        el.style.backgroundImage = `url("assets/img/characters/${el.dataset.sprite}-${direction}.webp")`;
+        el.style.backgroundImage = `url("${asset(`img/characters/${el.dataset.sprite}-${direction}.webp`)}")`;
     }
 
     addActor(who, data) {
@@ -292,7 +287,7 @@ export class WorldView extends EventTarget {
         const img = box.querySelector('img');
         if (box.dataset.item !== name) {
             box.dataset.item = name;
-            img.src = `./assets/img/item/${name}.png`;
+            img.src = asset(`img/item/${name}.png`);
             img.alt = name;
         }
         const countEl = box.querySelector('.count');
@@ -333,7 +328,7 @@ export class WorldView extends EventTarget {
         effect.className = 'attack';
         effect.style.left = `${target[1] * CELL + 36}px`;
         effect.style.top = `${target[0] * CELL + 34}px`;
-        effect.style.backgroundImage = `url("assets/img/weapon/${skill}.png")`;
+        effect.style.backgroundImage = `url("${asset(`img/weapon/${skill}.png`)}")`;
         this.container.appendChild(effect);
         setTimeout(
             () => effect.remove(),

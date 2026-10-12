@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>위니브월드 대표 (1580×832)</title>
+<link rel="stylesheet" href="../vendor/pretendard/pretendard.css">
+<style>
+  /* VOD 썸네일 규격 1580×832. 상세 화면에서 양옆을 bg_color(#f6f7fc)로 칠하므로 가장자리는 단색. 문구는 이름만 */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 1580px; height: 832px; overflow: hidden; position: relative; background: #f6f7fc; font-family: Pretendard, sans-serif; color: #15181e; -webkit-font-smoothing: antialiased; }
+  .brand { position: absolute; left: 92px; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; gap: 30px; }
+  .brand img { width: 132px; height: 132px; }
+  .brand b { font-size: 92px; font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; }
+  .win { position: absolute; left: 560px; top: 96px; width: 940px; border-radius: 14px; overflow: hidden; background: #fff; border: 1px solid #d5d9e2; box-shadow: 0 30px 60px rgba(20,35,80,.2), 0 6px 16px rgba(20,35,80,.08); }
+  .titlebar { display: flex; align-items: center; gap: 9px; height: 34px; padding-left: 12px; font-size: 14px; color: #33363c; background: #fff; border-bottom: 1px solid #eceef2; }
+  .titlebar img { width: 18px; height: 18px; }
+  .shot { width: 100%; background-repeat: no-repeat; }
+</style>
+</head>
+<body>
+  <div class="brand"><img src="../resources/icon.png" alt=""><b>위니브월드</b></div>
+  <div class="win">
+    <div class="titlebar"><img src="../resources/icon.png" alt="">위니브월드</div>
+    <div class="shot" data-src="raw/06-progress.png" data-crop="0 0 1680 1050"></div>
+  </div>
+  <script src="crop.js"></script>
+</body>
+</html>

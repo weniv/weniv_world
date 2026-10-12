@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>위니브월드 상세</title>
+<link rel="stylesheet" href="../vendor/pretendard/pretendard.css">
+<style>
+  /* 스토어 상품 소개 이미지: 860px 폭(2배로 찍어 1720px). 화면은 모두 설치판(1.0.0)을 인터넷 없이 띄워 찍은 것 (capture.mjs) */
+  :root { --blue: #2e6ff2; --blue-d: #1d4fc0; --blue-soft: #eaf1ff; --ink: #15181e; --sub: #5b6270; --line: #e3e6ee; --bg: #f3f5fa; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { width: 860px; margin: 0 auto; background: #fff; color: var(--ink); font-family: Pretendard, sans-serif; word-break: keep-all; -webkit-font-smoothing: antialiased; }
+  section { padding: 88px 64px; }
+  .gray { background: var(--bg); }
+  .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+  .brand img { width: 44px; height: 44px; }
+  h1 { margin-top: 26px; font-size: 50px; line-height: 1.25; font-weight: 800; letter-spacing: -0.035em; }
+  h2 { font-size: 36px; line-height: 1.35; font-weight: 800; letter-spacing: -0.025em; }
+  .lead { margin-top: 18px; font-size: 19px; line-height: 1.75; color: var(--sub); }
+  .lead b { color: var(--ink); }
+  .win { margin-top: 44px; border-radius: 12px; overflow: hidden; background: #fff; border: 1px solid #d5d9e2; box-shadow: 0 24px 50px rgba(20,35,80,.16), 0 6px 16px rgba(20,35,80,.06); }
+  .titlebar { display: flex; align-items: center; gap: 8px; height: 30px; padding-left: 10px; font-size: 12px; color: #33363c; border-bottom: 1px solid #eceef2; }
+  .titlebar img { width: 16px; height: 16px; }
+  .shot { width: 100%; background-repeat: no-repeat; }
+  .zoom { margin-top: 40px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 16px 36px rgba(20,35,80,.12); background: #fff; }
+  .pair { margin-top: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  .pair .zoom { margin-top: 0; }
+  .cap { margin-top: 12px; font-size: 15.5px; line-height: 1.6; color: var(--sub); }
+  .facts { margin-top: 40px; display: grid; gap: 12px; }
+  .facts div { padding: 20px 22px; border-radius: 14px; background: #fff; border: 1px solid var(--line); }
+  .facts b { display: block; font-size: 18px; margin-bottom: 4px; }
+  .facts span { font-size: 15.5px; line-height: 1.6; color: var(--sub); }
+  .files { margin-top: 32px; display: grid; gap: 8px; }
+  .files div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 18px; border-radius: 12px; background: var(--bg); font-size: 15.5px; }
+  .files code { font-family: Pretendard, sans-serif; color: var(--sub); }
+</style>
+</head>
+<body>
+
+<section>
+  <span class="brand"><img src="../resources/icon.png" alt="">위니브월드</span>
+  <h1>파이썬 코드로 캐릭터를 움직여<br>스토리를 풀어요</h1>
+  <p class="lead">노트북에 코드를 쓰고 실행하면 월드의 캐릭터가 움직여요.<br><b>스토리 22편</b>(입문 11편, 기초 11편)을 차례로 풀며 파이썬을 익혀요.</p>
+  <div class="win">
+    <div class="titlebar"><img src="../resources/icon.png" alt="">위니브월드</div>
+    <div class="shot" data-src="raw/04-ran.png" data-crop="0 0 1680 1050"></div>
+  </div>
+</section>
+
+<section class="gray">
+  <h2>제출하면 바로 채점해요</h2>
+  <p class="lead">코드를 처음부터 다시 실행해 항목마다 맞았는지 보여 줘요.<br>정답 값은 보여 주지 않아요.</p>
+  <div class="zoom"><div class="shot" data-src="raw/05-passed.png" data-crop="600 330 480 390"></div></div>
+</section>
+
+<section>
+  <h2>진행률과 인증서</h2>
+  <p class="lead">푼 스토리는 목록에 표시되고, 한 챕터를 모두 풀면<br>인증서를 내려받을 수 있어요.</p>
+  <div class="zoom"><div class="shot" data-src="raw/07-certif.png" data-crop="1000 0 680 300"></div></div>
+</section>
+
+<section class="gray">
+  <h2>인터넷 없이 써요</h2>
+  <p class="lead">설치하면 파이썬이 앱 안에서 돌아요. 컴퓨터실처럼<br>인터넷이 느리거나 없는 곳에서도 그대로 써요.</p>
+  <div class="facts">
+    <div><b>파이썬 3.14를 앱에 넣었어요</b><span>코드 실행과 채점을 모두 이 컴퓨터에서 해요.</span></div>
+    <div><b>기록은 이 컴퓨터에 남아요</b><span>통과한 스토리와 쓰던 코드가 앱을 껐다 켜도 이어져요.</span></div>
+    <div><b>바깥으로 보내는 것이 없어요</b><span>사용 기록을 보내지 않고, 자동 업데이트도 하지 않아요. 메뉴의 바깥 링크는 기본 브라우저로 열려요.</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>교안도 함께 들어 있어요</h2>
+  <p class="lead">선생님용·학생용 교안 PDF를 앱 메뉴에서 바로 내려받아요.</p>
+  <div class="pair">
+    <div class="zoom"><div class="shot" data-src="raw/08-menu.png" data-crop="1260 0 420 300"></div></div>
+    <div class="zoom"><div class="shot" data-src="raw/09-dark.png" data-crop="0 0 1680 1050"></div><p class="cap" style="padding:0 14px 12px">어두운 화면도 골라 쓸 수 있어요.</p></div>
+  </div>
+</section>
+
+<section class="gray">
+  <h2>내려받는 파일</h2>
+  <div class="files">
+    <div><span>Windows 설치판</span><code>weniv-world-1.0.0-windows-x64-setup.exe</code></div>
+    <div><span>Windows 포터블 (설치 없이 실행)</span><code>weniv-world-1.0.0-windows-x64-portable.exe</code></div>
+    <div><span>Mac (Apple 실리콘)</span><code>weniv-world-1.0.0-mac-arm64.dmg</code></div>
+    <div><span>Mac (인텔)</span><code>weniv-world-1.0.0-mac-x64.dmg</code></div>
+  </div>
+  <p class="lead" style="font-size:16px">웹에서는 위니버시티 학습 도구 &gt; 위니브월드에서 바로 쓸 수 있어요.<br>설치판과 웹의 진행 기록은 따로 남아요.</p>
+</section>
+
+<script src="crop.js"></script>
+</body>
+</html>

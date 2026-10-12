@@ -1,0 +1,52 @@
+# 위니브월드 설치 파일 만들기 (npm run dist:win / dist:mac — 먼저 scripts/prepare.mjs가 app/·vendor/를 만든다)
+# Windows 설치 파일은 Windows에서, Mac dmg는 Mac에서 만든다 (GitHub Actions: ../.github/workflows/desktop.yml)
+appId: kr.weniv.world
+# 이름은 package.json productName (진행 기록 폴더: %APPDATA%\Weniv World, ~/Library/Application Support/Weniv World)
+productName: Weniv World
+# 화면 언어 자료는 한국어·영어만 넣는다
+electronLanguages: [ko, en-US]
+copyright: © WENIV
+directories:
+  output: release
+  buildResources: resources
+# 앱 코드는 메인 프로세스 두 파일뿐이고, 화면은 사이트 빌드(app/), 인터넷 대신 쓸 파일은 vendor/에 있다.
+files:
+  - package.json
+  - main.cjs
+  - protocol.cjs
+  - app/**
+  - vendor/**
+  - resources/icon.png
+  - THIRD-PARTY-NOTICES.txt
+npmRebuild: false
+# 자동 업데이트는 쓰지 않는다 (앱은 바깥으로 아무 요청도 보내지 않는다). 배포는 weniv/wenote-releases 저장소의 릴리스로 한다 (scripts/publish-release.mjs)
+publish: null
+
+win:
+  icon: resources/icon.png
+  # 코드 서명(Azure Artifact Signing)은 여기 두지 않고 CI가 Secret이 있을 때 -c.win.azureSignOptions.*로 붙인다(위노트와 같음).
+  # 인증 정보가 없는 로컬 빌드는 서명 없이 만들어진다.
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+nsis:
+  oneClick: true
+  perMachine: false
+  createDesktopShortcut: always
+  shortcutName: 위니브월드
+  artifactName: weniv-world-${version}-windows-${arch}-setup.${ext}
+portable:
+  artifactName: weniv-world-${version}-windows-${arch}-portable.${ext}
+
+mac:
+  icon: resources/icon.png
+  category: public.app-category.education
+  # 네이티브 모듈이 없어 Apple 실리콘·인텔 둘 다 만든다 (학교에 인텔 Mac이 남아 있다)
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+  hardenedRuntime: true
+dmg:
+  artifactName: weniv-world-${version}-mac-${arch}.${ext}

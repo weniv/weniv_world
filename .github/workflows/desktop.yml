@@ -1,0 +1,166 @@
+# 위니브월드 설치판(desktop/) 만들기 — 위노트 앱들(wecam 등)과 같은 방법.
+# Actions 탭에서 직접 실행하거나 weniv-world-v* 태그를 올리면 돈다. 사이트(GitHub Pages)와는 상관없다.
+# Mac dmg는 Mac에서만 만들 수 있어 여기서 만든다. 결과물은 실행 결과 페이지의 Artifacts에 올라간다.
+# weniv-world-v* 태그로 돌면(또는 직접 실행할 때 태그를 넣으면) 마지막에 배포 저장소(weniv/wenote-releases)의
+# 'weniv-world-v<버전>' 릴리스에 설치 파일을 올린다. 스토어 상품은 GitHub 칸(weniv/wenote-releases, 태그 앞부분 weniv-world-v)으로 읽는다.
+#
+# 이 저장소의 Secrets
+#   RELEASES_TOKEN (필수, 릴리스 올리기): weniv/wenote-releases에 Contents 쓰기 권한이 있는 토큰
+#   AZURE_TENANT_ID · AZURE_CLIENT_ID · AZURE_CLIENT_SECRET (선택): Windows 코드 서명(Azure Artifact Signing). 없으면 서명 없이 만든다
+#   MAC_CERTIFICATE_P12_BASE64 · MAC_CERTIFICATE_PASSWORD · APPLE_ID · APPLE_APP_SPECIFIC_PASSWORD · APPLE_TEAM_ID (선택): Mac 서명·공증
+name: desktop
+permissions:
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "이 판(예: weniv-world-v1.0.0)의 릴리스로 올리기. 실행한 브랜치의 코드로 만들고 태그는 옮기지 않는다. 비우면 만들기만 한다"
+        required: false
+        default: ""
+  push:
+    tags: ["weniv-world-v*"]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+          - os: macos-latest
+    runs-on: ${{ matrix.os }}
+    env:
+      # Windows 서명 Secret이 있는지 (있을 때만 서명하고 서명을 확인한다)
+      SIGNED: ${{ secrets.AZURE_CLIENT_SECRET != '' }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            desktop/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: node desktop/scripts/verify-version.mjs
+        env:
+          RELEASE_TAG: ${{ inputs.tag || (startsWith(github.ref, 'refs/tags/weniv-world-v') && github.ref_name) || '' }}
+      # 사이트 테스트(파이썬 엔진·스토리 모범 답안) → 사이트 빌드는 prepare-app이 한다
+      - run: npm ci
+      - run: npm test
+      - run: npm ci
+        working-directory: desktop
+      - run: npm test
+        working-directory: desktop
+      - run: npm run prepare-app
+        working-directory: desktop
+      # Mac: 인증서가 있으면 그것으로 서명(APPLE_*가 있으면 공증까지), 없으면 ad-hoc 서명 (wecam과 같음)
+      - name: electron-builder --mac
+        if: runner.os == 'macOS'
+        working-directory: desktop
+        run: |
+          for name in CSC_LINK CSC_KEY_PASSWORD APPLE_ID APPLE_APP_SPECIFIC_PASSWORD APPLE_TEAM_ID; do
+            if [ -z "${!name}" ]; then unset "$name"; fi
+          done
+          sign=()
+          if [ -n "${CSC_LINK:-}" ]; then
+            export CSC_IDENTITY_AUTO_DISCOVERY=true
+          else
+            export CSC_IDENTITY_AUTO_DISCOVERY=false
+            echo "::notice::Apple 인증서(MAC_CERTIFICATE_P12_BASE64)가 없어 ad-hoc 서명합니다."
+            sign=(-c.mac.identity=- -c.mac.hardenedRuntime=false)
+          fi
+          npx electron-builder --mac --publish never "${sign[@]}"
+        env:
+          CSC_LINK: ${{ secrets.MAC_CERTIFICATE_P12_BASE64 }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTIFICATE_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      - name: 서명 확인 (Mac)
+        if: runner.os == 'macOS'
+        working-directory: desktop
+        run: |
+          set -euo pipefail
+          for dmg in release/*.dmg; do
+            mnt=$(mktemp -d)
+            hdiutil attach "$dmg" -nobrowse -readonly -mountpoint "$mnt" > /dev/null
+            app=$(ls -d "$mnt"/*.app | head -n 1)
+            echo "dmg: $dmg / app: $app"
+            codesign --verify --deep --strict --verbose=2 "$app"
+            spctl -a -vv "$app" 2>&1 || echo "spctl: Gatekeeper가 받아들이지 않음 (ad-hoc 서명이면 정상, 사용자는 그래도 열기로 연다)"
+            hdiutil detach "$mnt" -force > /dev/null
+          done
+      # Windows: Secret이 있으면 Azure Artifact Signing으로 서명(wecam과 같은 계정), 없으면 서명 없이 만든다
+      - name: electron-builder --win
+        if: runner.os == 'Windows'
+        working-directory: desktop
+        run: |
+          sign=()
+          if [ -n "$AZURE_CLIENT_SECRET" ]; then
+            sign=(
+              -c.win.azureSignOptions.endpoint=https://krc.codesigning.azure.net/
+              -c.win.azureSignOptions.codeSigningAccountName=wenivsign
+              -c.win.azureSignOptions.certificateProfileName=weniv-public
+              "-c.win.azureSignOptions.publisherName=WENIV Corp."
+            )
+          else
+            echo "::warning::Secret AZURE_CLIENT_SECRET이 없어 서명 없이 만듭니다. (스토어 설치 안내: SmartScreen·스마트 앱 컨트롤)"
+          fi
+          npx electron-builder --win --publish never "${sign[@]}"
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      # 서명했으면 모든 실행 파일이 WENIV Corp. 인증서로 서명되고 타임스탬프가 찍혔는지 확인한다
+      - name: 서명 확인 (Windows)
+        if: runner.os == 'Windows' && env.SIGNED == 'true'
+        working-directory: desktop
+        shell: pwsh
+        run: |
+          $files = @(Get-ChildItem release -Filter *.exe) + @(Get-ChildItem release/win-unpacked -Recurse -Filter *.exe)
+          $bad = 0
+          foreach ($f in $files) {
+            $s = Get-AuthenticodeSignature -LiteralPath $f.FullName
+            $signer = "$($s.SignerCertificate.Subject)"
+            Write-Output ("{0,-10} {1}  [{2}]" -f $s.Status, $f.Name, $signer)
+            if ($s.Status -ne 'Valid' -or $signer -notlike '*WENIV Corp.*' -or $null -eq $s.TimeStamperCertificate) { $bad++ }
+          }
+          if ($bad -gt 0) { Write-Output "::error::서명이 없는 실행 파일이 $bad개 있습니다."; exit 1 }
+      # Windows: 패키징한 앱을 인터넷 없이 띄워 스토리 하나를 풀고, 껐다 켜도 기록이 남는지 본다
+      - name: 점검 (Windows, 패키징한 앱)
+        if: runner.os == 'Windows'
+        working-directory: desktop
+        run: node scripts/smoke.mjs --exe "release/win-unpacked/Weniv World.exe"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: weniv-world-${{ runner.os }}
+          path: |
+            desktop/release/weniv-world-*.exe
+            desktop/release/weniv-world-*.dmg
+            !desktop/release/*__uninstaller*
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/weniv-world-v') || inputs.tag != ''
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - run: node desktop/scripts/publish-release.mjs --dir artifacts
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_TOKEN }}

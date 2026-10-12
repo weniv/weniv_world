@@ -89,6 +89,32 @@ npm run build:vendor   # CodeMirror 번들(assets/vendor/codemirror.js) 다시 �
 * `input()`은 입력값을 모아 같은 셀을 다시 실행합니다. 기존 리스트·딕셔너리·집합과 일반 객체 속성은 복구하지만, 파일 쓰기·모듈 내부 상태·제너레이터 소비 같은 부작용은 되돌릴 수 없으므로 입력 전에 사용하지 마세요.
 * 브라우저 회귀 테스트: `python -m pip install playwright` 후 Chrome이 설치된 환경에서 `python tests/browser_smoke.py`를 실행합니다. 로컬 서버를 자동으로 띄우며 Pyodide CDN 연결이 필요합니다.
 
+## 위니버시티 안에서 열기 (2026-10)
+
+위니버시티 학습 도구 `/tools/world`는 이 사이트를 같은 출처(`weniversity.co.kr/tools/world/app/`, Next.js rewrite)로 iframe에 띄웁니다.
+
+* `assets/js/host.js`가 `?embed=weniversity`이고 부모 창이 같은 출처일 때만 `<html data-host="weniversity">`로 정합니다. 이때 로고를 숨기고 머리 줄을 줄이며, 방문 통계를 보내지 않습니다.
+* 스토리 제출을 통과하면 `assets/js/app/embed.js`가 부모 창에 `postMessage({ source: 'weniv-world', version: 1, type: 'story-cleared', storyId, attempts })`를 보냅니다(같은 출처 지정). 위니버시티는 로그인한 사람이면 통과 기록을 계정에 남깁니다. 답안 코드는 보내지 않습니다.
+* 단독 사이트(world.weniv.co.kr)에서는 아무것도 바뀌지 않습니다.
+
+## 설치판 (desktop/)
+
+인터넷 없이 쓰는 Windows·Mac 앱(Electron)입니다. 위니버시티 스토어에서 내려받습니다(0원, GitHub 릴리스 `weniv/wenote-releases`의 `weniv-world-v<버전>`).
+
+```bash
+npm ci                       # 루트 (사이트 빌드용)
+cd desktop && npm ci
+npm start                    # 사이트를 빌드해 desktop/app·vendor를 만들고 앱 실행
+npm test                     # 주소 처리 검사
+npm run smoke                # 앱을 인터넷 없이 띄워 스토리 1편 풀기·다시 켜도 기록 유지 확인
+npm run dist:win             # release/에 설치판·포터블 (Mac은 dist:mac, Mac에서)
+```
+
+* 화면은 사이트 빌드(`dist/`)를 그대로 `weniv-world://app/`(표준·보안 사용자 지정 주소)로 엽니다. 모듈 Worker·wasm이 사이트와 똑같이 돌고, 진행 기록(localStorage)은 사용자 데이터 폴더(`%APPDATA%\Weniv World`)에 남습니다.
+* 사이트가 인터넷에서 받는 Pyodide(같은 판, `config.js`의 `PYODIDE_URL`)와 글꼴은 `desktop/vendor/`에 넣고, 그 주소로 오는 요청을 앱 안 파일로 돌려줍니다(`vendor/offline.json`). 그 밖의 인터넷 요청은 보내지 않습니다. `scripts/prepare.mjs`가 Pyodide 판이 다르거나 CSS가 부르는 인터넷 주소가 목록에 없으면 멈춥니다.
+* 새 창 링크·바깥 주소는 기본 브라우저로 엽니다.
+* 배포: `desktop/package.json` 버전과 `desktop/release-notes/<버전>.md`를 맞춘 뒤 `weniv-world-v<버전>` 태그를 올리면 `.github/workflows/desktop.yml`이 Windows·Mac 설치 파일을 만들어 릴리스에 올립니다(Secret `RELEASES_TOKEN` 필요, 서명 Secret은 있으면 씀).
+
 ## LICENSE(라이센스)
 
 ### 1. Pyodide License

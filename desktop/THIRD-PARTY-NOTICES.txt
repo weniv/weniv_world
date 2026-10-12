@@ -1,0 +1,23 @@
+위니브월드 설치판 — 함께 넣은 다른 프로그램과 글꼴
+Weniv World desktop — third-party notices
+
+위니브월드 자체는 Apache License 2.0을 따릅니다 (app/LICENSE.txt).
+아래 구성 요소는 각 권리자의 라이선스를 따릅니다.
+
+1. Electron (MIT License) — https://github.com/electron/electron/blob/main/LICENSE
+   Electron에 든 Chromium 등의 고지는 설치 폴더의 LICENSES.chromium.html에 있습니다.
+
+2. Pyodide 314.0.7 (Mozilla Public License 2.0) — https://github.com/pyodide/pyodide/blob/main/LICENSE
+   소스: https://github.com/pyodide/pyodide (vendor/pyodide에 수정 없이 넣었습니다)
+   Pyodide에 든 CPython 표준 라이브러리(python_stdlib.zip)는 Python Software Foundation License를 따릅니다.
+   https://docs.python.org/3/license.html
+
+3. CodeMirror 6 (MIT License) — https://github.com/codemirror/dev/blob/main/LICENSE
+   Copyright (C) 2018-2021 by Marijn Haverbeke <marijn@haverbeke.berlin> and others
+
+4. Pretendard (SIL Open Font License 1.1) — https://github.com/orioncactus/pretendard/blob/main/LICENSE
+   Copyright (c) 2021, Kil Hyung-jin (https://github.com/orioncactus/pretendard)
+
+5. Source Code Pro (SIL Open Font License 1.1) — https://github.com/adobe-fonts/source-code-pro/blob/release/LICENSE.md
+   Copyright 2010-2020 Adobe (http://www.adobe.com/), with Reserved Font Name 'Source'.
+   (@fontsource/source-code-pro로 받은 woff2)

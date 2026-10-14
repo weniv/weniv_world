@@ -246,3 +246,101 @@ export function setupResizers(root) {
     });
     return () => cleanups.splice(0).forEach((cleanup) => cleanup());
 }
+
+// ------------------------------------------------------------------
+// 지도 맞추기: 화면이 낮거나 좁으면(노트북 등) 지도를 줄여서 지도 전체와 터미널(.world-output의 min-height)이
+// 함께 보이게 합니다. 칸 크기(CELL)와 캐릭터 위치(px)는 그대로 두고 .map-container를 transform으로 줄이고,
+// #app은 줄인 크기를 차지하게 합니다. 위쪽 여백은 --map-scale로 같이 줄입니다(_world.scss).
+// 경계(.resizer)를 끌어 지도 높이를 정했으면 그 높이에 맞춥니다. 너무 작아지면 더 줄이지 않고 스크롤합니다.
+export const MIN_MAP_SCALE = 0.4;
+
+export const mapScaleOf = (el) =>
+    Number(el?.closest('.world-map')?.style.getPropertyValue('--map-scale')) ||
+    1;
+
+export function setupMapFit(root) {
+    const world = root.querySelector('.world');
+    const section = root.querySelector('.world-map');
+    const app = root.querySelector('#app');
+    const output = root.querySelector('.world-output');
+    if (!world || !section || !app || !output) return () => {};
+
+    const px = (value) => parseFloat(value) || 0;
+    let frame = 0;
+
+    const fit = () => {
+        frame = 0;
+        const container = app.querySelector('.map-container');
+        const width = container?.offsetWidth;
+        const height = container?.offsetHeight;
+        if (!width || !height || !world.clientHeight) return;
+
+        const current = mapScaleOf(section);
+        const box = getComputedStyle(section);
+        // 여백은 지금 배율만큼 줄어 있으므로 원래 크기로 되돌려 계산합니다
+        const padX = (px(box.paddingLeft) + px(box.paddingRight)) / current;
+        const padY = (px(box.paddingTop) + px(box.paddingBottom)) / current;
+
+        let roomY;
+        if (section.style.height) {
+            roomY = section.clientHeight;
+        } else {
+            let others = 0;
+            for (const child of world.children) {
+                if (child === section || child === output) continue;
+                const position = getComputedStyle(child).position;
+                if (position === 'absolute' || position === 'fixed') continue;
+                others += child.offsetHeight;
+            }
+            roomY =
+                world.clientHeight -
+                others -
+                px(getComputedStyle(output).minHeight) -
+                px(box.marginTop) -
+                px(box.marginBottom);
+        }
+        const roomX = section.clientWidth;
+
+        const fitScale = Math.min(
+            1,
+            roomX / (width + padX),
+            roomY / (height + padY),
+        );
+        const scale = Math.max(MIN_MAP_SCALE, Math.floor(fitScale * 1000) / 1000);
+
+        if (scale === 1) {
+            section.style.removeProperty('--map-scale');
+            app.style.removeProperty('width');
+            app.style.removeProperty('height');
+            container.style.removeProperty('transform');
+            container.style.removeProperty('transform-origin');
+            return;
+        }
+        section.style.setProperty('--map-scale', String(scale));
+        app.style.width = `${Math.floor(width * scale)}px`;
+        app.style.height = `${Math.floor(height * scale)}px`;
+        container.style.transform = `scale(${scale})`;
+        container.style.transformOrigin = '0 0';
+    };
+
+    const schedule = () => {
+        if (!frame) frame = requestAnimationFrame(fit);
+    };
+
+    const resizeObserver =
+        typeof ResizeObserver === 'undefined'
+            ? null
+            : new ResizeObserver(schedule);
+    resizeObserver?.observe(world);
+    resizeObserver?.observe(section);
+    // 맵을 새로 그리면(.map-container 교체) 새 지도에 맞춥니다
+    const mutationObserver = new MutationObserver(schedule);
+    mutationObserver.observe(app, { childList: true });
+    schedule();
+
+    return () => {
+        if (frame) cancelAnimationFrame(frame);
+        resizeObserver?.disconnect();
+        mutationObserver.disconnect();
+    };
+}

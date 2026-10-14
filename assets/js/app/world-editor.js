@@ -9,6 +9,7 @@ import {
     posKey,
     resizeState,
 } from './state.js';
+import { mapScaleOf } from './controls.js';
 import { asset, query, queryAll } from './env.js';
 import { isTyping, showAlert, toast } from './ui.js';
 
@@ -170,9 +171,11 @@ export class WorldEditor {
                 tooltip.innerHTML = `<img src="${asset('img/icon/icon-mouse-click.svg')}" alt=""><p>우클릭으로 취소</p>`;
                 container.appendChild(tooltip);
             }
+            // 지도를 줄여 보일 때(setupMapFit)는 화면 거리를 지도 안 거리로 바꿉니다
             const rect = container.getBoundingClientRect();
-            tooltip.style.left = `${e.clientX - rect.left + 50}px`;
-            tooltip.style.top = `${e.clientY - rect.top + 20}px`;
+            const scale = mapScaleOf(container);
+            tooltip.style.left = `${(e.clientX - rect.left) / scale + 50}px`;
+            tooltip.style.top = `${(e.clientY - rect.top) / scale + 20}px`;
         });
 
         section.addEventListener('mouseleave', () =>

@@ -2206,10 +2206,15 @@ button {
 }
 
 /* map */
+/* 화면이 낮으면 지도가 줄어들고(min-height: 0) 터미널이 최소 높이를 지킵니다.
+   지도 배율 --map-scale은 controls.js setupMapFit이 정하고, 여백도 같은 비율로 줄입니다. */
 .world-map {
+  --map-scale: 1;
   display: flex;
+  flex-shrink: 1;
+  min-height: 0;
   margin: 0.8rem 0.6rem;
-  padding: 3.2rem 2.8rem 3.2rem 3.4rem;
+  padding: calc(3.2rem * var(--map-scale)) calc(2.8rem * var(--map-scale)) calc(3.2rem * var(--map-scale)) calc(3.4rem * var(--map-scale));
   height: fit-content;
   overflow: auto;
   box-sizing: border-box;
@@ -2351,6 +2356,8 @@ button {
 
 .map-container {
   position: relative;
+  /* 지도를 줄여 보일 때(#app 폭이 줄어도) 원래 크기로 그린 뒤 transform으로 줄입니다 */
+  width: max-content;
 }
 
 .map-items {
@@ -2433,7 +2440,8 @@ button {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 10rem;
+  /* 제목 줄 + 출력 서너 줄은 항상 보이게 (노트북처럼 낮은 화면에서 잘리지 않게) */
+  min-height: 16rem;
   background: var(--ColorGrayLv1);
   color: var(--ColorSurface);
   font-family: Source Code Pro;

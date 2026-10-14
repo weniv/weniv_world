@@ -16,7 +16,7 @@
 // 돌려주는 값의 destroy()로 워커·문서에 건 이벤트를 모두 정리합니다.
 
 import { MOB_INFO } from './config.js';
-import { setupControls, setupResizers } from './controls.js';
+import { setupControls, setupMapFit, setupResizers } from './controls.js';
 import { PythonEngine } from './engine.js';
 import { asset, configure, env, hostElement, store } from './env.js';
 import { Notebook, DEFAULT_CODE } from './notebook.js';
@@ -109,7 +109,11 @@ export function createWorldApp({
     });
 
     world.addEventListener('change', () => view.sync(world.state));
-    cleanups.push(setupControls(root), setupResizers(root));
+    cleanups.push(
+        setupControls(root),
+        setupResizers(root),
+        setupMapFit(root),
+    );
 
     // ------------------------------------------------------------------
     // 실행 상태 표시 (상단 상태 문구, 중지 버튼)

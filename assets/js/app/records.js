@@ -130,10 +130,13 @@ const loadImage = (src) =>
     });
 
 export async function drawCertificate({ chapter, name, date }) {
+    const nameText = name || '-';
+    const dateText = date || formatDate();
     try {
+        // 글꼴을 글자 구간별로 나눠 받는 사이트(unicode-range)에서도 그릴 글자가 담긴 조각을 받도록 글자를 넘깁니다.
         await Promise.all([
-            document.fonts.load('400 74px Pretendard'),
-            document.fonts.load('400 36px Pretendard'),
+            document.fonts.load('400 74px Pretendard', nameText),
+            document.fonts.load('400 36px Pretendard', dateText),
         ]);
     } catch (e) {
         // 글꼴을 못 불러와도 기본 글꼴로 그립니다.
@@ -149,11 +152,11 @@ export async function drawCertificate({ chapter, name, date }) {
     ctx.font = '400 74px Pretendard';
     ctx.fillStyle = '#3a72ff';
     ctx.textAlign = 'center';
-    ctx.fillText(name || '-', canvas.width / 2, 570);
+    ctx.fillText(nameText, canvas.width / 2, 570);
 
     ctx.font = '400 36px Pretendard';
     ctx.fillStyle = 'black';
-    ctx.fillText(date || formatDate(), 1340, 1000);
+    ctx.fillText(dateText, 1340, 1000);
     return canvas.toDataURL('image/png');
 }
 

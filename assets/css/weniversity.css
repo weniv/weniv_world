@@ -1,0 +1,150 @@
+/* 위니버시티 안내: 처음 방문 안내 창 · 메뉴 */
+
+/* 설치판에서는 위니버시티로 나가는 머리 줄 버튼을 숨긴다 */
+[data-host='desktop'] .wv-web-only {
+  display: none !important;
+}
+
+/* 처음 방문 안내 창 */
+.wv-notice,
+.wv-notice * {
+  box-sizing: border-box;
+}
+
+.wv-notice {
+  position: fixed;
+  right: 2.4rem;
+  bottom: 2.4rem;
+  z-index: 1000;
+  width: min(38rem, calc(100vw - 3.2rem));
+  padding: 2.4rem;
+  border-radius: 1.6rem;
+  background: #fff;
+  color: #121314;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+}
+
+.wv-notice.is-shown {
+  opacity: 1;
+  transform: none;
+}
+
+.wv-notice.is-hidden {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+@media (max-width: 600px) {
+  .wv-notice {
+    right: 1.6rem;
+    bottom: 1.6rem;
+    padding: 2rem;
+  }
+}
+
+.wv-notice__close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.wv-notice__close:hover {
+  background: #f3f5fa;
+}
+
+.wv-notice__close svg {
+  width: 1.8rem;
+  height: 1.8rem;
+  fill: none;
+  stroke: #47494d;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.wv-notice__eyebrow {
+  color: #2e6ff2;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.wv-notice__title {
+  display: block;
+  margin-top: 0.6rem;
+  padding-right: 2.4rem;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.wv-notice__desc {
+  margin-top: 0.8rem;
+  color: #47494d;
+  font-size: 14px;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.wv-notice__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.8rem;
+}
+
+.wv-notice__go,
+.wv-notice__stay {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 4.2rem;
+  padding: 0 1.6rem;
+  border-radius: 0.8rem;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.wv-notice__go {
+  flex: 1 1 auto;
+  border: 0;
+  background: #2e6ff2;
+  color: #fff;
+}
+
+.wv-notice__go:hover {
+  background: #145df0;
+}
+
+.wv-notice__stay {
+  border: 1px solid #d9dbe0;
+  background: #fff;
+  color: #47494d;
+}
+
+.wv-notice__stay:hover {
+  background: #f3f5fa;
+}
+
+.wv-notice a:focus-visible,
+.wv-notice button:focus-visible {
+  outline: 3px solid #2e6ff2;
+  outline-offset: 2px;
+}

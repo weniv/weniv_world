@@ -34,6 +34,19 @@ repeat(2, move)
 # pick()
 `;
 
+// 위니버시티 학습 도구 페이지에 붙였을 때(scripts/build-embed.mjs, 앱을 담은 요소에 data-host="weniversity-page")는
+// 위니버시티의 다른 학습 도구(알고리즘·SQL·노트북)와 같은 실행 키 Ctrl+Enter로 안내합니다. 단독 사이트·설치판은 그대로입니다.
+// (두 키 모두 동작: Ctrl+Enter = 실행, Shift+Enter = 실행하고 다음 셀로)
+export const isWeniversityPage = (element) =>
+    Boolean(element?.closest?.("[data-host='weniversity-page']"));
+
+const WENIVERSITY_RUN_HINT = '# Ctrl+Enter로 실행해 보세요.';
+
+export const defaultCodeFor = (element) =>
+    isWeniversityPage(element)
+        ? DEFAULT_CODE.replace(/^# shift \+ enter를 눌러 실행해 보세요\./, WENIVERSITY_RUN_HINT)
+        : DEFAULT_CODE;
+
 // 자동 완성 목록 (World의 함수 리스트와 같은 내용)
 const API = [
     ['say', '캐릭터의 말풍선에 출력', 1],
@@ -168,6 +181,8 @@ export class Notebook {
         this.cells = [];
         this.storageKey = null;
         this.saveTimer = null;
+        this.runKeyLabel = isWeniversityPage(section) ? 'Ctrl+Enter' : 'Shift + Enter';
+        this.defaultCode = defaultCodeFor(section);
 
         section.addEventListener('click', (e) => this.handleClick(e));
     }
@@ -184,7 +199,7 @@ export class Notebook {
             <div class="cell-box">
                 <header class="cm-header">
                     <div class="cell-run">
-                        <button type="button" class="btn-play cell-run-button" title="실행 (Shift + Enter)">
+                        <button type="button" class="btn-play cell-run-button" title="실행 (${this.runKeyLabel})">
                             <span class="sr-only">코드 실행</span>
                         </button>
                         <span class="cell-status" aria-live="polite"></span>

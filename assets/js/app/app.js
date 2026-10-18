@@ -19,7 +19,7 @@ import { MOB_INFO } from './config.js';
 import { setupControls, setupMapFit, setupResizers } from './controls.js';
 import { PythonEngine } from './engine.js';
 import { asset, configure, env, hostElement, store } from './env.js';
-import { Notebook, DEFAULT_CODE } from './notebook.js';
+import { Notebook } from './notebook.js';
 import { Player } from './player.js';
 import {
     cloneState,
@@ -322,7 +322,7 @@ ${err.message}`);
             notebook.setCodes(stories.codesFor(index));
         } else {
             notebook.useStorage('free_code');
-            notebook.setCodes(readCodes('free_code') || [DEFAULT_CODE]);
+            notebook.setCodes(readCodes('free_code') || [notebook.defaultCode]);
         }
     }
 

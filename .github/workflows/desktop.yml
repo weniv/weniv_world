@@ -77,6 +77,23 @@ jobs:
             echo "::notice::Apple 인증서(MAC_CERTIFICATE_P12_BASE64)가 없어 ad-hoc 서명합니다."
             sign=(-c.mac.identity=- -c.mac.hardenedRuntime=false)
           fi
+          if [ -n "${CSC_LINK:-}" ]; then
+            # electron-builder 26.15.3은 CSC_LINK로 인증서를 받으면 키체인 권한 설정(set-key-partition-list)에
+            # 키체인 비밀번호 대신 .p12 비밀번호를 넘겨 "passphrase is not correct"로 멈춘다(wecam과 같음).
+            # 그래서 인증서를 직접 키체인에 넣고 CSC_LINK를 지워, electron-builder가 키체인에서 인증서를 찾아 쓰게 한다.
+            kc="$RUNNER_TEMP/sign.keychain-db"
+            kpw=$(openssl rand -hex 16)
+            security create-keychain -p "$kpw" "$kc"
+            security set-keychain-settings -lut 21600 "$kc"
+            security unlock-keychain -p "$kpw" "$kc"
+            echo "$CSC_LINK" | base64 --decode > "$RUNNER_TEMP/sign.p12"
+            security import "$RUNNER_TEMP/sign.p12" -k "$kc" -P "${CSC_KEY_PASSWORD:-}" -T /usr/bin/codesign -T /usr/bin/productbuild
+            rm -f "$RUNNER_TEMP/sign.p12"
+            security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$kpw" "$kc" > /dev/null
+            security list-keychains -d user -s "$kc" $(security list-keychains -d user | tr -d '"')
+            security find-identity -v -p codesigning "$kc"
+            unset CSC_LINK CSC_KEY_PASSWORD
+          fi
           npx electron-builder --mac --publish never "${sign[@]}"
         env:
           CSC_LINK: ${{ secrets.MAC_CERTIFICATE_P12_BASE64 }}
@@ -84,6 +101,7 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      # 인증서로 서명했으면 Gatekeeper가 공증된 Developer ID 앱으로 받아들여야 한다. 아니면 멈춰 릴리스에 올리지 않는다.
       - name: 서명 확인 (Mac)
         if: runner.os == 'macOS'
         working-directory: desktop
@@ -95,9 +113,16 @@ jobs:
             app=$(ls -d "$mnt"/*.app | head -n 1)
             echo "dmg: $dmg / app: $app"
             codesign --verify --deep --strict --verbose=2 "$app"
-            spctl -a -vv "$app" 2>&1 || echo "spctl: Gatekeeper가 받아들이지 않음 (ad-hoc 서명이면 정상, 사용자는 그래도 열기로 연다)"
+            codesign -dv --verbose=2 "$app" 2>&1 | grep -E '^(Identifier|Authority|TeamIdentifier|Runtime)' || true
+            if [ "$MAC_SIGNED" = "true" ]; then
+              spctl -a -vv "$app"
+            else
+              spctl -a -vv "$app" 2>&1 || echo "spctl: Gatekeeper가 받아들이지 않음 (ad-hoc 서명이면 정상, 사용자는 그래도 열기로 연다)"
+            fi
             hdiutil detach "$mnt" -force > /dev/null
           done
+        env:
+          MAC_SIGNED: ${{ secrets.MAC_CERTIFICATE_P12_BASE64 != '' && secrets.APPLE_ID != '' }}
       # Windows: Secret이 있으면 Azure Artifact Signing으로 서명(wecam과 같은 계정), 없으면 서명 없이 만든다
       - name: electron-builder --win
         if: runner.os == 'Windows'

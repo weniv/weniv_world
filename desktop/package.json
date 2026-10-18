@@ -1,7 +1,7 @@
 {
   "name": "weniv-world-desktop",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "productName": "Weniv World",
   "description": "위니브월드 설치판 — 인터넷 없이 파이썬으로 캐릭터를 움직이며 스토리를 푸는 학습 앱",
   "author": "WENIV",

@@ -646,49 +646,6 @@ button {
     .main {
         height: 100%;
     }
-
-    /* 좁은 화면(코드 50rem + 월드 39rem이 나란히 들어가지 않는 폭, 휴대폰·작은 태블릿):
-       스토리 → 코드 → 월드(지도·터미널)로 위아래로 쌓고 위니버시티 페이지가 스크롤합니다.
-       지도는 controls.js setupMapFit이 월드 칸 크기에 맞춰 줄입니다. 단독 사이트·설치판에는 적용되지 않습니다. */
-    @media (max-width: 900px) {
-        height: auto;
-        overflow: visible;
-
-        .main {
-            flex-direction: column;
-            height: auto;
-        }
-
-        .notebook {
-            width: 100% !important; /* 끌어서 정한 폭(style.width)이 남아 있어도 */
-            min-width: 0;
-            height: min(60dvh, 48rem);
-        }
-
-        .resizer[data-direction='horizontal'] {
-            display: none !important; /* story-resizer는 JS가 style.display를 씀 */
-        }
-
-        .world {
-            min-width: 0;
-            height: max(80dvh, 52rem); /* 지도 맞추기(setupMapFit)가 이 높이로 지도 크기를 정함 */
-            border-top: 1px solid var(--ColorGrayLv2);
-        }
-
-        .world-menu {
-            flex-wrap: wrap;
-            height: auto;
-            min-height: 5rem;
-        }
-
-        .story {
-            order: -1;
-            width: 100% !important;
-            min-width: 0;
-            max-height: 60dvh;
-            border-bottom: 1px solid var(--ColorGrayLv2);
-        }
-    }
 }
 
 /* 위니버시티 안(iframe)에서 열렸을 때 (assets/js/host.js)

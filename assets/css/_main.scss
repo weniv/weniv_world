@@ -743,32 +743,35 @@ button {
 }
 
 /* resizer */
+// 처음부터 1px 회색 실선으로 보인다 (예전엔 배경색 테두리가 회색을 덮어 흰 선으로 보였다).
+// 잡는 곳은 보이지 않는 ::before로 양옆 4px씩 넓히고, 올리거나 끄는 동안만 3px로 진하게 보인다(폭은 그대로라 화면이 밀리지 않는다)
 .resizer {
+    position: relative;
+    z-index: 5;
     flex-shrink: 0;
     width: 1px;
     height: 100%;
     background-color: var(--ColorGrayLv2);
-    border-style: solid;
-    border-color: var(--ColorBackground);
-    border-width: 0 1px 0 1px;
     cursor: ew-resize;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0 -4px;
+    }
 
     &:hover,
     &.active {
-        border: 0;
-        width: 3px;
+        box-shadow: 0 0 0 1px var(--ColorGrayLv2);
     }
 
     &[data-direction='vertical'] {
         height: 1px;
         width: 100%;
-        border-width: 1px 0 1px 0;
         cursor: ns-resize;
 
-        &:hover,
-        &.active {
-            border: 0;
-            height: 3px;
+        &::before {
+            inset: -4px 0;
         }
     }
 

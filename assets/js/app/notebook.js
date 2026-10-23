@@ -31,8 +31,7 @@ turn_left()
 turn_left()
 turn_left()
 repeat(2, move)
-# pick()
-`;
+# pick()`;
 
 // 위니버시티 학습 도구 페이지에 붙였을 때(scripts/build-embed.mjs, 앱을 담은 요소에 data-host="weniversity-page")는
 // 위니버시티의 다른 학습 도구(알고리즘·SQL·노트북)와 같은 실행 키 Ctrl+Enter로 안내합니다. 단독 사이트·설치판은 그대로입니다.

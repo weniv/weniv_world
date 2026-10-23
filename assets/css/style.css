@@ -1769,9 +1769,13 @@ button {
 .cell-editor .cm-foldGutter .cm-gutterElement {
   width: 1.2rem;
 }
+.cell-editor .cm-selectionLayer {
+  z-index: 1 !important;
+  pointer-events: none;
+}
 .cell-editor .cm-selectionBackground,
 .cell-editor .cm-focused .cm-selectionBackground {
-  background: var(--ColorGrayLv2) !important;
+  background: color-mix(in srgb, var(--ColorGrayLv3) 35%, transparent) !important;
 }
 .cell-editor .cm-selectionMatch {
   background: var(--ColorActivation);

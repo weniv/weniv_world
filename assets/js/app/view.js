@@ -42,6 +42,33 @@ const updateBar = (item, value, max) => {
     item.querySelector('.text').textContent = `${value}/${max}`;
 };
 
+const spriteUrl = (sprite, direction) =>
+    asset(`img/characters/${sprite}-${direction}.webp`);
+
+const drawSprite = (el, direction) => {
+    el.dataset.directions = direction;
+    el.style.backgroundImage = `url("${spriteUrl(el.dataset.sprite, direction)}")`;
+};
+
+// 도는 중이면 멈춘다 (월드를 다시 그리거나 건너뛰기로 방향을 바로 정할 때)
+const stopTurn = (el) => {
+    const turn = el.wwTurn;
+    if (!turn) return;
+    el.wwTurn = null;
+    turn.animation?.cancel();
+};
+
+const reducedMotion = () =>
+    globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+
+// 돌 때 새 방향 그림이 비어 보이지 않게 네 방향을 미리 받아 둔다
+const preloadedSprites = new Set();
+const preloadSprites = (sprite) => {
+    if (preloadedSprites.has(sprite) || typeof Image === 'undefined') return;
+    preloadedSprites.add(sprite);
+    for (let d = 0; d < 4; d += 1) new Image().src = spriteUrl(sprite, d);
+};
+
 export class WorldView extends EventTarget {
     constructor(root) {
         super();
@@ -185,6 +212,7 @@ export class WorldView extends EventTarget {
             status.append(createBar('hp', max, max));
         }
         el.appendChild(status);
+        preloadSprites(sprite);
         this.setSprite(el, 0);
         this.container.appendChild(el);
         this.actors.set(key, el);
@@ -211,8 +239,8 @@ export class WorldView extends EventTarget {
     }
 
     setSprite(el, direction) {
-        el.dataset.directions = direction;
-        el.style.backgroundImage = `url("${asset(`img/characters/${el.dataset.sprite}-${direction}.webp`)}")`;
+        stopTurn(el);
+        drawSprite(el, direction);
     }
 
     addActor(who, data) {
@@ -237,9 +265,38 @@ export class WorldView extends EventTarget {
         }, duration * 500);
     }
 
-    turnActor(who, direction) {
+    // 제자리에서 도는 것처럼 보이게: 세로축으로 반 바퀴 접었다가(옆모습) 새 방향 그림으로 바꿔 다시 편다.
+    // 걷기(moveActor)와 같은 시간(한 칸 시간의 0.9)을 쓰고, 너무 빠르거나 움직임 줄이기 설정이면 바로 바꾼다.
+    turnActor(who, direction, duration = 0) {
         const el = this.actor(who);
-        if (el) this.setSprite(el, direction);
+        if (!el) return;
+        const ms = duration * 900;
+        if (ms < 80 || typeof el.animate !== 'function' || reducedMotion()) {
+            this.setSprite(el, direction);
+            return;
+        }
+        stopTurn(el);
+        const turn = {};
+        el.wwTurn = turn;
+        const half = ms / 2;
+        turn.animation = el.animate(
+            [{ rotate: 'y 0deg' }, { rotate: 'y 90deg' }],
+            { duration: half, easing: 'ease-in' },
+        );
+        turn.animation.finished
+            .then(() => {
+                if (el.wwTurn !== turn) return;
+                drawSprite(el, direction);
+                turn.animation = el.animate(
+                    [{ rotate: 'y -90deg' }, { rotate: 'y 0deg' }],
+                    { duration: half, easing: 'ease-out' },
+                );
+                return turn.animation.finished;
+            })
+            .then(() => {
+                if (el.wwTurn === turn) el.wwTurn = null;
+            })
+            .catch(() => {});
     }
 
     removeActor(who, delay = 0) {

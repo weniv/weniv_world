@@ -108,7 +108,7 @@ export class Player extends EventTarget {
                 if (animate) view.jumpActor(e.who, e.to, step);
                 break;
             case 'turn':
-                if (animate) view.turnActor(e.who, e.dir);
+                if (animate) view.turnActor(e.who, e.dir, step);
                 break;
             case 'pick':
             case 'put':

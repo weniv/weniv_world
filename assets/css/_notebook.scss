@@ -247,9 +247,16 @@
         width: 1.2rem;
     }
 
+    // 선택 영역은 줄 배경(현재 줄의 파란 강조·오류 줄) 위에 반투명 회색으로 겹쳐 그린다.
+    // CodeMirror는 선택 층을 글자 뒤(z-index -1)에 두어서, 배경이 칠해진 줄에서는 선택이 가려졌다.
+    .cm-selectionLayer {
+        z-index: 1 !important;
+        pointer-events: none;
+    }
+
     .cm-selectionBackground,
     .cm-focused .cm-selectionBackground {
-        background: var(--ColorGrayLv2) !important;
+        background: color-mix(in srgb, var(--ColorGrayLv3) 35%, transparent) !important;
     }
 
     .cm-selectionMatch {

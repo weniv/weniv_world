@@ -7,16 +7,52 @@
 let runner = null;
 let runtime = null;
 
+// 첫 주소(보통 jsdelivr)를 이 시간 안에 못 받으면 다음 주소(S3)로 넘어갑니다.
+// 막힌 망은 거절하지 않고 응답 없이 붙잡고 있기도 해서, 기다리기만 하면 '불러오는 중'에서 멈춥니다.
+const FIRST_TRY_MS = 5000;
+
+const withTimeout = (promise, ms) =>
+    ms
+        ? Promise.race([
+              promise,
+              new Promise((_, reject) =>
+                  setTimeout(
+                      () => reject(new Error(`${ms / 1000}초 안에 받지 못했습니다.`)),
+                      ms,
+                  ),
+              ),
+          ])
+        : promise;
+
 // Pyodide 314부터는 모듈 워커에서만 동작합니다. (engine.js에서 type: 'module'로 생성)
-const loadRuntime = (pyodideUrl) =>
-    (runtime ||= import(`${pyodideUrl}pyodide.mjs`).then(({ loadPyodide }) =>
-        loadPyodide({ indexURL: pyodideUrl }),
-    ));
+// 꾸러미도 처음 받은 곳(indexURL)에서 받으므로 한 곳에서만 받습니다.
+async function loadFrom(urls) {
+    let lastError = null;
+    for (const [i, url] of urls.entries()) {
+        const last = i === urls.length - 1;
+        try {
+            const { loadPyodide } = await withTimeout(
+                import(`${url}pyodide.mjs`),
+                last ? 0 : FIRST_TRY_MS,
+            );
+            return { pyodide: await loadPyodide({ indexURL: url }), url };
+        } catch (error) {
+            lastError = error;
+            console.warn(`[python] ${url}에서 불러오지 못했습니다:`, String(error?.message || error));
+        }
+    }
+    throw lastError || new Error('Pyodide를 불러오지 못했습니다.');
+}
+
+// 예전 화면은 pyodideUrl 하나만 보냅니다.
+const urlsOf = (data) => data.pyodideUrls || [data.pyodideUrl];
+const loadRuntime = (urls) => (runtime ||= loadFrom(urls));
 
 const post = (id, payload) => self.postMessage({ id, ...payload });
 
-async function init({ pyodideUrl, sources }) {
-    const pyodide = await loadRuntime(pyodideUrl);
+async function init(data) {
+    const { pyodide, url } = await loadRuntime(urlsOf(data));
+    const { sources } = data;
 
     // 파이썬 파일 내용은 화면이 받아서 넘겨 줍니다. (engine.js loadPythonSources)
     const dir = '/home/pyodide/world';
@@ -26,14 +62,17 @@ async function init({ pyodideUrl, sources }) {
 
     pyodide.runPython(`import sys\nsys.path.insert(0, ${JSON.stringify(dir)})`);
     runner = pyodide.pyimport('runner');
-    return { python: pyodide.runPython('import sys; sys.version.split()[0]') };
+    return {
+        python: pyodide.runPython('import sys; sys.version.split()[0]'),
+        pyodideUrl: url,
+    };
 }
 
 self.onmessage = async ({ data }) => {
     const { id, type } = data;
     if (type === 'preload') {
         // 실패하면 이어서 오는 init에서 같은 오류를 돌려줍니다.
-        loadRuntime(data.pyodideUrl).catch(() => {});
+        loadRuntime(urlsOf(data)).catch(() => {});
         return;
     }
     try {

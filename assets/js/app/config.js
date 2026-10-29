@@ -5,6 +5,10 @@ export const APP_VERSION = '2026.10.05.1';
 
 // Pyodide (Python 3.14) — Web Worker에서 실행합니다.
 export const PYODIDE_URL = 'https://cdn.jsdelivr.net/pyodide/v314.0.7/full/';
+// jsdelivr에서 못 받으면(학교망이 막는 일이 있음) 위니버시티 운영 S3에 올린 같은 판에서 받습니다. (2026-10-29)
+// S3는 weniversity.co.kr에서만 열리므로(CORS) 단독 사이트에서는 이 길이 실패하고 jsdelivr 오류를 그대로 보여 줍니다.
+export const PYODIDE_FALLBACK_URL =
+    'https://weniversity-bucket.s3.ap-northeast-2.amazonaws.com/pyodide/v314.0.7/full/';
 
 // 워커가 불러올 파이썬 파일 (assets/py/)
 export const PY_FILES = [

@@ -6,11 +6,16 @@
 // - input()은 워커가 값을 요청하면 입력창을 띄우고, 받은 값으로 같은 셀을 처음부터
 //   다시 실행합니다. 같은 상태와 같은 난수 시드로 실행하므로 결과가 같습니다.
 
-import { APP_VERSION, PYODIDE_URL, PY_FILES } from './config.js';
+import {
+    APP_VERSION,
+    PYODIDE_FALLBACK_URL,
+    PYODIDE_URL,
+    PY_FILES,
+} from './config.js';
 import { asset, env } from './env.js';
 
 // 파이썬 파일은 화면(메인 스레드)에서 받아 워커에 넘깁니다.
-// 워커는 Pyodide(jsdelivr) 말고는 아무 데도 접속하지 않아도 되므로,
+// 워커는 Pyodide(jsdelivr, 안 되면 S3) 말고는 아무 데도 접속하지 않아도 되므로,
 // 위니버시티처럼 워커 응답에 접속 제한(CSP)을 거는 곳에서도 그대로 동작합니다.
 export const loadPythonSources = () =>
     Promise.all(
@@ -26,6 +31,36 @@ export const loadPythonSources = () =>
             return [file, await response.text()];
         }),
     );
+
+// Pyodide는 jsdelivr에서 먼저 받고, 못 받으면 S3에서 받습니다.
+// S3에서 받았으면 이 브라우저에 7일 동안 기억해 두고 그동안은 S3부터 받습니다.
+// (막힌 망에서 매번 jsdelivr를 기다리지 않게. 위니버시티 노트북·교재 실행과 같은 키를 씁니다)
+const PYODIDE_BLOCKED_KEY = 'weniv:pyodide-cdn-blocked';
+const PYODIDE_BLOCKED_DAYS = 7;
+
+const readBlockedAt = () => {
+    try {
+        return Number(localStorage.getItem(PYODIDE_BLOCKED_KEY)) || 0;
+    } catch {
+        return 0;
+    }
+};
+
+export const pyodideUrls = () =>
+    Date.now() - readBlockedAt() < PYODIDE_BLOCKED_DAYS * 86400000
+        ? [PYODIDE_FALLBACK_URL, PYODIDE_URL]
+        : [PYODIDE_URL, PYODIDE_FALLBACK_URL];
+
+// 워커가 실제로 받은 곳을 알려 주면 기억을 고칩니다.
+export const rememberPyodideSource = (tried, used) => {
+    try {
+        if (used === PYODIDE_URL) localStorage.removeItem(PYODIDE_BLOCKED_KEY);
+        else if (used && tried[0] === PYODIDE_URL)
+            localStorage.setItem(PYODIDE_BLOCKED_KEY, String(Date.now()));
+    } catch {
+        // 저장소를 못 쓰는 브라우저는 매번 jsdelivr부터 시도합니다.
+    }
+};
 
 export class StoppedError extends Error {
     constructor() {
@@ -92,15 +127,17 @@ export class PythonEngine extends EventTarget {
         this.setStatus('loading');
         const startedAt = performance.now();
         // Pyodide는 바로 받기 시작하고, 파이썬 파일은 그동안 화면에서 받아 둡니다.
-        this.worker.postMessage({ type: 'preload', pyodideUrl: PYODIDE_URL });
+        const urls = pyodideUrls();
+        this.worker.postMessage({ type: 'preload', pyodideUrls: urls });
         const init = loadPythonSources().then((sources) =>
             generation === this.generation
-                ? this.call('init', { pyodideUrl: PYODIDE_URL, sources })
+                ? this.call('init', { pyodideUrls: urls, sources })
                 : null,
         );
         this.ready = Promise.race([init, workerFailed]).then(
             (info) => {
                 if (generation !== this.generation) return;
+                rememberPyodideSource(urls, info.pyodideUrl);
                 console.info(
                     `[python] Python ${info.python} 준비 (${Math.round(performance.now() - startedAt)}ms)`,
                 );

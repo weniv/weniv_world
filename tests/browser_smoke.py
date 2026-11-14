@@ -53,11 +53,16 @@ class BrowserSmokeTest(unittest.TestCase):
 
     def test_basic_execution_and_input_mutations(self):
         self.set_codes('values = []', "values.append(1)\nname = input('name?')\nmove()\nprint(values)")
-        self.page.on('dialog', lambda dialog: dialog.accept('licat'))
-        self.page.evaluate('''async () => {
+        # input()은 브라우저 prompt()가 아니라 앱 안의 입력 창(dialog.prompt-dialog)으로 받습니다.
+        self.page.evaluate('''() => {
             const d = __wenivDebug;
             d.notebook.run(d.notebook.cells[0]);
             d.notebook.run(d.notebook.cells[1]);
+        }''')
+        self.page.locator('dialog.prompt-dialog[open] .prompt-input').fill('licat')
+        self.page.keyboard.press('Enter')
+        self.page.evaluate('''async () => {
+            const d = __wenivDebug;
             await d.engine.chain;
             d.player.skip();
             await d.player.whenIdle();

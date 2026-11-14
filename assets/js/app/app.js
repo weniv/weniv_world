@@ -38,6 +38,7 @@ import {
     createSpeedControl,
     setupShortcutHelp,
     showAlert,
+    showPrompt,
     toast,
 } from './ui.js';
 import { WorldView } from './view.js';
@@ -51,6 +52,11 @@ const PRELOAD_IMAGES = [
     'img/characters/licat-2.webp',
     'img/characters/licat-3.webp',
     'img/icon/icon-alert-circle.svg',
+    // 첫 attack() 때 그림을 받느라 효과가 늦게(짧은 속도에선 아예 안) 보이지 않게
+    'img/weapon/claw-yellow.png',
+    'img/weapon/claw-white.png',
+    'img/weapon/beam.png',
+    'img/weapon/explosion.png',
 ];
 
 export function createWorldApp({
@@ -159,8 +165,8 @@ export function createWorldApp({
 
     // ------------------------------------------------------------------
     // 셀 실행
-    const askInput = async (promptText) =>
-        window.prompt(promptText || '입력하세요');
+    const askInput = (promptText) =>
+        showPrompt({ title: promptText || '입력하세요', confirmText: '입력' });
 
     async function runCell(cell) {
         const code = cell.view.state.doc.toString();

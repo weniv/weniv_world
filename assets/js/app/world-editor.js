@@ -11,7 +11,7 @@ import {
 } from './state.js';
 import { mapScaleOf } from './controls.js';
 import { asset, query, queryAll } from './env.js';
-import { isTyping, showAlert, toast } from './ui.js';
+import { isTyping, showAlert, showPrompt, toast } from './ui.js';
 
 const DIRECTION_TEXT = ['0 (동쪽)', '1 (북쪽)', '2 (서쪽)', '3 (남쪽)'];
 
@@ -24,6 +24,7 @@ export class WorldEditor {
         this.onCharacterReset = onCharacterReset;
         this.wallType = 'wall';
         this.selection = null; // { kind: 'item' | 'mob', name }
+        this.prompting = false; // 개수·이름 입력 창이 열려 있는지
         this.bubbleTimer = null;
 
         this.bindToolbar();
@@ -195,21 +196,26 @@ export class WorldEditor {
         }
     }
 
-    clickCell(x, y) {
-        if (this.blocked()) return;
+    async clickCell(x, y) {
+        if (this.blocked() || this.prompting) return;
         const { kind, name } = this.selection;
 
         if (kind === 'item') {
-            const input = prompt(
-                '추가할 아이템 개수를 입력하세요\n(* 추가할 위치에 다른 아이템이 있는 경우 사라집니다.)',
-                '1',
-            );
-            if (input === null) return;
-            if (!/^\d+$/.test(input.trim()) || Number(input) < 1) {
-                showAlert('1 이상의 자연수를 입력해주세요');
-                return;
-            }
-            const count = Number(input);
+            this.prompting = true;
+            const input = await showPrompt({
+                title: '아이템 개수',
+                message:
+                    '추가할 아이템 개수를 입력하세요.\n(추가할 위치에 다른 아이템이 있으면 사라집니다.)',
+                defaultValue: '1',
+                inputMode: 'numeric',
+                confirmText: '추가',
+                validate: (v) =>
+                    !/^\d+$/.test(v.trim()) || Number(v) < 1
+                        ? '1 이상의 자연수를 입력해주세요.'
+                        : null,
+            }).finally(() => (this.prompting = false));
+            if (input === null || this.blocked()) return;
+            const count = Number(input.trim());
             this.world.edit((s) => {
                 const key = posKey(x, y);
                 const current = s.items[key];
@@ -224,17 +230,28 @@ export class WorldEditor {
                 showAlert('다른 캐릭터 또는 몹이 있습니다.');
                 return;
             }
-            const input = prompt('추가할 몹의 이름을 작성해주세요');
-            if (input === null) return;
+            this.prompting = true;
+            const input = await showPrompt({
+                title: '몹 이름',
+                message:
+                    '추가할 몹의 이름을 입력하세요.\n코드에서 이 이름으로 몹을 찾습니다.',
+                placeholder: '예: leo',
+                confirmText: '추가',
+                validate: (v) => {
+                    const value = v.trim();
+                    if (!value) return '이름을 입력해주세요.';
+                    if (this.state.mobs.some((m) => m.name === value))
+                        return '같은 이름의 몹이 이미 맵에 있습니다.';
+                    return null;
+                },
+            }).finally(() => (this.prompting = false));
+            if (input === null || this.blocked()) return;
+            // 창이 열려 있는 동안 그 칸이 찼을 수 있습니다.
+            if (actorAt(this.state, x, y)) {
+                showAlert('다른 캐릭터 또는 몹이 있습니다.');
+                return;
+            }
             const mobName = input.trim();
-            if (!mobName) {
-                showAlert('이름을 입력해주세요');
-                return;
-            }
-            if (this.state.mobs.some((m) => m.name === mobName)) {
-                showAlert('해당 이름을 갖는 몹이 이미 맵에 존재합니다');
-                return;
-            }
             this.world.edit((s) => s.mobs.push(newMob(x, y, name, mobName)));
         }
         this.clearSelection();

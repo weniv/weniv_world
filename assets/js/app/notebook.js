@@ -246,6 +246,14 @@ export class Notebook {
                                 key: 'Mod-Enter',
                                 run: () => (this.run(cell), true),
                             },
+                            // 주피터·위니버시티 노트북과 같이: 실행하고 바로 아래에 새 셀
+                            {
+                                key: 'Alt-Enter',
+                                run: () => (
+                                    this.run(cell, { insert: true }),
+                                    true
+                                ),
+                            },
                         ]),
                     ),
                     basicSetup,
@@ -312,9 +320,12 @@ export class Notebook {
 
     // ------------------------------------------------------------------
     // 실행
-    run(cell, { advance = false } = {}) {
+    run(cell, { advance = false, insert = false } = {}) {
         this.onRun(cell);
-        if (advance) {
+        if (insert) {
+            this.focus(this.createCell('', { after: cell }));
+            this.scheduleSave();
+        } else if (advance) {
             const next = this.cells[this.cells.indexOf(cell) + 1];
             this.focus(next || this.createCell('', { after: cell }));
         }

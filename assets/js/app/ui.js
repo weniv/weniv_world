@@ -119,6 +119,108 @@ export const showResultDialog = ({
     return dialog;
 };
 
+// 입력 창 (브라우저 prompt() 대신): 확인하면 입력한 글자, 취소·Esc·바깥 클릭이면 null
+// validate(value)가 글자를 돌려주면 그 내용을 창 안에 보여 주고 닫지 않습니다.
+export const showPrompt = ({
+    title,
+    message = '',
+    defaultValue = '',
+    placeholder = '',
+    inputMode = 'text',
+    confirmText = '확인',
+    validate = null,
+} = {}) =>
+    new Promise((resolve) => {
+        const dialog = document.createElement('dialog');
+        dialog.className = 'prompt-dialog';
+        dialog.setAttribute('aria-labelledby', 'prompt-dialog-title');
+
+        const form = document.createElement('form');
+        form.className = 'prompt-body';
+        form.method = 'dialog';
+        form.noValidate = true;
+
+        const heading = document.createElement('h2');
+        heading.id = 'prompt-dialog-title';
+        heading.textContent = title;
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'prompt-input';
+        input.value = defaultValue;
+        input.placeholder = placeholder;
+        input.inputMode = inputMode;
+        input.autocomplete = 'off';
+        input.setAttribute('aria-labelledby', 'prompt-dialog-title');
+
+        const error = document.createElement('p');
+        error.className = 'prompt-error';
+        error.setAttribute('role', 'alert');
+        error.hidden = true;
+
+        const cancel = document.createElement('button');
+        cancel.type = 'button';
+        cancel.className = 'cancel';
+        cancel.textContent = '취소';
+
+        const confirm = document.createElement('button');
+        confirm.type = 'submit';
+        confirm.className = 'confirm';
+        confirm.textContent = confirmText;
+
+        const actions = document.createElement('div');
+        actions.className = 'prompt-actions';
+        actions.append(cancel, confirm);
+
+        form.append(heading);
+        if (message) {
+            const desc = document.createElement('p');
+            desc.className = 'prompt-desc';
+            desc.innerText = message;
+            form.append(desc);
+            input.setAttribute('aria-describedby', 'prompt-dialog-desc');
+            desc.id = 'prompt-dialog-desc';
+        }
+        form.append(input, error, actions);
+        dialog.appendChild(form);
+
+        let value = null;
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const problem = validate?.(input.value);
+            if (problem) {
+                error.textContent = problem;
+                error.hidden = false;
+                input.setAttribute('aria-invalid', 'true');
+                input.focus();
+                input.select();
+                return;
+            }
+            value = input.value;
+            dialog.close();
+        });
+        input.addEventListener('input', () => {
+            error.hidden = true;
+            input.removeAttribute('aria-invalid');
+        });
+        cancel.addEventListener('click', () => dialog.close());
+        // 바깥(배경)을 누르면 취소합니다.
+        dialog.addEventListener('click', (e) => {
+            if (e.target === dialog) dialog.close();
+        });
+        // 창 안에서 누른 키가 월드 단축키(Ctrl+Z, ? 등)로 새지 않게 합니다.
+        dialog.addEventListener('keydown', (e) => e.stopPropagation());
+        dialog.addEventListener('close', () => {
+            dialog.remove();
+            resolve(value);
+        });
+
+        hostElement().appendChild(dialog);
+        dialog.showModal();
+        input.focus();
+        input.select();
+    });
+
 // ------------------------------------------------------------------
 // 속도 조절
 // 슬라이더 1~100. 50(기본)에서 한 칸에 1초, 1에서 2.5초,
@@ -155,6 +257,7 @@ export const createSpeedControl = (slider, output) => {
 const SHORTCUTS = [
     ['Shift + Enter', '셀 실행 후 다음 셀로 이동'],
     ['Ctrl(⌘) + Enter', '셀 실행'],
+    ['Alt(⌥) + Enter', '셀 실행 후 아래에 새 셀 추가'],
     ['Esc', '캐릭터 정보 닫기 / 도움말 닫기'],
     ['Ctrl(⌘) + Z (월드에서)', '벽·아이템·몹 배치 되돌리기'],
     ['마우스 오른쪽 클릭', '아이템·몹·벽 삭제, 배치 취소'],

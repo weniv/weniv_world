@@ -2856,6 +2856,84 @@ body.is-busy .map-item {
   cursor: default;
 }
 
+/* 입력 창 (아이템 개수·몹 이름·input()) — 브라우저 prompt() 대신 */
+.prompt-dialog {
+  width: min(40rem, 100vw - 3.2rem);
+  padding: 0;
+  border: 1px solid var(--ColorGrayLv2);
+  border-radius: 1.2rem;
+  background: var(--ColorBackground);
+  color: var(--ColorSurface);
+  box-shadow: var(--EffectShadow);
+}
+.prompt-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.35);
+}
+.prompt-dialog .prompt-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 2.4rem 2.8rem 2.4rem;
+}
+.prompt-dialog h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 2.6rem;
+  word-break: break-word;
+}
+.prompt-dialog .prompt-desc {
+  color: var(--ColorGrayLv3);
+  font-size: 1.4rem;
+  line-height: 2.2rem;
+}
+.prompt-dialog .prompt-input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--ColorGrayLv2);
+  border-radius: 0.8rem;
+  background: var(--ColorBackground);
+  color: var(--ColorSurface);
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 2.2rem;
+}
+.prompt-dialog .prompt-input:focus {
+  outline: none;
+  border-color: var(--ColorPrimary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ColorPrimary) 25%, transparent);
+}
+.prompt-dialog .prompt-input[aria-invalid=true] {
+  border-color: var(--ColorError);
+}
+.prompt-dialog .prompt-error {
+  margin-top: -0.4rem;
+  color: var(--ColorError);
+  font-size: 1.3rem;
+  line-height: 2rem;
+}
+.prompt-dialog .prompt-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+  margin-top: 0.4rem;
+}
+.prompt-dialog .cancel,
+.prompt-dialog .confirm {
+  padding: 1rem 2.2rem;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.prompt-dialog .cancel {
+  background: var(--ColorGrayLv1);
+  color: var(--ColorSurface);
+}
+.prompt-dialog .confirm {
+  background: var(--ColorPrimary);
+  color: var(--ColorBtnSurface);
+}
+
 .story {
   display: none;
   flex-direction: column;

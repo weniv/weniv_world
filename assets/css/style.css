@@ -2688,6 +2688,24 @@ button {
   mask-position: center center;
 }
 
+.mob:hover,
+.character:hover {
+  z-index: 20;
+}
+.mob:hover .status-item.hide,
+.character:hover .status-item.hide {
+  display: block;
+}
+.mob:hover .status-item .text,
+.character:hover .status-item .text {
+  display: flex;
+  white-space: nowrap;
+}
+
+.character:hover .status-item.mp .text {
+  top: calc(100% + 1.6rem);
+}
+
 .modal {
   position: fixed;
   top: 50%;

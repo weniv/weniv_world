@@ -813,6 +813,26 @@
     }
 }
 
+// 몹·캐릭터 위에 마우스를 올리면 '체력 상태 숨기기' 중이어도 막대와 숫자를 보인다.
+// 몹은 체력만 있고(마력 없음), 캐릭터는 체력 아래 줄에 마력을 놓는다.
+.mob:hover,
+.character:hover {
+    z-index: 20;
+
+    .status-item.hide {
+        display: block;
+    }
+
+    .status-item .text {
+        display: flex;
+        white-space: nowrap;
+    }
+}
+
+.character:hover .status-item.mp .text {
+    top: calc(100% + 1.6rem);
+}
+
 // modal
 
 .modal {

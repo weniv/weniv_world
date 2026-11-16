@@ -9,7 +9,7 @@
 //                   애니메이션 이름은 ww- 를 붙이고, 그림 주소는 --asset-base 기준으로 바꿉니다)
 //     index.js      붙이는 사이트가 쓰는 것만 모아 내보냅니다
 //   runtime/  정적 파일로 올릴 것 (--asset-base 주소에서 서비스)
-//     py-worker.js, py/, img/, data/story/
+//     py-worker.js, py/, img/, data/story/, sound/
 //   manifest.json  원본 커밋·앱 버전·필요한 글꼴
 //
 // 앱 코드(assets/js)는 바꾸지 않고 복사만 합니다. 단독 사이트와 같은 코드가 돕니다.
@@ -203,6 +203,7 @@ export { MAIN_HTML } from './template.js';
         (src) => !/[\\/]og([\\/]|$)/.test(src),
     );
     copy('assets/data/story', path.join(runtimeDir, 'data/story'));
+    copy('assets/sound', path.join(runtimeDir, 'sound'));
 
     const config = readFileSync(
         path.join(ROOT, 'assets/js/app/config.js'),

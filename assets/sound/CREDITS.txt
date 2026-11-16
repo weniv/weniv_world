@@ -1,0 +1,9 @@
+효과음 (assets/js/app/sound.js에서 재생)
+
+  swing.mp3    공격(attack)할 때      위니브 스페이스 FE/public/sfx/swing-1.mp3 와 같은 파일
+  potion.mp3   포션을 먹을(eat) 때    위니브 스페이스 FE/public/sfx/potion.mp3 와 같은 파일
+
+재생 구간(start/end)과 음량(gain)은 위니브 스페이스 FE/src/audio/sfx.ts 의 실측값을 그대로 씁니다.
+파일을 바꾸면 sound.js의 값도 다시 맞춰야 합니다.
+
+출처·라이선스: 위니브 스페이스 FE/public/sfx/CREDITS.txt 에도 아직 적혀 있지 않습니다. 확인되면 여기에도 적어 주세요.

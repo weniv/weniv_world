@@ -5,6 +5,7 @@
 // 기다리지 않습니다. 속도를 바꾸면 다음 동작부터 바로 적용됩니다.
 
 import { CHARACTER_INFO } from './config.js';
+import { playSound } from './sound.js';
 
 const TIMED = new Set([
     'move',
@@ -124,6 +125,7 @@ export class Player extends EventTarget {
             case 'eat':
             case 'stat': {
                 if (!animate) break;
+                if (e.t === 'eat') playSound('potion');
                 const max = CHARACTER_INFO[e.who.name] || { hp: 100, mp: 100 };
                 view.setBars(e.who, {
                     hp: e.hp,
@@ -175,6 +177,7 @@ export class Player extends EventTarget {
 
     applyAttack(e, step) {
         const { view } = this;
+        playSound('swing', { skill: e.skill });
         view.attackEffect(e.target, e.skill, step);
         if (e.mp != null) {
             const max = CHARACTER_INFO[e.who.name] || { hp: 100, mp: 100 };

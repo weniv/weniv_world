@@ -21,6 +21,7 @@ import { PythonEngine } from './engine.js';
 import { asset, configure, env, hostElement, store } from './env.js';
 import { Notebook } from './notebook.js';
 import { Player } from './player.js';
+import { setupSoundPrimer } from './sound.js';
 import {
     cloneState,
     defaultState,
@@ -119,6 +120,7 @@ export function createWorldApp({
         setupControls(root),
         setupResizers(root),
         setupMapFit(root),
+        setupSoundPrimer(root),
     );
 
     // ------------------------------------------------------------------

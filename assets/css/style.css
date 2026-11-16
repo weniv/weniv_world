@@ -2174,6 +2174,8 @@ button {
   padding: 1.9rem;
 }
 .select-mobs label {
+  --frame: 3.6rem;
+  --frames: 8;
   display: flex;
   align-items: center;
   gap: 1.2rem;
@@ -2181,7 +2183,12 @@ button {
   height: 4.2rem;
   border-radius: 10px;
   border: 1px solid var(--ColorGrayLv2);
-  background: var(--ColorBackground) url("../../assets/img/characters/lion-2.webp") no-repeat top -0.5rem left -1rem;
+  background-color: var(--ColorBackground);
+  background-image: url("../../assets/img/characters/lion-2.webp");
+  background-repeat: no-repeat;
+  background-origin: border-box;
+  background-size: calc(var(--frame) * var(--frames)) var(--frame);
+  background-position: calc((4.2rem - var(--frame)) / 2) calc((4.2rem - var(--frame)) / 2);
   box-sizing: border-box;
   cursor: pointer;
 }
@@ -2198,16 +2205,18 @@ button {
   border: transparent;
 }
 .select-mobs input#py + label {
-  background: var(--ColorBackground) url("../../assets/img/characters/py-2.webp") no-repeat top -0.5rem left -1rem;
+  --frame: 4.4rem;
+  --frames: 6;
+  background-image: url("../../assets/img/characters/py-2.webp");
 }
 .select-mobs input#binky + label {
-  background: var(--ColorBackground) url("../../assets/img/characters/binky-2.webp") no-repeat top -0.5rem left -1rem;
+  background-image: url("../../assets/img/characters/binky-2.webp");
 }
 .select-mobs input#gary + label {
-  background: var(--ColorBackground) url("../../assets/img/characters/gary-2.webp") no-repeat top -0.5rem left -1rem;
+  background-image: url("../../assets/img/characters/gary-2.webp");
 }
 .select-mobs input#wizard + label {
-  background: var(--ColorBackground) url("../../assets/img/characters/wizard-2.webp") no-repeat top -0.5rem left -1rem;
+  background-image: url("../../assets/img/characters/wizard-2.webp");
 }
 
 /* map */
@@ -2598,8 +2607,7 @@ button {
 }
 
 .mob .status-container {
-  scale: 0.7692;
-  transform: translate(-63%, 150%);
+  transform: translate(-50%, 115.4%) scale(0.7692);
 }
 .mob .status-container.hide {
   display: none;

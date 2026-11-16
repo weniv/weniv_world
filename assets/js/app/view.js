@@ -12,9 +12,11 @@ export const actorKey = (who) => `${who.kind}:${who.name}`;
 const statusHidden = () => (store.get('status-mode') || 'hide') === 'hide';
 
 // 칸 안에서 스프라이트를 가운데에 놓기 위한 보정값(px)
+// 칸 가운데는 52px입니다. 캐릭터는 20 + 64/2 = 52, 몹은 .mob의 translate(-15%)(-9.6px)까지 더해
+// 29.6 - 9.6 + 64/2 = 52가 되게 맞춥니다(몹 아래 체력 바도 칸 가운데에 옵니다).
 const OFFSET = {
     character: { top: 21, left: 20 },
-    mob: { top: 29, left: 33 },
+    mob: { top: 29, left: 29.6 },
 };
 
 const setPosition = (el, kind, x, y) => {

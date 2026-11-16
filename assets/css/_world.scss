@@ -287,7 +287,10 @@
     width: 29.8rem;
     padding: 1.9rem;
 
+    // 스프라이트 시트(한 칸 64×64)의 첫 칸을 --frame 크기로 줄여 버튼 가운데에 통째로 보여줍니다.
     label {
+        --frame: 3.6rem;
+        --frames: 8;
         display: flex;
         align-items: center;
         gap: 1.2rem;
@@ -295,9 +298,13 @@
         height: 4.2rem;
         border-radius: 10px;
         border: 1px solid var(--ColorGrayLv2);
-        background: var(--ColorBackground)
-            url('../../assets/img/characters/lion-2.webp') no-repeat top -0.5rem
-            left -1rem;
+        background-color: var(--ColorBackground);
+        background-image: url('../../assets/img/characters/lion-2.webp');
+        background-repeat: no-repeat;
+        background-origin: border-box;
+        background-size: calc(var(--frame) * var(--frames)) var(--frame);
+        background-position: calc((4.2rem - var(--frame)) / 2)
+            calc((4.2rem - var(--frame)) / 2);
         box-sizing: border-box;
         cursor: pointer;
     }
@@ -315,27 +322,23 @@
         border: transparent;
     }
 
+    // py는 6칸짜리 시트이고 그림이 작아서 조금 크게 보여줍니다.
     input#py + label {
-        background: var(--ColorBackground)
-            url('../../assets/img/characters/py-2.webp') no-repeat top -0.5rem left -1rem;
+        --frame: 4.4rem;
+        --frames: 6;
+        background-image: url('../../assets/img/characters/py-2.webp');
     }
 
     input#binky + label {
-        background: var(--ColorBackground)
-            url('../../assets/img/characters/binky-2.webp') no-repeat top -0.5rem
-            left -1rem;
+        background-image: url('../../assets/img/characters/binky-2.webp');
     }
 
     input#gary + label {
-        background: var(--ColorBackground)
-            url('../../assets/img/characters/gary-2.webp') no-repeat top -0.5rem
-            left -1rem;
+        background-image: url('../../assets/img/characters/gary-2.webp');
     }
 
     input#wizard + label {
-        background: var(--ColorBackground)
-            url('../../assets/img/characters/wizard-2.webp') no-repeat top -0.5rem
-            left -1rem;
+        background-image: url('../../assets/img/characters/wizard-2.webp');
     }
 }
 
@@ -718,9 +721,9 @@
         background-size: 384px 64px;
     }
 }
+// 체력 바를 몹 가운데에 맞춘 뒤 줄입니다(translate 다음 scale이라 가운데가 그대로 유지됩니다).
 .mob .status-container {
-    scale: 0.7692;
-    transform: translate(-63%, 150%);
+    transform: translate(-50%, 115.4%) scale(0.7692);
 
     &.hide {
         display: none;

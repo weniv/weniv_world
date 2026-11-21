@@ -5,10 +5,6 @@
 User-agent: *
 Allow: /
 
-# 저장소를 그대로 서비스하다 보니 함께 열려 있는 개발용 파일
-# (작업 기록, 테스트와 스토리 모범 답안, 빌드 스크립트, 설치판 소스, 3D 실험 화면)
-Disallow: /claude/
-Disallow: /tests/
-Disallow: /scripts/
-Disallow: /desktop/
+# 메뉴에 잇지 않은 3D 실험 화면
+# (작업 기록·테스트·빌드 스크립트 같은 개발용 파일은 _config.yml에서 사이트로 내보내지 않는다)
 Disallow: /threejs.html

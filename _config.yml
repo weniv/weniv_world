@@ -1,0 +1,12 @@
+# GitHub Pages(Jekyll) 설정. 사이트(world.weniv.co.kr)는 이 저장소 main을 그대로 서비스한다.
+# 앱과 학습 자료가 아닌 개발용 파일은 사이트로 내보내지 않는다 (저장소에는 그대로 있다).
+# 여기에 적지 않은 것(index.html, assets/, llms.txt, robots.txt, LICENSE.txt, threejs.html)은 그대로 나간다.
+exclude:
+  - claude
+  - tests
+  - scripts
+  - desktop
+  - README.md
+  - package.json
+  - package-lock.json
+  - webpack.config.js

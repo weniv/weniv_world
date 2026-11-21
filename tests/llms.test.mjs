@@ -49,7 +49,23 @@ test('llms.txt에 적은 함수가 파이썬 엔진에 있다', () => {
     }
 });
 
-test('robots.txt가 사이트는 열어 두고 개발용 폴더만 뺀다', () => {
+test('_config.yml이 개발용 파일만 사이트에서 빼고, 앱·학습 자료·llms.txt가 가리키는 파일은 빼지 않는다', () => {
+    const excluded = [...read('_config.yml').matchAll(/^\s+-\s+(\S+)\s*$/gm)].map((m) => m[1]);
+    // 스토리 모범 답안(tests/)과 작업 기록(claude/)은 사이트로 나가면 안 된다
+    for (const path of ['claude', 'tests', 'scripts', 'desktop']) {
+        assert.ok(excluded.includes(path), `_config.yml exclude에 없습니다: ${path}`);
+    }
+    for (const path of excluded) assert.ok(exists(path), `없는 것을 빼고 있습니다: ${path}`);
+
+    const isExcluded = (path) => excluded.some((entry) => path === entry || path.startsWith(`${entry}/`));
+    const served = ['index.html', 'llms.txt', 'robots.txt', 'CNAME', 'LICENSE.txt', 'assets/js/app/main.js'];
+    for (const [, link] of llms.matchAll(/\]\((https:\/\/world\.weniv\.co\.kr\/[^)]*)\)/g)) {
+        served.push(decodeURIComponent(new URL(link).pathname).slice(1));
+    }
+    for (const path of served) assert.ok(!isExcluded(path), `사이트에 나가야 하는 파일을 빼고 있습니다: ${path}`);
+});
+
+test('robots.txt가 사이트는 열어 두고 실험 화면만 뺀다', () => {
     const rules = robots
         .split(/\r?\n/)
         .map((line) => line.trim())

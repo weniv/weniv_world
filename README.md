@@ -87,7 +87,8 @@ npm run build:vendor   # CodeMirror 번들(assets/vendor/codemirror.js) 다시 �
 * 몹 체력처럼 JS와 파이썬 양쪽에 있는 값은 `assets/js/app/config.js`와 `assets/py/coordinate.py`를 함께 고쳐야 합니다.
 * 파이썬 파일을 바꿔 배포할 때는 `assets/js/app/config.js`의 `APP_VERSION`을 올려 브라우저 캐시를 갱신합니다.
 * `input()`은 입력값을 모아 같은 셀을 다시 실행합니다. 기존 리스트·딕셔너리·집합과 일반 객체 속성은 복구하지만, 파일 쓰기·모듈 내부 상태·제너레이터 소비 같은 부작용은 되돌릴 수 없으므로 입력 전에 사용하지 마세요.
-* 검색엔진·AI 크롤러용 파일은 저장소 루트의 `robots.txt`(개발용 폴더는 빼고 모두 허용)와 `llms.txt`(사이트 소개, 스토리 22편 주소, 함수 안내)입니다. 스토리를 더하거나 제목·주제를 바꾸거나 학습자용 함수를 바꾸면 `llms.txt`도 함께 고칩니다. 어긋나면 `tests/llms.test.mjs`가 알려 줍니다.
+* 사이트는 저장소를 그대로 서비스하므로, 개발용 파일(`claude/`, `tests/`(스토리 모범 답안), `scripts/`, `desktop/`, `package.json` 등)은 `_config.yml`의 `exclude`로 사이트에 내보내지 않습니다. 루트에 개발용 폴더·파일을 새로 만들면 여기에 더합니다.
+* 검색엔진·AI 크롤러용 파일은 저장소 루트의 `robots.txt`(3D 실험 화면만 빼고 모두 허용)와 `llms.txt`(사이트 소개, 스토리 22편 주소, 함수 안내)입니다. 스토리를 더하거나 제목·주제를 바꾸거나 학습자용 함수를 바꾸면 `llms.txt`도 함께 고칩니다. 어긋나면 `tests/llms.test.mjs`가 알려 줍니다.
 * 브라우저 회귀 테스트: `python -m pip install playwright` 후 Chrome이 설치된 환경에서 `python tests/browser_smoke.py`를 실행합니다. 로컬 서버를 자동으로 띄우며 Pyodide CDN 연결이 필요합니다.
 
 ## 위니버시티 안에서 열기 (2026-10)

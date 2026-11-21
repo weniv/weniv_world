@@ -1,0 +1,14 @@
+# 위니브월드 robots.txt
+# 검색엔진과 AI 검색(ChatGPT·Claude·Perplexity·Gemini·네이버 등) 크롤러 모두 같은 규칙을 따른다.
+# AI 봇을 따로 적으면 그 봇은 아래 "*" 규칙을 무시하므로, 막을 곳이 함께 빠지지 않게 한 묶음으로 둔다.
+# AI가 읽기 좋은 사이트 소개와 스토리 목록: https://world.weniv.co.kr/llms.txt
+User-agent: *
+Allow: /
+
+# 저장소를 그대로 서비스하다 보니 함께 열려 있는 개발용 파일
+# (작업 기록, 테스트와 스토리 모범 답안, 빌드 스크립트, 설치판 소스, 3D 실험 화면)
+Disallow: /claude/
+Disallow: /tests/
+Disallow: /scripts/
+Disallow: /desktop/
+Disallow: /threejs.html
